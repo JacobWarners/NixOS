@@ -17,7 +17,7 @@
       pkgs = import nixpkgs { inherit system; };
     in
     {
-      nixosConfigurations.jakeLaptop = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
           ./configuration.nix
@@ -26,6 +26,8 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.jake = import ./home/home.nix;
+            home-manager.backupFileExtension = "backup";
+
           }
         ];
       };

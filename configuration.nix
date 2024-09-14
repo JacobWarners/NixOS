@@ -1,17 +1,25 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ ./hardware-configuration.nix
-      ./modules/users.nix
-      ./modules/desktop.nix
-      ./modules/network.nix
-      ./modules/nvidia.nix
-      ./modules/egpu.nix
-      ./modules/gaming.nix
-      ./modules/docker.nix
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    ./modules/nix.nix
+    ./modules/boot.nix
+    ./modules/network.nix
+    ./modules/locale.nix
+    ./modules/desktop.nix
+    ./modules/audio.nix
+    ./modules/users.nix
+    ./modules/unfree.nix
+    ./modules/global-packages.nix
+#    ./modules/nvidia.nix    # Existing module
+#    ./modules/egpu.nix      # Existing module
+#    ./modules/gaming.nix    # Existing module
+#    ./modules/docker.nix    # Existing module
+    # Add any other modules you have
+  ];
+system.stateVersion = "24.11";
 
-  # Global system settings can be added here if needed
+  # Global settings can be added here if necessary
 }
 

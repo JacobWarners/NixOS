@@ -7,8 +7,9 @@
       efi.canTouchEfiVariables = true;
     };
 
-    initrd.luks.devices."luks-39aceaaa-0108-4cd2-b028-5d3caff491fc" = {
-      device = "/dev/disk/by-uuid/39aceaaa-0108-4cd2-b028-5d3caff491fc";
+    initrd.luks.devices."luks-6cb1713b-252a-435f-8c5c-d4b404e9db96" = {
+      device = "/dev/disk/by-uuid/6cb1713b-252a-435f-8c5c-d4b404e9db96";
+ 
     };
   };
 }

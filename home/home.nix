@@ -5,26 +5,72 @@
   home.homeDirectory = "/home/jake";
   home.stateVersion = "23.05"; # Adjust this to match your Home Manager version
 
+  #ZSH
   programs.zsh = {
     enable = true;
   };
 
-  programs.vim.enable = true;
+  #TMUX and VIM
   programs.tmux.enable = true;
 
   # Install user-specific packages
   home.packages = with pkgs; [
     zsh       # Ensure Zsh is included in packages
-    yazi
+    yazi 
     # Add other user-specific packages here
   ];
 
+  #Hyprland
 
-#  # Link dotfiles
-#  home.file.".zshrc".source = ./dotfiles/.zshrc;
-#  home.file.".vimrc".source = ./dotfiles/.vimrc;
-#  home.file.".tmux.conf".source = ./dotfiles/.tmux.conf;
-#
+  wayland.windowManager.hyprland = {
+    enable = true;
+    package = pkgs.hyprland;
+  };
+  home.sessionVariables = {
+    HYPRLAND_CONFIG_PATH = "${config.home.homeDirectory}/.config/hypr/hyprland.conf";
+  };
+
+
+  programs.vim = {
+    enable = true;
+    plugins = with pkgs.vimPlugins; [
+      gruvbox
+    ];
+    extraConfig = ''
+      " Adds syntax highlighting
+      syntax on
+
+      " Color scheme
+      colorscheme gruvbox
+      set background=dark
+
+      " Enable line numbers
+      set number
+
+      " Set cursorline
+      set cursorline
+
+      " Show matching parentheses
+      set showmatch
+
+      " Toggle paste with F2
+      set paste
+      set pastetoggle=<F2>
+
+      " Enable mouse support
+      set mouse=a
+
+      " Custom keybinding to exit directory with Q
+      nnoremap Q :Rexplore<CR>
+    '';
+  };
+
+
+
+  # Link dotfiles
+  home.file.".zshrc".source = ./dotfiles/.zshrc;
+  home.file.".tmux.conf".source = ./dotfiles/.tmux.conf;
+
   # Ensure the .ssh directory exists with correct permissions
 #  home.file.".ssh" = {
 #    directory = true;

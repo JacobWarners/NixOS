@@ -12,9 +12,9 @@
     ./modules/users.nix
     ./modules/unfree.nix
     ./modules/global-packages.nix
-#    ./modules/nvidia.nix    # Existing module
+    ./modules/nvidia.nix    # Existing module
 #    ./modules/egpu.nix      # Existing module
-#    ./modules/gaming.nix    # Existing module
+    ./modules/gaming.nix    # Existing module
 #    ./modules/docker.nix    # Existing module
     # Add any other modules you have
   ];

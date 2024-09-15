@@ -2,6 +2,8 @@
 
 {
   # Enable Steam
+  hardware.graphics.enable32Bit= true;
+  hardware.pulseaudio.support32Bit = true;
 
   # Install FFXIV launcher (assuming it's available in Nixpkgs)
   environment.systemPackages = with pkgs; [

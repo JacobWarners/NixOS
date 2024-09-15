@@ -12,5 +12,6 @@
     };
   };
   hardware.opengl.enable = true;
+  hardware.nvidia.package = pkgs.linuxPackages.nvidiaPackages.stable;
 }
 

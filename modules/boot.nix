@@ -11,6 +11,7 @@
       device = "/dev/disk/by-uuid/6cb1713b-252a-435f-8c5c-d4b404e9db96";
  
     };
+    kernelParams = [ "nvidia-drm.modeset=1"];
   };
 }
 

@@ -13,6 +13,7 @@
     ./modules/unfree.nix
     ./modules/global-packages.nix
     ./modules/nvidia.nix    # Existing module
+    ./modules/primerun.nix
 #    ./modules/egpu.nix      # Existing module
     ./modules/gaming.nix    # Existing module
 #    ./modules/docker.nix    # Existing module

@@ -68,7 +68,7 @@
   home.file.".zshrc".source = ./dotfiles/.zshrc;
   home.file.".tmux.conf".source = ./dotfiles/.tmux.conf;
   home.file.".config/hypr/hyprland.conf".source = ./hyprland/hyprland.conf;
-#  home.file.".config/hypr/start.sh".source = ./hyprland/start.sh;
+  home.file.".config/hypr/start.sh".source = ./hyprland/start.sh;
 
 
   # Ensure the .ssh directory exists with correct permissions

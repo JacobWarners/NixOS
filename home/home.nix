@@ -22,13 +22,10 @@
 
   #Hyprland
 
-  wayland.windowManager.hyprland = {
-    enable = true;
-    package = pkgs.hyprland;
-  };
-  home.sessionVariables = {
-    HYPRLAND_CONFIG_PATH = "${config.home.homeDirectory}/.config/hypr/hyprland.conf";
-  };
+#  wayland.windowManager.hyprland = {
+#    enable = true;
+#    package = pkgs.hyprland;
+#  };
 
 
   programs.vim = {
@@ -70,6 +67,9 @@
   # Link dotfiles
   home.file.".zshrc".source = ./dotfiles/.zshrc;
   home.file.".tmux.conf".source = ./dotfiles/.tmux.conf;
+  home.file.".config/hypr/hyprland.conf".source = ./hyprland/hyprland.conf;
+#  home.file.".config/hypr/start.sh".source = ./hyprland/start.sh;
+
 
   # Ensure the .ssh directory exists with correct permissions
 #  home.file.".ssh" = {

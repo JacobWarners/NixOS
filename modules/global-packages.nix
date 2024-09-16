@@ -13,7 +13,7 @@
     chromium
     joplin-desktop
     signal-desktop
-
+    cava
     # Add any other global packages here
   ];
 }

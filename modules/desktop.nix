@@ -42,6 +42,9 @@
     pkgs.libnotify
 #Networkmanager waybar
     pkgs.networkmanagerapplet
+#Sound
+    pkgs.wireplumber
+    pkgs.pavucontrol
 #Dont' remember
     pkgs.eww
 #Wallpaper
@@ -50,6 +53,8 @@
     pkgs.rofi-wayland
 #icons
     pkgs.font-awesome
+#Brightness
+    pkgs.light
 
 ];
   xdg.portal.enable = true;
@@ -57,13 +62,13 @@
 
 
   # Create a session file for Hyprland
-  environment.etc."xdg/wayland-sessions/hyprland.desktop".text = ''
-    [Desktop Entry]
-    Name=Hyprland
-    Comment=Hyprland Wayland Compositor
-    Exec=${pkgs.hyprland}/bin/hyprland
-    Type=Application
-  '';
+ # environment.etc."xdg/wayland-sessions/hyprland.desktop".text = ''
+ #   [Desktop Entry]
+ #   Name=Hyprland
+ #   Comment=Hyprland Wayland Compositor
+ #   Exec=${pkgs.hyprland}/bin/hyprland
+ #   Type=Application
+ # '';
 
   # Add Hyprland to the display manager sessions
   services.xserver.displayManager.sessionPackages = with pkgs; [

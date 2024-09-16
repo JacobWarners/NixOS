@@ -1,9 +1,0 @@
-# Exclude secrets directory
-secrets/
-
-# Exclude Nix binary caches
-*.lock
-
-# Exclude build artifacts if any
-result
-

@@ -12,8 +12,8 @@
     firefox
     chromium
     joplin-desktop
+    wlogout
     signal-desktop
-    cava
     home-manager
     # Add any other global packages here
   ];

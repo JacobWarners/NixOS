@@ -10,7 +10,7 @@
   systemd.services.keyd = {
     enable = true;
     serviceConfig = {
-      ExecStart = "/usr/bin/keyd -c /home/jake/.config/keyd";  # Adjust the path as needed
+      ExecStart = "${pkgs.keyd}/bin/keyd -c /home/jake/.config/keyd";  # Adjust the path as needed
     };
     wantedBy = [ "multi-user.target" ];
   };

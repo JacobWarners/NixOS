@@ -8,7 +8,7 @@
   services.displayManager.sddm.wayland.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
   #Make capslock not work
-  services.xserver.layout.xkbOptions = "caps:none";
+  services.xserver.xkbOptions = "caps:none";
 
 #################################  # Hyprland stuff###########################################
   programs.hyprland = {

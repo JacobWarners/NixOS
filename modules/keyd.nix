@@ -11,7 +11,7 @@ services.keyd = {
   enable = true;
   keyboards.default.settings = {
     main = {
-      capslock = ignore
+      capslock = ignore;
 };
 };
 };

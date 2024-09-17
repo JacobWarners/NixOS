@@ -9,7 +9,7 @@ environment.systemPackages = with pkgs; [
 
 services.keyd = {
   enable = true;
-  keyboards.'AT Translated Set 2 keyboard'.settings = {
+  keyboards."AT Translated Set 2 keyboard".settings = {
     main = {
       capslock = "ignore";
 };

@@ -14,6 +14,7 @@
     joplin-desktop
     signal-desktop
     cava
+    home-manager
     # Add any other global packages here
   ];
 }

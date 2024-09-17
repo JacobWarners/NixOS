@@ -20,14 +20,6 @@
     # Add other user-specific packages here
   ];
 
-  #Hyprland
-
-#  wayland.windowManager.hyprland = {
-#    enable = true;
-#    package = pkgs.hyprland;
-#  };
-
-
   programs.vim = {
     enable = true;
     plugins = with pkgs.vimPlugins; [
@@ -67,8 +59,8 @@
   # Link dotfiles
   home.file.".zshrc".source = ./dotfiles/.zshrc;
   home.file.".tmux.conf".source = ./dotfiles/.tmux.conf;
-  home.file.".config/hypr/hyprland.conf".source = ./hyprland/hyprland.conf;
-  home.file.".config/hypr/start.sh".source = ./hyprland/start.sh;
+  home.file.".config/hypr".source = ./hyprland/;
+  home.file.".config/kitty/".source = ./kitty;
 
 
   # Ensure the .ssh directory exists with correct permissions

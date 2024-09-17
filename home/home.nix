@@ -62,6 +62,7 @@
   home.file.".config/hypr".source = ./hyprland;
   home.file.".config/kitty".source = ./kitty;
   home.file.".config/waybar".source = ./waybar;
+  home.file.".config/keyd".source = ./keyd;
 
 
   # Ensure the .ssh directory exists with correct permissions

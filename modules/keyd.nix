@@ -9,9 +9,10 @@ environment.systemPackages = with pkgs; [
 
 services.keyd = {
   enable = true;
-  config = ''
-    [main]
-    caps_lock = ignore
-  '';
+  keyboards.default.settings = {
+    main = {
+      capslock = ignore
+};
+};
 };
 }

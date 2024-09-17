@@ -6,16 +6,6 @@
   //"width": 1350, // Waybar width
   // Choose the order of the modules idle_inhibitor
   "modules-left": [
-    "custom/launcher",
-    "sway/workspaces",
-    "custom/swap",
-    "tray",
-    "sway/mode",
-    "custom/cava-internal",
-    "mpd#2",
-    "mpd#3",
-    "mpd#4",
-    "mpd"
   ],
   "modules-center": ["clock"],
   "modules-right": [
@@ -29,93 +19,7 @@
     "custom/power"
   ],
 
-  // Modules configuration
-
-  "sway/workspaces": {
-    "disable-scroll": true,
-    "all-outputs": true,
-    "format": "{icon}",
-    // "format": "< %g >",
-    // "format_focused" : "< %g ● >",
-    "format-icons": {
-      "1": "",
-      "2": "",
-      "3": "",
-      "4": "",
-      "5": "",
-      "6": "",
-      "7": "",
-      "8": "",
-      "9": "",
-      "10": ""
-    }
-  },
-  "mpd": {
-    "tooltip": true,
-    "tooltip-format": "{artist} - {album} - {title} - Total Time : {totalTime:%M:%S}",
-    "format": " {elapsedTime:%M:%S}",
-    "format-disconnected": "⚠  Disconnected",
-    "format-stopped": " Not Playing",
-    "on-click": "mpc toggle",
-    "state-icons": {
-      "playing": "",
-      "paused": ""
-    }
-  },
-  "mpd#2": {
-    "format": "",
-    "format-disconnected": "",
-    "format-paused": "",
-    "format-stopped": "",
-    // Commands to execute on events
-    "on-click": "mpc -q pause && mpc -q prev && mpc -q start"
-  },
-  "mpd#3": {
-    "interval": 1,
-    "format": "{stateIcon}",
-    "format-disconnected": "",
-    "format-paused": "{stateIcon}",
-    "format-stopped": "",
-    "state-icons": {
-      "paused": "",
-      "playing": ""
-    },
-    // Commands to execute on events
-    "on-click": "mpc toggle"
-  },
-  "mpd#4": {
-    "format": "",
-    "format-disconnected": "",
-    "format-paused": "",
-    "format-stopped": "",
-    // Commands to execute on events
-    "on-click": "mpc -q pause && mpc -q next && mpc -q start"
-  },
-  "custom/swap": {
-    "on-click": "~/.config/waybar/scripts/swap.sh",
-    "tooltip": "Swap between waybar configs",
-    "format": "Bg  "
-  },
-  "custom/mpd": {
-    "format": " {title} - {artist}",
-    "interval": 5,
-    "exec": "mpc current --format='\"title\":\"%title%\",\"artist\":\"%artist%\"'"
-  },
-  "custom/cava-internal": {
-    "exec": "sh ~/.config/waybar/scripts/Cava.sh",
-    "format": "{}",
-    "tooltip": false,
-    "on-click": "swaymsg reload & pkill waybar & waybar",
-    "layer": "below",
-    "output": "all"
-  },
-  "sway/mode": {
-    "format": "<span style=\"italic\">{}</span>"
-  },
-  "sway/window": {
-    "format": "~ {app_id}"
-  },
-  "idle_inhibitor": {
+ "idle_inhibitor": {
     "format": "{icon}",
     "format-icons": {
       "activated": "",
@@ -123,7 +27,7 @@
     }
   },
   "tray": {
-    "icon-size": 14,
+    "icon-size": 12,
     "spacing": 5
   },
   "clock": {
@@ -184,7 +88,7 @@
   //     "interval": 1
   // },
   "cpu": {
-    "format": "﬙ {usage: >3}%",
+    "format": "CPU {usage: >3}%",
     "on-click": "alacritty -e htop"
   },
   "memory": {
@@ -247,32 +151,9 @@
     "on-scroll-up": "pamixer -ui 2 && pamixer --get-volume > $SWAYSOCK.wob",
     "on-scroll-down": "pamixer -ud 2 && pamixer --get-volume > $SWAYSOCK.wob"
   },
-  "custom/pacman": {
-    "format": " {}",
-    "interval": 7200, // every two hours
-    "exec": "i=$(checkupdates); echo \"$i\" |wc -l; echo \"$i\" |column -t |tr '\n' '\r'", // # of updates and tooltip details
-    "exec-if": "exit 0", // always run; consider advanced run conditions
-    "on-click": "alacritty -e sudo pacman -Syu", // update system
-    "signal": 8
-  },
   "custom/power": {
     "format": "⏻",
-    "on-click": "nwgbar",
+    "on-click": "wlogout",
     "tooltip": false
   },
-  "custom/keyboard-layout": {
-    "exec": "swaymsg -t get_inputs | grep -m1 'xkb_active_layout_name' | cut -d '\"' -f4",
-    // Interval set only as a fallback, as the value is updated by signal
-    "interval": 1,
-    "format": "  {}", // Icon: keyboard
-    // Signal sent by Sway key binding (~/.config/sway/key-bindings)
-    "signal": 1, // SIGHUP
-    "tooltip": false,
-    "on-click": "~/.config/waybar/scripts/keyhint.sh"
-  },
-  "custom/launcher": {
-    "format": " ",
-    "on-click": "exec nwg-drawer -c 7 -is 70 -spacing 23",
-    "tooltip": false
-  }
 }

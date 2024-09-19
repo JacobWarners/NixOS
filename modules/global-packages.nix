@@ -17,6 +17,8 @@
     home-manager
     brightnessctl
     wireguard-tools
+    bat
+    htop
     # Add any other global packages here
   ];
 }

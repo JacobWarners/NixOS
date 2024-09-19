@@ -69,3 +69,4 @@ PS1="${GREEN}%n${BLUE}~%1d${RESET}> "
 
 # Alias for ls with color support
 alias ls='ls --color=auto'
+alias cat='bat --style=plain --color=always'

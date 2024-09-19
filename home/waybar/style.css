@@ -327,10 +327,6 @@ window#waybar {
     color: #ffffff;
 }
 
-#workspaces button:hover {
-    background-color: #555555;
-    cursor: pointer;
-}
 
 
 /* window#waybar {

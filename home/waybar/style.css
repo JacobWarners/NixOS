@@ -298,15 +298,13 @@ window#waybar {
     margin-right: 10px;
 }
 
-/* Overall bar style */
+/* Overall bar style
 #bar {
     background-color: #222222;
     color: #ffffff;
     border: none;
     padding: 0;
     margin: 0;
-    width: 100%;
-    height: 28px;
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -5,7 +5,7 @@
   "margin": "0 0 0 0",
   //"width": 1350, // Waybar width
   // Choose the order of the modules idle_inhibitor
-  "modules-left": [
+  "modules-left": ["workspaces"
   ],
   "modules-center": ["clock"],
   "modules-right": [

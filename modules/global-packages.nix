@@ -15,8 +15,8 @@
     wlogout
     signal-desktop
     home-manager
-    wireguard-go
     brightnessctl
+    wireguard-tools
     # Add any other global packages here
   ];
 }

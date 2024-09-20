@@ -11,7 +11,7 @@
       intelBusId = "PCI:0:2:0";    # Replace with your Intel GPU Bus ID
     };
   };
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
   hardware.nvidia.package = pkgs.linuxPackages.nvidiaPackages.stable;
 }
 

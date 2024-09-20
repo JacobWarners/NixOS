@@ -15,7 +15,7 @@
   # Optionally, disable root login via SSH for security
   services.openssh = {
     enable = true;
-    permitRootLogin = "no";
+    settings.permitRootLogin = "no";
   };
 
     programs.zsh.enable = true;

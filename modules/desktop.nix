@@ -20,7 +20,7 @@
 };
 
   hardware = {
-    opengl.enable = true;
+    graphics.enable = true;
     nvidia.modesetting.enable = true;
 };
 
@@ -71,10 +71,10 @@
  # '';
 
   # Add Hyprland to the display manager sessions
-  services.xserver.displayManager.sessionPackages = with pkgs; [
+  services.displayManager.sessionPackages = with pkgs; [
     hyprland
   ];
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
   pkgs.nerdfonts
   pkgs.font-awesome
 ];

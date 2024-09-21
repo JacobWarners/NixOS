@@ -2,10 +2,9 @@
   description = "NixOS Configuration with Flakes and Home Manager";
 
   inputs = {
-    # Nixpkgs input
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    
-    # Hyprland input
+
+    # Hyprland
     hyprland.url = "github:hyprwm/Hyprland";
 
     # Home Manager input
@@ -14,7 +13,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Ultimate Hosts Blacklist input
+    # Blacklist etc
     ultimate-hosts-blacklist = {
       url = "github:Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist";
       flake = false;  # This is not a flake, so we set `flake = false`
@@ -27,7 +26,7 @@
       pkgs = import nixpkgs { inherit system; };
     in
     {
-      nixosConfigurations.Framework = pkgs.lib.nixosSystem {
+      nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
           ./configuration.nix
@@ -38,8 +37,6 @@
             home-manager.users.jake = import ./home/home.nix;
             home-manager.backupFileExtension = "backup";
           }
-
-          # Integrating Ultimate Hosts Blacklist's `hosts0.deny` as `hosts.deny`
           {
             environment.etc."hosts.deny".source = pkgs.lib.mkForce
               "${ultimate-hosts-blacklist}/hosts.deny/hosts0.deny";

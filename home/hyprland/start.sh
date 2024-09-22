@@ -10,5 +10,5 @@ waybar &
 
 dunst &
 
-kanshi
+#kanshi
 

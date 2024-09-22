@@ -20,6 +20,8 @@
     bat
     htop
     kanshi
+    glxinfo
+    mesa-utils
     # Add any other global packages here
   ];
 }

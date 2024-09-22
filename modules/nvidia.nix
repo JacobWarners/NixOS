@@ -21,6 +21,7 @@
   };
 
   # Blacklist nouveau driver
+  boot.kernelParams = [ "modprobe.blacklist=nouveau" ];  # Ensure it's blacklisted
   boot.blacklistedKernelModules = [ "nouveau" ];
 }
 

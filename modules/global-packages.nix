@@ -19,7 +19,7 @@
     wireguard-tools
     bat
     htop
-    flameshot
+    kanshi
     # Add any other global packages here
   ];
 }

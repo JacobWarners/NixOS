@@ -1,3 +1,5 @@
+## Boot config has kernel params and blacklisting nouveau
+
 {config , pkgs, ...}:
 
 {
@@ -19,9 +21,5 @@
     enable = true;
     extraPackages = with pkgs; [ pkgs.linuxPackages.nvidiaPackages.stable ];
   };
-
-  # Blacklist nouveau driver
-  boot.kernelParams = [ "modprobe.blacklist=nouveau" ];  # Ensure it's blacklisted
-  boot.blacklistedKernelModules = [ "nouveau" ];
 }
 

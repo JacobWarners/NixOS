@@ -17,7 +17,7 @@
   # Enable OpenGL support
   hardware.opengl = {
     enable = true;
-    extraPackages = with pkgs; [ pkgs.nvidiaPackages.stable ];
+    extraPackages = with pkgs; [ pkgs.linuxPackages.nvidiaPackages.stable ];
   };
 
   # Blacklist nouveau driver

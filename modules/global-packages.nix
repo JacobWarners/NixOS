@@ -19,6 +19,7 @@
     wireguard-tools
     bat
     htop
+    flameshot
     # Add any other global packages here
   ];
 }

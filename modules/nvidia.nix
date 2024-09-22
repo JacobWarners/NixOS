@@ -5,6 +5,7 @@
 
   hardware.nvidia = {
     modesetting.enable = true;
+    open = true;
     prime = {
       offload.enable = true;            # Enable offload mode
       offload.enableOffloadCmd = true;          # Provides the nvidia-offload command for easier offloading

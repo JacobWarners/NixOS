@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-kanshi
 
 swww init &
 
@@ -9,4 +8,7 @@ nm-applet --indicator &
 
 waybar &
 
-dunst
+dunst &
+
+kanshi
+

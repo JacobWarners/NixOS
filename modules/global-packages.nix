@@ -21,7 +21,7 @@
     htop
     kanshi
     glxinfo
-    mesa-utils
+    mesa
     # Add any other global packages here
   ];
 }

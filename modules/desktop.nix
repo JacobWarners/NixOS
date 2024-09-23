@@ -12,7 +12,9 @@
 
   # Enable KDE Plasma desktop
   services.xserver.desktopManager.plasma5.enable = true;
-  # Disable Wayland for Plasma
+
+  # Prioritize KDE's ksshaskpass
+  programs.ssh.askPassword = lib.mkForce "/nix/store/d5q0fac1zwx4kj9djm49d4l2avgkj6mq-ksshaskpass-5.27.11/bin/ksshaskpass";
 
 
 #################################  # Hyprland stuff###########################################

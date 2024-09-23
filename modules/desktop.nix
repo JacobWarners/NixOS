@@ -2,6 +2,8 @@
 {
   # Enable the X server if needed
   services.xserver.enable = true;
+  services.xserver.layout = "us";
+
 
   # Configure GDM and GNOME
   services.displayManager.sddm.enable = true;
@@ -68,16 +70,6 @@
 ];
   xdg.portal.enable = true;
 #  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk];
-
-
-  # Create a session file for Hyprland
- # environment.etc."xdg/wayland-sessions/hyprland.desktop".text = ''
- #   [Desktop Entry]
- #   Name=Hyprland
- #   Comment=Hyprland Wayland Compositor
- #   Exec=${pkgs.hyprland}/bin/hyprland
- #   Type=Application
- # '';
 
   # Add Hyprland to the display manager sessions
   services.displayManager.sessionPackages = with pkgs; [

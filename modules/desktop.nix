@@ -12,7 +12,6 @@
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
-    userGbm = true;
 };
 
   environment.sessionVariables = {

@@ -12,7 +12,7 @@
 
   hardware.nvidia = {
     modesetting.enable = true;
-    package = config.boot.kernelPackages.nvidiaPackages.nvidia-open;
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
     open = true;
     prime = {
       offload.enable = true;            # Enable offload mode

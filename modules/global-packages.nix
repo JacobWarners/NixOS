@@ -24,6 +24,8 @@
     mesa
     killall
     ripgrep-all
+    unzip
+    gnome-tweaks
     # Add any other global packages here
   ];
 }

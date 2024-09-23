@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: 
+{lib, config, pkgs, ... }: 
 {
   # Enable the X server if needed
   services.xserver.enable = true;

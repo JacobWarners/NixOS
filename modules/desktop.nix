@@ -1,11 +1,11 @@
-{lib, config, pkgs, ... }: 
+{config, pkgs, ... }: 
 {
   # Enable the X server if needed
   services.xserver.enable = true;
 
   # Configure GDM and GNOME
   services.displayManager.sddm.enable = true;
-#  services.displayManager.sddm.wayland.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
 #  services.xserver.desktopManager.gnome.enable = true;
 
 
@@ -14,7 +14,7 @@
   services.xserver.desktopManager.plasma5.enable = true;
 
   # Prioritize KDE's ksshaskpass
-  programs.ssh.askPassword = lib.mkForce "/nix/store/d5q0fac1zwx4kj9djm49d4l2avgkj6mq-ksshaskpass-5.27.11/bin/ksshaskpass";
+#  programs.ssh.askPassword = lib.mkForce "/nix/store/d5q0fac1zwx4kj9djm49d4l2avgkj6mq-ksshaskpass-5.27.11/bin/ksshaskpass";
 
 
 #################################  # Hyprland stuff###########################################

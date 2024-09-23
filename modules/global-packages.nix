@@ -24,9 +24,6 @@
     mesa
     killall
     # Add any other global packages here
-    #nvidia crap?
-    nvidia_x11
-    nvidia-settings
   ];
 }
 

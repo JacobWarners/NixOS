@@ -4,9 +4,15 @@
 
 {
   services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.deviceSection = ''
+  Option "AllowEmptyInitialConfiguration" "true"
+  Option "Modesetting" "true"
+'';
+
 
   hardware.nvidia = {
     modesetting.enable = true;
+    package = config.boot.kernelPackages.nvidiaPackages.nvidia-open;
     open = true;
     prime = {
       offload.enable = true;            # Enable offload mode

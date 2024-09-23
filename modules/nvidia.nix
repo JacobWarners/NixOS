@@ -22,6 +22,12 @@
     };
   };
 
+  # Environment variables for NVIDIA
+  environment.variables = {
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    __GL_GSYNC_ALLOWED = "0"; # Optional: Disable G-SYNC if issues arise
+    __GL_VRR_ALLOWED = "0";   # Optional: Disable Variable Refresh Rate
+  };
   # Enable OpenGL support
   hardware.opengl = {
     enable = true;

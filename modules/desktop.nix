@@ -8,6 +8,14 @@
   services.displayManager.sddm.wayland.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
+
+
+  # Enable KDE Plasma desktop
+  services.xserver.desktopManager.plasma5.enable = true;
+  # Disable Wayland for Plasma
+  services.xserver.windowManager.plasma5.enableWayland = false;
+
+
 #################################  # Hyprland stuff###########################################
   programs.hyprland = {
     enable = true;

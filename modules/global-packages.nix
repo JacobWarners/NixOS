@@ -23,6 +23,7 @@
     glxinfo
     mesa
     killall
+    ripgrep-all
     # Add any other global packages here
   ];
 }

@@ -22,6 +22,7 @@
     kanshi
     glxinfo
     mesa
+    killall
     # Add any other global packages here
   ];
 }

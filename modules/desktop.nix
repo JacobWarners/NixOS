@@ -4,10 +4,6 @@
   services.xserver = {
     enable = true;
     desktopManager.gnome.enable = true;
-    xsettings = {
-      cursorTheme = "Lighted-Pixel-Cyan-vr2-Linux";
-      cursorSize = 48;
-};
 };
 
 
@@ -21,6 +17,7 @@
     xwayland.enable = true;
 };
 
+  environment.variables.XCURSOR_SIZE = "48";
   environment.sessionVariables = {
 #    WLR_NO_HARDWARE_CURSORS = "1";
     NIXOS_OZONE_WL = "1";

@@ -1,13 +1,19 @@
 {config, pkgs, ... }: 
 {
   # Enable the X server if needed
-  services.xserver.enable = true;
+  services.xserver = {
+    enable = true;
+    desktopManager.gnome.enable = true;
+    xsettings = {
+      cursorTheme = "Lighted-Pixel-Cyan-vr2-Linux";
+      cursorSize = 48;
+};
+};
 
 
   # Configure GDM and GNOME
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
 
 #################################  # Hyprland stuff###########################################
   programs.hyprland = {

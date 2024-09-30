@@ -1,70 +1,49 @@
-i{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 {
-  # Enable and configure the libvirtd service for virtualization
-  virtualisation.libvirtd = {
-    enable = true;
-    qemuPackage = pkgs.qemu;
-    extraOptions = ''
-      unix_sock_group = "libvirt"
-      unix_sock_ro_perms = "0777"
-      unix_sock_rw_perms = "0770"
-    '';
-    settings = {
-      network.defaultAutostart = true;  # Ensure default network starts automatically
-      user = "libvirt-qemu";           # User that libvirt runs as
-      group = "libvirt";               # Group for managing libvirt permissions
-    };
-  };
-
-  # Enable virt-manager for managing virtual machines
-  programs.virt-manager.enable = true;
-
-  # Configure user permissions for libvirtd
-  users.users.jake = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "libvirtd" ];  # Ensure user 'jake' is in the libvirtd group
-  };
-
-  # Configure networking for libvirt
-  networking = {
-    enable = true;
-    useDHCP = true;
-    bridges.br0 = {
-      interfaces = [ "eth0" ];   # Replace "eth0" with your actual network interface name
-    };
-    bridges.br0.ipv4.addresses = [ { address = "192.168.122.1"; prefixLength = 24; } ];
-  };
-
-  # Enable PipeWire and WirePlumber for audio management (Optional)
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
-  services.wireplumber.enable = true;
-
-  # Ensure required packages are installed
+  # Install virtualization packages
   environment.systemPackages = with pkgs; [
-    virt-manager          # Virt-manager for VM management
-    libvirt               # Libvirt for virtualization
-    qemu                  # QEMU as the hypervisor
-    spice-gtk             # Spice for enhanced graphics in VMs
-    xdg-desktop-portal    # XDG Portal for inter-process communication
-    xdg-desktop-portal-wlr  # XDG Portal for Wayland support
-    xdg-desktop-portal-hyprland  # XDG Portal for Hyprland compatibility
+    qemu_kvm             # QEMU with KVM support
+    libvirt              # Libvirt library
+    virt-manager         # GUI tool for managing virtual machines
+    virtualbox           # VirtualBox virtualization software
+    wget                 # Utility to download files from the web
   ];
 
-  # Configure XWayland for Wayland compatibility (Optional)
-  programs.hyprland = {
+  # Enable and configure libvirtd service
+  services.libvirtd = {
     enable = true;
-    xwayland.enable = true;
+    package = pkgs.libvirt;
+    qemuRunAsRoot = true;  # Optional: run QEMU as root if needed
   };
 
-  # Set environment variables for GTK applications on Wayland (Optional)
-  environment.sessionVariables = {
-    GDK_BACKEND = "wayland";
-    MOZ_ENABLE_WAYLAND = "1";  # Enable Wayland support in Firefox
+  # Enable VirtualBox service
+  virtualisation.virtualbox.host.enable = true;
+
+  # Set user permissions
+  users.users.your_username = {
+    isNormalUser = true;
+    extraGroups = [
+      "wheel"       # For sudo privileges
+      "kvm"         # For KVM access
+      "libvirtd"    # For libvirt access
+      "vboxusers"   # For VirtualBox USB access
+    ];
   };
+
+  # Optional: Download Rocky Linux 9 Minimal ISO
+  system.activationScripts.downloadRockyLinux = {
+    text = ''
+      if [ ! -f /var/lib/libvirt/boot/Rocky-9-Minimal.iso ]; then
+        echo "Downloading Rocky Linux 9 Minimal ISO..."
+        wget -O /var/lib/libvirt/boot/Rocky-9-Minimal.iso \
+          https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.0-x86_64-minimal.iso
+      fi
+    '';
+    deps = [];
+  };
+
+  # Ensure the directory exists
+  environment.etc."libvirt/boot".source = "/var/lib/libvirt/boot";
 }
 

@@ -8,6 +8,7 @@
     virt-manager         # GUI tool for managing virtual machines
     spice-vdagent        # Agent to enable clipboard sharing and file transfer
     spice                # Spice client and support libraries
+    ovmf
     spice-protocol
     spice-gtk
   ];
@@ -25,7 +26,11 @@
       spice.server.file-transfer = "true"
     '';
   };
-
+  virtualisation.libvirtd = {
+  enable = true;
+  enableVirtlockd = true;
+  enableVirtlogd = true;
+};
   # Enable Spice services for clipboard sharing and file transfer support
   services.spice-vdagentd.enable = true;
 

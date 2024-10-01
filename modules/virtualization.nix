@@ -16,11 +16,8 @@
   virtualisation.libvirtd = {
     enable = true;
     hooks.daemons = true;
-    settings = ''
-      spice.graphics.listen = "none"
-      spice.server.clipboard = "both"
-      spice.server.file-transfer = "true"
-    '';
+    ovmf.enable = true;
+    ovmf.packges = true;
   };
 
   # Enable Spice services for clipboard sharing and file transfer support

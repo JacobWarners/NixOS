@@ -26,7 +26,7 @@
     extraGroups = [
       "wheel"       # For sudo privileges
       "kvm"         # For KVM access
-      "libvirtd"    # For libvirt access
+      "libvirt"    # For libvirt access
       "vboxusers"   # For VirtualBox USB access
     ];
   };

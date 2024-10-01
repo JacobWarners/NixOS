@@ -13,7 +13,7 @@
   ];
 
   # Enable and configure libvirt modular daemons
-  virtualisation.libvirt = {
+  virtualisation.libvirtd = {
     daemons = [ "virtqemud" "virtlogd" "virtlockd" ];
     # If you must run QEMU as root (not recommended), uncomment the line below
     # qemuUser = "root";

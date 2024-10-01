@@ -17,6 +17,13 @@
     enable = true;
     package = pkgs.libvirt;
     qemuRunAsRoot = true;  # Optional: run QEMU as root if needed
+
+    # Corrected option from 'settings' to 'config'
+    config = {
+      "spice.graphics.listen" = "none";        # Disable listening for incoming connections to the Spice server
+      "spice.server.clipboard" = "both";       # Enable clipboard sharing in both directions
+      "spice.server.file-transfer" = "true";   # Enable file transfer support if available
+    };
   };
 
   # Enable Spice services for clipboard sharing and file transfer support
@@ -41,11 +48,6 @@
     ];
   };
 
-  # Optional: Further configuration for Spice clipboard and file transfer support
-  virtualisation.libvirtd.settings = {
-    "spice.graphics.listen" = "none"; # Disable listening for incoming connections to the Spice server
-    "spice.server.clipboard" = "both"; # Enable clipboard sharing in both directions
-    "spice.server.file-transfer" = "true"; # Enable file transfer support if available
-  };
+  # Removed the incorrect 'virtualisation.libvirtd.settings' block
 }
 

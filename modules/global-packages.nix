@@ -4,6 +4,7 @@
   environment.systemPackages = with pkgs; [
     pciutils
     vim
+    xclip
     kitty
     wget
     git

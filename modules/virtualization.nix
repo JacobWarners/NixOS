@@ -17,7 +17,6 @@
     enable = true;
     hooks.daemons = true;
     qemu.ovmf.enable = true;
-    qemu.ovmf.packges = true;
   };
 
   # Enable Spice services for clipboard sharing and file transfer support

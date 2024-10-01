@@ -12,11 +12,13 @@
     spice-gtk
   ];
 
-  # Enable and configure libvirt modular daemons
+  # Enable and configure libvirtd service
   virtualisation.libvirtd = {
-    daemons = [ "virtqemud" "virtlogd" "virtlockd" ];
-    # If you must run QEMU as root (not recommended), uncomment the line below
-    # qemuUser = "root";
+    enable = true;
+    serviceNames = [ "virtqemud" "virtlogd" "virtlockd" ];
+    # Remove deprecated options
+    # qemuRunAsRoot = true;  # Deprecated
+    # Use 'settings' to add custom configurations
     settings = ''
       spice.graphics.listen = "none"
       spice.server.clipboard = "both"

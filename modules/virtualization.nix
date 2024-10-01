@@ -15,7 +15,6 @@
   # Enable and configure libvirtd service
   virtualisation.libvirtd = {
     enable = true;
-    hooks.daemons = true;
   };
 
   # Enable Spice services for clipboard sharing and file transfer support

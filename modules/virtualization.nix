@@ -27,7 +27,6 @@
       spice.server.clipboard = "both"
       spice.server.file-transfer = "true"
     '';
-  };
 };
   # Enable Spice services for clipboard sharing and file transfer support
   services.spice-vdagentd.enable = true;

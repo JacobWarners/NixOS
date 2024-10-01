@@ -8,23 +8,22 @@
     virt-manager         # GUI tool for managing virtual machines
     spice-vdagent        # Agent to enable clipboard sharing and file transfer
     spice                # Spice client and support libraries
-    ovmf
     spice-protocol
     spice-gtk
   ];
 
-  # Enable and configure libvirtd service
+  # Enable and configure libvirt modular daemons
   virtualisation.libvirtd = {
-    enable = true;
-    package = pkgs.libvirt;
-    qemuRunAsRoot = true;  # Optional: run QEMU as root if needed
-    # Corrected option: Use 'extraConfig' to add custom settings
-    extraConfig = ''
+    daemons = [ "virtqemud" "virtlogd" "virtlockd" ];
+    # If you must run QEMU as root (not recommended), uncomment the line below
+    # qemuUser = "root";
+    settings = ''
       spice.graphics.listen = "none"
       spice.server.clipboard = "both"
       spice.server.file-transfer = "true"
     '';
-};
+  };
+
   # Enable Spice services for clipboard sharing and file transfer support
   services.spice-vdagentd.enable = true;
 

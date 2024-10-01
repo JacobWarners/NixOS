@@ -21,7 +21,7 @@
   virtualisation.virtualbox.host.enable = true;
 
   # Set user permissions
-  users.users.your_username = {
+  users.users.jake = {
     isNormalUser = true;
     extraGroups = [
       "wheel"       # For sudo privileges

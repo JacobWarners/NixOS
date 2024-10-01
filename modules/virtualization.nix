@@ -1,13 +1,15 @@
 { config, pkgs, ... }:
 
 {
-  # Install virtualization packages
+  # Install virtualization packages and additional utilities for Spice
   environment.systemPackages = with pkgs; [
     qemu_kvm             # QEMU with KVM support
     libvirt              # Libvirt library
     virt-manager         # GUI tool for managing virtual machines
-    virtualbox           # VirtualBox virtualization software
-    wget                 # Utility to download files from the web
+    spice-vdagent        # Agent to enable clipboard sharing and file transfer
+    spice                # Spice client and support libraries
+    spice-protocol
+    spice-gtk
   ];
 
   # Enable and configure libvirtd service
@@ -17,8 +19,17 @@
     qemuRunAsRoot = true;  # Optional: run QEMU as root if needed
   };
 
-  # Enable VirtualBox service
-  virtualisation.virtualbox.host.enable = true;
+  # Enable Spice services for clipboard sharing and file transfer support
+  services.spice-vdagentd.enable = true;
+
+  # Enable necessary hardware acceleration and video support for Spice
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+      vaapiIntel          # VAAPI for Intel GPUs
+      vaapiVdpau          # VDPAU/VAAPI interoperability
+    ];
+  };
 
   # Set user permissions
   users.users.jake = {
@@ -26,22 +37,15 @@
     extraGroups = [
       "wheel"       # For sudo privileges
       "kvm"         # For KVM access
-      "libvirt"    # For libvirt access
-      "vboxusers"   # For VirtualBox USB access
+      "libvirt"     # For libvirt access
     ];
   };
 
-  # Optional: Download Rocky Linux 9 Minimal ISO
-  system.activationScripts.downloadRockyLinux = {
-    text = ''
-      mkdir -p /var/lib/libvirt/boot
-      if [ ! -f /var/lib/libvirt/boot/Rocky-9-Minimal.iso ]; then
-        echo "Downloading Rocky Linux 9 Minimal ISO..."
-        wget -O /var/lib/libvirt/boot/Rocky-9-Minimal.iso \
-          https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.2-x86_64-minimal.iso
-      fi
-    '';
-    deps = [];
+  # Optional: Further configuration for Spice clipboard and file transfer support
+  virtualisation.libvirtd.settings = {
+    "spice.graphics.listen" = "none"; # Disable listening for incoming connections to the Spice server
+    "spice.server.clipboard" = "both"; # Enable clipboard sharing in both directions
+    "spice.server.file-transfer" = "true"; # Enable file transfer support if available
   };
 }
 

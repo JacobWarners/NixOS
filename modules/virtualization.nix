@@ -11,7 +11,7 @@
   ];
 
   # Enable and configure libvirtd service
-  services.libvirtd = {
+  virtualisation.libvirtd = {
     enable = true;
     package = pkgs.libvirt;
     qemuRunAsRoot = true;  # Optional: run QEMU as root if needed
@@ -34,16 +34,14 @@
   # Optional: Download Rocky Linux 9 Minimal ISO
   system.activationScripts.downloadRockyLinux = {
     text = ''
+      mkdir -p /var/lib/libvirt/boot
       if [ ! -f /var/lib/libvirt/boot/Rocky-9-Minimal.iso ]; then
         echo "Downloading Rocky Linux 9 Minimal ISO..."
         wget -O /var/lib/libvirt/boot/Rocky-9-Minimal.iso \
-          https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.0-x86_64-minimal.iso
+          https://download.rockylinux.org/pub/rocky/9/isos/x86_64/Rocky-9.2-x86_64-minimal.iso
       fi
     '';
     deps = [];
   };
-
-  # Ensure the directory exists
-  environment.etc."libvirt/boot".source = "/var/lib/libvirt/boot";
 }
 

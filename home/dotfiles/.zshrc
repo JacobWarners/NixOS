@@ -71,3 +71,4 @@ PS1="${GREEN}%n${BLUE}~%1d${RESET}> "
 alias ls='ls --color=auto'
 alias cat='bat --style=plain --color=always'
 alias grep='rga'
+alias x='xclip -selection clipboard'

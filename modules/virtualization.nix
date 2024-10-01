@@ -18,9 +18,6 @@
     enable = true;
     package = pkgs.libvirt;
     qemuRunAsRoot = true;  # Optional: run QEMU as root if needed
-    enableVirtlockd = true;
-    enableVirtlogd = true;
-
     # Corrected option: Use 'extraConfig' to add custom settings
     extraConfig = ''
       spice.graphics.listen = "none"

@@ -15,10 +15,7 @@
   # Enable and configure libvirtd service
   virtualisation.libvirtd = {
     enable = true;
-    serviceNames = [ "virtqemud" "virtlogd" "virtlockd" ];
-    # Remove deprecated options
-    # qemuRunAsRoot = true;  # Deprecated
-    # Use 'settings' to add custom configurations
+    hooks.daemons = true;
     settings = ''
       spice.graphics.listen = "none"
       spice.server.clipboard = "both"

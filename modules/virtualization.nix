@@ -18,6 +18,8 @@
     enable = true;
     package = pkgs.libvirt;
     qemuRunAsRoot = true;  # Optional: run QEMU as root if needed
+    enableVirtlockd = true;
+    enableVirtlogd = true;
 
     # Corrected option: Use 'extraConfig' to add custom settings
     extraConfig = ''
@@ -26,10 +28,6 @@
       spice.server.file-transfer = "true"
     '';
   };
-  virtualisation.libvirtd = {
-  enable = true;
-  enableVirtlockd = true;
-  enableVirtlogd = true;
 };
   # Enable Spice services for clipboard sharing and file transfer support
   services.spice-vdagentd.enable = true;

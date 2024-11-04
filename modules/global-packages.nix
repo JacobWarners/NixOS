@@ -28,6 +28,7 @@
     unzip
     gnome-tweaks
     lshw
+    ethtool
     # Add any other global packages here
   ];
 }

@@ -12,4 +12,7 @@
           kernelParams = [ "module_blacklist=i915" ];
         };
   services.xserver.videoDrivers = ["nvidia"];
+};
+};
+}
 

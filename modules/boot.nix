@@ -15,8 +15,8 @@
 #    kernelParams = [ 
 #      "nvidia-drm.modeset=1"
 #      "modprobe.blacklist=nouveau"
-];
+#];
       # Blacklist nouveau driver
-  };
+#  };
 }
 

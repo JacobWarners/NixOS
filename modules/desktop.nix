@@ -13,7 +13,7 @@
      Section "Device"
       Identifier "Device0"
       Driver "nvidia"
-      BusID "PCI:130:0:0"
+      BusID "PCI:82:0:0"
       Option "AllowEmptyInitialConfiguration"
       Option "AllowExternalGpus"
     EndSection

@@ -4,7 +4,7 @@
   services.xserver = {
   displayManager.gdm.enable = false;
   desktopManager.gnome.enable = true;
-#  displayManager.gdm.wayland = false;
+  displayManager.gdm.wayland = false;
   displayManager.sddm.enable = true;
     deviceSection = ''
       Section "Device"

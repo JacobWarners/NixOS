@@ -17,5 +17,5 @@
 #];
       # Blacklist nouveau driver
 #  };
-}
+};
 }

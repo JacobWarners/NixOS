@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./modules/specialization.nix
 #    ./modules/keyd.nix
     ./modules/nix.nix
     ./modules/boot.nix

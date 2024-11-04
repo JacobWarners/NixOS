@@ -16,7 +16,7 @@ services.xserver.config = pkgs.lib.mkMerge [
     Identifier = "NVIDIA Card";
     Driver = "nvidia";
     BusID = "PCI:130:0:0";  # Ensure this matches your NVIDIA GPU Bus-ID from `nvidia-smi`
-    Optionn = [
+    Option = [
       "AllowExternalGpus"
       "PrimaryGPU"
 ];

@@ -2,10 +2,10 @@
 {
   # Enable the X server if needed
   services.xserver = {
-  displayManager.gdm.enable = false;
+  displayManager.gdm.enable = true;
   desktopManager.gnome.enable = true;
 #  displayManager.gdm.wayland = false;
-  displayManager.sddm.enable = true;
+#  displayManager.sddm.enable = true;
 #   deviceSection = ''
 #     Section "Device"
 #       Identifier "Intel Graphics"

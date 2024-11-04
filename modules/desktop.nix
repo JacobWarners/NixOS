@@ -9,31 +9,23 @@
 
    enable = true;
 };
-services.xserver.config = pkgs.lib.mkMerge [
 
-{
-  Device = {
-    Identifier = "NVIDIA Card";
-    Driver = "nvidia";
-    BusID = "PCI:130:0:0";  # Ensure this matches your NVIDIA GPU Bus-ID from `nvidia-smi`
-    Option = "AllowExternalGpus";
-  };
-  Screen = {
-    Device = "NVIDIA Card";
-    Monitor = "Monitor0";
-  };
-}
-];
+environment.etc."X11/xorg.conf.d/90-nvidia.conf".text = ''
+    Section "Device"
+     Identifier "Device0"
+     Driver "nvidia"
+     BusID "PCI:130:0:0"
+     Option "AllowEmptyInitialConfiguration" "true"
+     Option "AllowExternalGpus" "true"
+     Option "PrimaryGPU" "true"
+   EndSection
 
-#environment.etc."X11/xorg.conf.d/90-nvidia.conf".text = ''
-#    Section "Device"
-#     Identifier "Device0"
-#     Driver "nvidia"
-#     BusID "PCI:130:0:0"
-#     Option "AllowEmptyInitialConfiguration"
-#     Option "AllowExternalGpus"
-#   EndSection
-# '';
+    Section "Screen"
+    Identifier "Screen0"
+    Device "Device0" 
+    Monitor = "Monitor0"
+  EndSection
+ '';
 
 
 

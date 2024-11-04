@@ -10,7 +10,7 @@
    enable = true;
 };
 
-environment.etc."X11/xorg.conf.d/90-nvidia.conf".text = ''
+environment.etc."X11/xorg.conf.d/11-nvidia.conf".text = ''
     Section "Device"
      Identifier "Device0"
      Driver "nvidia"
@@ -23,7 +23,7 @@ environment.etc."X11/xorg.conf.d/90-nvidia.conf".text = ''
     Section "Screen"
     Identifier "Screen0"
     Device "Device0" 
-    Monitor = "Monitor0"
+    Monitor "Monitor0"
   EndSection
  '';
 

@@ -15,7 +15,7 @@
       Driver "nvidia"
       BusID "PCI:82:0:0"
       Option "AllowEmptyInitialConfiguration"
-      Option "AllowExternalGpus" "True"
+      Option "AllowExternalGpus"
     EndSection
   '';
 

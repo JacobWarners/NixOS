@@ -48,7 +48,7 @@ hardware.opengl = {
     # Enable the Nvidia settings menu,
 	# accessible via `nvidia-settings`.
     nvidiaSettings = true;
-    hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
 
 };
 }

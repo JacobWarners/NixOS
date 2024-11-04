@@ -1,9 +1,0 @@
-# Profile when external monitor is connected
-profile output "DP-5"
-  output "eDP-1" disable
-  output "DP-5" mode 2560x1440@144 position 0,0
-
-# Profile when only the laptop display is connected
-profile output "eDP-1"
-  output "eDP-1" mode 1128x752@60 position 0,0
-

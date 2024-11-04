@@ -59,12 +59,8 @@
   # Link dotfiles
   home.file.".zshrc".source = ./dotfiles/.zshrc;
   home.file.".tmux.conf".source = ./dotfiles/.tmux.conf;
-  home.file.".config/hypr".source = ./hyprland;
   home.file.".config/kitty".source = ./kitty;
-  home.file.".config/waybar".source = ./waybar;
-#  home.file.".config/kanshi".source = ./kanshi;
   home.file.".icons".source = ./dotfiles/.icons;
-  #home.file.".config/keyd".source = ./keyd;
 
 
   # Ensure the .ssh directory exists with correct permissions

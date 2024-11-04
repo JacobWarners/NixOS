@@ -46,7 +46,7 @@
 
     hardware.nvidia.prime = {
       sync.enable = true;
-      nvidiaBusId = "PCI:130:0:0";      # Replace with your NVIDIA GPU Bus ID
+      nvidiaBusId = "PCI:82:0:0";      # Replace with your NVIDIA GPU Bus ID
       intelBusId = "PCI:0:2:0";         # Replace with your Intel GPU Bus ID
     };
 

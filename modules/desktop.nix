@@ -9,7 +9,7 @@
 
    enable = true;
 };
-services.xserver.config = lib.mkMerge [
+services.xserver.config = pkgs.lib.mkMerge [
 
 {
   Device = {

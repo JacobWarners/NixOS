@@ -9,7 +9,7 @@
   };
 
   # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = ["nvidia" "intel"];
 
   hardware.nvidia = {
 
@@ -40,12 +40,13 @@
     nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
-#    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
 
     hardware.nvidia.prime = {
       sync.enable = true;
+      offload.enable = true;
       nvidiaBusId = "PCI:82:0:0";      # Replace with your NVIDIA GPU Bus ID
       intelBusId = "PCI:0:2:0";         # Replace with your Intel GPU Bus ID
     };

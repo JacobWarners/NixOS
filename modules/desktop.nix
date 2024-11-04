@@ -25,6 +25,10 @@ environment.etc."X11/xorg.conf.d/11-nvidia.conf".text = ''
     Device "Device0" 
     Monitor "Monitor0"
   EndSection
+
+    Section "Monitor"
+      Identifier "Monitor0"
+  EndSection
  '';
 
 

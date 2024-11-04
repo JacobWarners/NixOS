@@ -2,7 +2,7 @@
 
 {
 
-  specialization = {
+  specialisation = {
     egpu.configuration = {
         system.nixos.tags = ["nvidia"];
 

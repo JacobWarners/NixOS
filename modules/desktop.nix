@@ -7,7 +7,7 @@
 #  displayManager.gdm.wayland = false;
 #  displayManager.sddm.enable = true;
   deviceSection = ''
-    Section "Device"
+     "Device"
       Identifier "Nvidia Graphics"
      Driver "nvidia"
       BusID "PCI:130:0:0"

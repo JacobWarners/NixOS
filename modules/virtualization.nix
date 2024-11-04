@@ -21,7 +21,7 @@
   services.spice-vdagentd.enable = true;
 
   # Enable necessary hardware acceleration and video support for Spice
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       vaapiIntel          # VAAPI for Intel GPUs

@@ -22,7 +22,6 @@
 
   # Enable necessary hardware acceleration and video support for Spice
   hardware.graphics = {
-    enable = true;
     extraPackages = with pkgs; [
       vaapiIntel          # VAAPI for Intel GPUs
       vaapiVdpau          # VDPAU/VAAPI interoperability

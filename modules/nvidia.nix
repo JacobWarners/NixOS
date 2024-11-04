@@ -4,7 +4,7 @@
 
 {
  # Enable OpenGL
-  hardware.opengl = {
+  hardware.graphcis = {
     enable = true;
   };
 

@@ -27,6 +27,7 @@
     ripgrep-all
     unzip
     gnome-tweaks
+    lshw
     # Add any other global packages here
   ];
 }

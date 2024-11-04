@@ -9,15 +9,29 @@
 
    enable = true;
 };
- environment.etc."X11/xorg.conf.d/90-nvidia.conf".text = ''
-     Section "Device"
-      Identifier "Device0"
-      Driver "nvidia"
-      BusID "PCI:130:0:0"
-      Option "AllowEmptyInitialConfiguration"
-      Option "AllowExternalGpus"
-    EndSection
-  '';
+services.xserver.config = {
+  Device = {
+    Identifier = "NVIDIA Card";
+    Driver = "nvidia";
+    BusID = "PCI:130:0:0";  # Ensure this matches your NVIDIA GPU Bus-ID from `nvidia-smi`
+    Option = "AllowExternalGpus";
+    Option = "PrimaryGPU" "yes"
+  };
+  Screen = {
+    Device = "NVIDIA Card";
+    Monitor = "Monitor0";
+  };
+};
+
+#environment.etc."X11/xorg.conf.d/90-nvidia.conf".text = ''
+#    Section "Device"
+#     Identifier "Device0"
+#     Driver "nvidia"
+#     BusID "PCI:130:0:0"
+#     Option "AllowEmptyInitialConfiguration"
+#     Option "AllowExternalGpus"
+#   EndSection
+# '';
 
 
 

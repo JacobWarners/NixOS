@@ -6,6 +6,9 @@
   desktopManager.gnome.enable = true;
   displayManager.gdm.wayland = false;
 #  displayManager.sddm.enable = true;
+
+   enable = true;
+};
  environment.etc."X11/xorg.conf.d/90-nvidia.conf".text = ''
      Section "Device"
       Identifier "Device0"
@@ -16,9 +19,6 @@
     EndSection
   '';
 
-
-   enable = true;
-};
 
 
   # Configure GDM and GNOME

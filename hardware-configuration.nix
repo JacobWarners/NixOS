@@ -12,6 +12,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.beta;
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/c8289a57-ab84-48bc-8e1c-c20de4d7b1ff";

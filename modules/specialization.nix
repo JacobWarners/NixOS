@@ -3,7 +3,7 @@
 {
   # Base configuration...
 
-  specialisation = {
+  specialization = {
     nvidia = {
       config = {
         system.nixos.tags = ["nvidia"];

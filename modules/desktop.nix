@@ -25,7 +25,7 @@ services.xserver.config = lib.mkMerge [
     Device = "NVIDIA Card";
     Monitor = "Monitor0";
   };
-};
+}
 ];
 
 #environment.etc."X11/xorg.conf.d/90-nvidia.conf".text = ''

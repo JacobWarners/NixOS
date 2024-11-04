@@ -15,7 +15,7 @@ services.xserver.config = {
     Driver = "nvidia";
     BusID = "PCI:130:0:0";  # Ensure this matches your NVIDIA GPU Bus-ID from `nvidia-smi`
     Option = "AllowExternalGpus";
-    Option = "PrimaryGPU" "yes"
+    Option = "PrimaryGPU" "yes";
   };
   Screen = {
     Device = "NVIDIA Card";

@@ -14,14 +14,11 @@
   services.xserver.videoDrivers = ["nvidia"];
 };
 };
-hardware.opengl = {
-    enable = true;
-  };
 
   hardware.nvidia = {
 
-    # Modesetting is required.
- #   modesetting.enable = true;
+   # Modesetting is required.
+   modesetting.enable = true;
 
     # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
     # Enable this if you have graphical corruption issues or application crashes after waking
@@ -46,10 +43,8 @@ hardware.opengl = {
 	# accessible via `nvidia-settings`.
 #    nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
+    nvidiaPersistenced = true;
 
 };
-  environment.systemPackages = [
-    pkgs.linuxKernel.packages.linux_zen.nvidia_x11
-  ];
 }
 

@@ -4,12 +4,12 @@
   services.xserver = {
   displayManager.gdm.enable = true;
   desktopManager.gnome.enable = true;
-#  displayManager.gdm.wayland = false;
+  displayManager.gdm.wayland = false;
 #  displayManager.sddm.enable = true;
-  deviceSection = ''
-     "Device"
-      Identifier "Nvidia Graphics"
-     Driver "nvidia"
+ environment.etc."X11/xorg.conf.d/90-nvidia.conf".text = ''
+     Section "Device"
+      Identifier "Device0"
+      Driver "nvidia"
       BusID "PCI:130:0:0"
       Option "AllowEmptyInitialConfiguration"
       Option "AllowExternalGpus" "True"

@@ -2,13 +2,13 @@
 {
   # Enable the X server if needed
   services.xserver = {
-    enable = true;
+  displayManager.gdm.enable = true;
+  desktopManager.gnome.enable = true;
+
+   enable = true;
 };
 
 
   # Configure GDM and GNOME
-  services.displayManager.gdm.enable = true;
-  services.desktopManager.gnome.enable = true;
-
 }
 

@@ -8,4 +8,4 @@
 #  displayManager.gdm.wayland = false;
    enable = true;
 };
-
+}

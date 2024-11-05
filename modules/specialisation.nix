@@ -66,5 +66,24 @@ environment.etc."X11/xorg.conf.d/11-nvidia.conf".text = ''
       Identifier "Monitor0"
   EndSection
  '';
+
+
+let
+  interfaceName = "enp0s13f0u1u4"; # Replace with your actual interface name
+in
+{
+  environment.systemPackages = with pkgs; [ ethtool ];
+
+  systemd.services.ethtool-config = {
+    description = "Apply ethtool settings to disable Interrupt Moderation";
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.ethtool}/bin/ethtool -C ${interfaceName} rx-usecs 0";
+    };
+  };
+}
+
 }
 

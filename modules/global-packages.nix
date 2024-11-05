@@ -30,6 +30,7 @@
     lshw
     ethtool
     tree
+    linuxPackages.nvidia_x11
     # Add any other global packages here
   ];
 }

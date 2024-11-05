@@ -4,20 +4,27 @@
   # Enable X11
   services.xserver.enable = true;
 
-  # Use a simple display manager and desktop environment
+  # Use a display manager and desktop environment
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
 
-  # Specify the NVIDIA driver
-  services.xserver.videoDrivers = [ "nvidia" ];
+  # Specify the video drivers
+  services.xserver.videoDrivers = [ "modesetting" ];
 
-  # NVIDIA-specific settings
+  # Enable PRIME Offloading
   hardware.nvidia = {
     open = true;  # Use open-source kernel modules
     modesetting.enable = true;
-    nvidiaPersistenced = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    prime = {
+      offload.enable = true;
+      nvidiaBusId = "PCI:130:0:0";  # Replace with your NVIDIA GPU BusID
+      intelBusId = "PCI:0:2:0";     # Replace with your Intel GPU BusID
+    };
   };
+{
+  # Other configurations...
+  nixpkgs.config.allowUnfree = true;
+}
 
   # Ensure OpenGL support is enabled
   hardware.opengl.enable = true;

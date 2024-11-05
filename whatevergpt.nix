@@ -9,18 +9,17 @@
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
 
-  # Specify the NVIDIA driver
-  services.xserver.videoDrivers = [ "nvidia" ];
+  # Use modesetting driver for Intel GPU
+  services.xserver.videoDrivers = [ "modesetting" ];
 
   # NVIDIA-specific settings
   hardware.nvidia = {
-    open = false;  # Use closed-source (proprietary) kernel modules
+    open = false;  # Use closed-source (proprietary) driver
     modesetting.enable = true;
     nvidiaPersistenced = true;
     prime = {
       offload.enable = true;
-      nvidiaBusId = "PCI:130:0:0";  # Replace with your NVIDIA GPU BusID
-      intelBusId = "PCI:0:2:0";     # Replace with your Intel GPU BusID
+      sync.enable = true;
     };
   };
 
@@ -30,7 +29,38 @@
   # Add your user to the 'video' group
   users.users.jake.extraGroups = [ "video" ];
 
-  # Allow unfree packages (required for NVIDIA drivers)
+  # Device Sections
+  services.xserver.deviceSections = [
+    ''
+    Section "ServerLayout"
+        Identifier     "layout"
+        Screen      0  "intel"
+        Option         "AllowNVIDIAGPUScreens"
+    EndSection
+
+    Section "Device"
+        Identifier     "intel"
+        Driver         "modesetting"
+        BusID          "PCI:0:2:0"
+        Option         "DRI" "3"
+        Option         "AccelMethod" "glamor"
+    EndSection
+
+    Section "Screen"
+        Identifier     "intel"
+        Device         "intel"
+    EndSection
+
+    Section "Device"
+        Identifier     "nvidia"
+        Driver         "nvidia"
+        BusID          "PCI:130:0:0"
+        Option         "AllowEmptyInitialConfiguration" "true"
+    EndSection
+    ''
+  ];
+
+  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 }
 

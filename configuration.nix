@@ -24,7 +24,7 @@
 #   # Add any other modules you have
   ];
 
-pkgs.linuxPackages.nvidia_x11;
+pkgs.linuxPackages.nvidia_x11 = true;
 
 system.stateVersion = "24.11";
 

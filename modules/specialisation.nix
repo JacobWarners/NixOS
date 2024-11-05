@@ -12,7 +12,7 @@ services.xserver = mkIf (cfg.desktop.enable && cfg.desktop.displayProtocol == "x
     enable = true;
     displayManager.startx.enable = true;
     # FIXME: eventually check if a laptop
-    config = mkAfter ''
+    extraConfig = mkAfter ''
       Section "Monitor"
         Identifier "Monitor[1]"
         Modeline "2560x1440_180.00"  735.75  2560 2760 3048 3536  1440 1443 1448 1530 -hsync +vsync

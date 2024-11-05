@@ -29,6 +29,7 @@
     gnome-tweaks
     lshw
     ethtool
+    tree
     # Add any other global packages here
   ];
 }

@@ -1,0 +1,1000 @@
+Nov 05 19:18:20 nixos acpid[1110]: waiting for events: event logging is off
+Nov 05 19:18:20 nixos hm-activate-jake[1129]: Activating onFilesChange
+Nov 05 19:18:20 nixos hm-activate-jake[1129]: Activating reloadSystemd
+Nov 05 19:18:20 nixos hm-activate-jake[1129]: User systemd daemon not running. Skipping reload.
+Nov 05 19:18:20 nixos systemd[1]: Finished Home Manager environment for jake.
+Nov 05 19:18:20 nixos kernel: iwlwifi 0000:aa:00.0: WFPM_UMAC_PD_NOTIFICATION: 0x20
+Nov 05 19:18:20 nixos kernel: iwlwifi 0000:aa:00.0: WFPM_LMAC2_PD_NOTIFICATION: 0x1f
+Nov 05 19:18:20 nixos kernel: iwlwifi 0000:aa:00.0: WFPM_AUTH_KEY_0: 0x90
+Nov 05 19:18:20 nixos kernel: iwlwifi 0000:aa:00.0: CNVI_SCU_SEQ_DATA_DW9: 0x0
+Nov 05 19:18:20 nixos kernel: iwlwifi 0000:aa:00.0: Registered PHC clock: iwlwifi-PTP, with index: 0
+Nov 05 19:18:21 nixos kernel: iwlwifi 0000:aa:00.0: WFPM_UMAC_PD_NOTIFICATION: 0x20
+Nov 05 19:18:21 nixos kernel: iwlwifi 0000:aa:00.0: WFPM_LMAC2_PD_NOTIFICATION: 0x1f
+Nov 05 19:18:21 nixos kernel: iwlwifi 0000:aa:00.0: WFPM_AUTH_KEY_0: 0x90
+Nov 05 19:18:21 nixos kernel: iwlwifi 0000:aa:00.0: CNVI_SCU_SEQ_DATA_DW9: 0x0
+Nov 05 19:18:21 nixos dbus-daemon[1115]: [system] Activating via systemd: service name='fi.w1.wpa_supplicant1' unit='wpa_supplicant.service' requested by ':1.6' (uid=0 pid=1290 comm="/nix/store/qlawv4lgxmk97v57i4izhgyqpcc0ppgy-networ" label="kernel")
+Nov 05 19:18:21 nixos systemd[1]: Starting WPA supplicant...
+Nov 05 19:18:21 nixos systemd[1]: Started Network Manager.
+Nov 05 19:18:21 nixos systemd[1]: Starting Network Manager Wait Online...
+Nov 05 19:18:21 nixos dbus-daemon[1115]: [system] Successfully activated service 'fi.w1.wpa_supplicant1'
+Nov 05 19:18:21 nixos systemd[1]: Started WPA supplicant.
+Nov 05 19:18:21 nixos wpa_supplicant[1446]: Successfully initialized wpa_supplicant
+Nov 05 19:18:21 nixos systemd[1]: Reached target Network.
+Nov 05 19:18:21 nixos systemd[1]: Starting SSH Daemon...
+Nov 05 19:18:21 nixos systemd[1]: Starting Permit User Sessions...
+Nov 05 19:18:21 nixos kernel: NET: Registered PF_PACKET protocol family
+Nov 05 19:18:21 nixos systemd[1]: Started SSH Daemon.
+Nov 05 19:18:21 nixos systemd[1]: Finished Permit User Sessions.
+Nov 05 19:18:21 nixos systemd[1]: Starting Display Manager...
+Nov 05 19:18:21 nixos sshd[1459]: Server listening on 0.0.0.0 port 22.
+Nov 05 19:18:21 nixos sshd[1459]: Server listening on :: port 22.
+Nov 05 19:18:21 nixos systemd[1]: Started Getty on tty1.
+Nov 05 19:18:21 nixos systemd[1]: Reached target Login Prompts.
+Nov 05 19:18:21 nixos systemd[1]: Started Display Manager.
+Nov 05 19:18:21 nixos sddm[1466]: Initializing...
+Nov 05 19:18:21 nixos sddm[1466]: Starting...
+Nov 05 19:18:21 nixos sddm[1466]: Logind interface found
+Nov 05 19:18:21 nixos sddm[1466]: Adding new display...
+Nov 05 19:18:21 nixos sddm[1466]: Loaded empty theme configuration
+Nov 05 19:18:21 nixos sddm[1466]: Xauthority path: "/run/sddm/xauth_ZRRQmm"
+Nov 05 19:18:21 nixos sddm[1466]: Using VT 2
+Nov 05 19:18:21 nixos sddm[1466]: Display server starting...
+Nov 05 19:18:21 nixos sddm[1466]: Writing cookie to "/run/sddm/xauth_ZRRQmm"
+Nov 05 19:18:21 nixos sddm[1466]: Running: /nix/store/pr5vyfblqydrr5sjwvdc64j4d198hqjc-xserver-wrapper -nolisten tcp -background none -seat seat0 vt2 -auth /run/sddm/xauth_ZRRQmm -noreset -displayfd 16
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: X.Org X Server 1.21.1.13
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: X Protocol Version 11, Revision 0
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: Current Operating System: Linux nixos 6.6.58 #1-NixOS SMP PREEMPT_DYNAMIC Tue Oct 22 13:46:36 UTC 2024 x86_64
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: Kernel command line: initrd=\EFI\nixos\ban8aky3n7b9rhja0fxfi26d8ymyj0pf-initrd-linux-6.6.58-initrd.efi init=/nix/store/nphsa7jn99a7h0fnns9q24y8rrmigfzf-nixos-system-nixos-24.11.20241029.807e915/init loglevel=4 nvidia-drm.modeset=1 nvidia-drm.fbdev=1
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:  
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: Current version of pixman: 0.43.4
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         Before reporting problems, check http://wiki.x.org
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         to make sure that you have the latest version.
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: Markers: (--) probed, (**) from config file, (==) default setting,
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         (++) from command line, (!!) notice, (II) informational,
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         (WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (++) Log file: "/dev/null", Time: Tue Nov  5 19:18:21 2024
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (++) Using config file: "/nix/store/8wxqfsi0bbp29h5m9xvcadciij9ifq4q-xserver.conf"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) Using config directory: "/etc/X11/xorg.conf.d"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) Using system config directory "/nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/share/X11/xorg.conf.d"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) ServerLayout "Layout[all]"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (**) |-->Screen "Screen-nvidia[0]" (0)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (**) |   |-->Monitor "<default monitor>"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (**) |   |-->Device "Device-nvidia[0]"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (**) |   |-->GPUDevice "Device-modesetting[0]"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) No monitor specified for screen "Screen-nvidia[0]".
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         Using a default monitor configuration.
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (**) |-->Inactive Device "Device-modesetting[0]"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (**) Option "DontZap" "on"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (**) Option "AllowMouseOpenFail" "on"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (**) Allowing byte-swapped clients
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) Automatically adding devices
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) Automatically enabling devices
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) Automatically adding GPU devices
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) Automatically binding GPU devices
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) Max clients allowed: 256, resource mask: 0x1fffff
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (**) FontPath set to:
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         /nix/store/zvjpdqyg7d1w8a7s8mdrzgd8vxnf7d5s-font-cursor-misc-1.0.4/lib/X11/fonts/misc,
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         /nix/store/083p4yhyzfx1ihn4vz4lhsckdarxnifb-font-misc-misc-1.1.3/lib/X11/fonts/misc,
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         /nix/store/133aq9ywvhgy15ihanrk24abzaqqcg7w-unifont-16.0.01/share/fonts,
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         /nix/store/s2d30w82glpy9mzw33l9x2n61r7212y3-font-adobe-100dpi-1.0.4/lib/X11/fonts/100dpi,
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         /nix/store/x0acvinlrgyvyh230claizclsrl4dgqa-font-adobe-75dpi-1.0.4/lib/X11/fonts/75dpi
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (**) ModulePath set to "/nix/store/n5z0w441xha77pfdzd548s90dhh9ilkn-nvidia-x11-560.35.03-6.6.58-bin/lib/xorg/modules,/nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/lib/xorg/modules,/nix/store/bybfkxg8m12q505x5sbvqcxcmzv9mrkb-xf86-input-evdev-2.10.6/lib/xorg/modules,/nix/store/sdsk68kipq5n5a2wswqw4arnax1p8kf6-xf86-input-libinput-1.4.0/lib/xorg/modules"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) The server relies on udev to provide the list of input devices.
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         If no devices become available, reconfigure udev or disable AutoAddDevices.
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Loader magic: 0x64ee40
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Module ABI versions:
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         X.Org ANSI C Emulation: 0.4
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         X.Org Video Driver: 25.2
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         X.Org XInput driver : 24.4
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         X.Org Server Extension : 10.0
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (++) using VT number 2
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) systemd-logind: logind integration requires -keeptty and -keeptty was not provided, disabling logind integration
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) xfree86: Adding drm device (/dev/dri/card1)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Platform probe for /sys/devices/pci0000:00/0000:00:02.0/drm/card1
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) xfree86: Adding drm device (/dev/dri/card0)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Platform probe for /sys/devices/pci0000:00/0000:00:07.3/0000:80:00.0/0000:81:01.0/0000:82:00.0/drm/card0
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (--) PCI:*(0@0:2:0) 8086:9a49:f111:0001 rev 1, Mem @ 0x605c000000/16777216, 0x4000000000/268435456, I/O @ 0x00004000/64, BIOS @ 0x????????/131072
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (--) PCI: (130@0:0:0) 10de:2503:19da:4617 rev 161, Mem @ 0x52000000/16777216, 0x6060000000/268435456, 0x6070000000/33554432, I/O @ 0x00003000/128, BIOS @ 0x????????/524288
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Open ACPI successful (/var/run/acpid.socket)
+Nov 05 19:18:21 nixos acpid[1110]: client connected from 1469[0:0]
+Nov 05 19:18:21 nixos acpid[1110]: 1 client rule loaded
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) "glx" will be loaded by default.
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) LoadModule: "glx"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Loading /nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/lib/xorg/modules/extensions/libglx.so
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Module glx: vendor="X.Org Foundation"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         compiled for 1.21.1.13, module version = 1.0.0
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         ABI class: X.Org Server Extension, version 10.0
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) LoadModule: "nvidia"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Loading /nix/store/n5z0w441xha77pfdzd548s90dhh9ilkn-nvidia-x11-560.35.03-6.6.58-bin/lib/xorg/modules/drivers/nvidia_drv.so
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Module nvidia: vendor="NVIDIA Corporation"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         compiled for 1.6.99.901, module version = 1.0.0
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         Module class: X.Org Video Driver
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) LoadModule: "modesetting"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Loading /nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/lib/xorg/modules/drivers/modesetting_drv.so
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Module modesetting: vendor="X.Org Foundation"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         compiled for 1.21.1.13, module version = 1.21.1
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         Module class: X.Org Video Driver
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         ABI class: X.Org Video Driver, version 25.2
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) NVIDIA dlloader X Driver  560.35.03  Fri Aug 16 21:25:43 UTC 2024
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) NVIDIA Unified Driver for all Supported NVIDIA GPUs
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modesetting: Driver for Modesetting Kernel Drivers: kms
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Loading sub module "fb"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) LoadModule: "fb"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Module "fb" already built-in
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Loading sub module "wfb"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) LoadModule: "wfb"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Loading /nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/lib/xorg/modules/libwfb.so
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Module wfb: vendor="X.Org Foundation"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         compiled for 1.21.1.13, module version = 1.0.0
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         ABI class: X.Org ANSI C Emulation, version 0.4
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): using drv /dev/dri/card1
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) NVIDIA(0): Creating default Display subsection in Screen section
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         "Screen-nvidia[0]" for depth/fbbpp 24/32
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) NVIDIA(0): Depth 24, (==) framebuffer bpp 32
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) NVIDIA(0): RGB weight 888
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) NVIDIA(0): Default visual is TrueColor
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) NVIDIA(0): Using gamma correction (1.0, 1.0, 1.0)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (**) NVIDIA(0): Option "AllowEmptyInitialConfiguration"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (**) NVIDIA(0): Option "SidebandSocketPath" "/run/nvidia-xdriver/"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (**) NVIDIA(0): Enabling 2D acceleration
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Loading sub module "glxserver_nvidia"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) LoadModule: "glxserver_nvidia"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Loading /nix/store/n5z0w441xha77pfdzd548s90dhh9ilkn-nvidia-x11-560.35.03-6.6.58-bin/lib/xorg/modules/extensions/libglxserver_nvidia.so
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Module glxserver_nvidia: vendor="NVIDIA Corporation"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         compiled for 1.6.99.901, module version = 1.0.0
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         Module class: X.Org Server Extension
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) NVIDIA GLX Module  560.35.03  Fri Aug 16 21:27:48 UTC 2024
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) NVIDIA: The X server supports PRIME Render Offload.
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (--) NVIDIA(0): Valid display device(s) on GPU-0 at PCI:130:0:0
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (--) NVIDIA(0):     DFP-0
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (--) NVIDIA(0):     DFP-1 (boot)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (--) NVIDIA(0):     DFP-2
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (--) NVIDIA(0):     DFP-3
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (--) NVIDIA(0):     DFP-4
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (--) NVIDIA(0):     DFP-5
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (--) NVIDIA(0):     DFP-6
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (WW) NVIDIA(GPU-0): This device is an external GPU, but external GPUs have not
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (WW) NVIDIA(GPU-0):     been enabled with AllowExternalGpus. Disabling this device
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (WW) NVIDIA(GPU-0):     to prevent crashes from accidental removal.
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (EE) NVIDIA(0): Failing initialization of X screen
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) UnloadModule: "nvidia"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) UnloadSubModule: "glxserver_nvidia"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Unloading glxserver_nvidia
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) UnloadSubModule: "wfb"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) modeset(G0): Depth 24, (==) framebuffer bpp 32
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (**) modeset(G0): Option "AccelMethod" "none"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) modeset(G0): RGB weight 888
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) modeset(G0): Default visual is TrueColor
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (**) modeset(G0): glamor disabled
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): ShadowFB: preferred YES, enabled YES
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Double-buffered shadow updates: off
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Output eDP-1-1 has no monitor section
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Output DP-1-1 has no monitor section
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Output DP-1-2 has no monitor section
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Output DP-1-3 has no monitor section
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Output DP-1-4 has no monitor section
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): EDID for output eDP-1-1
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Manufacturer: BOE  Model: 95f  Serial#: 0
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Year: 2019  Week: 23
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): EDID Version: 1.4
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Digital Display Input
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): 8 bits per channel
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Digital interface is DisplayPort
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Max Image Size [cm]: horiz.: 28  vert.: 19
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Gamma: 2.20
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): No DPMS capabilities specified
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Supported color encodings: RGB 4:4:4
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): First detailed timing is preferred mode
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Preferred mode is native pixel format and refresh rate
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Display is continuous-frequency
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): redX: 0.640 redY: 0.329   greenX: 0.300 greenY: 0.600
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): blueX: 0.149 blueY: 0.060   whiteX: 0.312 whiteY: 0.328
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Manufacturer's mask: 0
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Supported detailed timing:
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): clock: 235.7 MHz   Image Size:  285 x 190 mm
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): h_active: 2256  h_sync: 2304  h_sync_end 2336 h_blank_end 2536 h_border: 0
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): v_active: 1504  v_sync: 1507  v_sync_end 1513 v_blanking: 1549 v_border: 0
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Supported detailed timing:
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): clock: 188.6 MHz   Image Size:  285 x 190 mm
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): h_active: 2256  h_sync: 2304  h_sync_end 2336 h_blank_end 2536 h_border: 0
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): v_active: 1504  v_sync: 1507  v_sync_end 1513 v_blanking: 1549 v_border: 0
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0):  BOE CQ
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0):  NE135FBM-N41
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): EDID (in hex):
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0):         00ffffffffffff0009e55f0900000000
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0):         171d0104a51c137803de50a3544c9926
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0):         0f505400000001010101010101010101
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0):         010101010101115cd01881e02d503020
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0):         36001dbe1000001aa749d01881e02d50
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0):         302036001dbe1000001a000000fe0042
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0):         4f452043510a202020202020000000fe
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0):         004e4531333546424d2d4e34310a00fb
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Printing probed modes for output eDP-1-1
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "2256x1504"x60.0  235.69  2256 2304 2336 2536  1504 1507 1513 1549 +hsync -vsync (92.9 kHz eP)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "2256x1504"x48.0  188.55  2256 2304 2336 2536  1504 1507 1513 1549 +hsync -vsync (74.3 kHz e)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1920x1440"x60.0  234.00  1920 2048 2256 2600  1440 1441 1444 1500 -hsync +vsync (90.0 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1856x1392"x60.0  218.30  1856 1952 2176 2528  1392 1393 1396 1439 -hsync +vsync (86.4 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1792x1344"x60.0  204.80  1792 1920 2120 2448  1344 1345 1348 1394 -hsync +vsync (83.7 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "2048x1152"x120.0  406.50  2048 2220 2444 2840  1152 1153 1156 1193 doublescan -hsync +vsync (143.1 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "2048x1152"x120.0  302.50  2048 2072 2088 2128  1152 1153 1156 1185 doublescan +hsync -vsync (142.2 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "2048x1152"x59.9  197.00  2048 2184 2400 2752  1152 1155 1160 1195 -hsync +vsync (71.6 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "2048x1152"x59.9  156.75  2048 2096 2128 2208  1152 1155 1160 1185 +hsync -vsync (71.0 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1920x1200"x59.9  193.25  1920 2056 2256 2592  1200 1203 1209 1245 -hsync +vsync (74.6 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1920x1200"x60.0  154.00  1920 1968 2000 2080  1200 1203 1209 1235 +hsync -vsync (74.0 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1920x1080"x120.0  356.38  1920 2080 2288 2656  1080 1081 1084 1118 doublescan -hsync +vsync (134.2 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1920x1080"x119.9  266.50  1920 1944 1960 2000  1080 1081 1084 1111 doublescan +hsync -vsync (133.2 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1920x1080"x60.0  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync (67.2 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1920x1080"x59.9  138.50  1920 1968 2000 2080  1080 1083 1088 1111 +hsync -vsync (66.6 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1600x1200"x60.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1680x1050"x60.0  146.25  1680 1784 1960 2240  1050 1053 1059 1089 -hsync +vsync (65.3 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1680x1050"x59.9  119.00  1680 1728 1760 1840  1050 1053 1059 1080 +hsync -vsync (64.7 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1400x1050"x60.0  122.00  1400 1488 1640 1880  1050 1052 1064 1082 +hsync +vsync (64.9 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1600x900"x120.0  246.00  1600 1728 1900 2200  900 901 904 932 doublescan -hsync +vsync (111.8 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1600x900"x119.9  186.50  1600 1624 1640 1680  900 901 904 926 doublescan +hsync -vsync (111.0 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1600x900"x59.9  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync (56.0 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1600x900"x59.8   97.50  1600 1648 1680 1760  900 903 908 926 +hsync -vsync (55.4 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1400x900"x60.0  103.50  1400 1480 1624 1848  900 903 913 934 -hsync +vsync (56.0 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1400x900"x59.9   86.50  1400 1448 1480 1560  900 903 913 926 +hsync -vsync (55.4 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1280x960"x60.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1440x810"x120.0  198.12  1440 1548 1704 1968  810 811 814 839 doublescan -hsync +vsync (100.7 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1440x810"x119.9  151.88  1440 1464 1480 1520  810 811 814 833 doublescan +hsync -vsync (99.9 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1368x768"x59.9   85.25  1368 1440 1576 1784  768 771 781 798 -hsync +vsync (47.8 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1368x768"x59.9   72.25  1368 1416 1448 1528  768 771 781 790 +hsync -vsync (47.3 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1280x800"x120.0  174.25  1280 1380 1516 1752  800 801 804 829 doublescan -hsync +vsync (99.5 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1280x800"x119.9  134.25  1280 1304 1320 1360  800 801 804 823 doublescan +hsync -vsync (98.7 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1280x800"x59.8   83.50  1280 1352 1480 1680  800 803 809 831 -hsync +vsync (49.7 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1280x800"x59.9   71.00  1280 1328 1360 1440  800 803 809 823 +hsync -vsync (49.3 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1280x720"x120.0  156.12  1280 1376 1512 1744  720 721 724 746 doublescan -hsync +vsync (89.5 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1280x720"x120.0  120.75  1280 1304 1320 1360  720 721 724 740 doublescan +hsync -vsync (88.8 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1280x720"x59.9   74.50  1280 1344 1472 1664  720 723 728 748 -hsync +vsync (44.8 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1280x720"x59.7   63.75  1280 1328 1360 1440  720 723 728 741 +hsync -vsync (44.3 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1024x768"x120.1  133.47  1024 1100 1212 1400  768 768 770 794 doublescan -hsync +vsync (95.3 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "960x720"x120.0  117.00  960 1024 1128 1300  720 720 722 750 doublescan -hsync +vsync (90.0 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "928x696"x120.1  109.15  928 976 1088 1264  696 696 698 719 doublescan -hsync +vsync (86.4 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "896x672"x120.0  102.40  896 960 1060 1224  672 672 674 697 doublescan -hsync +vsync (83.7 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1024x576"x119.9   98.50  1024 1092 1200 1376  576 577 580 597 doublescan -hsync +vsync (71.6 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1024x576"x119.9   78.38  1024 1048 1064 1104  576 577 580 592 doublescan +hsync -vsync (71.0 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1024x576"x59.9   46.50  1024 1064 1160 1296  576 579 584 599 -hsync +vsync (35.9 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "1024x576"x59.8   42.00  1024 1072 1104 1184  576 579 584 593 +hsync -vsync (35.5 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "960x600"x119.9   96.62  960 1028 1128 1296  600 601 604 622 doublescan -hsync +vsync (74.6 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "960x600"x120.0   77.00  960 984 1000 1040  600 601 604 617 doublescan +hsync -vsync (74.0 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "960x540"x119.9   86.50  960 1024 1124 1288  540 541 544 560 doublescan -hsync +vsync (67.2 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "960x540"x120.0   69.25  960 984 1000 1040  540 541 544 555 doublescan +hsync -vsync (66.6 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "960x540"x59.6   40.75  960 992 1088 1216  540 543 548 562 -hsync +vsync (33.5 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "960x540"x59.8   37.25  960 1008 1040 1120  540 543 548 556 +hsync -vsync (33.3 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "800x600"x120.0   81.00  800 832 928 1080  600 600 602 625 doublescan +hsync +vsync (75.0 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "800x600"x56.2   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "840x525"x120.0   73.12  840 892 980 1120  525 526 529 544 doublescan -hsync +vsync (65.3 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "840x525"x119.8   59.50  840 864 880 920  525 526 529 540 doublescan +hsync -vsync (64.7 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "864x486"x59.9   32.50  864 888 968 1072  486 489 494 506 -hsync +vsync (30.3 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "864x486"x59.6   30.50  864 912 944 1024  486 489 494 500 +hsync -vsync (29.8 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "700x525"x120.0   61.00  700 744 820 940  525 526 532 541 doublescan +hsync +vsync (64.9 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "800x450"x119.9   59.12  800 848 928 1056  450 451 454 467 doublescan -hsync +vsync (56.0 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "800x450"x119.6   48.75  800 824 840 880  450 451 454 463 doublescan +hsync -vsync (55.4 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "640x512"x120.0   54.00  640 664 720 844  512 512 514 533 doublescan +hsync +vsync (64.0 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "700x450"x119.9   51.75  700 740 812 924  450 451 456 467 doublescan -hsync +vsync (56.0 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "700x450"x119.8   43.25  700 724 740 780  450 451 456 463 doublescan +hsync -vsync (55.4 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "640x480"x120.0   54.00  640 688 744 900  480 480 482 500 doublescan +hsync +vsync (60.0 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "640x480"x59.9   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "720x405"x59.5   22.50  720 744 808 896  405 408 413 422 -hsync +vsync (25.1 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "720x405"x59.0   21.75  720 768 800 880  405 408 413 419 +hsync -vsync (24.7 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "684x384"x119.8   42.62  684 720 788 892  384 385 390 399 doublescan -hsync +vsync (47.8 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "684x384"x119.7   36.12  684 708 724 764  384 385 390 395 doublescan +hsync -vsync (47.3 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "640x400"x119.8   41.75  640 676 740 840  400 401 404 415 doublescan -hsync +vsync (49.7 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "640x400"x120.0   35.50  640 664 680 720  400 401 404 411 doublescan +hsync -vsync (49.3 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "640x360"x119.7   37.25  640 672 736 832  360 361 364 374 doublescan -hsync +vsync (44.8 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "640x360"x119.7   31.88  640 664 680 720  360 361 364 370 doublescan +hsync -vsync (44.3 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "640x360"x59.8   18.00  640 664 720 800  360 363 368 376 -hsync +vsync (22.5 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "640x360"x59.3   17.75  640 688 720 800  360 363 368 374 +hsync -vsync (22.2 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "512x384"x120.0   32.50  512 524 592 672  384 385 388 403 doublescan -hsync -vsync (48.4 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "512x288"x120.0   23.25  512 532 580 648  288 289 292 299 doublescan -hsync +vsync (35.9 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "512x288"x119.8   21.00  512 536 552 592  288 289 292 296 doublescan +hsync -vsync (35.5 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "480x270"x119.3   20.38  480 496 544 608  270 271 274 281 doublescan -hsync +vsync (33.5 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "480x270"x119.6   18.62  480 504 520 560  270 271 274 278 doublescan +hsync -vsync (33.3 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "400x300"x120.6   20.00  400 420 484 528  300 300 302 314 doublescan +hsync +vsync (37.9 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "400x300"x112.7   18.00  400 412 448 512  300 300 301 312 doublescan +hsync +vsync (35.2 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "432x243"x119.8   16.25  432 444 484 536  243 244 247 253 doublescan -hsync +vsync (30.3 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "432x243"x119.1   15.25  432 456 472 512  243 244 247 250 doublescan +hsync -vsync (29.8 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "320x240"x120.1   12.59  320 328 376 400  240 245 246 262 doublescan -hsync -vsync (31.5 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "360x202"x119.0   11.25  360 372 404 448  202 204 206 211 doublescan -hsync +vsync (25.1 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "360x202"x118.3   10.88  360 384 400 440  202 204 206 209 doublescan +hsync -vsync (24.7 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "320x180"x119.7    9.00  320 332 360 400  180 181 184 188 doublescan -hsync +vsync (22.5 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): Modeline "320x180"x118.6    8.88  320 344 360 400  180 181 184 187 doublescan +hsync -vsync (22.2 kHz d)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): EDID for output DP-1-1
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): EDID for output DP-1-2
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): EDID for output DP-1-3
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) modeset(G0): EDID for output DP-1-4
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) modeset(G0): Using gamma correction (1.0, 1.0, 1.0)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (==) modeset(G0): DPI set to (96, 96)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Loading sub module "fb"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) LoadModule: "fb"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Module "fb" already built-in
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Loading sub module "shadow"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) LoadModule: "shadow"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Loading /nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/lib/xorg/modules/libshadow.so
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (II) Module shadow: vendor="X.Org Foundation"
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         compiled for 1.21.1.13, module version = 1.1.0
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:         ABI class: X.Org ANSI C Emulation, version 0.4
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (EE) Screen(s) found, but none have a usable configuration.
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (EE)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: Fatal server error:
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (EE) no screens found(EE)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (EE)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: Please consult the The X.Org Foundation support
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:          at http://wiki.x.org
+Nov 05 19:18:21 nixos xserver-wrapper[1469]:  for help.
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (EE) Please also check the log file at "/dev/null" for additional information.
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (EE)
+Nov 05 19:18:21 nixos xserver-wrapper[1469]: (EE) Server terminated with error (1). Closing log file.
+Nov 05 19:18:21 nixos sddm[1466]: Failed to read display number from pipe
+Nov 05 19:18:21 nixos sddm[1466]: Display server stopping...
+Nov 05 19:18:21 nixos sddm[1466]: Attempt 1 starting the Display server on vt 2 failed
+Nov 05 19:18:23 nixos sddm[1466]: Display server starting...
+Nov 05 19:18:23 nixos sddm[1466]: Writing cookie to "/run/sddm/xauth_ZRRQmm"
+Nov 05 19:18:23 nixos sddm[1466]: Running: /nix/store/pr5vyfblqydrr5sjwvdc64j4d198hqjc-xserver-wrapper -nolisten tcp -background none -seat seat0 vt2 -auth /run/sddm/xauth_ZRRQmm -noreset -displayfd 16
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: X.Org X Server 1.21.1.13
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: X Protocol Version 11, Revision 0
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: Current Operating System: Linux nixos 6.6.58 #1-NixOS SMP PREEMPT_DYNAMIC Tue Oct 22 13:46:36 UTC 2024 x86_64
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: Kernel command line: initrd=\EFI\nixos\ban8aky3n7b9rhja0fxfi26d8ymyj0pf-initrd-linux-6.6.58-initrd.efi init=/nix/store/nphsa7jn99a7h0fnns9q24y8rrmigfzf-nixos-system-nixos-24.11.20241029.807e915/init loglevel=4 nvidia-drm.modeset=1 nvidia-drm.fbdev=1
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:  
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: Current version of pixman: 0.43.4
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         Before reporting problems, check http://wiki.x.org
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         to make sure that you have the latest version.
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: Markers: (--) probed, (**) from config file, (==) default setting,
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         (++) from command line, (!!) notice, (II) informational,
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         (WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (++) Log file: "/dev/null", Time: Tue Nov  5 19:18:23 2024
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (++) Using config file: "/nix/store/8wxqfsi0bbp29h5m9xvcadciij9ifq4q-xserver.conf"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) Using config directory: "/etc/X11/xorg.conf.d"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) Using system config directory "/nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/share/X11/xorg.conf.d"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) ServerLayout "Layout[all]"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (**) |-->Screen "Screen-nvidia[0]" (0)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (**) |   |-->Monitor "<default monitor>"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (**) |   |-->Device "Device-nvidia[0]"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (**) |   |-->GPUDevice "Device-modesetting[0]"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) No monitor specified for screen "Screen-nvidia[0]".
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         Using a default monitor configuration.
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (**) |-->Inactive Device "Device-modesetting[0]"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (**) Option "DontZap" "on"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (**) Option "AllowMouseOpenFail" "on"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (**) Allowing byte-swapped clients
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) Automatically adding devices
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) Automatically enabling devices
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) Automatically adding GPU devices
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) Automatically binding GPU devices
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) Max clients allowed: 256, resource mask: 0x1fffff
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (**) FontPath set to:
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         /nix/store/zvjpdqyg7d1w8a7s8mdrzgd8vxnf7d5s-font-cursor-misc-1.0.4/lib/X11/fonts/misc,
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         /nix/store/083p4yhyzfx1ihn4vz4lhsckdarxnifb-font-misc-misc-1.1.3/lib/X11/fonts/misc,
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         /nix/store/133aq9ywvhgy15ihanrk24abzaqqcg7w-unifont-16.0.01/share/fonts,
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         /nix/store/s2d30w82glpy9mzw33l9x2n61r7212y3-font-adobe-100dpi-1.0.4/lib/X11/fonts/100dpi,
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         /nix/store/x0acvinlrgyvyh230claizclsrl4dgqa-font-adobe-75dpi-1.0.4/lib/X11/fonts/75dpi
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (**) ModulePath set to "/nix/store/n5z0w441xha77pfdzd548s90dhh9ilkn-nvidia-x11-560.35.03-6.6.58-bin/lib/xorg/modules,/nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/lib/xorg/modules,/nix/store/bybfkxg8m12q505x5sbvqcxcmzv9mrkb-xf86-input-evdev-2.10.6/lib/xorg/modules,/nix/store/sdsk68kipq5n5a2wswqw4arnax1p8kf6-xf86-input-libinput-1.4.0/lib/xorg/modules"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) The server relies on udev to provide the list of input devices.
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         If no devices become available, reconfigure udev or disable AutoAddDevices.
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Loader magic: 0x64ee40
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Module ABI versions:
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         X.Org ANSI C Emulation: 0.4
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         X.Org Video Driver: 25.2
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         X.Org XInput driver : 24.4
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         X.Org Server Extension : 10.0
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (++) using VT number 2
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) systemd-logind: logind integration requires -keeptty and -keeptty was not provided, disabling logind integration
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) xfree86: Adding drm device (/dev/dri/card1)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Platform probe for /sys/devices/pci0000:00/0000:00:02.0/drm/card1
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) xfree86: Adding drm device (/dev/dri/card0)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Platform probe for /sys/devices/pci0000:00/0000:00:07.3/0000:80:00.0/0000:81:01.0/0000:82:00.0/drm/card0
+Nov 05 19:18:23 nixos acpid[1110]: client 1469[0:0] has disconnected
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (--) PCI:*(0@0:2:0) 8086:9a49:f111:0001 rev 1, Mem @ 0x605c000000/16777216, 0x4000000000/268435456, I/O @ 0x00004000/64, BIOS @ 0x????????/131072
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (--) PCI: (130@0:0:0) 10de:2503:19da:4617 rev 161, Mem @ 0x52000000/16777216, 0x6060000000/268435456, 0x6070000000/33554432, I/O @ 0x00003000/128, BIOS @ 0x????????/524288
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Open ACPI successful (/var/run/acpid.socket)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) "glx" will be loaded by default.
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) LoadModule: "glx"
+Nov 05 19:18:23 nixos acpid[1110]: client connected from 1473[0:0]
+Nov 05 19:18:23 nixos acpid[1110]: 1 client rule loaded
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Loading /nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/lib/xorg/modules/extensions/libglx.so
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Module glx: vendor="X.Org Foundation"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         compiled for 1.21.1.13, module version = 1.0.0
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         ABI class: X.Org Server Extension, version 10.0
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) LoadModule: "nvidia"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Loading /nix/store/n5z0w441xha77pfdzd548s90dhh9ilkn-nvidia-x11-560.35.03-6.6.58-bin/lib/xorg/modules/drivers/nvidia_drv.so
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Module nvidia: vendor="NVIDIA Corporation"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         compiled for 1.6.99.901, module version = 1.0.0
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         Module class: X.Org Video Driver
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) LoadModule: "modesetting"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Loading /nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/lib/xorg/modules/drivers/modesetting_drv.so
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Module modesetting: vendor="X.Org Foundation"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         compiled for 1.21.1.13, module version = 1.21.1
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         Module class: X.Org Video Driver
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         ABI class: X.Org Video Driver, version 25.2
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) NVIDIA dlloader X Driver  560.35.03  Fri Aug 16 21:25:43 UTC 2024
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) NVIDIA Unified Driver for all Supported NVIDIA GPUs
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modesetting: Driver for Modesetting Kernel Drivers: kms
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Loading sub module "fb"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) LoadModule: "fb"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Module "fb" already built-in
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Loading sub module "wfb"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) LoadModule: "wfb"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Loading /nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/lib/xorg/modules/libwfb.so
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Module wfb: vendor="X.Org Foundation"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         compiled for 1.21.1.13, module version = 1.0.0
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         ABI class: X.Org ANSI C Emulation, version 0.4
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): using drv /dev/dri/card1
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) NVIDIA(0): Creating default Display subsection in Screen section
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         "Screen-nvidia[0]" for depth/fbbpp 24/32
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) NVIDIA(0): Depth 24, (==) framebuffer bpp 32
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) NVIDIA(0): RGB weight 888
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) NVIDIA(0): Default visual is TrueColor
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) NVIDIA(0): Using gamma correction (1.0, 1.0, 1.0)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (**) NVIDIA(0): Option "AllowEmptyInitialConfiguration"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (**) NVIDIA(0): Option "SidebandSocketPath" "/run/nvidia-xdriver/"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (**) NVIDIA(0): Enabling 2D acceleration
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Loading sub module "glxserver_nvidia"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) LoadModule: "glxserver_nvidia"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Loading /nix/store/n5z0w441xha77pfdzd548s90dhh9ilkn-nvidia-x11-560.35.03-6.6.58-bin/lib/xorg/modules/extensions/libglxserver_nvidia.so
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Module glxserver_nvidia: vendor="NVIDIA Corporation"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         compiled for 1.6.99.901, module version = 1.0.0
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         Module class: X.Org Server Extension
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) NVIDIA GLX Module  560.35.03  Fri Aug 16 21:27:48 UTC 2024
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) NVIDIA: The X server supports PRIME Render Offload.
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (--) NVIDIA(0): Valid display device(s) on GPU-0 at PCI:130:0:0
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (--) NVIDIA(0):     DFP-0
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (--) NVIDIA(0):     DFP-1 (boot)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (--) NVIDIA(0):     DFP-2
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (--) NVIDIA(0):     DFP-3
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (--) NVIDIA(0):     DFP-4
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (--) NVIDIA(0):     DFP-5
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (--) NVIDIA(0):     DFP-6
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (WW) NVIDIA(GPU-0): This device is an external GPU, but external GPUs have not
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (WW) NVIDIA(GPU-0):     been enabled with AllowExternalGpus. Disabling this device
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (WW) NVIDIA(GPU-0):     to prevent crashes from accidental removal.
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (EE) NVIDIA(0): Failing initialization of X screen
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) UnloadModule: "nvidia"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) UnloadSubModule: "glxserver_nvidia"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Unloading glxserver_nvidia
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) UnloadSubModule: "wfb"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) modeset(G0): Depth 24, (==) framebuffer bpp 32
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (**) modeset(G0): Option "AccelMethod" "none"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) modeset(G0): RGB weight 888
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) modeset(G0): Default visual is TrueColor
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (**) modeset(G0): glamor disabled
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): ShadowFB: preferred YES, enabled YES
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Double-buffered shadow updates: off
+Nov 05 19:18:23 nixos systemd[1]: systemd-rfkill.service: Deactivated successfully.
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Output eDP-1-1 has no monitor section
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Output DP-1-1 has no monitor section
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Output DP-1-2 has no monitor section
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Output DP-1-3 has no monitor section
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Output DP-1-4 has no monitor section
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): EDID for output eDP-1-1
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Manufacturer: BOE  Model: 95f  Serial#: 0
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Year: 2019  Week: 23
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): EDID Version: 1.4
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Digital Display Input
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): 8 bits per channel
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Digital interface is DisplayPort
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Max Image Size [cm]: horiz.: 28  vert.: 19
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Gamma: 2.20
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): No DPMS capabilities specified
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Supported color encodings: RGB 4:4:4
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): First detailed timing is preferred mode
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Preferred mode is native pixel format and refresh rate
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Display is continuous-frequency
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): redX: 0.640 redY: 0.329   greenX: 0.300 greenY: 0.600
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): blueX: 0.149 blueY: 0.060   whiteX: 0.312 whiteY: 0.328
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Manufacturer's mask: 0
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Supported detailed timing:
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): clock: 235.7 MHz   Image Size:  285 x 190 mm
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): h_active: 2256  h_sync: 2304  h_sync_end 2336 h_blank_end 2536 h_border: 0
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): v_active: 1504  v_sync: 1507  v_sync_end 1513 v_blanking: 1549 v_border: 0
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Supported detailed timing:
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): clock: 188.6 MHz   Image Size:  285 x 190 mm
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): h_active: 2256  h_sync: 2304  h_sync_end 2336 h_blank_end 2536 h_border: 0
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): v_active: 1504  v_sync: 1507  v_sync_end 1513 v_blanking: 1549 v_border: 0
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0):  BOE CQ
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0):  NE135FBM-N41
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): EDID (in hex):
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0):         00ffffffffffff0009e55f0900000000
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0):         171d0104a51c137803de50a3544c9926
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0):         0f505400000001010101010101010101
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0):         010101010101115cd01881e02d503020
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0):         36001dbe1000001aa749d01881e02d50
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0):         302036001dbe1000001a000000fe0042
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0):         4f452043510a202020202020000000fe
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0):         004e4531333546424d2d4e34310a00fb
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Printing probed modes for output eDP-1-1
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "2256x1504"x60.0  235.69  2256 2304 2336 2536  1504 1507 1513 1549 +hsync -vsync (92.9 kHz eP)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "2256x1504"x48.0  188.55  2256 2304 2336 2536  1504 1507 1513 1549 +hsync -vsync (74.3 kHz e)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1920x1440"x60.0  234.00  1920 2048 2256 2600  1440 1441 1444 1500 -hsync +vsync (90.0 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1856x1392"x60.0  218.30  1856 1952 2176 2528  1392 1393 1396 1439 -hsync +vsync (86.4 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1792x1344"x60.0  204.80  1792 1920 2120 2448  1344 1345 1348 1394 -hsync +vsync (83.7 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "2048x1152"x120.0  406.50  2048 2220 2444 2840  1152 1153 1156 1193 doublescan -hsync +vsync (143.1 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "2048x1152"x120.0  302.50  2048 2072 2088 2128  1152 1153 1156 1185 doublescan +hsync -vsync (142.2 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "2048x1152"x59.9  197.00  2048 2184 2400 2752  1152 1155 1160 1195 -hsync +vsync (71.6 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "2048x1152"x59.9  156.75  2048 2096 2128 2208  1152 1155 1160 1185 +hsync -vsync (71.0 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1920x1200"x59.9  193.25  1920 2056 2256 2592  1200 1203 1209 1245 -hsync +vsync (74.6 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1920x1200"x60.0  154.00  1920 1968 2000 2080  1200 1203 1209 1235 +hsync -vsync (74.0 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1920x1080"x120.0  356.38  1920 2080 2288 2656  1080 1081 1084 1118 doublescan -hsync +vsync (134.2 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1920x1080"x119.9  266.50  1920 1944 1960 2000  1080 1081 1084 1111 doublescan +hsync -vsync (133.2 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1920x1080"x60.0  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync (67.2 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1920x1080"x59.9  138.50  1920 1968 2000 2080  1080 1083 1088 1111 +hsync -vsync (66.6 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1600x1200"x60.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1680x1050"x60.0  146.25  1680 1784 1960 2240  1050 1053 1059 1089 -hsync +vsync (65.3 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1680x1050"x59.9  119.00  1680 1728 1760 1840  1050 1053 1059 1080 +hsync -vsync (64.7 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1400x1050"x60.0  122.00  1400 1488 1640 1880  1050 1052 1064 1082 +hsync +vsync (64.9 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1600x900"x120.0  246.00  1600 1728 1900 2200  900 901 904 932 doublescan -hsync +vsync (111.8 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1600x900"x119.9  186.50  1600 1624 1640 1680  900 901 904 926 doublescan +hsync -vsync (111.0 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1600x900"x59.9  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync (56.0 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1600x900"x59.8   97.50  1600 1648 1680 1760  900 903 908 926 +hsync -vsync (55.4 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1400x900"x60.0  103.50  1400 1480 1624 1848  900 903 913 934 -hsync +vsync (56.0 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1400x900"x59.9   86.50  1400 1448 1480 1560  900 903 913 926 +hsync -vsync (55.4 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1280x960"x60.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1440x810"x120.0  198.12  1440 1548 1704 1968  810 811 814 839 doublescan -hsync +vsync (100.7 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1440x810"x119.9  151.88  1440 1464 1480 1520  810 811 814 833 doublescan +hsync -vsync (99.9 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1368x768"x59.9   85.25  1368 1440 1576 1784  768 771 781 798 -hsync +vsync (47.8 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1368x768"x59.9   72.25  1368 1416 1448 1528  768 771 781 790 +hsync -vsync (47.3 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1280x800"x120.0  174.25  1280 1380 1516 1752  800 801 804 829 doublescan -hsync +vsync (99.5 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1280x800"x119.9  134.25  1280 1304 1320 1360  800 801 804 823 doublescan +hsync -vsync (98.7 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1280x800"x59.8   83.50  1280 1352 1480 1680  800 803 809 831 -hsync +vsync (49.7 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1280x800"x59.9   71.00  1280 1328 1360 1440  800 803 809 823 +hsync -vsync (49.3 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1280x720"x120.0  156.12  1280 1376 1512 1744  720 721 724 746 doublescan -hsync +vsync (89.5 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1280x720"x120.0  120.75  1280 1304 1320 1360  720 721 724 740 doublescan +hsync -vsync (88.8 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1280x720"x59.9   74.50  1280 1344 1472 1664  720 723 728 748 -hsync +vsync (44.8 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1280x720"x59.7   63.75  1280 1328 1360 1440  720 723 728 741 +hsync -vsync (44.3 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1024x768"x120.1  133.47  1024 1100 1212 1400  768 768 770 794 doublescan -hsync +vsync (95.3 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "960x720"x120.0  117.00  960 1024 1128 1300  720 720 722 750 doublescan -hsync +vsync (90.0 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "928x696"x120.1  109.15  928 976 1088 1264  696 696 698 719 doublescan -hsync +vsync (86.4 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "896x672"x120.0  102.40  896 960 1060 1224  672 672 674 697 doublescan -hsync +vsync (83.7 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1024x576"x119.9   98.50  1024 1092 1200 1376  576 577 580 597 doublescan -hsync +vsync (71.6 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1024x576"x119.9   78.38  1024 1048 1064 1104  576 577 580 592 doublescan +hsync -vsync (71.0 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1024x576"x59.9   46.50  1024 1064 1160 1296  576 579 584 599 -hsync +vsync (35.9 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "1024x576"x59.8   42.00  1024 1072 1104 1184  576 579 584 593 +hsync -vsync (35.5 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "960x600"x119.9   96.62  960 1028 1128 1296  600 601 604 622 doublescan -hsync +vsync (74.6 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "960x600"x120.0   77.00  960 984 1000 1040  600 601 604 617 doublescan +hsync -vsync (74.0 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "960x540"x119.9   86.50  960 1024 1124 1288  540 541 544 560 doublescan -hsync +vsync (67.2 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "960x540"x120.0   69.25  960 984 1000 1040  540 541 544 555 doublescan +hsync -vsync (66.6 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "960x540"x59.6   40.75  960 992 1088 1216  540 543 548 562 -hsync +vsync (33.5 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "960x540"x59.8   37.25  960 1008 1040 1120  540 543 548 556 +hsync -vsync (33.3 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "800x600"x120.0   81.00  800 832 928 1080  600 600 602 625 doublescan +hsync +vsync (75.0 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "800x600"x56.2   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "840x525"x120.0   73.12  840 892 980 1120  525 526 529 544 doublescan -hsync +vsync (65.3 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "840x525"x119.8   59.50  840 864 880 920  525 526 529 540 doublescan +hsync -vsync (64.7 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "864x486"x59.9   32.50  864 888 968 1072  486 489 494 506 -hsync +vsync (30.3 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "864x486"x59.6   30.50  864 912 944 1024  486 489 494 500 +hsync -vsync (29.8 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "700x525"x120.0   61.00  700 744 820 940  525 526 532 541 doublescan +hsync +vsync (64.9 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "800x450"x119.9   59.12  800 848 928 1056  450 451 454 467 doublescan -hsync +vsync (56.0 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "800x450"x119.6   48.75  800 824 840 880  450 451 454 463 doublescan +hsync -vsync (55.4 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "640x512"x120.0   54.00  640 664 720 844  512 512 514 533 doublescan +hsync +vsync (64.0 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "700x450"x119.9   51.75  700 740 812 924  450 451 456 467 doublescan -hsync +vsync (56.0 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "700x450"x119.8   43.25  700 724 740 780  450 451 456 463 doublescan +hsync -vsync (55.4 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "640x480"x120.0   54.00  640 688 744 900  480 480 482 500 doublescan +hsync +vsync (60.0 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "640x480"x59.9   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "720x405"x59.5   22.50  720 744 808 896  405 408 413 422 -hsync +vsync (25.1 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "720x405"x59.0   21.75  720 768 800 880  405 408 413 419 +hsync -vsync (24.7 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "684x384"x119.8   42.62  684 720 788 892  384 385 390 399 doublescan -hsync +vsync (47.8 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "684x384"x119.7   36.12  684 708 724 764  384 385 390 395 doublescan +hsync -vsync (47.3 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "640x400"x119.8   41.75  640 676 740 840  400 401 404 415 doublescan -hsync +vsync (49.7 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "640x400"x120.0   35.50  640 664 680 720  400 401 404 411 doublescan +hsync -vsync (49.3 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "640x360"x119.7   37.25  640 672 736 832  360 361 364 374 doublescan -hsync +vsync (44.8 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "640x360"x119.7   31.88  640 664 680 720  360 361 364 370 doublescan +hsync -vsync (44.3 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "640x360"x59.8   18.00  640 664 720 800  360 363 368 376 -hsync +vsync (22.5 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "640x360"x59.3   17.75  640 688 720 800  360 363 368 374 +hsync -vsync (22.2 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "512x384"x120.0   32.50  512 524 592 672  384 385 388 403 doublescan -hsync -vsync (48.4 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "512x288"x120.0   23.25  512 532 580 648  288 289 292 299 doublescan -hsync +vsync (35.9 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "512x288"x119.8   21.00  512 536 552 592  288 289 292 296 doublescan +hsync -vsync (35.5 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "480x270"x119.3   20.38  480 496 544 608  270 271 274 281 doublescan -hsync +vsync (33.5 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "480x270"x119.6   18.62  480 504 520 560  270 271 274 278 doublescan +hsync -vsync (33.3 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "400x300"x120.6   20.00  400 420 484 528  300 300 302 314 doublescan +hsync +vsync (37.9 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "400x300"x112.7   18.00  400 412 448 512  300 300 301 312 doublescan +hsync +vsync (35.2 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "432x243"x119.8   16.25  432 444 484 536  243 244 247 253 doublescan -hsync +vsync (30.3 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "432x243"x119.1   15.25  432 456 472 512  243 244 247 250 doublescan +hsync -vsync (29.8 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "320x240"x120.1   12.59  320 328 376 400  240 245 246 262 doublescan -hsync -vsync (31.5 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "360x202"x119.0   11.25  360 372 404 448  202 204 206 211 doublescan -hsync +vsync (25.1 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "360x202"x118.3   10.88  360 384 400 440  202 204 206 209 doublescan +hsync -vsync (24.7 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "320x180"x119.7    9.00  320 332 360 400  180 181 184 188 doublescan -hsync +vsync (22.5 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): Modeline "320x180"x118.6    8.88  320 344 360 400  180 181 184 187 doublescan +hsync -vsync (22.2 kHz d)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): EDID for output DP-1-1
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): EDID for output DP-1-2
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): EDID for output DP-1-3
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) modeset(G0): EDID for output DP-1-4
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) modeset(G0): Using gamma correction (1.0, 1.0, 1.0)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (==) modeset(G0): DPI set to (96, 96)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Loading sub module "fb"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) LoadModule: "fb"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Module "fb" already built-in
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Loading sub module "shadow"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) LoadModule: "shadow"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Loading /nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/lib/xorg/modules/libshadow.so
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (II) Module shadow: vendor="X.Org Foundation"
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         compiled for 1.21.1.13, module version = 1.1.0
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:         ABI class: X.Org ANSI C Emulation, version 0.4
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (EE) Screen(s) found, but none have a usable configuration.
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (EE)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: Fatal server error:
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (EE) no screens found(EE)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (EE)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: Please consult the The X.Org Foundation support
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:          at http://wiki.x.org
+Nov 05 19:18:23 nixos xserver-wrapper[1473]:  for help.
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (EE) Please also check the log file at "/dev/null" for additional information.
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (EE)
+Nov 05 19:18:23 nixos xserver-wrapper[1473]: (EE) Server terminated with error (1). Closing log file.
+Nov 05 19:18:23 nixos sddm[1466]: Failed to read display number from pipe
+Nov 05 19:18:23 nixos sddm[1466]: Display server stopping...
+Nov 05 19:18:23 nixos sddm[1466]: Attempt 2 starting the Display server on vt 2 failed
+Nov 05 19:18:24 nixos wpa_supplicant[1446]: wlp170s0: CTRL-EVENT-REGDOM-CHANGE init=DRIVER type=COUNTRY alpha2=US
+Nov 05 19:18:24 nixos wpa_supplicant[1446]: wlp170s0: CTRL-EVENT-REGDOM-CHANGE init=DRIVER type=COUNTRY alpha2=US
+Nov 05 19:18:24 nixos wpa_supplicant[1446]: wlp170s0: SME: Trying to authenticate with 78:45:58:4b:de:2a (SSID='Strangers-In-Passing' freq=5785 MHz)
+Nov 05 19:18:24 nixos kernel: wlp170s0: authenticate with 78:45:58:4b:de:2a
+Nov 05 19:18:24 nixos kernel: wlp170s0: send auth to 78:45:58:4b:de:2a (try 1/3)
+Nov 05 19:18:24 nixos wpa_supplicant[1446]: wlp170s0: Trying to associate with 78:45:58:4b:de:2a (SSID='Strangers-In-Passing' freq=5785 MHz)
+Nov 05 19:18:24 nixos kernel: wlp170s0: authenticated
+Nov 05 19:18:24 nixos kernel: wlp170s0: associate with 78:45:58:4b:de:2a (try 1/3)
+Nov 05 19:18:24 nixos kernel: wlp170s0: RX AssocResp from 78:45:58:4b:de:2a (capab=0x1111 status=0 aid=9)
+Nov 05 19:18:24 nixos wpa_supplicant[1446]: wlp170s0: Associated with 78:45:58:4b:de:2a
+Nov 05 19:18:24 nixos kernel: wlp170s0: associated
+Nov 05 19:18:24 nixos wpa_supplicant[1446]: wlp170s0: CTRL-EVENT-SUBNET-STATUS-UPDATE status=0
+Nov 05 19:18:24 nixos wpa_supplicant[1446]: wlp170s0: WPA: Key negotiation completed with 78:45:58:4b:de:2a [PTK=CCMP GTK=CCMP]
+Nov 05 19:18:24 nixos wpa_supplicant[1446]: wlp170s0: CTRL-EVENT-CONNECTED - Connection to 78:45:58:4b:de:2a completed [id=0 id_str=]
+Nov 05 19:18:24 nixos kernel: wlp170s0: Limiting TX power to 36 (36 - 0) dBm as advertised by 78:45:58:4b:de:2a
+Nov 05 19:18:24 nixos wpa_supplicant[1446]: wlp170s0: CTRL-EVENT-SIGNAL-CHANGE above=1 signal=-44 noise=9999 txrate=117000
+Nov 05 19:18:24 nixos dbus-daemon[1115]: [system] Activating via systemd: service name='org.freedesktop.resolve1' unit='dbus-org.freedesktop.resolve1.service' requested by ':1.6' (uid=0 pid=1290 comm="/nix/store/qlawv4lgxmk97v57i4izhgyqpcc0ppgy-networ" label="kernel")
+Nov 05 19:18:24 nixos dbus-daemon[1115]: [system] Activation via systemd failed for unit 'dbus-org.freedesktop.resolve1.service': Unit dbus-org.freedesktop.resolve1.service not found.
+Nov 05 19:18:24 nixos systemd[1]: Stopped target Host and Network Name Lookups.
+Nov 05 19:18:24 nixos systemd[1]: Stopping Host and Network Name Lookups...
+Nov 05 19:18:24 nixos systemd[1]: Stopped target User and Group Name Lookups.
+Nov 05 19:18:24 nixos systemd[1]: Stopping User and Group Name Lookups...
+Nov 05 19:18:24 nixos systemd[1]: Stopping Name Service Cache Daemon (nsncd)...
+Nov 05 19:18:24 nixos systemd[1]: nscd.service: Deactivated successfully.
+Nov 05 19:18:24 nixos systemd[1]: Stopped Name Service Cache Daemon (nsncd).
+Nov 05 19:18:24 nixos systemd[1]: Starting Name Service Cache Daemon (nsncd)...
+Nov 05 19:18:24 nixos nsncd[1530]: Nov 05 19:18:24.620 INFO started, config: Config { ignored_request_types: {}, worker_count: 8, handoff_timeout: 3s }, path: "/var/run/nscd/socket"
+Nov 05 19:18:24 nixos systemd[1]: Started Name Service Cache Daemon (nsncd).
+Nov 05 19:18:24 nixos systemd[1]: Reached target Host and Network Name Lookups.
+Nov 05 19:18:24 nixos systemd[1]: Reached target User and Group Name Lookups.
+Nov 05 19:18:25 nixos sddm[1466]: Display server starting...
+Nov 05 19:18:25 nixos sddm[1466]: Writing cookie to "/run/sddm/xauth_ZRRQmm"
+Nov 05 19:18:25 nixos sddm[1466]: Running: /nix/store/pr5vyfblqydrr5sjwvdc64j4d198hqjc-xserver-wrapper -nolisten tcp -background none -seat seat0 vt2 -auth /run/sddm/xauth_ZRRQmm -noreset -displayfd 16
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: X.Org X Server 1.21.1.13
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: X Protocol Version 11, Revision 0
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: Current Operating System: Linux nixos 6.6.58 #1-NixOS SMP PREEMPT_DYNAMIC Tue Oct 22 13:46:36 UTC 2024 x86_64
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: Kernel command line: initrd=\EFI\nixos\ban8aky3n7b9rhja0fxfi26d8ymyj0pf-initrd-linux-6.6.58-initrd.efi init=/nix/store/nphsa7jn99a7h0fnns9q24y8rrmigfzf-nixos-system-nixos-24.11.20241029.807e915/init loglevel=4 nvidia-drm.modeset=1 nvidia-drm.fbdev=1
+Nov 05 19:18:25 nixos xserver-wrapper[1552]:  
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: Current version of pixman: 0.43.4
+Nov 05 19:18:25 nixos xserver-wrapper[1552]:         Before reporting problems, check http://wiki.x.org
+Nov 05 19:18:25 nixos xserver-wrapper[1552]:         to make sure that you have the latest version.
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: Markers: (--) probed, (**) from config file, (==) default setting,
+Nov 05 19:18:25 nixos xserver-wrapper[1552]:         (++) from command line, (!!) notice, (II) informational,
+Nov 05 19:18:25 nixos xserver-wrapper[1552]:         (WW) warning, (EE) error, (NI) not implemented, (??) unknown.
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (++) Log file: "/dev/null", Time: Tue Nov  5 19:18:25 2024
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (++) Using config file: "/nix/store/8wxqfsi0bbp29h5m9xvcadciij9ifq4q-xserver.conf"
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (==) Using config directory: "/etc/X11/xorg.conf.d"
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (==) Using system config directory "/nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/share/X11/xorg.conf.d"
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (==) ServerLayout "Layout[all]"
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (**) |-->Screen "Screen-nvidia[0]" (0)
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (**) |   |-->Monitor "<default monitor>"
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (**) |   |-->Device "Device-nvidia[0]"
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (**) |   |-->GPUDevice "Device-modesetting[0]"
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (==) No monitor specified for screen "Screen-nvidia[0]".
+Nov 05 19:18:25 nixos xserver-wrapper[1552]:         Using a default monitor configuration.
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (**) |-->Inactive Device "Device-modesetting[0]"
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (**) Option "DontZap" "on"
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (**) Option "AllowMouseOpenFail" "on"
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (**) Allowing byte-swapped clients
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (==) Automatically adding devices
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (==) Automatically enabling devices
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (==) Automatically adding GPU devices
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (==) Automatically binding GPU devices
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (==) Max clients allowed: 256, resource mask: 0x1fffff
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (**) FontPath set to:
+Nov 05 19:18:25 nixos xserver-wrapper[1552]:         /nix/store/zvjpdqyg7d1w8a7s8mdrzgd8vxnf7d5s-font-cursor-misc-1.0.4/lib/X11/fonts/misc,
+Nov 05 19:18:25 nixos xserver-wrapper[1552]:         /nix/store/083p4yhyzfx1ihn4vz4lhsckdarxnifb-font-misc-misc-1.1.3/lib/X11/fonts/misc,
+Nov 05 19:18:25 nixos xserver-wrapper[1552]:         /nix/store/133aq9ywvhgy15ihanrk24abzaqqcg7w-unifont-16.0.01/share/fonts,
+Nov 05 19:18:25 nixos xserver-wrapper[1552]:         /nix/store/s2d30w82glpy9mzw33l9x2n61r7212y3-font-adobe-100dpi-1.0.4/lib/X11/fonts/100dpi,
+Nov 05 19:18:25 nixos xserver-wrapper[1552]:         /nix/store/x0acvinlrgyvyh230claizclsrl4dgqa-font-adobe-75dpi-1.0.4/lib/X11/fonts/75dpi
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (**) ModulePath set to "/nix/store/n5z0w441xha77pfdzd548s90dhh9ilkn-nvidia-x11-560.35.03-6.6.58-bin/lib/xorg/modules,/nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/lib/xorg/modules,/nix/store/bybfkxg8m12q505x5sbvqcxcmzv9mrkb-xf86-input-evdev-2.10.6/lib/xorg/modules,/nix/store/sdsk68kipq5n5a2wswqw4arnax1p8kf6-xf86-input-libinput-1.4.0/lib/xorg/modules"
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (II) The server relies on udev to provide the list of input devices.
+Nov 05 19:18:25 nixos xserver-wrapper[1552]:         If no devices become available, reconfigure udev or disable AutoAddDevices.
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (II) Loader magic: 0x64ee40
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (II) Module ABI versions:
+Nov 05 19:18:25 nixos xserver-wrapper[1552]:         X.Org ANSI C Emulation: 0.4
+Nov 05 19:18:25 nixos xserver-wrapper[1552]:         X.Org Video Driver: 25.2
+Nov 05 19:18:25 nixos xserver-wrapper[1552]:         X.Org XInput driver : 24.4
+Nov 05 19:18:25 nixos xserver-wrapper[1552]:         X.Org Server Extension : 10.0
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (++) using VT number 2
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (II) systemd-logind: logind integration requires -keeptty and -keeptty was not provided, disabling logind integration
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (II) xfree86: Adding drm device (/dev/dri/card1)
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (II) Platform probe for /sys/devices/pci0000:00/0000:00:02.0/drm/card1
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (II) xfree86: Adding drm device (/dev/dri/card0)
+Nov 05 19:18:25 nixos xserver-wrapper[1552]: (II) Platform probe for /sys/devices/pci0000:00/0000:00:07.3/0000:80:00.0/0000:81:01.0/0000:82:00.0/drm/card0
+Nov 05 19:18:25 nixos acpid[1110]: client 1473[0:0] has disconnected
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (--) PCI:*(0@0:2:0) 8086:9a49:f111:0001 rev 1, Mem @ 0x605c000000/16777216, 0x4000000000/268435456, I/O @ 0x00004000/64, BIOS @ 0x????????/131072
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (--) PCI: (130@0:0:0) 10de:2503:19da:4617 rev 161, Mem @ 0x52000000/16777216, 0x6060000000/268435456, 0x6070000000/33554432, I/O @ 0x00003000/128, BIOS @ 0x????????/524288
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Open ACPI successful (/var/run/acpid.socket)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) "glx" will be loaded by default.
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) LoadModule: "glx"
+Nov 05 19:18:26 nixos acpid[1110]: client connected from 1552[0:0]
+Nov 05 19:18:26 nixos acpid[1110]: 1 client rule loaded
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Loading /nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/lib/xorg/modules/extensions/libglx.so
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Module glx: vendor="X.Org Foundation"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]:         compiled for 1.21.1.13, module version = 1.0.0
+Nov 05 19:18:26 nixos xserver-wrapper[1552]:         ABI class: X.Org Server Extension, version 10.0
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) LoadModule: "nvidia"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Loading /nix/store/n5z0w441xha77pfdzd548s90dhh9ilkn-nvidia-x11-560.35.03-6.6.58-bin/lib/xorg/modules/drivers/nvidia_drv.so
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Module nvidia: vendor="NVIDIA Corporation"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]:         compiled for 1.6.99.901, module version = 1.0.0
+Nov 05 19:18:26 nixos xserver-wrapper[1552]:         Module class: X.Org Video Driver
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) LoadModule: "modesetting"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Loading /nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/lib/xorg/modules/drivers/modesetting_drv.so
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Module modesetting: vendor="X.Org Foundation"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]:         compiled for 1.21.1.13, module version = 1.21.1
+Nov 05 19:18:26 nixos xserver-wrapper[1552]:         Module class: X.Org Video Driver
+Nov 05 19:18:26 nixos xserver-wrapper[1552]:         ABI class: X.Org Video Driver, version 25.2
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) NVIDIA dlloader X Driver  560.35.03  Fri Aug 16 21:25:43 UTC 2024
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) NVIDIA Unified Driver for all Supported NVIDIA GPUs
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modesetting: Driver for Modesetting Kernel Drivers: kms
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Loading sub module "fb"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) LoadModule: "fb"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Module "fb" already built-in
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Loading sub module "wfb"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) LoadModule: "wfb"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Loading /nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/lib/xorg/modules/libwfb.so
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Module wfb: vendor="X.Org Foundation"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]:         compiled for 1.21.1.13, module version = 1.0.0
+Nov 05 19:18:26 nixos xserver-wrapper[1552]:         ABI class: X.Org ANSI C Emulation, version 0.4
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): using drv /dev/dri/card1
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) NVIDIA(0): Creating default Display subsection in Screen section
+Nov 05 19:18:26 nixos xserver-wrapper[1552]:         "Screen-nvidia[0]" for depth/fbbpp 24/32
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (==) NVIDIA(0): Depth 24, (==) framebuffer bpp 32
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (==) NVIDIA(0): RGB weight 888
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (==) NVIDIA(0): Default visual is TrueColor
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (==) NVIDIA(0): Using gamma correction (1.0, 1.0, 1.0)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (**) NVIDIA(0): Option "AllowEmptyInitialConfiguration"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (**) NVIDIA(0): Option "SidebandSocketPath" "/run/nvidia-xdriver/"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (**) NVIDIA(0): Enabling 2D acceleration
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Loading sub module "glxserver_nvidia"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) LoadModule: "glxserver_nvidia"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Loading /nix/store/n5z0w441xha77pfdzd548s90dhh9ilkn-nvidia-x11-560.35.03-6.6.58-bin/lib/xorg/modules/extensions/libglxserver_nvidia.so
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Module glxserver_nvidia: vendor="NVIDIA Corporation"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]:         compiled for 1.6.99.901, module version = 1.0.0
+Nov 05 19:18:26 nixos xserver-wrapper[1552]:         Module class: X.Org Server Extension
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) NVIDIA GLX Module  560.35.03  Fri Aug 16 21:27:48 UTC 2024
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) NVIDIA: The X server supports PRIME Render Offload.
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (--) NVIDIA(0): Valid display device(s) on GPU-0 at PCI:130:0:0
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (--) NVIDIA(0):     DFP-0
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (--) NVIDIA(0):     DFP-1 (boot)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (--) NVIDIA(0):     DFP-2
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (--) NVIDIA(0):     DFP-3
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (--) NVIDIA(0):     DFP-4
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (--) NVIDIA(0):     DFP-5
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (--) NVIDIA(0):     DFP-6
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (WW) NVIDIA(GPU-0): This device is an external GPU, but external GPUs have not
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (WW) NVIDIA(GPU-0):     been enabled with AllowExternalGpus. Disabling this device
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (WW) NVIDIA(GPU-0):     to prevent crashes from accidental removal.
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (EE) NVIDIA(0): Failing initialization of X screen
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) UnloadModule: "nvidia"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) UnloadSubModule: "glxserver_nvidia"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Unloading glxserver_nvidia
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) UnloadSubModule: "wfb"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (==) modeset(G0): Depth 24, (==) framebuffer bpp 32
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (**) modeset(G0): Option "AccelMethod" "none"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (==) modeset(G0): RGB weight 888
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (==) modeset(G0): Default visual is TrueColor
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (**) modeset(G0): glamor disabled
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): ShadowFB: preferred YES, enabled YES
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Double-buffered shadow updates: off
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Output eDP-1-1 has no monitor section
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Output DP-1-1 has no monitor section
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Output DP-1-2 has no monitor section
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Output DP-1-3 has no monitor section
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Output DP-1-4 has no monitor section
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): EDID for output eDP-1-1
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Manufacturer: BOE  Model: 95f  Serial#: 0
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Year: 2019  Week: 23
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): EDID Version: 1.4
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Digital Display Input
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): 8 bits per channel
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Digital interface is DisplayPort
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Max Image Size [cm]: horiz.: 28  vert.: 19
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Gamma: 2.20
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): No DPMS capabilities specified
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Supported color encodings: RGB 4:4:4
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): First detailed timing is preferred mode
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Preferred mode is native pixel format and refresh rate
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Display is continuous-frequency
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): redX: 0.640 redY: 0.329   greenX: 0.300 greenY: 0.600
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): blueX: 0.149 blueY: 0.060   whiteX: 0.312 whiteY: 0.328
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Manufacturer's mask: 0
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Supported detailed timing:
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): clock: 235.7 MHz   Image Size:  285 x 190 mm
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): h_active: 2256  h_sync: 2304  h_sync_end 2336 h_blank_end 2536 h_border: 0
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): v_active: 1504  v_sync: 1507  v_sync_end 1513 v_blanking: 1549 v_border: 0
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Supported detailed timing:
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): clock: 188.6 MHz   Image Size:  285 x 190 mm
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): h_active: 2256  h_sync: 2304  h_sync_end 2336 h_blank_end 2536 h_border: 0
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): v_active: 1504  v_sync: 1507  v_sync_end 1513 v_blanking: 1549 v_border: 0
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0):  BOE CQ
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0):  NE135FBM-N41
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): EDID (in hex):
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0):         00ffffffffffff0009e55f0900000000
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0):         171d0104a51c137803de50a3544c9926
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0):         0f505400000001010101010101010101
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0):         010101010101115cd01881e02d503020
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0):         36001dbe1000001aa749d01881e02d50
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0):         302036001dbe1000001a000000fe0042
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0):         4f452043510a202020202020000000fe
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0):         004e4531333546424d2d4e34310a00fb
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Printing probed modes for output eDP-1-1
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "2256x1504"x60.0  235.69  2256 2304 2336 2536  1504 1507 1513 1549 +hsync -vsync (92.9 kHz eP)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "2256x1504"x48.0  188.55  2256 2304 2336 2536  1504 1507 1513 1549 +hsync -vsync (74.3 kHz e)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1920x1440"x60.0  234.00  1920 2048 2256 2600  1440 1441 1444 1500 -hsync +vsync (90.0 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1856x1392"x60.0  218.30  1856 1952 2176 2528  1392 1393 1396 1439 -hsync +vsync (86.4 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1792x1344"x60.0  204.80  1792 1920 2120 2448  1344 1345 1348 1394 -hsync +vsync (83.7 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "2048x1152"x120.0  406.50  2048 2220 2444 2840  1152 1153 1156 1193 doublescan -hsync +vsync (143.1 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "2048x1152"x120.0  302.50  2048 2072 2088 2128  1152 1153 1156 1185 doublescan +hsync -vsync (142.2 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "2048x1152"x59.9  197.00  2048 2184 2400 2752  1152 1155 1160 1195 -hsync +vsync (71.6 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "2048x1152"x59.9  156.75  2048 2096 2128 2208  1152 1155 1160 1185 +hsync -vsync (71.0 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1920x1200"x59.9  193.25  1920 2056 2256 2592  1200 1203 1209 1245 -hsync +vsync (74.6 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1920x1200"x60.0  154.00  1920 1968 2000 2080  1200 1203 1209 1235 +hsync -vsync (74.0 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1920x1080"x120.0  356.38  1920 2080 2288 2656  1080 1081 1084 1118 doublescan -hsync +vsync (134.2 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1920x1080"x119.9  266.50  1920 1944 1960 2000  1080 1081 1084 1111 doublescan +hsync -vsync (133.2 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1920x1080"x60.0  173.00  1920 2048 2248 2576  1080 1083 1088 1120 -hsync +vsync (67.2 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1920x1080"x59.9  138.50  1920 1968 2000 2080  1080 1083 1088 1111 +hsync -vsync (66.6 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1600x1200"x60.0  162.00  1600 1664 1856 2160  1200 1201 1204 1250 +hsync +vsync (75.0 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1680x1050"x60.0  146.25  1680 1784 1960 2240  1050 1053 1059 1089 -hsync +vsync (65.3 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1680x1050"x59.9  119.00  1680 1728 1760 1840  1050 1053 1059 1080 +hsync -vsync (64.7 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1400x1050"x60.0  122.00  1400 1488 1640 1880  1050 1052 1064 1082 +hsync +vsync (64.9 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1600x900"x120.0  246.00  1600 1728 1900 2200  900 901 904 932 doublescan -hsync +vsync (111.8 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1600x900"x119.9  186.50  1600 1624 1640 1680  900 901 904 926 doublescan +hsync -vsync (111.0 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1600x900"x59.9  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync (56.0 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1600x900"x59.8   97.50  1600 1648 1680 1760  900 903 908 926 +hsync -vsync (55.4 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1280x1024"x60.0  108.00  1280 1328 1440 1688  1024 1025 1028 1066 +hsync +vsync (64.0 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1400x900"x60.0  103.50  1400 1480 1624 1848  900 903 913 934 -hsync +vsync (56.0 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1400x900"x59.9   86.50  1400 1448 1480 1560  900 903 913 926 +hsync -vsync (55.4 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1280x960"x60.0  108.00  1280 1376 1488 1800  960 961 964 1000 +hsync +vsync (60.0 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1440x810"x120.0  198.12  1440 1548 1704 1968  810 811 814 839 doublescan -hsync +vsync (100.7 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1440x810"x119.9  151.88  1440 1464 1480 1520  810 811 814 833 doublescan +hsync -vsync (99.9 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1368x768"x59.9   85.25  1368 1440 1576 1784  768 771 781 798 -hsync +vsync (47.8 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1368x768"x59.9   72.25  1368 1416 1448 1528  768 771 781 790 +hsync -vsync (47.3 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1280x800"x120.0  174.25  1280 1380 1516 1752  800 801 804 829 doublescan -hsync +vsync (99.5 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1280x800"x119.9  134.25  1280 1304 1320 1360  800 801 804 823 doublescan +hsync -vsync (98.7 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1280x800"x59.8   83.50  1280 1352 1480 1680  800 803 809 831 -hsync +vsync (49.7 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1280x800"x59.9   71.00  1280 1328 1360 1440  800 803 809 823 +hsync -vsync (49.3 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1280x720"x120.0  156.12  1280 1376 1512 1744  720 721 724 746 doublescan -hsync +vsync (89.5 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1280x720"x120.0  120.75  1280 1304 1320 1360  720 721 724 740 doublescan +hsync -vsync (88.8 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1280x720"x59.9   74.50  1280 1344 1472 1664  720 723 728 748 -hsync +vsync (44.8 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1280x720"x59.7   63.75  1280 1328 1360 1440  720 723 728 741 +hsync -vsync (44.3 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1024x768"x120.1  133.47  1024 1100 1212 1400  768 768 770 794 doublescan -hsync +vsync (95.3 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1024x768"x60.0   65.00  1024 1048 1184 1344  768 771 777 806 -hsync -vsync (48.4 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "960x720"x120.0  117.00  960 1024 1128 1300  720 720 722 750 doublescan -hsync +vsync (90.0 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "928x696"x120.1  109.15  928 976 1088 1264  696 696 698 719 doublescan -hsync +vsync (86.4 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "896x672"x120.0  102.40  896 960 1060 1224  672 672 674 697 doublescan -hsync +vsync (83.7 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1024x576"x119.9   98.50  1024 1092 1200 1376  576 577 580 597 doublescan -hsync +vsync (71.6 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1024x576"x119.9   78.38  1024 1048 1064 1104  576 577 580 592 doublescan +hsync -vsync (71.0 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1024x576"x59.9   46.50  1024 1064 1160 1296  576 579 584 599 -hsync +vsync (35.9 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "1024x576"x59.8   42.00  1024 1072 1104 1184  576 579 584 593 +hsync -vsync (35.5 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "960x600"x119.9   96.62  960 1028 1128 1296  600 601 604 622 doublescan -hsync +vsync (74.6 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "960x600"x120.0   77.00  960 984 1000 1040  600 601 604 617 doublescan +hsync -vsync (74.0 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "960x540"x119.9   86.50  960 1024 1124 1288  540 541 544 560 doublescan -hsync +vsync (67.2 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "960x540"x120.0   69.25  960 984 1000 1040  540 541 544 555 doublescan +hsync -vsync (66.6 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "960x540"x59.6   40.75  960 992 1088 1216  540 543 548 562 -hsync +vsync (33.5 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "960x540"x59.8   37.25  960 1008 1040 1120  540 543 548 556 +hsync -vsync (33.3 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "800x600"x120.0   81.00  800 832 928 1080  600 600 602 625 doublescan +hsync +vsync (75.0 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "800x600"x60.3   40.00  800 840 968 1056  600 601 605 628 +hsync +vsync (37.9 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "800x600"x56.2   36.00  800 824 896 1024  600 601 603 625 +hsync +vsync (35.2 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "840x525"x120.0   73.12  840 892 980 1120  525 526 529 544 doublescan -hsync +vsync (65.3 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "840x525"x119.8   59.50  840 864 880 920  525 526 529 540 doublescan +hsync -vsync (64.7 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "864x486"x59.9   32.50  864 888 968 1072  486 489 494 506 -hsync +vsync (30.3 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "864x486"x59.6   30.50  864 912 944 1024  486 489 494 500 +hsync -vsync (29.8 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "700x525"x120.0   61.00  700 744 820 940  525 526 532 541 doublescan +hsync +vsync (64.9 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "800x450"x119.9   59.12  800 848 928 1056  450 451 454 467 doublescan -hsync +vsync (56.0 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "800x450"x119.6   48.75  800 824 840 880  450 451 454 463 doublescan +hsync -vsync (55.4 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "640x512"x120.0   54.00  640 664 720 844  512 512 514 533 doublescan +hsync +vsync (64.0 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "700x450"x119.9   51.75  700 740 812 924  450 451 456 467 doublescan -hsync +vsync (56.0 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "700x450"x119.8   43.25  700 724 740 780  450 451 456 463 doublescan +hsync -vsync (55.4 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "640x480"x120.0   54.00  640 688 744 900  480 480 482 500 doublescan +hsync +vsync (60.0 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "640x480"x59.9   25.18  640 656 752 800  480 490 492 525 -hsync -vsync (31.5 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "720x405"x59.5   22.50  720 744 808 896  405 408 413 422 -hsync +vsync (25.1 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "720x405"x59.0   21.75  720 768 800 880  405 408 413 419 +hsync -vsync (24.7 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "684x384"x119.8   42.62  684 720 788 892  384 385 390 399 doublescan -hsync +vsync (47.8 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "684x384"x119.7   36.12  684 708 724 764  384 385 390 395 doublescan +hsync -vsync (47.3 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "640x400"x119.8   41.75  640 676 740 840  400 401 404 415 doublescan -hsync +vsync (49.7 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "640x400"x120.0   35.50  640 664 680 720  400 401 404 411 doublescan +hsync -vsync (49.3 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "640x360"x119.7   37.25  640 672 736 832  360 361 364 374 doublescan -hsync +vsync (44.8 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "640x360"x119.7   31.88  640 664 680 720  360 361 364 370 doublescan +hsync -vsync (44.3 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "640x360"x59.8   18.00  640 664 720 800  360 363 368 376 -hsync +vsync (22.5 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "640x360"x59.3   17.75  640 688 720 800  360 363 368 374 +hsync -vsync (22.2 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "512x384"x120.0   32.50  512 524 592 672  384 385 388 403 doublescan -hsync -vsync (48.4 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "512x288"x120.0   23.25  512 532 580 648  288 289 292 299 doublescan -hsync +vsync (35.9 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "512x288"x119.8   21.00  512 536 552 592  288 289 292 296 doublescan +hsync -vsync (35.5 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "480x270"x119.3   20.38  480 496 544 608  270 271 274 281 doublescan -hsync +vsync (33.5 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "480x270"x119.6   18.62  480 504 520 560  270 271 274 278 doublescan +hsync -vsync (33.3 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "400x300"x120.6   20.00  400 420 484 528  300 300 302 314 doublescan +hsync +vsync (37.9 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "400x300"x112.7   18.00  400 412 448 512  300 300 301 312 doublescan +hsync +vsync (35.2 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "432x243"x119.8   16.25  432 444 484 536  243 244 247 253 doublescan -hsync +vsync (30.3 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "432x243"x119.1   15.25  432 456 472 512  243 244 247 250 doublescan +hsync -vsync (29.8 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "320x240"x120.1   12.59  320 328 376 400  240 245 246 262 doublescan -hsync -vsync (31.5 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "360x202"x119.0   11.25  360 372 404 448  202 204 206 211 doublescan -hsync +vsync (25.1 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "360x202"x118.3   10.88  360 384 400 440  202 204 206 209 doublescan +hsync -vsync (24.7 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "320x180"x119.7    9.00  320 332 360 400  180 181 184 188 doublescan -hsync +vsync (22.5 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): Modeline "320x180"x118.6    8.88  320 344 360 400  180 181 184 187 doublescan +hsync -vsync (22.2 kHz d)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): EDID for output DP-1-1
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): EDID for output DP-1-2
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): EDID for output DP-1-3
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) modeset(G0): EDID for output DP-1-4
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (==) modeset(G0): Using gamma correction (1.0, 1.0, 1.0)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (==) modeset(G0): DPI set to (96, 96)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Loading sub module "fb"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) LoadModule: "fb"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Module "fb" already built-in
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Loading sub module "shadow"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) LoadModule: "shadow"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Loading /nix/store/mfafsw7bv00dkrqr69v78zf1bwggf5br-xorg-server-21.1.13/lib/xorg/modules/libshadow.so
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (II) Module shadow: vendor="X.Org Foundation"
+Nov 05 19:18:26 nixos xserver-wrapper[1552]:         compiled for 1.21.1.13, module version = 1.1.0
+Nov 05 19:18:26 nixos xserver-wrapper[1552]:         ABI class: X.Org ANSI C Emulation, version 0.4
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (EE) Screen(s) found, but none have a usable configuration.
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (EE)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: Fatal server error:
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (EE) no screens found(EE)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (EE)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: Please consult the The X.Org Foundation support
+Nov 05 19:18:26 nixos xserver-wrapper[1552]:          at http://wiki.x.org
+Nov 05 19:18:26 nixos xserver-wrapper[1552]:  for help.
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (EE) Please also check the log file at "/dev/null" for additional information.
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (EE)
+Nov 05 19:18:26 nixos xserver-wrapper[1552]: (EE) Server terminated with error (1). Closing log file.
+Nov 05 19:18:26 nixos sddm[1466]: Failed to read display number from pipe
+Nov 05 19:18:26 nixos sddm[1466]: Display server stopping...
+Nov 05 19:18:26 nixos sddm[1466]: Attempt 3 starting the Display server on vt 2 failed
+Nov 05 19:18:26 nixos sddm[1466]: Could not start Display server on vt 2
+Nov 05 19:18:26 nixos systemd[1]: Finished Network Manager Wait Online.
+Nov 05 19:18:26 nixos systemd[1]: Reached target Network is Online.
+Nov 05 19:18:26 nixos systemd[1]: Reached target Multi-User System.
+Nov 05 19:18:26 nixos systemd[1]: Reached target Graphical Interface.
+Nov 05 19:18:26 nixos systemd[1]: Startup finished in 14.601s (firmware) + 2.261s (loader) + 49.375s (kernel) + 9.711s (userspace) = 1min 15.950s.
+Nov 05 19:18:33 nixos acpid[1110]: client 1552[0:0] has disconnected
+Nov 05 19:18:34 nixos systemd[1]: NetworkManager-dispatcher.service: Deactivated successfully.
+Nov 05 19:18:35 nixos login[1464]: pam_kwallet5(login:auth): pam_kwallet5: pam_sm_authenticate
+Nov 05 19:18:35 nixos login[1464]: pam_unix(login:session): session opened for user jake(uid=1000) by LOGIN(uid=0)
+Nov 05 19:18:35 nixos login[1464]: pam_systemd(login:session): New sd-bus connection (system-bus-pam-systemd-1464) opened.
+Nov 05 19:18:35 nixos systemd[1]: Created slice Slice /user/1000.
+Nov 05 19:18:35 nixos systemd[1]: Starting User Runtime Directory /run/user/1000...
+Nov 05 19:18:35 nixos systemd-timesyncd[1075]: Network configuration changed, trying to establish connection.
+Nov 05 19:18:35 nixos systemd-logind[1249]: New session 1 of user jake.
+Nov 05 19:18:35 nixos systemd[1]: Finished User Runtime Directory /run/user/1000.
+Nov 05 19:18:35 nixos systemd[1]: Starting User Manager for UID 1000...
+Nov 05 19:18:35 nixos (systemd)[1566]: pam_unix(systemd-user:session): session opened for user jake(uid=1000) by (uid=0)
+Nov 05 19:18:35 nixos systemd-logind[1249]: New session 2 of user jake.
+Nov 05 19:18:35 nixos systemd[1566]: Queued start job for default target Main User Target.
+Nov 05 19:18:35 nixos systemd[1566]: Created slice User Application Slice.
+Nov 05 19:18:35 nixos systemd[1566]: Reached target Paths.
+Nov 05 19:18:35 nixos systemd[1566]: Reached target Timers.
+Nov 05 19:18:35 nixos systemd[1566]: Starting D-Bus User Message Bus Socket...
+Nov 05 19:18:35 nixos systemd[1566]: Listening on PipeWire PulseAudio.
+Nov 05 19:18:35 nixos systemd[1566]: Listening on PipeWire Multimedia System Sockets.
+Nov 05 19:18:35 nixos systemd[1566]: Listening on D-Bus User Message Bus Socket.
+Nov 05 19:18:35 nixos systemd[1566]: Reached target Sockets.
+Nov 05 19:18:35 nixos systemd[1566]: Reached target Basic System.
+Nov 05 19:18:35 nixos systemd[1]: Started User Manager for UID 1000.
+Nov 05 19:18:35 nixos systemd[1566]: Starting Run user-specific NixOS activation...
+Nov 05 19:18:35 nixos systemd[1]: Started Session 1 of User jake.
+Nov 05 19:18:35 nixos systemd[1566]: Starting Run KDE Plasma via systemd...
+Nov 05 19:18:35 nixos login[1464]: pam_kwallet5(login:session): pam_kwallet5: pam_sm_open_session
+Nov 05 19:18:35 nixos login[1464]: pam_kwallet5(login:session): pam_kwallet5: not a graphical session, skipping. Use force_run parameter to ignore this.
+Nov 05 19:18:35 nixos login[1464]: pam_kwallet5(login:setcred): pam_kwallet5: pam_sm_setcred
+Nov 05 19:18:35 nixos nixos-activation-start[1582]: removed '/home/jake/.cache/ksycoca5_en_mwXLvbhUdPF8o6hJU0kQglOQgaw='
+Nov 05 19:18:35 nixos systemd[1566]: Finished Run KDE Plasma via systemd.
+Nov 05 19:18:35 nixos nixos-activation-start[1583]: kbuildsycoca5 running...
+Nov 05 19:18:35 nixos systemd[1566]: Finished Run user-specific NixOS activation.
+Nov 05 19:18:35 nixos systemd[1566]: Reached target Main User Target.
+Nov 05 19:18:35 nixos systemd[1566]: Startup finished in 509ms.
+Nov 05 19:18:38 nixos systemd-timesyncd[1075]: Contacted time server 66.205.249.28:123 (2.nixos.pool.ntp.org).
+Nov 05 19:18:38 nixos systemd-timesyncd[1075]: Initial clock synchronization to Tue 2024-11-05 19:18:38.448436 UTC.
+Nov 05 19:18:49 nixos systemd[1]: systemd-hostnamed.service: Deactivated successfully.

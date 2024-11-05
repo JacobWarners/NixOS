@@ -33,6 +33,29 @@ services.xserver = mkIf (cfg.desktop.enable && cfg.desktop.displayProtocol == "x
       EndSection
     '';
 
+    videoDrivers = [ "nvidia" "modesetting" ];
+    libinput = {
+      enable = true;
+      touchpad = mkIf (cfg.laptop.model != "none") {
+        tapping = false;
+        naturalScrolling = true;
+        # left-click = 1 finger click
+        # right-click = 2 finger click
+        # middle-click = 3 finger click
+        clickMethod = "clickfinger";
+        disableWhileTyping = true;
+      };
+      mouse = {
+        tapping = false;
+        naturalScrolling = false;
+        middleEmulation = false;
+        disableWhileTyping = false;
+      };
+    };
+  };
+}
+
+
 };
 
 

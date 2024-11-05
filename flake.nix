@@ -19,12 +19,6 @@
       flake = false;  # This is not a flake, so we set `flake = false`
     };
   };
-################NEwgpt?
-pkgs = import nixpkgs {
-  inherit system;
-  config.allowUnfree = true;
-};
-####################
   outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, ... }:
     let
       system = "x86_64-linux";

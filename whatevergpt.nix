@@ -23,6 +23,6 @@
   hardware.opengl.enable = true;
 
   # Optional: Add your user to the 'video' group
-  users.users.yourusername.extraGroups = [ "video" ];
+  users.users.jake.extraGroups = [ "video" ];
 }
 

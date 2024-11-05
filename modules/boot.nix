@@ -23,5 +23,4 @@
 #  };
 };
 
-    pkgs.linuxPackages.nvidia_x11 
 }

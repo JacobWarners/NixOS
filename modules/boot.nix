@@ -2,7 +2,7 @@
 
 {
   boot = {
-    blacklistedKernelModules = [ "nouveau" "nvidia_drm" 'nvidia_modeset" "nvidia" ];
+    blacklistedKernelModules = [ "nouveau" "nvidia_drm" "nvidia_modeset" "nvidia" ];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;

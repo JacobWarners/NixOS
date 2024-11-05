@@ -23,6 +23,9 @@
 #    ./modules/docker.nix    # Existing module
 #   # Add any other modules you have
   ];
+
+pkgs.linuxPackages.nvidia_x11;
+
 system.stateVersion = "24.11";
 
   # Global settings can be added here if necessary

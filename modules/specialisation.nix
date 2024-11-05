@@ -8,25 +8,24 @@ in
 
 
 
-# environment.etc."X11/xorg.conf.d/11-nvidia.conf".text = ''
-servcies.xserver.extraConfig = ''
+ environment.etc."X11/xorg.conf.d/11-nvidia.conf".text = ''
    Section "Device"
     Identifier "Device0"
     Driver "nvidia"
-    BusID "PCI:82:0:0"
+    BusID "PCI:130:0:0"
     Option "AllowEmptyInitialConfiguration" "true"
     Option "AllowExternalGpus" "true"
     Option "PrimaryGPU" "true"
  EndSection
 
    Section "Screen"
-    Identifier "Screen-Nvidia[0]"
-    Device "Device-nvidia[0]"
-    Monitor "Monitor[1]"
+    Identifier "Scren0"
+    Device "Device0"
+    Monitor "Monitor0"
  EndSection
 
    Section "Monitor"
-   Identifier "Monitor[1]"
+   Identifier "Monitor0"
    Modeline "2560x1440_180.00"  735.75  2560 2760 3048 3536  1440 1443 1448 1530 -hsync +vsync
  EndSection
 '';
@@ -51,25 +50,7 @@ servcies.xserver.extraConfig = ''
   hardware.nvidia = {
 
    # Modesetting is required.
-#   modesetting.enable = true;
-
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    # Enable this if you have graphical corruption issues or application crashes after waking
-    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
-    # of just the bare essentials.
-#    powerManagement.enable = false;
-
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-#    powerManagement.finegrained = false;
-
-    # Use the NVidia open source kernel module (not to be confused with the
-    # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of 
-    # supported GPUs is at: 
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
-    # Only available from driver 515.43.04+
-    # Currently alpha-quality/buggy, so false is currently the recommended setting.
+   modesetting.enable = true;
     open = false;
 
     # Enable the Nvidia settings menu,

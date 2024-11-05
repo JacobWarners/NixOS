@@ -2,10 +2,44 @@
 
 let
   interfaceName = "enp0s13f0u1u4"; # Replace with your actual interface name
+  cfg = config.sys;
 in
 
 {
 
+
+services.xserver = mkIf (cfg.desktop.enable && cfg.desktop.displayProtocol == "xserver") {
+    enable = true;
+    displayManager.startx.enable = true;
+    # FIXME: eventually check if a laptop
+    config = mkAfter ''
+      Section "Monitor"
+        Identifier "Monitor[1]"
+        Modeline "2560x1440_180.00"  735.75  2560 2760 3048 3536  1440 1443 1448 1530 -hsync +vsync
+      EndSection
+
+      Section "Device"
+        Identifier "Device[0]"
+        Driver     "nvidia" 
+        BusID      "PCI:130:0:0"
+        Option     "AllowExternalGpus" "True"
+        Option     "AllowEmptyInitialConfiguration"
+      EndSection
+
+      Section "Screen"
+        Identifier "Screen-Nvidia[0]"
+        Device "Device-nvidia[0]"
+        Monitor "Monitor[1]"
+      EndSection
+    '';
+
+
+
+
+
+
+
+########################################
   specialisation = {
     egpu.configuration = {
         system.nixos.tags = ["nvidia"];
@@ -50,26 +84,26 @@ in
     nvidiaPersistenced = true;
 
 };
-environment.etc."X11/xorg.conf.d/11-nvidia.conf".text = ''
-    Section "Device"
-     Identifier "Device0"
-     Driver "nvidia"
-     BusID "PCI:82:0:0"
-     Option "AllowEmptyInitialConfiguration" "true"
-     Option "AllowExternalGpus" "true"
-     Option "PrimaryGPU" "true"
-   EndSection
+# environment.etc."X11/xorg.conf.d/11-nvidia.conf".text = ''
+#   Section "Device"
+#    Identifier "Device0"
+#    Driver "nvidia"
+#    BusID "PCI:82:0:0"
+#    Option "AllowEmptyInitialConfiguration" "true"
+#    Option "AllowExternalGpus" "true"
+#    Option "PrimaryGPU" "true"
+#  EndSection
 
-    Section "Screen"
-    Identifier "Screen0"
-    Device "Device0" 
-    Monitor "Monitor0"
-  EndSection
+#   Section "Screen"
+#   Identifier "Screen0"
+#   Device "Device0" 
+#   Monitor "Monitor0"
+# EndSection
 
-    Section "Monitor"
-      Identifier "Monitor0"
-  EndSection
- '';
+#   Section "Monitor"
+#     Identifier "Monitor0"
+# EndSection
+#'';
 
 
 

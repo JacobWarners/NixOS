@@ -86,5 +86,5 @@ environment.etc."X11/xorg.conf.d/11-nvidia.conf".text = ''
   };
 }
 
-}
+
 

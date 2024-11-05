@@ -14,7 +14,7 @@
 #   ./modules/audio.nix
    ./modules/users.nix
    ./modules/unfree.nix
-#   ./modules/global-packages.nix
+   ./modules/global-packages.nix
 #    ./modules/nvidia.nix    # Existing module
 #   ./modules/primerun.nix
 #    ./modules/virtualization.nix

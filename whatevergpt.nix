@@ -3,18 +3,20 @@
 {
   # Enable X11
   services.xserver.enable = true;
+  services.xserver.layout = "us";
 
   # Use a display manager and desktop environment
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
 
-  # Specify the video drivers
-  services.xserver.videoDrivers = [ "modesetting" ];
+  # Specify the NVIDIA driver
+  services.xserver.videoDrivers = [ "nvidia" ];
 
-  # Enable PRIME Offloading
+  # NVIDIA-specific settings
   hardware.nvidia = {
-    open = true;  # Use open-source kernel modules
+    open = false;  # Use closed-source (proprietary) kernel modules
     modesetting.enable = true;
+    nvidiaPersistenced = true;
     prime = {
       offload.enable = true;
       nvidiaBusId = "PCI:130:0:0";  # Replace with your NVIDIA GPU BusID
@@ -22,14 +24,13 @@
     };
   };
 
-  # Other configurations...
-  nixpkgs.config.allowUnfree = true;
-
-
   # Ensure OpenGL support is enabled
   hardware.opengl.enable = true;
 
   # Add your user to the 'video' group
   users.users.jake.extraGroups = [ "video" ];
+
+  # Allow unfree packages (required for NVIDIA drivers)
+  nixpkgs.config.allowUnfree = true;
 }
 

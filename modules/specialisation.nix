@@ -1,5 +1,9 @@
 { config, pkgs, ... }:
 
+let
+  interfaceName = "enp0s13f0u1u4"; # Replace with your actual interface name
+in
+
 {
 
   specialisation = {
@@ -68,10 +72,7 @@ environment.etc."X11/xorg.conf.d/11-nvidia.conf".text = ''
  '';
 
 
-let
-  interfaceName = "enp0s13f0u1u4"; # Replace with your actual interface name
-in
-{
+
   environment.systemPackages = with pkgs; [ ethtool ];
 
   systemd.services.ethtool-config = {

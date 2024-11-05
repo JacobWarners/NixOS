@@ -13,6 +13,7 @@
     libglvnd
     libva
     xivlauncher     # Replace with the actual package name if different
+    lutris
   ];
 
   # Enable 32-bit support for gaming

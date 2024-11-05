@@ -23,5 +23,5 @@
 #  };
 };
 
-    packages = [ pkgs.linuxPackages.nvidia_x11 ];
+    pkgs.linuxPackages.nvidia_x11 
 }

@@ -19,7 +19,7 @@ in
  EndSection
 
    Section "Screen"
-    Identifier "Scren0"
+    Identifier "Screen0"
     Device "Device0"
     Monitor "Monitor0"
  EndSection

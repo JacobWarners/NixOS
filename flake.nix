@@ -1,5 +1,6 @@
 {
   description = "NixOS Configuration with Flakes and Home Manager";
+  packages = [pkgs.linuxPackages.nvidia_x11];
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";

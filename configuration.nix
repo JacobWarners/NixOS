@@ -1,7 +1,5 @@
 { config, pkgs, ... }:
 
-packages = [pkgs.linuxPackages.nvidia_x11];
-
 {
   imports = [
     ./hardware-configuration.nix

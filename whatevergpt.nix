@@ -29,9 +29,8 @@
   # Add your user to the 'video' group
   users.users.jake.extraGroups = [ "video" ];
 
-  # Device Sections
-  services.xserver.deviceSections = [
-    ''
+  # Custom Xorg Configuration
+  services.xserver.config = ''
     Section "ServerLayout"
         Identifier     "layout"
         Screen      0  "intel"
@@ -54,11 +53,10 @@
     Section "Device"
         Identifier     "nvidia"
         Driver         "nvidia"
-        BusID          "PCI:130:0:0"
+        BusID          "PCI:130:0:0"  # Replace with your NVIDIA GPU BusID
         Option         "AllowEmptyInitialConfiguration" "true"
     EndSection
-    ''
-  ];
+  '';
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

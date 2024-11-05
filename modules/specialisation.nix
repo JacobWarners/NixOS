@@ -33,7 +33,7 @@ services.xserver = mkIf (cfg.desktop.enable && cfg.desktop.displayProtocol == "x
       EndSection
     '';
 
-
+};
 
 
 

@@ -21,10 +21,10 @@
       intelBusId = "PCI:0:2:0";     # Replace with your Intel GPU BusID
     };
   };
-{
+
   # Other configurations...
   nixpkgs.config.allowUnfree = true;
-}
+
 
   # Ensure OpenGL support is enabled
   hardware.opengl.enable = true;

@@ -62,7 +62,7 @@ nvidiaSettings = true;
 
         # Make sure to use the correct Bus ID values for your system!
         nvidiaBusId = "PCI:130:0:0";
-        intelBusId = "PCI:0:2:0";
+#        intelBusId = "PCI:0:2:0";
 };
 };
 

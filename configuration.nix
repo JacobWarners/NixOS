@@ -6,14 +6,14 @@
     ./whatevergpt.nix
 #    ./modules/specialisation.nix
 #    ./modules/keyd.nix
-#   ./modules/nix.nix
-#   ./modules/boot.nix
-#   ./modules/network.nix
+   ./modules/nix.nix
+   ./modules/boot.nix
+   ./modules/network.nix
 #   ./modules/locale.nix
 #   ./modules/desktop.nix
 #   ./modules/audio.nix
-#   ./modules/users.nix
-#   ./modules/unfree.nix
+   ./modules/users.nix
+   ./modules/unfree.nix
 #   ./modules/global-packages.nix
 #    ./modules/nvidia.nix    # Existing module
 #   ./modules/primerun.nix

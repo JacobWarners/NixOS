@@ -13,16 +13,16 @@
 
   # NVIDIA-specific settings
   hardware.nvidia = {
+    open = true;  # Use open-source kernel modules
     modesetting.enable = true;
     nvidiaPersistenced = true;
-    # Use the stable NVIDIA driver package
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
   # Ensure OpenGL support is enabled
   hardware.opengl.enable = true;
 
-  # Optional: Add your user to the 'video' group
+  # Add your user to the 'video' group
   users.users.jake.extraGroups = [ "video" ];
 }
 

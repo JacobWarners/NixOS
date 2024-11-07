@@ -59,6 +59,7 @@
   # Link dotfiles
   home.file.".zshrc".source = ./dotfiles/.zshrc;
   home.file.".tmux.conf".source = ./dotfiles/.tmux.conf;
+  home.file.".vimrc".source = ./dotfiles/.vimrc;
   home.file.".config/kitty".source = ./kitty;
   home.file.".icons".source = ./dotfiles/.icons;
 

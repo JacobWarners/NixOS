@@ -14,7 +14,6 @@
     ./modules/users.nix
     ./modules/unfree.nix
     ./modules/global-packages.nix
-    ./modules/primerun.nix
 #    ./modules/virtualization.nix
     ./modules/gaming.nix    # Existing module
 #    ./modules/docker.nix    # Existing module

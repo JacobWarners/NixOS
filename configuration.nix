@@ -10,6 +10,7 @@
     ./modules/network.nix
     ./modules/locale.nix
     ./modules/desktop.nix
+    ./modules/egpu.nix
     ./modules/audio.nix
     ./modules/users.nix
     ./modules/unfree.nix

@@ -1,3 +1,4 @@
+
 " initialize plugin system
 call plug#begin('~/.vim/plugged')
 
@@ -24,11 +25,11 @@ set cursorline
 set showmatch
 
 " Toggle paste, first always set to paste then toggle here
-set paste
+" set paste
 set pastetoggle=<F2>
 
 set mouse=a
 
 " Exit to directory with Q
-nnoremap Q :Rexplore<CR>
 inoremap jj <Esc>
+nnoremap Q :Rexplore<CR>

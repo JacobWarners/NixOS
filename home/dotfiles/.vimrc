@@ -31,3 +31,5 @@ set mouse=a
 
 " Exit to directory with Q
 nnoremap Q :Rexplore<CR>
+inoremap jj <Esc>
+

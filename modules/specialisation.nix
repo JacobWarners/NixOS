@@ -1,9 +1,9 @@
 { config, pkgs, ... }:
 
-let
-  interfaceName = "enp0s13f0u1u4"; # Replace with your actual interface name
-in
-
+# let
+#   interfaceName = "enp0s13f0u1u4"; # Replace with your actual interface name
+# in
+# 
 {
 
 
@@ -69,17 +69,17 @@ nvidiaSettings = true;
 
 
 
-  environment.systemPackages = with pkgs; [ ethtool ];
-
-  systemd.services.ethtool-config = {
-    description = "Apply ethtool settings to disable Interrupt Moderation";
-    after = [ "network.target" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.ethtool}/bin/ethtool -C ${interfaceName} rx-usecs 0";
-    };
-  };
+#   environment.systemPackages = with pkgs; [ ethtool ];
+# 
+#   systemd.services.ethtool-config = {
+#     description = "Apply ethtool settings to disable Interrupt Moderation";
+#     after = [ "network.target" ];
+#     wantedBy = [ "multi-user.target" ];
+#     serviceConfig = {
+#       Type = "oneshot";
+#       ExecStart = "${pkgs.ethtool}/bin/ethtool -C ${interfaceName} rx-usecs 0";
+#     };
+#   };
 }
 
 

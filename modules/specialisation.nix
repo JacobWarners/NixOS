@@ -3,7 +3,7 @@
   specialisation = {
     egpu.configuration = {
         system.nixos.tags = ["nvidia"];
-
+      };
         };
   services.xserver.videoDrivers = ["nvidia"];
 };

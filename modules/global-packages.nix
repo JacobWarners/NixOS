@@ -29,6 +29,7 @@
     gnome-tweaks
     lshw
     ethtool
+    prusa-slicer
     # Add any other global packages here
   ];
 }

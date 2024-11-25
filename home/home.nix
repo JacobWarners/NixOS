@@ -43,7 +43,6 @@
       set showmatch
 
       " Toggle paste with F2
-      set paste
       set pastetoggle=<F2>
 
       " Enable mouse support

@@ -8,6 +8,13 @@ if [[ "$TERM" == "xterm-256color" ]]; then
   export LSCOLORS=ExFxCxDxBxegedabagacad
 fi
 
+if [ -n "$TMUX" ]; then
+    export TERM="screen-256color"
+else
+    export TERM="xterm-kitty"
+fi
+
+
 # Use GNU ls if available, otherwise use BSD ls
 if command -v gls > /dev/null; then
   alias ls='gls --color=auto'

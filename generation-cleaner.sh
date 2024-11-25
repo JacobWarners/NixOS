@@ -1,57 +1,80 @@
 #!/usr/bin/env bash
 
-# Set the number of generations to keep
-GENERATIONS_TO_KEEP=5
+# Number of profiles to keep
+PROFILES_TO_KEEP=5
 
-# Path to the system profile
-SYSTEM_PROFILE="/nix/var/nix/profiles/system"
+# Path to system profiles directory
+SYSTEM_PROFILES_DIR="/nix/var/nix/profiles/system-profiles"
 
-# Get a list of all system generations
-# Format: generation number   date   time   description
-GENERATIONS_LIST=$(sudo nix-env -p "$SYSTEM_PROFILE" --list-generations)
+# Get the currently active system profile
+CURRENT_PROFILE=$(readlink -f /nix/var/nix/profiles/system)
+CURRENT_PROFILE_BASENAME=$(basename "$CURRENT_PROFILE")
 
-# Check if we got any generations
-if [ -z "$GENERATIONS_LIST" ]; then
-  echo "No generations found."
-  exit 1
-fi
+# Get the list of all profiles with their modification time, sorted by oldest first
+mapfile -t PROFILES < <(find "$SYSTEM_PROFILES_DIR" -maxdepth 1 -type l -printf "%T@ %p\n" | sort -n | awk '{print $2}')
 
-# Extract the generation numbers into an array
-mapfile -t GENERATION_NUMBERS < <(echo "$GENERATIONS_LIST" | awk '{print $1}')
+# Initialize array for profiles to delete
+PROFILES_TO_DELETE=()
 
-# Count the total number of generations
-TOTAL_GENERATIONS=${#GENERATION_NUMBERS[@]}
+# Total number of profiles
+TOTAL_PROFILES=${#PROFILES[@]}
 
-# Calculate the number of generations to delete
-GENERATIONS_TO_DELETE=$((TOTAL_GENERATIONS - GENERATIONS_TO_KEEP))
+# Calculate the number of profiles to delete
+PROFILES_TO_DELETE_COUNT=$((TOTAL_PROFILES - PROFILES_TO_KEEP))
 
-if [ "$GENERATIONS_TO_DELETE" -le 0 ]; then
-  echo "There are $TOTAL_GENERATIONS generations. No generations to delete."
+if [ "$PROFILES_TO_DELETE_COUNT" -le 0 ]; then
+  echo "There are $TOTAL_PROFILES profiles. No profiles to delete."
   exit 0
 fi
 
-# Get the list of generations to delete (the oldest ones)
-GENERATIONS_TO_DELETE_LIST=("${GENERATION_NUMBERS[@]:0:$GENERATIONS_TO_DELETE}")
+# Loop through profiles to identify which ones to delete
+for (( i=0; i<${#PROFILES[@]}; i++ )); do
+  PROFILE_PATH="${PROFILES[$i]}"
+  PROFILE_NAME=$(basename "$PROFILE_PATH")
 
-echo "Total generations: $TOTAL_GENERATIONS"
-echo "Keeping the most recent $GENERATIONS_TO_KEEP generations."
-echo "Deleting the following generations: ${GENERATIONS_TO_DELETE_LIST[*]}"
+  # Skip the currently active profile
+  if [[ "$PROFILE_NAME" == "$CURRENT_PROFILE_BASENAME" ]]; then
+    continue
+  fi
+
+  if [ "${#PROFILES_TO_DELETE[@]}" -lt "$PROFILES_TO_DELETE_COUNT" ]; then
+    PROFILES_TO_DELETE+=("$PROFILE_NAME")
+  else
+    # We have collected enough profiles to delete
+    break
+  fi
+done
+
+if [[ ${#PROFILES_TO_DELETE[@]} -eq 0 ]]; then
+  echo "No profiles to delete."
+  exit 0
+fi
+
+echo "Total profiles: $TOTAL_PROFILES"
+echo "Keeping the most recent $PROFILES_TO_KEEP profiles."
+echo "Deleting the following profiles:"
+for PROFILE in "${PROFILES_TO_DELETE[@]}"; do
+  echo "- $PROFILE"
+done
 
 # Confirm deletion
-read -p "Are you sure you want to delete these generations? (yes/no): " CONFIRM
+read -p "Are you sure you want to delete these profiles? (yes/no): " CONFIRM
 if [ "$CONFIRM" != "yes" ]; then
   echo "Aborting."
   exit 0
 fi
 
-# Delete the old generations
-sudo nix-env -p "$SYSTEM_PROFILE" --delete-generations "${GENERATIONS_TO_DELETE_LIST[@]}"
+# Delete the old profiles
+for PROFILE in "${PROFILES_TO_DELETE[@]}"; do
+  PROFILE_PATH="$SYSTEM_PROFILES_DIR/$PROFILE"
+  echo "Deleting profile: $PROFILE_PATH"
+  sudo rm -rf "$PROFILE_PATH"
+done
 
-# Clean up the Nix store
+# Garbage collect
 sudo nix-store --gc
 
-# Remove old entries from the boot loader
-sudo nixos-rebuild boot
+# Rebuild boot loader entries
 
-echo "Old generations deleted and Nix store garbage collected."
+echo "Old profiles deleted and Nix store garbage collected."
 

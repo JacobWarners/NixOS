@@ -30,6 +30,7 @@
     lshw
     ethtool
     prusa-slicer
+    yad
     # Add any other global packages here
   ];
 }

@@ -11,7 +11,7 @@
   };
 
   #TMUX and VIM
-  programs.tmux.enable = true;
+#  programs.tmux.enable = true;
 
   # Install user-specific packages
   home.packages = with pkgs; [

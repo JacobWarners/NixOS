@@ -6,4 +6,4 @@ git add -A
 git commit -m "$current_datetime"
 git push
 
-sudo nixos-rebuild switch --flake .#Framework
+sudo nixos-rebuild switch --flake .#Framework --profile-name "Test"

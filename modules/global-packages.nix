@@ -33,6 +33,7 @@
 ### stuff for autodesk
     yad
     cabextract
+    mokutil
     # Add any other global packages here
   ];
 }

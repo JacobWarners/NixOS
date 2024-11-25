@@ -14,6 +14,8 @@
     libva
     xivlauncher     # Replace with the actual package name if different
     lutris
+    wine
+    winetricks
   ];
 
   # Enable 32-bit support for gaming

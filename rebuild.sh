@@ -10,3 +10,5 @@ git commit -m "$current_datetime"
 git push
 
 sudo nixos-rebuild switch --flake .#Framework --profile-name $custom_name-$(date +"%b-%d-%Y")
+
+./generation-cleaner.sh --auto-confirm

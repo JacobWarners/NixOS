@@ -51,6 +51,7 @@
 
       " Custom keybinding to exit directory with Q
       nnoremap Q :Rexplore<CR>
+      inoremap jj <Esc>
     '';
   };
 

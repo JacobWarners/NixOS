@@ -34,6 +34,7 @@
     yad
     cabextract
     mokutil
+    gettext
     # Add any other global packages here
   ];
 }

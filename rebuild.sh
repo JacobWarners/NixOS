@@ -6,7 +6,7 @@ full_name="${custom_name} - $(date '+%Y-%m-%d')"
 current_datetime=$(date +"%Y-%m-%d %H:%M:%S")
 
 git add -A 
-git commit -m "$current_datetime"
+git commit -m "$custom_name-$(date +'%b-%d-%Y')"
 git push
 
 sudo nixos-rebuild switch --flake .#Framework --profile-name $custom_name-$(date +"%b-%d-%Y")

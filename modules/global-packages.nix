@@ -35,6 +35,12 @@
     cabextract
     mokutil
     gettext
+    samba
+    bc
+    p7zip
+    gawk
+    
+    
     # Add any other global packages here
   ];
 }

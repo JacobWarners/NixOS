@@ -9,4 +9,4 @@ git add -A
 git commit -m "$current_datetime"
 git push
 
-sudo nixos-rebuild switch --flake .#Framework --profile-name $custom_name
+sudo nixos-rebuild switch --flake .#Framework --profile-name $custom_name-$(date +"%b-%d-%Y")

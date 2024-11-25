@@ -30,7 +30,9 @@
     lshw
     ethtool
     prusa-slicer
+### stuff for autodesk
     yad
+    cabextract
     # Add any other global packages here
   ];
 }

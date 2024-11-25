@@ -30,17 +30,8 @@
     lshw
     ethtool
     prusa-slicer
-### stuff for autodesk
-    yad
-    cabextract
-    mokutil
-    gettext
-    samba
-    bc
     p7zip
-    gawk
-    spacenavd
-    freecad
+### stuff for autodesk
     # Add any other global packages here
   ];
 }

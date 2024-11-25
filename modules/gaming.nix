@@ -12,22 +12,11 @@
     vulkan-loader
     libglvnd
     libva
-    xivlauncher     # Replace with the actual package name if different
+    xivlauncher    
     lutris
     wine
     winetricks
   ];
 
-  # Enable 32-bit support for gaming
-#  hardware.opengl = {
- #   enable = true;
-  #  driSupport32Bit = true;
-#    extraPackages32 = with pkgs.pkgsi686Linux; [
- #     vaapiIntel
-  #    vaapiVdpau
-   #   libvdpau-va-gl
-#    ];
-#    services.xserver.videoDrivers = ["nvidia"];
- # };
 }
 

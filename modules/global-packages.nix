@@ -39,8 +39,7 @@
     bc
     p7zip
     gawk
-    
-    
+    spacenavd
     # Add any other global packages here
   ];
 }

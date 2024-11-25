@@ -40,6 +40,7 @@
     p7zip
     gawk
     spacenavd
+    freecad
     # Add any other global packages here
   ];
 }

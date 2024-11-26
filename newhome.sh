@@ -1,2 +1,3 @@
-home-manager switch -f ./home/home.nix
-hyprctl reload
+home-manager switch - f ./home/home.nix
+  hyprctl
+  reload

@@ -23,52 +23,52 @@ TOTAL_PROFILES=${#PROFILES[@]}
 PROFILES_TO_DELETE_COUNT=$((TOTAL_PROFILES - PROFILES_TO_KEEP))
 
 if [ "$PROFILES_TO_DELETE_COUNT" -le 0 ]; then
-  echo "There are $TOTAL_PROFILES profiles. No profiles to delete."
-  exit 0
+echo "There are $TOTAL_PROFILES profiles. No profiles to delete."
+exit 0
 fi
 
 # Loop through profiles to identify which ones to delete
 for (( i=0; i<${#PROFILES[@]}; i++ )); do
-  PROFILE_PATH="${PROFILES[$i]}"
-  PROFILE_NAME=$(basename "$PROFILE_PATH")
+PROFILE_PATH="${PROFILES[$i]}"
+PROFILE_NAME=$(basename "$PROFILE_PATH")
 
-  # Skip the currently active profile
-  if [[ "$PROFILE_NAME" == "$CURRENT_PROFILE_BASENAME" ]]; then
-    continue
-  fi
+# Skip the currently active profile
+if [[ "$PROFILE_NAME" == "$CURRENT_PROFILE_BASENAME" ]]; then
+continue
+fi
 
-  if [ "${#PROFILES_TO_DELETE[@]}" -lt "$PROFILES_TO_DELETE_COUNT" ]; then
-    PROFILES_TO_DELETE+=("$PROFILE_NAME")
-  else
-    # We have collected enough profiles to delete
-    break
-  fi
+if [ "${#PROFILES_TO_DELETE[@]}" -lt "$PROFILES_TO_DELETE_COUNT" ]; then
+PROFILES_TO_DELETE+=("$PROFILE_NAME")
+else
+# We have collected enough profiles to delete
+break
+fi
 done
 
 if [[ ${#PROFILES_TO_DELETE[@]} -eq 0 ]]; then
-  echo "No profiles to delete."
-  exit 0
+echo "No profiles to delete."
+exit 0
 fi
 
 echo "Total profiles: $TOTAL_PROFILES"
 echo "Keeping the most recent $PROFILES_TO_KEEP profiles."
 echo "Deleting the following profiles:"
 for PROFILE in "${PROFILES_TO_DELETE[@]}"; do
-  echo "- $PROFILE"
+echo "- $PROFILE"
 done
 
 # Confirm deletion
 read -p "Are you sure you want to delete these profiles? (yes/no): " CONFIRM
 if [ "$CONFIRM" != "yes" ]; then
-  echo "Aborting."
-  exit 0
+echo "Aborting."
+exit 0
 fi
 
 # Delete the old profiles
 for PROFILE in "${PROFILES_TO_DELETE[@]}"; do
-  PROFILE_PATH="$SYSTEM_PROFILES_DIR/$PROFILE"
-  echo "Deleting profile: $PROFILE_PATH"
-  sudo rm -rf "$PROFILE_PATH"
+PROFILE_PATH="$SYSTEM_PROFILES_DIR/$PROFILE"
+echo "Deleting profile: $PROFILE_PATH"
+sudo rm -rf "$PROFILE_PATH"
 done
 
 # Garbage collect

@@ -8,6 +8,6 @@
   };
 
   # Import Wi-Fi secrets
- # imports = [ ../secrets/wifi.nix ];
+  # imports = [ ../secrets/wifi.nix ];
 }
 

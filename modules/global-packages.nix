@@ -31,8 +31,8 @@
     ethtool
     prusa-slicer
     p7zip
-### stuff for autodesk
     # Add any other global packages here
+    nixpkgs-fmt
   ];
 }
 

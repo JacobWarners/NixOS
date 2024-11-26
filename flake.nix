@@ -5,7 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # Hyprland
-#    hyprland.url = "github:hyprwm/Hyprland";
+    #    hyprland.url = "github:hyprwm/Hyprland";
 
     # Home Manager input
     home-manager = {
@@ -16,7 +16,7 @@
     # Blacklist etc
     ultimate-hosts-blacklist = {
       url = "github:Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist";
-      flake = false;  # This is not a flake, so we set `flake = false`
+      flake = false; # This is not a flake, so we set `flake = false`
     };
   };
 

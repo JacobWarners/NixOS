@@ -2,7 +2,7 @@
 
 {
   # Enable Steam
-  hardware.graphics.enable32Bit= true;
+  hardware.graphics.enable32Bit = true;
   hardware.pulseaudio.support32Bit = true;
 
   # Install FFXIV launcher (assuming it's available in Nixpkgs)
@@ -12,7 +12,7 @@
     vulkan-loader
     libglvnd
     libva
-    xivlauncher    
+    xivlauncher
     lutris
     wine
     winetricks

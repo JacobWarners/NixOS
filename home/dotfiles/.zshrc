@@ -74,11 +74,19 @@ RESET="%f"
 # Set the prompt
 PS1="${GREEN}%n${BLUE}~%1d${RESET}> "
 
+# Share history across all sessions
+setopt share_history
+setopt hist_ignore_all_dups
+setopt inc_append_history
+
+
 # Alias for ls with color support
 alias ls='ls --color=auto'
 alias cat='bat --style=plain --color=always'
 alias grep='rga'
 alias x='xclip -selection clipboard'
+
+
 # function x() {
 #   local last_arg
 #   last_arg="$(fc -ln -1 | awk '{print $NF}')"

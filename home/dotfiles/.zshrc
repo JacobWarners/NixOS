@@ -78,15 +78,15 @@ PS1="${GREEN}%n${BLUE}~%1d${RESET}> "
 alias ls='ls --color=auto'
 alias cat='bat --style=plain --color=always'
 alias grep='rga'
-function x() {
-  local last_arg
-  last_arg="$(fc -ln -1 | awk '{print $NF}')"
-  if [ -f "$last_arg" ]; then
-    \cat "$last_arg" | xclip -selection clipboard
-  else
-    echo "Error: '$last_arg' is not a valid file."
-  fi
+alias x='xclip -selection clipboard'
+# function x() {
+#   local last_arg
+#   last_arg="$(fc -ln -1 | awk '{print $NF}')"
+#   if [ -f "$last_arg" ]; then
+#     \cat "$last_arg" | xclip -selection clipboard
+#   else
+#     echo "Error: '$last_arg' is not a valid file."
+#   fi
 }
 
 
-#alias x='xclip -selection clipboard'

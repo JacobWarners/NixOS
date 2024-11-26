@@ -9,8 +9,9 @@ let
 in
 {
   environment.etc."
-      hosts.deny "  .source = superhostsDeny;
+      hosts.deny "   .source = superhostsDeny;
 }
+
 
 
 

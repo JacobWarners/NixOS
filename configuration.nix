@@ -5,7 +5,6 @@
     ./hardware-configuration.nix
     ./modules/specialisation.nix
     ./modules/hotplugegpu.nix
-    #    ./modules/keyd.nix
     ./modules/nix.nix
     ./modules/boot.nix
     ./modules/network.nix

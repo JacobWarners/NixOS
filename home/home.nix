@@ -66,4 +66,4 @@
   home.file.".tmux.conf".source = ./dotfiles/.tmux.conf;
   home.file.".config/kitty".source = ./kitty;
   home.file.".icons".source = ./dotfiles/.icons;
-
+}

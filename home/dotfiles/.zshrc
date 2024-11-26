@@ -87,6 +87,6 @@ alias x='xclip -selection clipboard'
 #   else
 #     echo "Error: '$last_arg' is not a valid file."
 #   fi
-}
+#}
 
 

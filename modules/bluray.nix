@@ -4,8 +4,9 @@
   environment.systemPackages = with pkgs; [
     (pkgs.vlc.override {
       libbluray = pkgs.libbluray;
+      libaacs = pkgs.libaacs;
     })
-    libaacs
+#    libaacs
     makemkv
   ];
 

@@ -1,12 +1,14 @@
 { config, pkgs, ... }:
 
 {
-  # Install the necessary packages
   environment.systemPackages = with pkgs; [
-    vlc        # VLC media player
-    libbluray  # Library for Blu-ray support
-    libaacs    # Library for AACS decryption
-    makemkv    # MakeMKV for advanced Blu-ray decryption
+    # Wrapper script for VLC
+    (pkgs.writeShellScriptBin "vlc" ''
+      #!${pkgs.bash}/bin/bash
+      export LD_LIBRARY_PATH=${pkgs.libaacs}/lib:${pkgs.libbluray}/lib${lib.makeSearchPath "lib" pkgs.stdenv.cc.cc.libc.out}/lib:$LD_LIBRARY_PATH
+      exec ${pkgs.vlc}/bin/vlc "$@"
+    '')
+    makemkv
   ];
 
   # Systemd service to download AACS keys

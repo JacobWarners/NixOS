@@ -15,8 +15,8 @@
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${pkgs.curl}/bin/curl -o /home/${config.users.users.jake.name}/.config/aacs/KEYDB.cfg https://vlc-bluray.whoknowsmy.name/files/KEYDB.cfg";
-      ExecStartPost = "/bin/chown ${config.users.users.jake.name}:${config.users.users.yourusername.name} /home/${config.users.users.yourusername.name}/.config/aacs/KEYDB.cfg";
-      ExecStartPost = "/bin/chmod 600 /home/${config.users.users.jake.name}/.config/aacs/KEYDB.cfg";
+      ExecStartPost = "${pkgs.bash}/bin/bash -c 'chown ${config.users.users.jake.name}:${config.users.users.jake.name} /home/${config.users.users.jake.name}/.config/aacs/KEYDB.cfg && chmod 600 /home/${config.users.users.jake.name}/.config/aacs/KEYDB.cfg'";
     };
   };
 }
+

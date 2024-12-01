@@ -31,6 +31,10 @@
     ethtool
     prusa-slicer
     p7zip
+
+    #Work ish stuff
+    terraform
+    awscli
     # Add any other global packages here
     nixpkgs-fmt
   ];

@@ -2,7 +2,7 @@
 
 
 {
-  virtualisation.docker.enable
+   virtualisation.docker.enable = true;
    environment.systemPackages = [
     pkgs.docker
   ];

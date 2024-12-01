@@ -17,8 +17,8 @@
     ./modules/unfree.nix
     ./modules/global-packages.nix
     #    ./modules/virtualization.nix
-    ./modules/gaming.nix # Existing module
-    #    ./modules/docker.nix    # Existing module
+    ./modules/gaming.nix
+    ./modules/docker.nix
     # Add any other modules you have
   ];
   system.stateVersion = "24.11";

@@ -15,6 +15,8 @@
     enable = true;
     extraConfig = ''
       set -g mouse on
+      bind-key S setw synchronize-panes
+
     '';
   };
 

@@ -31,6 +31,7 @@
     ethtool
     prusa-slicer
     p7zip
+    tree
 
     #Work ish stuff
     terraform

@@ -38,6 +38,12 @@
     awscli
     # Add any other global packages here
     nixpkgs-fmt
+    #Kubestuff
+    google-cloud-sdk-gce
+    kubectl
+    openssl
+
+
   ];
 }
 

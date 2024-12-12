@@ -16,6 +16,7 @@
     lutris
     wine
     winetricks
+    tibia
   ];
 
 }

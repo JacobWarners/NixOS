@@ -41,6 +41,11 @@
     #Kubestuff
     google-cloud-sdk-gce
     kubectl
+    kubernetes
+    crictl
+    runc
+    containerd
+    etcd
     openssl
 
 

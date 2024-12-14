@@ -42,7 +42,7 @@
     google-cloud-sdk-gce
     kubectl
     kubernetes
-    crictl
+    cri-tools
     runc
     containerd
     etcd

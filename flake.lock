@@ -1,65 +1,86 @@
 {
   "nodes": {
-  "home-manager": {
-  "inputs": {
-  "nixpkgs": [
-  "nixpkgs"
-  ]
-  },
-  "locked": {
-  "lastModified": 1730490306,
-  "narHash": "sha256-AvCVDswOUM9D368HxYD25RsSKp+5o0L0/JHADjLoD38=",
-  "owner": "nix-community",
-  "repo": "home-manager",
-  "rev": "1743615b61c7285976f85b303a36cdf88a556503",
-  "type": "github"
-  },
-  "original": {
-  "owner": "nix-community",
-  "repo": "home-manager",
-  "type": "github"
-  }
-  },
-  "nixpkgs": {
-  "locked": {
-  "lastModified": 1730200266,
-  "narHash": "sha256-l253w0XMT8nWHGXuXqyiIC/bMvh1VRszGXgdpQlfhvU=",
-  "owner": "NixOS",
-  "repo": "nixpkgs",
-  "rev": "807e9154dcb16384b1b765ebe9cd2bba2ac287fd",
-  "type": "github"
-  },
-  "original": {
-  "owner": "NixOS",
-  "ref": "nixos-unstable",
-  "repo": "nixpkgs",
-  "type": "github"
-  }
-  },
-  "root": {
-  "inputs": {
-  "home-manager": "home-manager",
-  "nixpkgs": "nixpkgs",
-  "ultimate-hosts-blacklist": "ultimate-hosts-blacklist"
-  }
-  },
-  "ultimate-hosts-blacklist": {
-  "flake": false,
-  "locked": {
-  "lastModified": 1730574461,
-  "narHash": "sha256-CzjaPdVd3tKHCmL9zNy0USS1GfGjEaLkQsttB57bMBQ=",
-  "owner": "Ultimate-Hosts-Blacklist",
-  "repo": "Ultimate.Hosts.Blacklist",
-  "rev": "048688727e2eefb3c33b4b654c1a2bf6a3e8e67a",
-  "type": "github"
-  },
-  "original": {
-  "owner": "Ultimate-Hosts-Blacklist",
-  "repo": "Ultimate.Hosts.Blacklist",
-  "type": "github"
-  }
-  }
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1734344598,
+        "narHash": "sha256-wNX3hsScqDdqKWOO87wETUEi7a/QlPVgpC/Lh5rFOuA=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "83ecd50915a09dca928971139d3a102377a8d242",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "nix-ld": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1734338723,
+        "narHash": "sha256-BpJs2QnVwdE4Btsx2BcBmdsq86H7QJYv2GmoOkr1ii4=",
+        "owner": "Mic92",
+        "repo": "nix-ld",
+        "rev": "911665df070e3d6c970e5a248fc4a38550bd5689",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "nix-ld",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1734119587,
+        "narHash": "sha256-AKU6qqskl0yf2+JdRdD0cfxX4b9x3KKV5RqA6wijmPM=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "3566ab7246670a43abd2ffa913cc62dad9cdf7d5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "home-manager": "home-manager",
+        "nix-ld": "nix-ld",
+        "nixpkgs": "nixpkgs",
+        "ultimate-hosts-blacklist": "ultimate-hosts-blacklist"
+      }
+    },
+    "ultimate-hosts-blacklist": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1734376141,
+        "narHash": "sha256-72MBe5ms6vlmfpUiirPcJ52fIdGfqSyadphTQ94k7WU=",
+        "owner": "Ultimate-Hosts-Blacklist",
+        "repo": "Ultimate.Hosts.Blacklist",
+        "rev": "d3eba7d8e907637758e06b8f7679598a34e784ff",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Ultimate-Hosts-Blacklist",
+        "repo": "Ultimate.Hosts.Blacklist",
+        "type": "github"
+      }
+    }
   },
   "root": "root",
   "version": 7
-  }
+}

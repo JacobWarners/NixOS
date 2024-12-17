@@ -4,8 +4,9 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    # Hyprland
-    #    hyprland.url = "github:hyprwm/Hyprland";
+    # nix-ld for running dynamically linked binaries
+    nix-ld.url = "github:Mic92/nix-ld";
+    nix-ld.inputs.nixpkgs.follows = "nixpkgs"; # Ensures nixpkgs consistency
 
     # Home Manager input
     home-manager = {
@@ -20,7 +21,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, ... }:
+  outputs = { self, nixpkgs, nix-ld, home-manager, ultimate-hosts-blacklist, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
@@ -31,6 +32,13 @@
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
+
+          # nix-ld module for dynamic library support
+          nix-ld.nixosModules.nix-ld
+
+          # Enable nix-ld development module
+          { programs.nix-ld.dev.enable = true; }
+
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;

@@ -40,6 +40,7 @@
     nixpkgs-fmt
     #Kubestuff
     google-cloud-sdk-gce
+    envsubst
     kubectl
     kubernetes
     cri-tools

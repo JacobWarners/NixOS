@@ -1,9 +1,8 @@
-{ config, pkgs, ... }:
+{ config, pkgs, nix-ld, ... }: # Add `nix-ld` here
 
 {
   imports = [
-    # Correctly reference nix-ld's module
-    inputs.nix-ld.nixosModules.nix-ld
+    nix-ld.nixosModules.nix-ld # Reference nix-ld here
   ];
 
   programs.nix-ld.dev.enable = true;

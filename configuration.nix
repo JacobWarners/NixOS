@@ -6,6 +6,7 @@
     ./modules/specialisation.nix
     ./modules/hotplugegpu.nix
     ./modules/nix.nix
+    ./modules/tibia.nix
     ./modules/bluray.nix
     ./modules/boot.nix
     ./modules/network.nix

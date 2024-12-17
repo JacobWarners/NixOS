@@ -1,13 +1,11 @@
-{ config, pkgs, nix-ld, ... }: # Add `nix-ld` here
+{ config, pkgs, nix-ld, ... }:
 
 {
   imports = [
-    nix-ld.nixosModules.nix-ld # Reference nix-ld here
+    nix-ld.nixosModules.nix-ld
   ];
 
-  programs.nix-ld.dev.enable = true;
-
-  programs.nix-ld.dev.libraries = with pkgs; [
+  programs.nix-ld.libraries = with pkgs; [
     glibc
     zlib
     libstdcxx5

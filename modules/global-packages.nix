@@ -48,6 +48,9 @@
     containerd
     etcd
     openssl
+    k9s
+    helm
+
 
 
   ];

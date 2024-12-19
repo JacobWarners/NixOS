@@ -12,6 +12,7 @@
     xorg.libXtst
     xorg.libxcb
     expat
+    alsa-lib
 
     # Compression libraries
     zlib

@@ -14,6 +14,7 @@
     expat
     alsa-lib
     xorg.libxkbfile
+    vulkan-loader
 
     # Compression libraries
     zlib
@@ -36,8 +37,8 @@
 
     # DBus for inter-process communication
     dbus
-  qt6.qtbase
-  qt6.qtwayland
+  qt6_6.qtbase
+  qt6_6.qtwayland
   nss
   nspr
  xorg.libXcomposite

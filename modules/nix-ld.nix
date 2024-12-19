@@ -5,6 +5,7 @@
     nix-ld.nixosModules.nix-ld
   ];
 
+  programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
     glibc
     zlib
@@ -25,6 +26,10 @@
     brotli
     wayland
     gtk2
+    stdenv.cc.cc.lib
+    brotli
+    xorg.libX11
+    libglvnd
   ];
 }
 

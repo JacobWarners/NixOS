@@ -10,6 +10,7 @@
     xorg.libXfixes
     xorg.libXrandr
     xorg.libXtst
+    xorg.libxcb
     expat
 
     # Compression libraries

@@ -21,7 +21,7 @@
     freetype
     dbus
     libglvnd
-    brotli.out
+    brotli.lib
     wayland
     gtk2
     stdenv.cc.cc.lib

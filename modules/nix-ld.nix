@@ -12,7 +12,7 @@
     openssl
     nss
     nspr
-    libX11
+#    libX11
     libxcb
     xcbutil
     xcbutilcursor

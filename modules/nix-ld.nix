@@ -33,6 +33,7 @@
   nss
   nspr
  xorg.libXcomposite
+ xorg.libXdamage 
   ];
 }
 #{

@@ -7,6 +7,7 @@
   programs.nix-ld.libraries = with pkgs; [
     # Core runtime libraries
     glibc
+    xorg.libXfixes
 
     # Compression libraries
     zlib

@@ -32,6 +32,7 @@
     prusa-slicer
     p7zip
     tree
+    file
 
     #Work ish stuff
     terraform

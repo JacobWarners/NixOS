@@ -30,7 +30,6 @@
     dbus
   qt6.qtbase
   qt6.qtwayland
-  qt6.qtx11extras
   ];
 }
 #{

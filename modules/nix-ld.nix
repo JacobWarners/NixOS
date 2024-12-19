@@ -21,6 +21,7 @@
 
     # X11 and input libraries
     xorg.libX11
+    xorg.libXext
     libxkbcommon
 
     # Graphics libraries

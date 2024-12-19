@@ -32,7 +32,7 @@
   qt6.qtwayland
   nss
   nspr
-  libXcomposite
+ xorg.libXcomposite
   ];
 }
 #{

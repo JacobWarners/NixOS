@@ -31,6 +31,7 @@
   qt6.qtbase
   qt6.qtwayland
   nss
+  nspr
   ];
 }
 #{

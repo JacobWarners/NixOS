@@ -16,9 +16,15 @@
     xorg.libxkbfile
     vulkan-loader
 
-    xorg.xcb-util-keysyms
-    xorg.xcb-util-image
-    xorg.xcb-util-wm
+
+
+    ##donno
+       xorg.xcbutil        # instead of xcb-util
+           xorg.xcbutilcursor  # instead of xcb-util-cursor
+               xorg.xcbutilrenderutil  # instead of xcb-util-renderutil
+                   xorg.xcbutilkeysyms # instead of xcb-util-keysyms
+                       xorg.xcbutilimage   # instead of xcb-util-image
+                           xorg.xcbutilwm      # instead of xcb-util-wm
     # Compression libraries
     zlib
     brotli.lib  # For libbrotlidec.so.1

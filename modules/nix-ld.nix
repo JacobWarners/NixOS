@@ -13,6 +13,7 @@
     xorg.libxcb
     expat
     alsa-lib
+    xorg.libxkbfile
 
     # Compression libraries
     zlib

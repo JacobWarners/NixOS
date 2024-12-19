@@ -9,6 +9,7 @@
     glibc
     xorg.libXfixes
     xorg.libXrandr
+    xorg.libXtst
 
     # Compression libraries
     zlib

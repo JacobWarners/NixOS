@@ -16,8 +16,7 @@
     xorg.libxkbfile
     vulkan-loader
 
-
-    xcbutilkeysyms
+    xorg.xcb-util-keysyms
     xorg.xcb-util-image
     xorg.xcb-util-wm
     # Compression libraries

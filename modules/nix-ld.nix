@@ -37,8 +37,8 @@
 
     # DBus for inter-process communication
     dbus
-  qt6_6.qtbase
-  qt6_6.qtwayland
+  qt6.qtbase
+  qt6.qtwayland
   nss
   nspr
  xorg.libXcomposite

@@ -8,6 +8,7 @@
     # Core runtime libraries
     glibc
     xorg.libXfixes
+    xorg.libXrandr
 
     # Compression libraries
     zlib

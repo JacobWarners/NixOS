@@ -1,34 +1,64 @@
 { config, pkgs, nix-ld, ... }:
 
 {
-#  imports = [
-#    nix-ld.nixosModules.nix-ld
   programs.nix-ld.enable = true;
-#  ];
+
+  # List of required libraries, with updates to remove libstdcxx5.
   programs.nix-ld.libraries = with pkgs; [
+    # Core runtime libraries
     glibc
+
+    # Compression libraries
     zlib
-#    libstdcxx5
-    openssl
-    nss
-    nspr
-#    libX11
-    libxcb
-    xcbutil
-    xcbutilcursor
-    xcbutilrenderutil
-    libxkbcommon
+    brotli.lib  # For libbrotlidec.so.1
+
+    # C++ standard library
+    stdenv.cc.cc.lib  # Provides libstdc++.so.6
+
+    # Font and rendering libraries
     fontconfig
     freetype
-    dbus
-    libglvnd
-    brotli.lib
-    wayland
-    gtk2
-    stdenv.cc.cc.lib
-    brotli
+
+    # X11 and input libraries
     xorg.libX11
-    libglvnd
+    libxkbcommon
+
+    # Graphics libraries
+    libglvnd  # Provides libEGL.so.1, libGLX.so.0, libOpenGL.so.0
+
+    # DBus for inter-process communication
+    dbus
   ];
 }
-
+#{
+#  imports = [
+#    nix-ld.nixosModules.nix-ld
+#  programs.nix-ld.enable = true;
+#  ];
+##programs.nix-ld.libraries = with pkgs; [
+#    glibc
+#    zlib
+##    libstdcxx5
+#    openssl
+#    nss
+#    nspr
+##    libX11
+##    libxcb
+#    xcbutil
+#    xcbutilcursor
+#    xcbutilrenderutil
+#    libxkbcommon
+#    fontconfig
+#    freetype
+#    dbus
+#    libglvnd
+#    brotli.lib
+#    wayland
+#    gtk2
+#    stdenv.cc.cc.lib
+#    brotli
+#    xorg.libX11
+#    libglvnd
+#  ];
+#}
+#

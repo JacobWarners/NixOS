@@ -8,7 +8,7 @@
   programs.nix-ld.libraries = with pkgs; [
     glibc
     zlib
-    libstdcxx5
+#    libstdcxx5
     openssl
     nss
     nspr

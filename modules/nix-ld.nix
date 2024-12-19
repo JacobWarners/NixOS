@@ -10,6 +10,7 @@
     xorg.libXfixes
     xorg.libXrandr
     xorg.libXtst
+    expat
 
     # Compression libraries
     zlib

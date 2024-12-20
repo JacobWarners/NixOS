@@ -3,9 +3,7 @@
 {
   programs.nix-ld.enable = true;
 
-  # List of required libraries, with updates to remove libstdcxx5.
   programs.nix-ld.libraries = with pkgs; [
-    # Core runtime libraries
     glibc
     xorg.libXfixes
     xorg.libXrandr
@@ -15,43 +13,26 @@
     alsa-lib
     xorg.libxkbfile
     vulkan-loader
-
-
-
-    ##donno
-       xorg.xcbutil        # instead of xcb-util
-           xorg.xcbutilcursor  # instead of xcb-util-cursor
-               xorg.xcbutilrenderutil  # instead of xcb-util-renderutil
-                   xorg.xcbutilkeysyms # instead of xcb-util-keysyms
-                       xorg.xcbutilimage   # instead of xcb-util-image
-                           xorg.xcbutilwm      # instead of xcb-util-wm
-    # Compression libraries
+    xorg.xcbutil      
+    xorg.xcbutilcursor 
+    xorg.xcbutilrenderutil
+    xorg.xcbutilkeysyms
+    xorg.xcbutilimage  
+    xorg.xcbutilwm  
     zlib
-    brotli.lib  # For libbrotlidec.so.1
-
-    # C++ standard library
-    stdenv.cc.cc.lib  # Provides libstdc++.so.6
-
-    # Font and rendering libraries
+    brotli.lib 
+    stdenv.cc.cc.lib 
     fontconfig
     freetype
-
-    # X11 and input libraries
     xorg.libX11
     xorg.libXext
     libxkbcommon
-
-    # Graphics libraries
-    libglvnd  # Provides libEGL.so.1, libGLX.so.0, libOpenGL.so.0
-
-    # DBus for inter-process communication
+    libglvnd 
     dbus
-#  qt6.qtbase
-#  qt6.qtwayland
-  nss
-  nspr
- xorg.libXcomposite
- xorg.libXdamage 
+    nss
+    nspr
+    xorg.libXcomposite
+    xorg.libXdamage 
   ];
 }
 #{

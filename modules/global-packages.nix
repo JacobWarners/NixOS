@@ -33,6 +33,7 @@
     p7zip
     tree
     file
+    drawio
 
     #Work ish stuff
     terraform

@@ -51,7 +51,7 @@
     etcd
     openssl
     k9s
-    helm-kubernetes
+    kubernetes-helm
 
 
 

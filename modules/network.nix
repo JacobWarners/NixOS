@@ -7,7 +7,8 @@
     wireless.enable = false; # NetworkManager handles wireless
     extraHosts = 
     ''
-    10.43.0.1 homeassistant.local matterserver.local
+    192.168.10.120 homeassistant.local matterserver.local
+    192.168.10.121 homeassistant.local matterserver.local
     '';
   };
 

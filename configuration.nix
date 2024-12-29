@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ./modules/specialisation.nix
     ./modules/hotplugegpu.nix
+    ./modules/flatpak.nix
     ./modules/nix.nix
     ./modules/nix-ld.nix
     ./modules/bluray.nix

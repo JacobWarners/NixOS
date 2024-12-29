@@ -12,7 +12,7 @@
     vulkan-loader
     libglvnd
     libva
-    xivlauncher
+#    xivlauncher
     lutris
     wine
     winetricks

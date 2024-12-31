@@ -29,7 +29,7 @@
     gnome-tweaks
     lshw
     ethtool
-    prusa-slicer
+#    prusa-slicer
     p7zip
     tree
     file

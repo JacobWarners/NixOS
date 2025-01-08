@@ -34,6 +34,7 @@
     xorg.libXcomposite
     xorg.libXdamage 
     libevent
+    libdrm
   ];
 }
 #{

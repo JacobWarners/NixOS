@@ -33,6 +33,7 @@
     nspr
     xorg.libXcomposite
     xorg.libXdamage 
+    libevent
   ];
 }
 #{

@@ -4,6 +4,7 @@
   programs.nix-ld.enable = true;
 
   programs.nix-ld.libraries = with pkgs; [
+    libxslt
     glibc
     xorg.libXfixes
     xorg.libXrandr

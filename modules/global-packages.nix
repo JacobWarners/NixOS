@@ -38,6 +38,7 @@
     #Work ish stuff
     terraform
     awscli
+    google-cloud-sdk
     # Add any other global packages here
     nixpkgs-fmt
     #Kubestuff

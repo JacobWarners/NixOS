@@ -39,6 +39,7 @@
     terraform
     awscli
     google-cloud-sdk
+    kdenlive
     # Add any other global packages here
     nixpkgs-fmt
     #Kubestuff

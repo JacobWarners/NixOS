@@ -26,8 +26,5 @@
   system.stateVersion = "24.11";
 
   # Global settings can be added here if necessary
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.garbageCollect.automatic = true;
-  system.autoUpgrade.garbageCollect.days = 7;
 }
 

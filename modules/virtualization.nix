@@ -15,7 +15,9 @@
   # Enable and configure libvirtd service
   virtualisation.libvirtd = {
     enable = true;
-    qemu.ovmf.enable = true;
+    qemu.ovmf = {
+      enable = true;
+      package = pkgs.edk2-ovmf;
   };
 
   # Enable Spice services for clipboard sharing and file transfer support

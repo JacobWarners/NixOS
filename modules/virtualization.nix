@@ -21,18 +21,21 @@
     };
   };
 
-  system.activationScripts.ovmfSymlink = {
+
+    system.activationScripts.ovmfCopy = {
     text = ''
-      # Create a writable directory for the OVMF firmware
+      # Create a directory for the OVMF firmware in a writable location.
       mkdir -p /run/libvirt/nix-ovmf
       rm -rf /run/libvirt/nix-ovmf/*
 
-      # Create symlinks to the firmware files from the OVMF derivation.
-      ln -s ${pkgs.OVMF.fd}/FV/OVMF_CODE.fd /run/libvirt/nix-ovmf/OVMF_CODE.fd
-      ln -s ${pkgs.OVMF.fd}/FV/OVMF_VARS.fd /run/libvirt/nix-ovmf/OVMF_VARS.fd
+      # Copy the firmware files from the OVMF derivation.
+      cp ${pkgs.OVMF.fd}/FV/OVMF_CODE.fd /run/libvirt/nix-ovmf/OVMF_CODE.fd
+      cp ${pkgs.OVMF.fd}/FV/OVMF_VARS.fd /run/libvirt/nix-ovmf/OVMF_VARS.fd
+
+      # (Optional) Set appropriate permissions, though they should be readable.
+      chmod 444 /run/libvirt/nix-ovmf/OVMF_CODE.fd /run/libvirt/nix-ovmf/OVMF_VARS.fd
     '';
   };
-
   # Enable Spice services for clipboard sharing and file transfer support
   services.spice-vdagentd.enable = true;
 

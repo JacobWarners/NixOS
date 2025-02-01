@@ -18,6 +18,7 @@
     qemu.ovmf = {
       enable = true;
       package = pkgs.edk2-ovmf;
+    };
   };
 
   # Enable Spice services for clipboard sharing and file transfer support

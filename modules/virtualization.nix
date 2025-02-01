@@ -21,8 +21,7 @@
     };
   };
 
-  {
-  # This activation script creates the expected symlink for OVMF firmware.
+
   system.activationScripts.ovmfSymlink = {
     text = ''
       mkdir -p /run/current-system/sw/share/qemu
@@ -31,7 +30,7 @@
       ln -s ${pkgs.OVMF.fd}/FV /run/current-system/sw/share/qemu/OVMF
     '';
   };
-}
+
 
 
   # Enable Spice services for clipboard sharing and file transfer support

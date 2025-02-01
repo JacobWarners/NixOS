@@ -17,7 +17,7 @@
     enable = true;
     qemu.ovmf = {
       enable = true;
-      packages = [pkgs.OVMFFull.fd];
+      packages = [pkgs.OVMF.fd];
     };
   };
 

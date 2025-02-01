@@ -21,17 +21,17 @@
     };
   };
 
-
   system.activationScripts.ovmfSymlink = {
     text = ''
-      mkdir -p /run/current-system/sw/share/qemu
-      # Remove any existing OVMF directory, then symlink the FV directory from the derivation.
-      rm -rf /run/current-system/sw/share/qemu/OVMF
-      ln -s ${pkgs.OVMF.fd}/FV /run/current-system/sw/share/qemu/OVMF
+      # Create a writable directory for the OVMF firmware
+      mkdir -p /run/libvirt/nix-ovmf
+      rm -rf /run/libvirt/nix-ovmf/*
+
+      # Create symlinks to the firmware files from the OVMF derivation.
+      ln -s ${pkgs.OVMF.fd}/FV/OVMF_CODE.fd /run/libvirt/nix-ovmf/OVMF_CODE.fd
+      ln -s ${pkgs.OVMF.fd}/FV/OVMF_VARS.fd /run/libvirt/nix-ovmf/OVMF_VARS.fd
     '';
   };
-
-
 
   # Enable Spice services for clipboard sharing and file transfer support
   services.spice-vdagentd.enable = true;

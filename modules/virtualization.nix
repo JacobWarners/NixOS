@@ -12,19 +12,29 @@
     spice-gtk
   ];
 
-  # Enable and configure libvirtd service
   virtualisation.libvirtd = {
+  enable = true;
+  qemu.ovmf = {
     enable = true;
-    qemu.ovmf = {
-      enable = true;
-      (pkgs.OVMFFull.override {
-        secureBoot = true;
-        csmSupport = false;
-#      packages = [pkgs.OVMF.fd];
-        }).fd
-    };
+    packages = [ (pkgs.OVMFFull.override {
+      secureBoot = true;
+      csmSupport = false;
+    }).fd ];
   };
-
+};
+  # Enable and configure libvirtd service
+#  virtualisation.libvirtd = {
+#    enable = true;
+#    qemu.ovmf = {
+#      enable = true;
+#      (pkgs.OVMFFull.override {
+#        secureBoot = true;
+#        csmSupport = false;
+##      packages = [pkgs.OVMF.fd];
+#        }).fd
+#    };
+#  };
+#
 
     system.activationScripts.ovmfCopy = {
     text = ''

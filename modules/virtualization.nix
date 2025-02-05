@@ -13,26 +13,38 @@
     swtpm            # Software TPM (needed for Windows 11 secure boot)
   ];
 
-  # Configure libvirtd:
+  # Configure libvirtd: enable TPM and UEFI with secure boot.
   virtualisation.libvirtd = {
     enable = true;
     qemu.swtpm.enable = true;
     qemu.ovmf = {
       enable = true;
-      # Use the secure-boot firmware; note that the new option is plural.
+      # Use the secure boot firmware from the OVMFFull package.
+      # (Make sure your nixpkgs channel provides a version of OVMFFull that supports secure boot.)
       packages = [ pkgs.OVMFFull ];
     };
   };
 
-  # Publish secure-boot firmware files to /etc/ovmf.
-  # These files will then be available at /etc/ovmf/edk2-x86_64-secure-code.fd and
-  # /etc/ovmf/edk2-i386-vars.fd, which you can reference in your VM XML.
+  # Publish secure boot firmware files to /etc/ovmf.
+  # These files will be available as:
+  #   /etc/ovmf/edk2-x86_64-secure-code.fd and /etc/ovmf/edk2-i386-vars.fd
+  # which your VM XML should reference.
   environment.etc."ovmf/edk2-x86_64-secure-code.fd" = {
     source = "${pkgs.OVMFFull}/share/qemu/edk2-x86_64-secure-code.fd";
   };
 
   environment.etc."ovmf/edk2-i386-vars.fd" = {
     source = "${pkgs.OVMFFull}/share/qemu/edk2-i386-vars.fd";
+  };
+
+  # Activation script to verify the secure boot firmware files are published.
+  system.activationScripts.ovmfSecure = {
+    text = ''
+      mkdir -p /etc/ovmf
+      # The files are published via environment.etc above; verify they exist.
+      test -f /etc/ovmf/edk2-x86_64-secure-code.fd || { echo "Missing edk2-x86_64-secure-code.fd" && exit 1; }
+      test -f /etc/ovmf/edk2-i386-vars.fd || { echo "Missing edk2-i386-vars.fd" && exit 1; }
+    '';
   };
 
   # Enable the Spice agent service.

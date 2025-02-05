@@ -8,4 +8,8 @@
     #  displayManager.gdm.wayland = false;
     enable = true;
   };
+  systemd.services.gdm = {
+      serviceConfig.ExecStartPre = [ "/bin/sleep 3" ];
+    };
+
 }

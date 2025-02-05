@@ -6,7 +6,7 @@
     qemu_kvm         # QEMU with KVM support
     libvirt          # Libvirt library
     virt-manager     # GUI tool for managing virtual machines
-    spice-vdagent    # Agent to enable clipboard sharing and file transfer
+    spice-vdagent    # Agent for clipboard sharing and file transfer
     spice            # Spice client and support libraries
     spice-protocol
     spice-gtk
@@ -27,7 +27,7 @@
   };
 
   ##############################
-  # Activation Script: Standard Firmware (Non‑Secure)
+  # Activation script: Standard Firmware (Non‑Secure)
   ##############################
   system.activationScripts.ovmfCopy = {
     text = ''
@@ -40,15 +40,16 @@
   };
 
   ##############################
-  # Activation Script: Secure Boot Firmware
+  # Activation script: Secure Boot Firmware
   ##############################
   system.activationScripts.ovmfSecure = {
     text = ''
       mkdir -p /var/lib/libvirt/firmware
       rm -rf /var/lib/libvirt/firmware/*
 
-      # Copy files from the secure-boot override derivation.
-      # Note: In your channel, the secure-boot override still outputs files named "OVMF_CODE.fd" and "OVMF_VARS.fd".
+      # Notice: We copy from the overridden OVMFFull derivation,
+      # but in this channel the output files are named "OVMF_CODE.fd" and "OVMF_VARS.fd".
+      # We copy them to files with a ".secboot.fd" suffix so that your VM XML can distinguish them.
       cp ${pkgs.OVMFFull.override { secureBoot = true; tpmSupport = true; } }/FV/OVMF_CODE.fd /var/lib/libvirt/firmware/OVMF_CODE.secboot.fd
       cp ${pkgs.OVMFFull.override { secureBoot = true; tpmSupport = true; } }/FV/OVMF_VARS.fd /var/lib/libvirt/firmware/OVMF_VARS.secboot.fd
 
@@ -59,7 +60,7 @@
   # Enable the Spice agent service.
   services.spice-vdagentd.enable = true;
 
-  # Enable necessary hardware acceleration and video support for Spice.
+  # Enable additional video support for Spice.
   hardware.graphics = {
     extraPackages = with pkgs; [ vaapiIntel vaapiVdpau ];
   };

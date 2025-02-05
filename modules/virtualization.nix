@@ -36,6 +36,17 @@
       chmod 444 /run/libvirt/nix-ovmf/OVMF_CODE.fd /run/libvirt/nix-ovmf/OVMF_VARS.fd
     '';
   };
+    system.activationScripts.ovmfSecure = {
+    text = ''
+      mkdir -p /var/lib/libvirt/firmware
+      rm -rf /var/lib/libvirt/firmware/*
+
+      cp ${pkgs.OVMFFull.fd}/FV/OVMF_CODE.secboot.fd /var/lib/libvirt/firmware/OVMF_CODE.secboot.fd
+      cp ${pkgs.OVMFFull.fd}/FV/OVMF_VARS.secboot.fd /var/lib/libvirt/firmware/OVMF_VARS.secboot.fd
+
+      chmod 444 /var/lib/libvirt/firmware/OVMF_CODE.secboot.fd /var/lib/libvirt/firmware/OVMF_VARS.secboot.fd
+    '';
+  };
   # Enable Spice services for clipboard sharing and file transfer support
   services.spice-vdagentd.enable = true;
 

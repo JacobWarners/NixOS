@@ -1,58 +1,73 @@
-{ config, pkgs, ... }:
-
 {
-  # Install virtualization packages and additional utilities.
-  environment.systemPackages = with pkgs; [
-    qemu_kvm         # QEMU with KVM support
-    libvirt          # Libvirt library
-    virt-manager     # GUI tool for managing VMs
-    spice-vdagent    # For clipboard sharing and file transfer in Spice
-    spice            # Spice client and support libraries
-    spice-protocol
-    spice-gtk
-    swtpm            # Software TPM (needed for Windows 11 secure boot)
-  ];
+  description = "Secure boot configuration for virtualization on NixOS";
 
-  # Configure libvirtd: enable TPM and UEFI with secure boot.
-  virtualisation.libvirtd = {
-    enable = true;
-    qemu.swtpm.enable = true;
-    qemu.ovmf = {
-      enable = true;
-      # Use the secure boot firmware from OVMFFull.
-      # (Ensure your nixpkgs channel revision supports secure boot or pin to a known-good revision.)
-      packages = [ pkgs.OVMFFull ];
-    };
+  inputs = {
+    # Pin to a reputable revision known to produce secure-boot firmware.
+    # Replace this URL with a commit or channel that you know works.
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05"; 
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
-  # Activation script to publish secure boot firmware files into /etc/ovmf.
-  # This script will copy files from /root/secure-ovmf (which you must populate manually)
-  # to /etc/ovmf so that your VM XML can reference them.
-  system.activationScripts.ovmfStatic = {
-    text = ''
-      mkdir -p /etc/ovmf
-      rm -rf /etc/ovmf/*
+  outputs = { self, nixpkgs, flake-utils, ... }:
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in {
+        # This is our system configuration.
+        packages = {};
+        # Replace or add to your existing configuration.nix
+        configuration = { config, pkgs, ... }: {
+          # System packages
+          environment.systemPackages = with pkgs; [
+            qemu_kvm         # QEMU with KVM support
+            libvirt          # Libvirt library
+            virt-manager     # GUI tool for managing VMs
+            spice-vdagent    # For clipboard sharing and file transfer in Spice
+            spice            # Spice client and support libraries
+            spice-protocol
+            spice-gtk
+            swtpm            # Software TPM (needed for Windows 11 secure boot)
+          ];
 
-      # Check that the source files exist before copying.
-      test -f /root/secure-ovmf/OVMF_CODE.secboot.fd || { echo "Error: /root/secure-ovmf/OVMF_CODE.secboot.fd not found" && exit 1; }
-      test -f /root/secure-ovmf/OVMF_VARS.secboot.fd || { echo "Error: /root/secure-ovmf/OVMF_VARS.secboot.fd not found" && exit 1; }
+          # Configure libvirtd: enable TPM and UEFI with secure boot.
+          virtualisation.libvirtd = {
+            enable = true;
+            qemu.swtpm.enable = true;
+            qemu.ovmf = {
+              enable = true;
+              # Use the secure boot firmware from the OVMFFull package.
+              packages = [ pkgs.OVMFFull ];
+            };
+          };
 
-      cp /root/secure-ovmf/OVMF_CODE.secboot.fd /etc/ovmf/edk2-x86_64-secure-code.fd
-      cp /root/secure-ovmf/OVMF_VARS.secboot.fd /etc/ovmf/edk2-i386-vars.fd
-      chmod 444 /etc/ovmf/edk2-x86_64-secure-code.fd /etc/ovmf/edk2-i386-vars.fd
-    '';
-  };
+          # Activation script to publish secure boot firmware files directly to /etc/ovmf.
+          system.activationScripts.ovmfStatic = {
+            text = ''
+              mkdir -p /etc/ovmf
+              rm -rf /etc/ovmf/*
 
-  # Enable the Spice agent service.
-  services.spice-vdagentd.enable = true;
+              # Copy secure boot firmware files from OVMFFull.
+              # These paths are based on the standard output of OVMFFull.
+              cp ${pkgs.OVMFFull}/share/qemu/edk2-x86_64-secure-code.fd /etc/ovmf/edk2-x86_64-secure-code.fd
+              cp ${pkgs.OVMFFull}/share/qemu/edk2-i386-vars.fd /etc/ovmf/edk2-i386-vars.fd
+              chmod 444 /etc/ovmf/edk2-x86_64-secure-code.fd /etc/ovmf/edk2-i386-vars.fd
+            '';
+          };
 
-  # Additional hardware acceleration for graphics (optional for Spice).
-  hardware.graphics.extraPackages = with pkgs; [ vaapiIntel vaapiVdpau ];
+          # Enable the Spice agent service.
+          services.spice-vdagentd.enable = true;
 
-  # Set user permissions (adjust your username if needed).
-  users.users.jake = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "kvm" "libvirt" ];
-  };
+          # Additional hardware acceleration for graphics (optional for Spice).
+          hardware.graphics.extraPackages = with pkgs; [ vaapiIntel vaapiVdpau ];
+
+          # Set user permissions.
+          users.users.jake = {
+            isNormalUser = true;
+            extraGroups = [ "wheel" "kvm" "libvirt" ];
+          };
+
+          # (Other parts of your configuration go here)
+        };
+      });
 }
 

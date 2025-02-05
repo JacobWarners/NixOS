@@ -20,18 +20,23 @@
     qemu.ovmf = {
       enable = true;
       # Use the secure boot firmware from OVMFFull.
-      # (This may not produce secure-boot files in your current channel,
-      # so we’ll use a manual method below.)
+      # (Ensure your nixpkgs channel revision supports secure boot or pin to a known-good revision.)
       packages = [ pkgs.OVMFFull ];
     };
   };
 
-  # Activation script to copy manually downloaded secure boot firmware files to /etc/ovmf.
+  # Activation script to publish secure boot firmware files into /etc/ovmf.
+  # This script will copy files from /root/secure-ovmf (which you must populate manually)
+  # to /etc/ovmf so that your VM XML can reference them.
   system.activationScripts.ovmfStatic = {
     text = ''
       mkdir -p /etc/ovmf
       rm -rf /etc/ovmf/*
-      # Replace these paths with the location where you've stored the secure boot images.
+
+      # Check that the source files exist before copying.
+      test -f /root/secure-ovmf/OVMF_CODE.secboot.fd || { echo "Error: /root/secure-ovmf/OVMF_CODE.secboot.fd not found" && exit 1; }
+      test -f /root/secure-ovmf/OVMF_VARS.secboot.fd || { echo "Error: /root/secure-ovmf/OVMF_VARS.secboot.fd not found" && exit 1; }
+
       cp /root/secure-ovmf/OVMF_CODE.secboot.fd /etc/ovmf/edk2-x86_64-secure-code.fd
       cp /root/secure-ovmf/OVMF_VARS.secboot.fd /etc/ovmf/edk2-i386-vars.fd
       chmod 444 /etc/ovmf/edk2-x86_64-secure-code.fd /etc/ovmf/edk2-i386-vars.fd
@@ -44,7 +49,7 @@
   # Additional hardware acceleration for graphics (optional for Spice).
   hardware.graphics.extraPackages = with pkgs; [ vaapiIntel vaapiVdpau ];
 
-  # Set user permissions (adjust username as necessary).
+  # Set user permissions (adjust your username if needed).
   users.users.jake = {
     isNormalUser = true;
     extraGroups = [ "wheel" "kvm" "libvirt" ];

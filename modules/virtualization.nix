@@ -20,30 +20,20 @@
     qemu.ovmf = {
       enable = true;
       # Use the secure boot firmware from the OVMFFull package.
-      # (Make sure your nixpkgs channel provides a version of OVMFFull that supports secure boot.)
+      # (Ensure your channel revision provides a secure-boot capable OVMFFull.)
       packages = [ pkgs.OVMFFull ];
     };
   };
 
-  # Publish secure boot firmware files to /etc/ovmf.
-  # These files will be available as:
-  #   /etc/ovmf/edk2-x86_64-secure-code.fd and /etc/ovmf/edk2-i386-vars.fd
-  # which your VM XML should reference.
-  environment.etc."ovmf/edk2-x86_64-secure-code.fd" = {
-    source = "${pkgs.OVMFFull}/share/qemu/edk2-x86_64-secure-code.fd";
-  };
-
-  environment.etc."ovmf/edk2-i386-vars.fd" = {
-    source = "${pkgs.OVMFFull}/share/qemu/edk2-i386-vars.fd";
-  };
-
-  # Activation script to verify the secure boot firmware files are published.
-  system.activationScripts.ovmfSecure = {
+  # Activation script to copy secure boot firmware files directly to /etc/ovmf.
+  # This avoids relying on static symlinks and guarantees that the files exist.
+  system.activationScripts.ovmfStatic = {
     text = ''
       mkdir -p /etc/ovmf
-      # The files are published via environment.etc above; verify they exist.
-      test -f /etc/ovmf/edk2-x86_64-secure-code.fd || { echo "Missing edk2-x86_64-secure-code.fd" && exit 1; }
-      test -f /etc/ovmf/edk2-i386-vars.fd || { echo "Missing edk2-i386-vars.fd" && exit 1; }
+      rm -rf /etc/ovmf/*
+      cp ${pkgs.OVMFFull}/share/qemu/edk2-x86_64-secure-code.fd /etc/ovmf/edk2-x86_64-secure-code.fd
+      cp ${pkgs.OVMFFull}/share/qemu/edk2-i386-vars.fd /etc/ovmf/edk2-i386-vars.fd
+      chmod 444 /etc/ovmf/edk2-x86_64-secure-code.fd /etc/ovmf/edk2-i386-vars.fd
     '';
   };
 

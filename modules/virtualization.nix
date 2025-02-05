@@ -19,19 +19,24 @@
     qemu.swtpm.enable = true;
     qemu.ovmf = {
       enable = true;
-      # Here we simply use the standard OVMF, but we'll override the published firmware via our activation script.
-      packages = [ pkgs.OVMF ];
+      # Use the secure boot firmware from OVMFFull.
+      # (Ensure your channel revision produces secure‑boot–capable firmware.)
+      packages = [ pkgs.OVMFFull ];
     };
   };
 
-  # Activation script to publish manually downloaded secure-boot firmware files into /etc/ovmf.
+  # Activation script to publish secure boot firmware files directly to /etc/ovmf.
+  # This bypasses broken static symlinks.
   system.activationScripts.ovmfStatic = {
     text = ''
       mkdir -p /etc/ovmf
       rm -rf /etc/ovmf/*
-      # Copy your downloaded secure-boot firmware files.
-      cp /path/to/downloaded/OVMF_CODE.secboot.fd /etc/ovmf/edk2-x86_64-secure-code.fd
-      cp /path/to/downloaded/OVMF_VARS.secboot.fd /etc/ovmf/edk2-i386-vars.fd
+
+      # Copy the secure-boot firmware files from OVMFFull.
+      # Adjust these paths if your OVMFFull derivation outputs files under a different path.
+      cp ${pkgs.OVMFFull}/share/qemu/edk2-x86_64-secure-code.fd /etc/ovmf/edk2-x86_64-secure-code.fd
+      cp ${pkgs.OVMFFull}/share/qemu/edk2-i386-vars.fd /etc/ovmf/edk2-i386-vars.fd
+
       chmod 444 /etc/ovmf/edk2-x86_64-secure-code.fd /etc/ovmf/edk2-i386-vars.fd
     '';
   };

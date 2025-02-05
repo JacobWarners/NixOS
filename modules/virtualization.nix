@@ -20,13 +20,15 @@
       packages = [
         (pkgs.OVMFFull.override {
           secureBoot = true;
-          tpmSupport = true;  # Change to false if TPM support is not needed.
+          tpmSupport = true;  # Set to false if TPM support is not required.
         })
       ];
     };
   };
 
-  # Activation script to publish the standard (non-secure) firmware
+  ##############################
+  # Activation Script: Standard Firmware (Non‑Secure)
+  ##############################
   system.activationScripts.ovmfCopy = {
     text = ''
       mkdir -p /run/libvirt/nix-ovmf
@@ -37,13 +39,19 @@
     '';
   };
 
-  # Activation script to publish the secure-boot firmware files into a writable location.
+  ##############################
+  # Activation Script: Secure Boot Firmware
+  ##############################
   system.activationScripts.ovmfSecure = {
     text = ''
       mkdir -p /var/lib/libvirt/firmware
       rm -rf /var/lib/libvirt/firmware/*
-      cp ${pkgs.OVMFFull.override { secureBoot = true; tpmSupport = true; } }/FV/OVMF_CODE.secboot.fd /var/lib/libvirt/firmware/OVMF_CODE.secboot.fd
-      cp ${pkgs.OVMFFull.override { secureBoot = true; tpmSupport = true; } }/FV/OVMF_VARS.secboot.fd /var/lib/libvirt/firmware/OVMF_VARS.secboot.fd
+
+      # Copy files from the secure-boot override derivation.
+      # Note: In your channel, the secure-boot override still outputs files named "OVMF_CODE.fd" and "OVMF_VARS.fd".
+      cp ${pkgs.OVMFFull.override { secureBoot = true; tpmSupport = true; } }/FV/OVMF_CODE.fd /var/lib/libvirt/firmware/OVMF_CODE.secboot.fd
+      cp ${pkgs.OVMFFull.override { secureBoot = true; tpmSupport = true; } }/FV/OVMF_VARS.fd /var/lib/libvirt/firmware/OVMF_VARS.secboot.fd
+
       chmod 444 /var/lib/libvirt/firmware/OVMF_CODE.secboot.fd /var/lib/libvirt/firmware/OVMF_VARS.secboot.fd
     '';
   };
@@ -51,12 +59,12 @@
   # Enable the Spice agent service.
   services.spice-vdagentd.enable = true;
 
-  # Enable additional video support for Spice.
+  # Enable necessary hardware acceleration and video support for Spice.
   hardware.graphics = {
     extraPackages = with pkgs; [ vaapiIntel vaapiVdpau ];
   };
 
-  # Set user permissions for virtualization.
+  # Set user permissions for virtualization access.
   users.users.jake = {
     isNormalUser = true;
     extraGroups = [

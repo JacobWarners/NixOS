@@ -12,7 +12,7 @@
     spice-gtk
   ];
 
-  # Configure libvirtd to use UEFI with secure boot
+  # Configure libvirtd to use UEFI with secure boot enabled.
   virtualisation.libvirtd = {
     enable = true;
     qemu.ovmf = {
@@ -20,8 +20,8 @@
       packages = [
         (pkgs.OVMFFull.override {
           secureBoot = true;
-          tpmSupport = true;  # Set to false if you don't want TPM support
-        }).fd
+          tpmSupport = true;  # Change to false if TPM support is not needed.
+        })
       ];
     };
   };
@@ -37,32 +37,32 @@
     '';
   };
 
-  # Activation script to publish the secure-boot firmware files to a writable location.
+  # Activation script to publish the secure-boot firmware files into a writable location.
   system.activationScripts.ovmfSecure = {
     text = ''
       mkdir -p /var/lib/libvirt/firmware
       rm -rf /var/lib/libvirt/firmware/*
-      cp ${pkgs.OVMFFull.override { secureBoot = true; tpmSupport = true; }.fd}/FV/OVMF_CODE.secboot.fd /var/lib/libvirt/firmware/OVMF_CODE.secboot.fd
-      cp ${pkgs.OVMFFull.override { secureBoot = true; tpmSupport = true; }.fd}/FV/OVMF_VARS.secboot.fd /var/lib/libvirt/firmware/OVMF_VARS.secboot.fd
+      cp ${pkgs.OVMFFull.override { secureBoot = true; tpmSupport = true; } }/FV/OVMF_CODE.secboot.fd /var/lib/libvirt/firmware/OVMF_CODE.secboot.fd
+      cp ${pkgs.OVMFFull.override { secureBoot = true; tpmSupport = true; } }/FV/OVMF_VARS.secboot.fd /var/lib/libvirt/firmware/OVMF_VARS.secboot.fd
       chmod 444 /var/lib/libvirt/firmware/OVMF_CODE.secboot.fd /var/lib/libvirt/firmware/OVMF_VARS.secboot.fd
     '';
   };
 
-  # Enable Spice agent service
+  # Enable the Spice agent service.
   services.spice-vdagentd.enable = true;
 
-  # Enable additional video support for Spice
+  # Enable additional video support for Spice.
   hardware.graphics = {
     extraPackages = with pkgs; [ vaapiIntel vaapiVdpau ];
   };
 
-  # Set user permissions for virtualization access
+  # Set user permissions for virtualization.
   users.users.jake = {
     isNormalUser = true;
     extraGroups = [
-      "wheel"   # For sudo privileges
-      "kvm"     # For KVM access
-      "libvirt" # For libvirt access
+      "wheel"   # For sudo privileges.
+      "kvm"     # For KVM access.
+      "libvirt" # For libvirt access.
     ];
   };
 }

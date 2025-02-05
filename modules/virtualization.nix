@@ -17,7 +17,11 @@
     enable = true;
     qemu.ovmf = {
       enable = true;
-      packages = [pkgs.OVMF.fd];
+      (pkgs.OVMFFull.override {
+        secureBoot = true;
+        csmSupport = false;
+#      packages = [pkgs.OVMF.fd];
+        }).fd
     };
   };
 

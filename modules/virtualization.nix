@@ -17,17 +17,20 @@
     enable = true;
     qemu.ovmf = {
       enable = true;
+      # Use an override of OVMFFull with secureBoot and TPM support.
+      # (Note: In this channel the secure-boot override does not produce distinct file names,
+      # so we use .outPath to access its output.)
       packages = [
         (pkgs.OVMFFull.override {
           secureBoot = true;
-          tpmSupport = true;  # Set to false if TPM support is not required.
-        })
+          tpmSupport = true;
+        }).outPath
       ];
     };
   };
 
   ##############################
-  # Activation script: Standard Firmware (Non‑Secure)
+  # Activation Script: Standard Firmware (Non‑Secure)
   ##############################
   system.activationScripts.ovmfCopy = {
     text = ''
@@ -40,18 +43,18 @@
   };
 
   ##############################
-  # Activation script: Secure Boot Firmware
+  # Activation Script: Secure Boot Firmware
   ##############################
   system.activationScripts.ovmfSecure = {
     text = ''
       mkdir -p /var/lib/libvirt/firmware
       rm -rf /var/lib/libvirt/firmware/*
 
-      # Notice: We copy from the overridden OVMFFull derivation,
-      # but in this channel the output files are named "OVMF_CODE.fd" and "OVMF_VARS.fd".
-      # We copy them to files with a ".secboot.fd" suffix so that your VM XML can distinguish them.
-      cp ${pkgs.OVMFFull.override { secureBoot = true; tpmSupport = true; } }/FV/OVMF_CODE.fd /var/lib/libvirt/firmware/OVMF_CODE.secboot.fd
-      cp ${pkgs.OVMFFull.override { secureBoot = true; tpmSupport = true; } }/FV/OVMF_VARS.fd /var/lib/libvirt/firmware/OVMF_VARS.secboot.fd
+      # Let drv be the overridden OVMFFull with secureBoot and tpmSupport enabled.
+      # In this channel, its output files are still named "OVMF_CODE.fd" and "OVMF_VARS.fd",
+      # so we copy them and rename them to include the ".secboot.fd" suffix.
+      cp ${let drv = pkgs.OVMFFull.override { secureBoot = true; tpmSupport = true; }; in drv.outPath}/FV/OVMF_CODE.fd /var/lib/libvirt/firmware/OVMF_CODE.secboot.fd
+      cp ${let drv = pkgs.OVMFFull.override { secureBoot = true; tpmSupport = true; }; in drv.outPath}/FV/OVMF_VARS.fd /var/lib/libvirt/firmware/OVMF_VARS.secboot.fd
 
       chmod 444 /var/lib/libvirt/firmware/OVMF_CODE.secboot.fd /var/lib/libvirt/firmware/OVMF_VARS.secboot.fd
     '';

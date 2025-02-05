@@ -20,23 +20,20 @@
     qemu.ovmf = {
       enable = true;
       # Use the secure boot firmware from OVMFFull.
-      # (Ensure your channel revision produces secure‑boot–capable firmware.)
+      # (This may not produce secure-boot files in your current channel,
+      # so we’ll use a manual method below.)
       packages = [ pkgs.OVMFFull ];
     };
   };
 
-  # Activation script to publish secure boot firmware files directly to /etc/ovmf.
-  # This bypasses broken static symlinks.
+  # Activation script to copy manually downloaded secure boot firmware files to /etc/ovmf.
   system.activationScripts.ovmfStatic = {
     text = ''
       mkdir -p /etc/ovmf
       rm -rf /etc/ovmf/*
-
-      # Copy the secure-boot firmware files from OVMFFull.
-      # Adjust these paths if your OVMFFull derivation outputs files under a different path.
-      cp ${pkgs.OVMFFull}/share/qemu/edk2-x86_64-secure-code.fd /etc/ovmf/edk2-x86_64-secure-code.fd
-      cp ${pkgs.OVMFFull}/share/qemu/edk2-i386-vars.fd /etc/ovmf/edk2-i386-vars.fd
-
+      # Replace these paths with the location where you've stored the secure boot images.
+      cp /root/secure-ovmf/OVMF_CODE.secboot.fd /etc/ovmf/edk2-x86_64-secure-code.fd
+      cp /root/secure-ovmf/OVMF_VARS.secboot.fd /etc/ovmf/edk2-i386-vars.fd
       chmod 444 /etc/ovmf/edk2-x86_64-secure-code.fd /etc/ovmf/edk2-i386-vars.fd
     '';
   };
@@ -44,10 +41,10 @@
   # Enable the Spice agent service.
   services.spice-vdagentd.enable = true;
 
-  # Additional hardware acceleration for graphics.
+  # Additional hardware acceleration for graphics (optional for Spice).
   hardware.graphics.extraPackages = with pkgs; [ vaapiIntel vaapiVdpau ];
 
-  # Set user permissions.
+  # Set user permissions (adjust username as necessary).
   users.users.jake = {
     isNormalUser = true;
     extraGroups = [ "wheel" "kvm" "libvirt" ];

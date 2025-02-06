@@ -1,63 +1,85 @@
 { config, pkgs, ... }:
 
 {
-  # System packages: virtualization, TPM, and Spice-related tools.
+  # Install virtualization packages and additional utilities for Spice
   environment.systemPackages = with pkgs; [
-    qemu_kvm         # QEMU with KVM support
-    libvirt          # Libvirt library
-    virt-manager     # GUI tool for managing VMs
-    spice-vdagent    # For clipboard sharing and file transfer (Spice)
-    spice            # Spice client and support libraries
+    qemu_kvm # QEMU with KVM support
+    libvirt # Libvirt library
+    virt-manager # GUI tool for managing virtual machines
+    spice-vdagent # Agent to enable clipboard sharing and file transfer
+    spice # Spice client and support libraries
     spice-protocol
     spice-gtk
-    swtpm            # Software TPM (needed for Windows 11 secure boot)
   ];
 
-  # Configure libvirtd to enable UEFI with secure boot.
   virtualisation.libvirtd = {
+  enable = true;
+  qemu.ovmf = {
     enable = true;
-    qemu.swtpm.enable = true;
-    qemu.ovmf = {
-      enable = true;
-      # Use the secure‑boot firmware from the OVMFFull package.
-      # (If necessary, pin nixpkgs to a known‑good revision such as nixos-24.05.)
-      packages = [ pkgs.OVMFFull ];
-    };
+    packages = [ (pkgs.OVMFFull.override {
+      secureBoot = true;
+      csmSupport = false;
+    }).fd ];
   };
+};
+  # Enable and configure libvirtd service
+#  virtualisation.libvirtd = {
+#    enable = true;
+#    qemu.ovmf = {
+#      enable = true;
+#      (pkgs.OVMFFull.override {
+#        secureBoot = true;
+#        csmSupport = false;
+##      packages = [pkgs.OVMF.fd];
+#        }).fd
+#    };
+#  };
+#
 
-  # Activation script: Copy the secure‑boot firmware files from the OVMFFull derivation.
-  # This script uses find to locate the files named "OVMF_CODE.fd" and "OVMF_VARS.fd"
-  # in the OVMFFull output and copies them to /etc/ovmf with stable names.
-  system.activationScripts.ovmfStatic = {
+    system.activationScripts.ovmfCopy = {
     text = ''
-      mkdir -p /etc/ovmf
-      rm -rf /etc/ovmf/*
+      # Create a directory for the OVMF firmware in a writable location.
+      mkdir -p /run/libvirt/nix-ovmf
+      rm -rf /run/libvirt/nix-ovmf/*
 
-      # Find the secure boot firmware files.
-      CODE=$(find ${pkgs.OVMFFull} -type f -name "OVMF_CODE.fd" | head -n1)
-      VARS=$(find ${pkgs.OVMFFull} -type f -name "OVMF_VARS.fd" | head -n1)
+      # Copy the firmware files from the OVMF derivation.
+      cp ${pkgs.OVMF.fd}/FV/OVMF_CODE.fd /run/libvirt/nix-ovmf/OVMF_CODE.fd
+      cp ${pkgs.OVMF.fd}/FV/OVMF_VARS.fd /run/libvirt/nix-ovmf/OVMF_VARS.fd
 
-      if [ -z "$CODE" ] || [ -z "$VARS" ]; then
-        echo "Error: Could not find secure boot firmware files in ${pkgs.OVMFFull}"
-        exit 1
-      fi
-
-      cp "$CODE" /etc/ovmf/edk2-x86_64-secure-code.fd
-      cp "$VARS" /etc/ovmf/edk2-i386-vars.fd
-      chmod 444 /etc/ovmf/edk2-x86_64-secure-code.fd /etc/ovmf/edk2-i386-vars.fd
+      # (Optional) Set appropriate permissions, though they should be readable.
+      chmod 444 /run/libvirt/nix-ovmf/OVMF_CODE.fd /run/libvirt/nix-ovmf/OVMF_VARS.fd
     '';
   };
+    system.activationScripts.ovmfSecure = {
+    text = ''
+      mkdir -p /var/lib/libvirt/firmware
+      rm -rf /var/lib/libvirt/firmware/*
 
-  # Enable the Spice agent service.
+      cp ${pkgs.OVMFFull.fd}/FV/OVMF_CODE.secboot.fd /var/lib/libvirt/firmware/OVMF_CODE.secboot.fd
+      cp ${pkgs.OVMFFull.fd}/FV/OVMF_VARS.secboot.fd /var/lib/libvirt/firmware/OVMF_VARS.secboot.fd
+
+      chmod 444 /var/lib/libvirt/firmware/OVMF_CODE.secboot.fd /var/lib/libvirt/firmware/OVMF_VARS.secboot.fd
+    '';
+  };
+  # Enable Spice services for clipboard sharing and file transfer support
   services.spice-vdagentd.enable = true;
 
-  # Additional hardware acceleration for graphics (optional for Spice).
-  hardware.graphics.extraPackages = with pkgs; [ vaapiIntel vaapiVdpau ];
+  # Enable necessary hardware acceleration and video support for Spice
+  hardware.graphics = {
+    extraPackages = with pkgs; [
+      vaapiIntel # VAAPI for Intel GPUs
+      vaapiVdpau # VDPAU/VAAPI interoperability
+    ];
+  };
 
-  # Set user permissions (adjust your username if needed).
+  # Set user permissions
   users.users.jake = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "kvm" "libvirt" ];
+    extraGroups = [
+      "wheel" # For sudo privileges
+      "kvm" # For KVM access
+      "libvirt" # For libvirt access
+    ];
   };
 }
 

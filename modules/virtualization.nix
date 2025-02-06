@@ -18,7 +18,6 @@
     enable = true;
     packages = [ (pkgs.OVMFFull.override {
       secureBoot = true;
-      csmSupport = false;
     }).fd ];
   };
 };

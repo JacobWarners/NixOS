@@ -10,6 +10,7 @@
     spice # Spice client and support libraries
     spice-protocol
     spice-gtk
+    libguestfs
   ];
 
   virtualisation.libvirtd = {

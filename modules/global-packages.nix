@@ -43,6 +43,8 @@
     kdenlive
     # Add any other global packages here
     nixpkgs-fmt
+    vdhcoapp
+
     #Kubestuff
     google-cloud-sdk-gce
     envsubst
@@ -59,5 +61,10 @@
 
 
   ];
+
+    programs.firefox = {
+          enable = true;
+              nativeMessagingHosts.packages = with pkgs; [ vdhcoapp ];
+                };
 }
 

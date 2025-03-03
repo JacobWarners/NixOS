@@ -65,7 +65,9 @@
   minicom  # Serial terminal
   picocom  # Alternative serial terminal
   platformio  # Development environment
+  arduino
   arduino-ide
+  arduino-cli
 
 
   ];

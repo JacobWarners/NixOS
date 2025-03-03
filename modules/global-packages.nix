@@ -60,7 +60,7 @@
 
    # esp32 stuff
   python3
-  python3Packages.esptool  # For flashing firmware
+  esptool  # For flashing firmware
   python3Packages.adafruit-ampy  # For managing MicroPython files
   minicom  # Serial terminal
   picocom  # Alternative serial terminal

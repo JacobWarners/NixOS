@@ -11,6 +11,7 @@
     obs-studio
     discord
     firefox
+    librewolf-bin
     chromium
     joplin-desktop
     wlogout

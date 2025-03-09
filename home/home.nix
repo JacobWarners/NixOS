@@ -65,6 +65,86 @@
       PATH = "${config.home.homeDirectory}/.local/bin:$PATH";
             };
 
+            
+  # librewolf settings
+  home.sessionVariables = {
+  XDG_DATA_DIRS = "${config.home.homeDirectory}/.nix-profile/share:/run/current-system/sw/share:/usr/local/share:/usr/share";
+};
+home.sessionVariables = {
+  BROWSER = "librewolf";
+};
+programs.zsh.initExtra = ''
+  alias firefox="librewolf"
+'';
+
+
+programs.librewolf = {
+  enable = true;
+  settings = {
+    # Adjust cookie clearing on exit
+    "privacy.clearOnShutdown.cookies" = false;
+    "privacy.clearOnShutdown.cache" = false;
+    "privacy.clearOnShutdown.downloads" = false;
+    "privacy.clearOnShutdown.formdata" = false;
+    "privacy.clearOnShutdown.offlineApps" = false;
+    "privacy.clearOnShutdown_v2.cache" = false;
+    "privacy.clearOnShutdown_v2.cookiesAndStorage" = false;
+    "privacy.sanitize.sanitizeOnShutdown" = false;
+
+    # Adjust cookie lifetime policy (closer to Firefox)
+    "network.cookie.lifetimePolicy" = 0;
+
+    # Enable autofill and history saving
+    "browser.formfill.enable" = true;
+    "places.history.enabled" = true;
+
+    # Adjust browser homepage
+    "browser.startup.homepage" = "https://chatgpt.com/?model=gpt-4o";
+
+    # Adjust search engine
+    "browser.policies.runOncePerModification.setDefaultSearchEngine" = "DuckDuckGo";
+    "browser.urlbar.placeholderName" = "Google";
+
+    # Privacy & Fingerprinting adjustments
+    "privacy.fingerprintingProtection" = true;
+    "privacy.trackingprotection.enabled" = true;
+    "privacy.trackingprotection.emailtracking.enabled" = true;
+    "privacy.trackingprotection.socialtracking.enabled" = true;
+
+    # Safe browsing adjustments
+    "browser.safebrowsing.downloads.remote.block_potentially_unwanted" = false;
+    "browser.safebrowsing.downloads.remote.block_uncommon" = false;
+    "browser.safebrowsing.downloads.remote.enabled" = false;
+
+    # Disable captive portal
+    "network.captive-portal-service.enabled" = false;
+    "network.connectivity-service.enabled" = false;
+
+    # Disable prefetching & speculative connections
+    "network.predictor.enabled" = false;
+    "network.prefetch-next" = false;
+
+    # Remove unnecessary permissions delegation
+    "permissions.delegation.enabled" = false;
+
+    # Remove Google Safe Browsing data-sharing URL
+    "browser.safebrowsing.provider.google4.dataSharingURL" = "";
+
+    # Remove Mozilla tracking
+    "browser.region.network.url" = "";
+    "browser.region.update.enabled" = false;
+
+    # Installed Extensions
+    "browser.policies.runOncePerModification.extensionsInstall" = "[\"https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi\"]";
+
+    # Remove Default Search Engines (except DuckDuckGo)
+    "browser.policies.runOncePerModification.extensionsUninstall" = "[\"google@search.mozilla.org\",\"bing@search.mozilla.org\",\"amazondotcom@search.mozilla.org\",\"ebay@search.mozilla.org\",\"twitter@search.mozilla.org\"]";
+    "browser.policies.runOncePerModification.removeSearchEngines" = "[\"Google\",\"Bing\",\"Amazon.com\",\"eBay\",\"Twitter\"]";
+  };
+};
+
+
+  
 
   # Link dotfiles
   home.file.".zshrc".source = ./dotfiles/.zshrc;

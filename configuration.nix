@@ -26,20 +26,24 @@
   nixpkgs.overlays = [
     (final: prev: {
       chromium =
-        (import (builtins.fetchTarball {
-          url = "https://github.com/NixOS/nixpkgs/archive/fd40cef8d797670e203a27a91e4b8e6decf0b90c.tar.gz";
-          sha256 = "1xxmih8zbxk80m6r0zd5qp6z6a4cxl7n1cmnlhs5wi87n4sfz24w"# Replace with real hash
-            }) { system = "x86_64-linux";
-          config.allowUnfree = true;
-        }).chromium;
-          linuxPackages = prev.linuxPackages.extend (lself: lsuper: {
-      nvidia_x11 = (import (builtins.fetchTarball {
-      url = "https://github.com/NixOS/nixpkgs/archive/fd40cef8d797670e203a27a91e4b8e6decf0b90c.tar.gz";
-      sha256 = "1xxmih8zbxk80m6r0zd5qp6z6a4cxl7n1cmnlhs5wi87n4sfz24w"; # Replace with real hash
-    })
-    { system = "x86_64-linux"; config.allowUnfree = true; }
-    ).linuxPackages.nvidia_x11;
-    });
+        (import
+          (builtins.fetchTarball {
+            url = "https://github.com/NixOS/nixpkgs/archive/fd40cef8d797670e203a27a91e4b8e6decf0b90c.tar.gz";
+            sha256 = "1xxmih8zbxk80m6r0zd5qp6z6a4cxl7n1cmnlhs5wi87n4sfz24w";
+          })
+          {
+            system = "x86_64-linux";
+            config.allowUnfree = true;
+          }).chromium;
+      linuxPackages = prev.linuxPackages.extend (lself: lsuper: {
+        nvidia_x11 = (import
+          (builtins.fetchTarball {
+            url = "https://github.com/NixOS/nixpkgs/archive/fd40cef8d797670e203a27a91e4b8e6decf0b90c.tar.gz";
+            sha256 = "1xxmih8zbxk80m6r0zd5qp6z6a4cxl7n1cmnlhs5wi87n4sfz24w";
+          })
+          { system = "x86_64-linux"; config.allowUnfree = true; }
+        ).linuxPackages.nvidia_x11;
+      });
     })
   ];
 

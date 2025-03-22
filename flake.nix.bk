@@ -24,17 +24,10 @@
   outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, nix-ld, ... }:
     let
       system = "x86_64-linux";
-      overlays = [
-        (final: prev: {
-          etcd = prev.etcd.overrideAttrs (oldAttrs: {
-            doCheck = false;
-          });
-        })
-      ];
-      pkgs = import nixpkgs { inherit system; overlays = overlays; };
+      pkgs = import nixpkgs { inherit system; };
     in
     {
-      nixosConfigurations.Framework = pkgs.lib.nixosSystem {
+      nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = { inherit nix-ld; }; # Pass nix-ld for modules
 

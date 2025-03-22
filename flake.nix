@@ -4,39 +4,28 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nix-ld.url = "github:Mic92/nix-ld";
-
-    # Home Manager input
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # Blacklist for hosts
     ultimate-hosts-blacklist = {
       url = "github:Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist";
-      flake = false; # Not a flake, so mark as false
+      flake = false;
     };
-
-    # Ensure nix-ld uses the same nixpkgs version
     nix-ld.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, nix-ld, ... }:
     let
       system = "x86_64-linux";
+      # Define pkgs with the overlay
       pkgs = import nixpkgs {
         inherit system;
         overlays = [
           (final: prev: {
-            # Override etcd
             etcd = prev.etcd.overrideAttrs (oldAttrs: {
               doCheck = false;
               checkPhase = "echo 'Tests skipped for etcd'";
-            });
-            # Override etcdserver directly at the top level
-            etcdserver = prev.etcdserver.overrideAttrs (oldAttrs: {
-              doCheck = false;
-              checkPhase = "echo 'Tests skipped for etcdserver'";
             });
           })
         ];
@@ -45,11 +34,15 @@
     {
       nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit nix-ld; }; # Pass nix-ld for modules
+        specialArgs = { inherit nix-ld; };
         modules = [
-          ./configuration.nix # Base configuration
-          ./modules/nix-ld.nix # nix-ld module
-          home-manager.nixosModules.home-manager # Home Manager module
+          # Ensure the system uses the overlaid pkgs
+          {
+            nixpkgs.pkgs = pkgs;
+          }
+          ./configuration.nix
+          ./modules/nix-ld.nix
+          home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;

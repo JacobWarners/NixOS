@@ -31,13 +31,14 @@
           });
         })
       ];
-      pkgs = import nixpkgs { inherit system; overlays = overlays; };
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = overlays;
+      };
     in
     {
-      nixosConfigurations.Framework = pkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = { inherit nix-ld; }; # Pass nix-ld for modules
-
+      nixosConfigurations.Framework = pkgs.nixosSystem {
+        system = system;
         modules = [
           ./configuration.nix # Base configuration
           ./modules/nix-ld.nix # nix-ld module

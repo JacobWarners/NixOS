@@ -24,22 +24,22 @@
   outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, nix-ld, ... }:
     let
       system = "x86_64-linux";
-      # Import nixpkgs with your overlay for etcd (used elsewhere in your configuration)
-      pkgs = import nixpkgs {
+      finalPkgs = import nixpkgs {
         inherit system;
         overlays = [
           (final: prev: {
-            etcd = prev.etcd.overrideAttrs (oldAttrs: {
-              doCheck = false;
-            });
+            etcd = prev.etcd // {
+              etcdserver = prev.etcd.etcdserver.overrideAttrs (oldAttrs: rec {
+                doCheck = false;
+                checkPhase = "echo 'Skipping etcdserver tests'";
+              });
+            };
           })
         ];
       };
     in
     {
-      # Instead of using the locally imported (and overlaid) value,
-      # use nixpkgs.lib.nixosSystem to build your NixOS configuration.
-      nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.Framework = finalPkgs.lib.nixosSystem {
         system = system;
         modules = [
           ./configuration.nix # Base configuration
@@ -53,7 +53,7 @@
           }
           {
             environment.etc."hosts.deny".source =
-              nixpkgs.lib.mkForce "${ultimate-hosts-blacklist}/hosts.deny/hosts0.deny";
+              finalPkgs.lib.mkForce "${ultimate-hosts-blacklist}/hosts.deny/hosts0.deny";
           }
         ];
       };

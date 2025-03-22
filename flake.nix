@@ -24,14 +24,19 @@
   outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, nix-ld, ... }:
     let
       system = "x86_64-linux";
-      finalPkgs = import nixpkgs {
+      pkgs = import nixpkgs {
         inherit system;
         overlays = [
           (final: prev: {
-            etcd = prev.etcd // {
-              etcdserver = prev.etcd.etcdserver.overrideAttrs (oldAttrs: rec {
-                doCheck = false;
-                checkPhase = "echo 'Skipping etcdserver tests'";
+            etcd = prev.etcd.overrideAttrs
+              (oldAttrs: {
+                doCheck = false; # Disable tests for etcd
+                checkPhase = "echo 'Tests skipped for etcd'";
+              }) // {
+              # Explicitly override etcdserver subpackage
+              etcdserver = prev.etcd.etcdserver.overrideAttrs (oldAttrs: {
+                doCheck = false; # Disable tests for etcdserver
+                checkPhase = "echo 'Tests skipped for etcdserver'";
               });
             };
           })
@@ -39,8 +44,9 @@
       };
     in
     {
-      nixosConfigurations.Framework = finalPkgs.lib.nixosSystem {
-        system = system;
+      nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit nix-ld; }; # Pass nix-ld for modules
         modules = [
           ./configuration.nix # Base configuration
           ./modules/nix-ld.nix # nix-ld module
@@ -52,11 +58,10 @@
             home-manager.backupFileExtension = "backup";
           }
           {
-            environment.etc."hosts.deny".source =
-              finalPkgs.lib.mkForce "${ultimate-hosts-blacklist}/hosts.deny/hosts0.deny";
+            environment.etc."hosts.deny".source = pkgs.lib.mkForce
+              "${ultimate-hosts-blacklist}/hosts.deny/hosts0.deny";
           }
         ];
       };
     };
 }
-

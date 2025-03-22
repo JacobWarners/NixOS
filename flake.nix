@@ -24,20 +24,19 @@
   outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, nix-ld, ... }:
     let
       system = "x86_64-linux";
-      overlays = [
-        (final: prev: {
-          etcd = prev.etcd.overrideAttrs (oldAttrs: {
-            doCheck = false;
-          });
-        })
-      ];
-      pkgs = import nixpkgs {
+      finalPkgs = import nixpkgs {
         inherit system;
-        overlays = overlays;
+        overlays = [
+          (final: prev: {
+            etcd = prev.etcd.overrideAttrs (oldAttrs: {
+              doCheck = false;
+            });
+          })
+        ];
       };
     in
     {
-      nixosConfigurations.Framework = pkgs.nixosSystem {
+      nixosConfigurations.Framework = finalPkgs.lib.nixosSystem {
         system = system;
         modules = [
           ./configuration.nix # Base configuration
@@ -50,7 +49,7 @@
             home-manager.backupFileExtension = "backup";
           }
           {
-            environment.etc."hosts.deny".source = pkgs.lib.mkForce
+            environment.etc."hosts.deny".source = finalPkgs.lib.mkForce
               "${ultimate-hosts-blacklist}/hosts.deny/hosts0.deny";
           }
         ];

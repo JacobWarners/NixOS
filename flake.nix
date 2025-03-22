@@ -18,21 +18,13 @@
   outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, nix-ld, ... }:
     let
       system = "x86_64-linux";
-      # Define pkgs with overlays and config
       pkgs = import nixpkgs {
         inherit system;
         config = {
-          allowUnfree = true; # Moved from configuration.nix
-          multilib = true; # Moved from configuration.nix
+          allowUnfree = true;
+          multilib = true;
         };
-        overlays = [
-          (final: prev: {
-            etcd = prev.etcd.overrideAttrs (oldAttrs: {
-              doCheck = false;
-              checkPhase = "echo 'Tests skipped for etcd'";
-            });
-          })
-        ];
+        # No overlays here anymore; moved to configuration.nix
       };
     in
     {
@@ -40,7 +32,6 @@
         inherit system;
         specialArgs = { inherit nix-ld; };
         modules = [
-          # Pass the overlaid and configured pkgs
           {
             nixpkgs.pkgs = pkgs;
           }

@@ -16,21 +16,15 @@
     ./modules/egpu.nix
     ./modules/audio.nix
     ./modules/users.nix
+    #    ./modules/unfree.nix
     ./modules/global-packages.nix
     ./modules/virtualization.nix
     ./modules/gaming.nix
     ./modules/docker.nix
+    # Add any other modules you have
   ];
-
-  # Add the overlay to disable etcd tests
-  nixpkgs.overlays = [
-    (final: prev: {
-      etcd = prev.etcd.overrideAttrs (oldAttrs: {
-        doCheck = false;
-        checkPhase = "echo 'Tests skipped for etcd'";
-      });
-    })
-  ];
-
   system.stateVersion = "24.11";
+
+  # Global settings can be added here if necessary
 }
+

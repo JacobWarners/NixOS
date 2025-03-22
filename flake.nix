@@ -28,17 +28,16 @@
         inherit system;
         overlays = [
           (final: prev: {
-            etcd = prev.etcd.overrideAttrs
-              (oldAttrs: {
-                doCheck = false; # Disable tests for etcd
-                checkPhase = "echo 'Tests skipped for etcd'";
-              }) // {
-              # Explicitly override etcdserver subpackage
-              etcdserver = prev.etcd.etcdserver.overrideAttrs (oldAttrs: {
-                doCheck = false; # Disable tests for etcdserver
-                checkPhase = "echo 'Tests skipped for etcdserver'";
-              });
-            };
+            # Override etcd
+            etcd = prev.etcd.overrideAttrs (oldAttrs: {
+              doCheck = false;
+              checkPhase = "echo 'Tests skipped for etcd'";
+            });
+            # Override etcdserver directly at the top level
+            etcdserver = prev.etcdserver.overrideAttrs (oldAttrs: {
+              doCheck = false;
+              checkPhase = "echo 'Tests skipped for etcdserver'";
+            });
           })
         ];
       };

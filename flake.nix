@@ -24,7 +24,8 @@
   outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, nix-ld, ... }:
     let
       system = "x86_64-linux";
-      finalPkgs = import nixpkgs {
+      # Import nixpkgs with your overlay for etcd (used elsewhere in your configuration)
+      pkgs = import nixpkgs {
         inherit system;
         overlays = [
           (final: prev: {
@@ -36,7 +37,9 @@
       };
     in
     {
-      nixosConfigurations.Framework = finalPkgs.lib.nixosSystem {
+      # Instead of using the locally imported (and overlaid) value,
+      # use nixpkgs.lib.nixosSystem to build your NixOS configuration.
+      nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
         system = system;
         modules = [
           ./configuration.nix # Base configuration
@@ -49,8 +52,8 @@
             home-manager.backupFileExtension = "backup";
           }
           {
-            environment.etc."hosts.deny".source = finalPkgs.lib.mkForce
-              "${ultimate-hosts-blacklist}/hosts.deny/hosts0.deny";
+            environment.etc."hosts.deny".source =
+              nixpkgs.lib.mkForce "${ultimate-hosts-blacklist}/hosts.deny/hosts0.deny";
           }
         ];
       };

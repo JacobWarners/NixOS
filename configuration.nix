@@ -16,7 +16,7 @@
     ./modules/egpu.nix
     ./modules/audio.nix
     ./modules/users.nix
-    ./modules/unfree.nix
+    #    ./modules/unfree.nix
     ./modules/global-packages.nix
     ./modules/virtualization.nix
     ./modules/gaming.nix

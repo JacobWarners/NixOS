@@ -36,7 +36,7 @@
       };
     in
     {
-      nixosConfigurations.Framework = finalPkgs.nixosSystem {
+      nixosConfigurations.Framework = finalPkgs.lib.nixosSystem {
         system = system;
         modules = [
           ./configuration.nix # Base configuration

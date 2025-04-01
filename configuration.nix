@@ -26,5 +26,9 @@
   system.stateVersion = "24.11";
 
   # Global settings can be added here if necessary
+
+  boot.loader.systemd-boot.configurationLimit = 5;
+
+
 }
 

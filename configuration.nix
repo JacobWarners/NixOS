@@ -27,8 +27,5 @@
 
   # Global settings can be added here if necessary
 
-  boot.loader.systemd-boot.configurationLimit = 5;
-
-
 }
 

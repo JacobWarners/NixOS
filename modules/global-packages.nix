@@ -41,7 +41,7 @@
     terraform
     awscli
     google-cloud-sdk
-    kdenlive
+ #   kdenlive
     # Add any other global packages here
     nixpkgs-fmt
     vdhcoapp

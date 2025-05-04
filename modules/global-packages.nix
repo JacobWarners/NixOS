@@ -54,7 +54,7 @@
     cri-tools
     runc
     containerd
-    etcd
+  #  etcd
     openssl
     k9s
     kubernetes-helm

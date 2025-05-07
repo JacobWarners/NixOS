@@ -23,7 +23,7 @@
 #      ExecStartPost = ''
 #        ${pkgs.bash}/bin/bash -c 'chown jake:jake /home/jake/.config/aacs/KEYDB.cfg && chmod 600 /home/jake/.config/aacs/KEYDB.cfg'
 #      '';
-    };
+    }
 #  };
 #}
 

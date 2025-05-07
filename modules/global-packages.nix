@@ -33,6 +33,7 @@
     jq
 #    prusa-slicer
     p7zip
+    displaylink
     tree
     file
     drawio

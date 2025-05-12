@@ -17,8 +17,6 @@ in
   # Enable OpenGL and AMD-specific packages
   hardware.opengl = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true; # For 32-bit applications
     extraPackages = with pkgs; [ amdvlk ];
     extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
   };
@@ -29,7 +27,7 @@ in
   systemd.services.lactd = {
     wantedBy = [ "multi-user.target" ];
     description = "Linux AMDGPU Controller Daemon";
-    serviceConfig = {  # Fixed: Changed `serviceconfigs` to `serviceConfig`
+    serviceConfig = {
       ExecStart = "${pkgs.lact}/bin/lact daemon";
       Restart = "always";
     };

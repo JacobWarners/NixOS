@@ -8,15 +8,17 @@
     extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
   };
 
-  # Install LACT and configure its systemd service
-  environment.systemPackages = with pkgs; [ lact ];
-  systemd.packages = with pkgs; [ lact ];
-  systemd.services.lactd = {
-    wantedBy = [ "multi-user.target" ];
-    description = "Linux AMDGPU Controller Daemon";
+  environment.systemPackages = with pkgs; [
+    lact
+  ];
+
+  systemd.services.lact = {
+    description = "AMDGPU Control Daemon";
+    after = ["multi-user.target"];
+    wantedBy = ["multi-user.target"];
     serviceConfig = {
       ExecStart = "${pkgs.lact}/bin/lact daemon";
-      Restart = "always";
     };
+    enable = true;
   };
 }

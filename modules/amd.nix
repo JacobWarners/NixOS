@@ -2,7 +2,7 @@
 
 let
   # Custom amdgpu kernel module derivation
-  amdgpu-kernel-module = pkgs.callPackage ./packages/amdgpu-kernel-module.nix {
+  amdgpu-kernel-module = pkgs.callPackage ./modules/amd.nix {
     kernel = config.boot.kernelPackages.kernel;
   };
 

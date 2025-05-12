@@ -2,8 +2,7 @@
 
 {
   boot = {
-    initrd = { 
-      kernelModules = ["amdgpu"];
+    blacklistedKernelModules = [ "nouveau" ];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;

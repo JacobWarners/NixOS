@@ -29,7 +29,7 @@ in
   systemd.services.lactd = {
     wantedBy = [ "multi-user.target" ];
     description = "Linux AMDGPU Controller Daemon";
-    serviceconfigs = {
+    serviceConfig = {  # Fixed: Changed `serviceconfigs` to `serviceConfig`
       ExecStart = "${pkgs.lact}/bin/lact daemon";
       Restart = "always";
     };

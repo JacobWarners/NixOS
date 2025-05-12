@@ -23,9 +23,17 @@ in
     extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
   };
 
-  # Install and enable LACT (AMD GPU control daemon)
+  # Install LACT and configure its systemd service
   environment.systemPackages = with pkgs; [ lact ];
-  services.lact.enable = true; # Simplifies lactd service configuration
+  systemd.packages = with pkgs; [ lact ];
+  systemd.services.lactd = {
+    wantedBy = [ "multi-user.target" ];
+    description = "Linux AMDGPU Controller Daemon";
+    serviceconfigs = {
+      ExecStart = "${pkgs.lact}/bin/lact daemon";
+      Restart = "always";
+    };
+  };
 
   # Apply AMDGPU stability patch to kernel module
   boot.extraModulePackages = [
@@ -39,4 +47,7 @@ in
 
   # Optional: Include AMD firmware
   hardware.firmware = [ pkgs.linux-firmware ];
+
+  # Xorg driver for AMD
+  services.xserver.videoDrivers = [ "amdgpu" ];
 }

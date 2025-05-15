@@ -8,7 +8,9 @@
       systemd-boot.configurationLimit = 5;
     kernelPackages = pkgs.linuxKernel.overrideAttrs (oldAttrs: {
             version = "6.14.6";
-    };};
+          };
+        };
+    
 
     initrd = {
       kernelModules = [ "amdgpu" ];

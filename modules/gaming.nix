@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-{
+
   environment.systemPackages = with pkgs; [
     (pkgs.writeShellScriptBin "xivlauncher-amd" ''
       export DXVK_HUD=1
@@ -13,7 +13,7 @@
       exec /nix/store/knl8i4wqf8z448xc1lgqk673bs4gdsb3-XIVLauncher-1.1.2/bin/.XIVLauncher.Core-wrapped "$@"
     '')
   ];
-}
+
   # Enable Steam
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true;

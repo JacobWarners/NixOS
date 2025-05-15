@@ -30,12 +30,12 @@
 
 
   # Enable AMD Vulkan/OpenGL support system-wide
-  hardware.opengl.extraPackages = with pkgs; [
+  hardware.graphics.extraPackages = with pkgs; [
     rocmPackages.clr
     amdvlk
   ];
 
-  hardware.opengl.extraPackages32 = with pkgs.driversi686Linux; [
+  hardware.graphics.extraPackages32 = with pkgs.driversi686Linux; [
     amdvlk
   ];
 

@@ -28,9 +28,6 @@
     xivlauncher
   ];
 
-  # Enable 32-bit support for gaming
-  hardware.opengl.driSupport32Bit = true;
-  hardware.opengl.driSupport = true;
 
   # Enable AMD Vulkan/OpenGL support system-wide
   hardware.opengl.extraPackages = with pkgs; [

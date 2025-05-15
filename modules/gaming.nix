@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
 {
+  # Add custom shell script that wraps xivlauncher with your settings
   environment.systemPackages = with pkgs; [
     (pkgs.writeShellScriptBin "xivlauncher-amd" ''
       export DXVK_HUD=1
@@ -11,19 +12,46 @@
       exec /nix/store/knl8i4wqf8z448xc1lgqk673bs4gdsb3-XIVLauncher-1.1.2/bin/.XIVLauncher.Core-wrapped "$@"
     '')
 
+    # Useful gaming tools and launchers
     steam
-    mesa
-    vulkan-loader
-    libglvnd
-    libva
-    xivlauncher
     lutris
-    wine
+    wine-staging
     winetricks
+    vulkan-tools
+    radeontop
+    mangohud
+    gamemode
+    libva
+    mesa
+    libglvnd
+    dxvk
+    xivlauncher
   ];
 
-  # Enable Steam-related support
-  hardware.graphics.enable = true;
-  hardware.graphics.enable32Bit = true;
+  # Enable 32-bit support for gaming
+  hardware.opengl.driSupport32Bit = true;
+  hardware.opengl.driSupport = true;
+
+  # Enable AMD Vulkan/OpenGL support system-wide
+  hardware.opengl.extraPackages = with pkgs; [
+    rocmPackages.clr
+    amdvlk
+  ];
+
+  hardware.opengl.extraPackages32 = with pkgs.driversi686Linux; [
+    amdvlk
+  ];
+
+  # Export Vulkan variables globally (can also be limited to session/scripts)
+  environment.variables = {
+    AMD_VULKAN_ICD = "RADV";
+    VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json";
+  };
+
+  # Support 32-bit audio for older games
+  services.pulseaudio.enable = true;
   services.pulseaudio.support32Bit = true;
+
+  # Enable Steam integration
+  hardware.steam-hardware.enable = true;
 }

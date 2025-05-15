@@ -73,7 +73,7 @@
 home.sessionVariables = {
   BROWSER = "librewolf";
 };
-programs.zsh.initExtra = ''
+programs.zsh.initContent = ''
   alias firefox="librewolf"
 '';
 

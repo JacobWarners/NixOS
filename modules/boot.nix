@@ -6,7 +6,9 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
       systemd-boot.configurationLimit = 5;
-    };
+    kernelPackages = pkgs.linuxKernel.overrideAttrs (oldAttrs: {
+            version = "6.14.6";
+    };};
 
     initrd = {
       kernelModules = [ "amdgpu" ];

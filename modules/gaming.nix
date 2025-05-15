@@ -49,7 +49,6 @@
   };
 
   # Support 32-bit audio for older games
-  services.pulseaudio.enable = true;
   services.pulseaudio.support32Bit = true;
 
   # Enable Steam integration

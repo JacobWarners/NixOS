@@ -31,7 +31,7 @@
     lshw
     ethtool
     jq
-#    prusa-slicer
+    #    prusa-slicer
     p7zip
     displaylink
     tree
@@ -42,7 +42,7 @@
     terraform
     awscli
     google-cloud-sdk
- #   kdenlive
+    #   kdenlive
     # Add any other global packages here
     nixpkgs-fmt
     vdhcoapp
@@ -55,28 +55,28 @@
     cri-tools
     runc
     containerd
-  #  etcd
+    #  etcd
     openssl
     k9s
     kubernetes-helm
 
-   # esp32 stuff
-  python3
-  esptool  # For flashing firmware
-  adafruit-ampy  # For managing MicroPython files
-  minicom  # Serial terminal
-  picocom  # Alternative serial terminal
-  platformio  # Development environment
-  arduino
-  arduino-ide
-  arduino-cli
+    # esp32 stuff
+    python3
+    esptool # For flashing firmware
+    adafruit-ampy # For managing MicroPython files
+    minicom # Serial terminal
+    picocom # Alternative serial terminal
+    platformio # Development environment
+    arduino
+    arduino-ide
+    arduino-cli
 
 
   ];
 
-    programs.firefox = {
-          enable = true;
-              nativeMessagingHosts.packages = with pkgs; [ vdhcoapp ];
-                };
+  programs.firefox = {
+    enable = true;
+    nativeMessagingHosts.packages = with pkgs; [ vdhcoapp ];
+  };
 }
 

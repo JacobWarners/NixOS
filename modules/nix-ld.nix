@@ -14,26 +14,26 @@
     alsa-lib
     xorg.libxkbfile
     vulkan-loader
-    xorg.xcbutil      
-    xorg.xcbutilcursor 
+    xorg.xcbutil
+    xorg.xcbutilcursor
     xorg.xcbutilrenderutil
     xorg.xcbutilkeysyms
-    xorg.xcbutilimage  
-    xorg.xcbutilwm  
+    xorg.xcbutilimage
+    xorg.xcbutilwm
     zlib
-    brotli.lib 
-    stdenv.cc.cc.lib 
+    brotli.lib
+    stdenv.cc.cc.lib
     fontconfig
     freetype
     xorg.libX11
     xorg.libXext
     libxkbcommon
-    libglvnd 
+    libglvnd
     dbus
     nss
     nspr
     xorg.libXcomposite
-    xorg.libXdamage 
+    xorg.libXdamage
     libevent
     libdrm
   ];

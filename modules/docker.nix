@@ -2,11 +2,11 @@
 
 
 {
-   virtualisation.docker.enable = true;
-   environment.systemPackages = [
+  virtualisation.docker.enable = true;
+  environment.systemPackages = [
     pkgs.docker
     pkgs.docker-compose
   ];
 
-  users.users.jake.extraGroups = ["docker"];
+  users.users.jake.extraGroups = [ "docker" ];
 }

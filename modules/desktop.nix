@@ -9,7 +9,7 @@
     enable = true;
   };
   systemd.services.gdm = {
-      serviceConfig.ExecStartPre = [ "/bin/sleep 3" ];
-    };
+    serviceConfig.ExecStartPre = [ "/bin/sleep 3" ];
+  };
 
 }

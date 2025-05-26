@@ -87,6 +87,9 @@ alias grep='rga'
 alias x='xclip -selection clipboard'
 alias firefox="librewolf"
 
+# k9s
+export K9S_EDITOR=vim
+
 
 
 # function x() {

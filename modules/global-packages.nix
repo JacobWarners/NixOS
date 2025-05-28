@@ -40,7 +40,7 @@
 
     #Work ish stuff
     terraform
-    awscli
+    awscli2
     google-cloud-sdk
     #   kdenlive
     # Add any other global packages here

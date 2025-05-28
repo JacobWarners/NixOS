@@ -89,6 +89,7 @@ alias firefox="librewolf"
 
 # k9s
 export K9S_EDITOR=vim
+export EDITOR=vim
 
 
 

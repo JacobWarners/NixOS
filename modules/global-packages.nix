@@ -41,6 +41,7 @@
     #Work ish stuff
     terraform
     awscli2
+    ssm-session-manager-plugin
     google-cloud-sdk
     #   kdenlive
     # Add any other global packages here

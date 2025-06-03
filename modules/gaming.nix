@@ -1,64 +1,70 @@
 # modules/gaming.nix
-{ config, pkgs, lib, ... }: # Added lib for potential use (e.g., lib.getName)
+{ config, pkgs, lib, ... }:
 
 {
   environment.systemPackages = with pkgs; [
+    # XIVLauncher script (keep your existing one if it works for FFXIV)
     (pkgs.writeShellScriptBin "xivlauncher-amd-egpu" ''
       #!${pkgs.bash}/bin/bash
-      echo "INFO: xivlauncher-amd-egpu script started."
-
-      export DXVK_HUD="0"       # Set to "1" or "full" to enable DXVK HUD, "0" to disable.
-      # export DXVK_VSYNC="0"   # "0" for off (tear_immediate), "1" for on (mailbox/fifo default for DXVK 2.x), "2" (adaptive)
-      # export DXVK_FRAME_RATE="0" # "0" for uncapped, or set a specific framerate.
-
-      # Select the eGPU (assumed to be the non-primary GPU).
+      export DXVK_HUD="0"
       export DRI_PRIME=1
-      echo "INFO: DRI_PRIME set to 1 for eGPU."
-
-      # Explicitly set Vulkan ICDs for the AMD eGPU.
-      # These /run/... paths are standard on NixOS for the Vulkan drivers, symlinked from the Nix store.
-      # This helps ensure the game uses the RADV driver from your eGPU.
+      # Using /run paths is fine here if it works for this specific script
       export VK_ICD_FILENAMES="/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json:/run/opengl-driver-32/share/vulkan/icd.d/radeon_icd.i686.json"
-      echo "INFO: VK_ICD_FILENAMES set to: $VK_ICD_FILENAMES"
-
-      # The global AMD_VULKAN_ICD="RADV" (set below) should cover this,
-      # but uncomment if you need to force it specifically for this script.
-      # export AMD_VULKAN_ICD="RADV"
-      # echo "INFO: AMD_VULKAN_ICD (locally in script) ensured as RADV."
-
-      echo "INFO: Executing XIVLauncher: ${xivlauncher}/bin/.XIVLauncher.Core-wrapped \"$@\""
-      # The .XIVLauncher.Core-wrapped target is specific to how the xivlauncher Nix package is built.
       exec "${xivlauncher}/bin/.XIVLauncher.Core-wrapped" "$@"
     '')
 
     lutris
-    wineWowPackages.staging # Provides both 64-bit and 32-bit Wine (staging branch). Essential for good compatibility.
+    wineWowPackages.staging
     winetricks
-    vulkan-tools            # For vkcube, vulkaninfo etc.
-    radeontop               # AMD GPU monitoring utility.
-    intel-gpu-tools       # Uncomment if you have an Intel GPU to monitor.
+    vulkan-tools
+    radeontop
+    intel-gpu-tools
     mangohud
     gamemode
-    dxvk                    # DXVK package (Steam often bundles its own version for Proton games).
-    xivlauncher             # The FFXIV launcher package.
+    dxvk
+    xivlauncher
+    # Your other desired gaming packages here
   ];
 
-  hardware.opengl.enable = true;
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      mesa.drivers # Provides Intel Iris Xe and AMD Radeon (RADV for Vulkan, RadeonSI for OpenGL)
+      # For 32-bit support for mesa.drivers, driSupport32Bit = true should handle it.
+      # If you were using a specific vendor driver like amdvlk, you'd add its 32-bit counterpart here.
+    ];
+  };
 
-  hardware.opengl.driSupport32Bit = true;
+  hardware.vulkan = {
+    enable = true;
+    intel.enable = true;  # For iGPU (Iris Xe)
+    radeon.enable = true; # For AMD eGPU (RX 6600 using RADV)
+    # amdvlk.enable = false; # Explicitly disable if you only want RADV for AMD
+    driSupport32Bit = true; # Ensures 32-bit Vulkan applications can run
+  };
 
   environment.variables = {
-    AMD_VULKAN_ICD = "RADV";
+    AMD_VULKAN_ICD = "RADV"; # Prefer RADV for AMD GPUs
+    # Consider if you need other global environment variables
   };
 
   programs.steam = {
     enable = true;
-    remotePlay.openFirewall = true;   # Optional: Open firewall for Steam Remote Play.
+    remotePlay.openFirewall = true;
+    # dedicatedServer.openFirewall = true; # Uncomment if you host dedicated servers
+    # extraCompatPackages = with pkgs; [ steam-runtime ]; # Try if pressure-vessel issues persist
   };
 
-  # Enable GameMode for system optimizations during gameplay.
-  programs.gamemode = {
-    enable = true;
-  };
+  programs.gamemode.enable = true;
 
+  # If you use PipeWire for audio, this can improve compatibility for some games/Proton
+  # services.pipewire = {
+  #   enable = true;
+  #   alsa.enable = true;
+  #   alsa.support32Bit = true;
+  #   pulse.enable = true;
+  #   # jack.enable = true; # If you need JACK support
+  # };
 }

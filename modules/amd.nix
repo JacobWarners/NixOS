@@ -4,8 +4,8 @@
   # Enable OpenGL and AMD-specific packages
   hardware.graphics = {
     enable = true;
-    extraPackages = with pkgs; [ amdvlk ];
-    extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
+#    extraPackages = with pkgs; [ amdvlk ];
+#    extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
   };
 
   environment.systemPackages = with pkgs; [

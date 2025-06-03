@@ -1,53 +1,40 @@
+# modules/gaming.nix
 { config, pkgs, ... }:
 
 {
-  # Add custom shell script that wraps xivlauncher with your settings
   environment.systemPackages = with pkgs; [
-    (pkgs.writeShellScriptBin "xivlauncher-amd" ''
+    (pkgs.writeShellScriptBin "xivlauncher-amd-egpu" ''
+      # This script is specifically for running XIVLauncher on the eGPU
       export DXVK_HUD=1
       export DXVK_VSYNC=0
       export DXVK_FRAME_RATE=0
-      export DRI_PRIME=1
-      export VK_ICD_FILENAMES=/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json
-      exec /nix/store/knl8i4wqf8z448xc1lgqk673bs4gdsb3-XIVLauncher-1.1.2/bin/.XIVLauncher.Core-wrapped "$@"
+      export DRI_PRIME=1 # Selects the eGPU
+      # Forcing RADV here is fine as we only call this when targeting the AMD eGPU
+      export VK_ICD_FILENAMES=/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json:/run/opengl-driver-32/share/vulkan/icd.d/radeon_icd.i686.json
+      exec ${xivlauncher}/bin/.XIVLauncher.Core-wrapped "$@"
     '')
 
-    # Useful gaming tools and launchers
     steam
     lutris
-    wine-staging
+    wine-staging # or wineWowPackages.stable
     winetricks
-    vulkan-tools
-    radeontop
+    vulkan-tools # very useful for debugging
+    radeontop # for monitoring AMD GPU
+    # intel-gpu-tools # for monitoring Intel GPU (optional)
     mangohud
     gamemode
-    libva
-    mesa
-    libglvnd
     dxvk
     xivlauncher
   ];
 
+  hardware.opengl.driSupport32Bit = true;
 
-  # Enable AMD Vulkan/OpenGL support system-wide
-  hardware.graphics.extraPackages = with pkgs; [
-    rocmPackages.clr
-    amdvlk
-  ];
-
-  hardware.graphics.extraPackages32 = with pkgs.driversi686Linux; [
-    amdvlk
-  ];
-
-  # Export Vulkan variables globally (can also be limited to session/scripts)
+  # Global environment variables
   environment.variables = {
-    AMD_VULKAN_ICD = "RADV";
-    VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json";
+    AMD_VULKAN_ICD = "RADV"; # If an AMD GPU is used, prefer RADV. No effect on Intel.
   };
 
-  # Support 32-bit audio for older games
-  services.pulseaudio.support32Bit = true;
+  # Enable Steam integration (good, handles udev rules, 32-bit libs, etc.)
+  programs.steam.enable = true;
 
-  # Enable Steam integration
-  hardware.steam-hardware.enable = true;
 }

@@ -27,8 +27,6 @@
 
   hardware.opengl = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
     extraPackages = with pkgs; [
       mesa.drivers # This package provides both OpenGL and Vulkan drivers (Intel and AMD RADV)
     ];

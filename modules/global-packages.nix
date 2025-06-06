@@ -31,6 +31,8 @@
     lshw
     ethtool
     jq
+    audacity
+    pavucontrol
     #    prusa-slicer
     p7zip
     displaylink

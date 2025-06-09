@@ -29,7 +29,10 @@
     {
       nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit nix-ld; }; # Pass nix-ld for modules
+        specialArgs = {
+          pristinePkgs = inputs.nixpkgs;
+          inherit nix-ld;
+        };
 
         modules = [
           ./configuration.nix # Base configuration

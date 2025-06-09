@@ -3,8 +3,8 @@
 ##This is only for prusa cause too hard
 
 {
-  xdg.mime.enable = true;
-  xdg.mime.defaultApplication = {
+#  xdg.mime.enable = true;
+  xdg.mime.defaultApplications = {
     "x-scheme-handler/zoommtg" = "us.zoom.Zoom.desktop";
   };
   services.flatpak.enable = true;

@@ -74,16 +74,6 @@ in
     arduino-cli
   ];
 
-  # Here, we use our 'finalPristinePkgs' variable which is now a proper
-  # package set that is guaranteed to contain the .xorg attribute.
-  fonts.packages = [
-    finalPristinePkgs.xorg.xfonts100dpi
-    finalPristinePkgs.xorg.xfonts75dpi
-    finalPristinePkgs.xorg.fontmiscmisc
-    finalPristinePkgs.xorg.fontadobe100dpi
-  ];
-
-  # This section remains unchanged.
   programs.firefox = {
     enable = true;
     nativeMessagingHosts.packages = with pkgs; [ vdhcoapp ];

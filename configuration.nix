@@ -24,6 +24,14 @@
     ./modules/docker.nix
     # Add any other modules you have
   ];
+  fonts.packages = with pkgs; [
+    xorg.xfonts100dpi
+    xorg.xfonts75dpi
+    xorg.fontmiscmisc
+    xorg.fontadobe100dpi
+  ];
+
+
   system.stateVersion = "24.11";
 
   # Global settings can be added here if necessary

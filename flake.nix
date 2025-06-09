@@ -1,4 +1,4 @@
-{
+2 {
   description = "NixOS Configuration with Flakes and Home Manager";
 
   inputs = {
@@ -24,32 +24,37 @@
   outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, nix-ld, ... }:
     let
       system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
+
+      # This is the standard package set that modules can override.
+      # This is what most of your system will use.
+      pkgs = import nixpkgs {
+        inherit system;
+        # Add any global overlays or configs for the main pkgs here
+        config.allowUnfree = true;
+      };
+
+      # ==> THIS IS THE CRITICAL ADDITION <==
+      # This is a second, completely independent package set.
+      # It will not be affected by any module overrides.
+      pristinePkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true; # Also needs to know about unfree setting
+      };
+
     in
     {
       nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
         inherit system;
+
+        # ==> PASS THE CLEAN SET INTO ALL MODULES <==
+        # It will be available as an argument to every module.
         specialArgs = {
-          # ==> THIS IS THE CORRECTED LINE <==
-          # We use the 'nixpkgs' variable directly from the function arguments.
-          pristinePkgs = nixpkgs;
-          inherit nix-ld;
+          inherit pristinePkgs;
         };
 
         modules = [
-          ./configuration.nix # Base configuration
-          ./modules/nix-ld.nix # nix-ld module
-          home-manager.nixosModules.home-manager # Home Manager module
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.jake = import ./home/home.nix;
-            home-manager.backupFileExtension = "backup";
-          }
-          {
-            environment.etc."hosts.deny".source = pkgs.lib.mkForce
-              "${ultimate-hosts-blacklist}/hosts.deny/hosts0.deny";
-          }
+          ./configuration.nix
+          # Your other modules are imported inside configuration.nix
         ];
       };
     };

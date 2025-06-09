@@ -1,14 +1,8 @@
-# We receive pristinePkgs from the flake.nix specialArgs
-{ config, pkgs, pristinePkgs, ... }:
-
-# We use a 'let' binding to extract the *actual* package set from the
-# raw 'pristinePkgs' flake input. This is the final, crucial step.
-let
-  finalPristinePkgs = pristinePkgs.legacyPackages.${config.nixpkgs.system};
-in
+# This file is now simple. It just defines packages and other programs.
+# The font definition has been moved to configuration.nix to solve the override issue.
+{ config, pkgs, ... }:
 
 {
-  # This section remains unchanged and uses the standard 'pkgs'.
   environment.systemPackages = with pkgs; [
     pciutils
     vim
@@ -73,6 +67,8 @@ in
     arduino-ide
     arduino-cli
   ];
+
+  # The font definition has been REMOVED from this file.
 
   programs.firefox = {
     enable = true;

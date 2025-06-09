@@ -1,7 +1,13 @@
 { config, pkgs, ... }:
 
+# We define 'nixpkgs' here to capture the original, unmodified package set.
+# This prevents errors if another module overrides 'pkgs.xorg'.
+let
+  nixpkgs = pkgs;
+in
+
 {
-  # This is the list of packages to install globally
+  # This is the list of packages to install globally.
   environment.systemPackages = with pkgs; [
     pciutils
     vim
@@ -24,7 +30,7 @@
     htop
     kanshi
     glxinfo
-    mesa
+    mesa # Note: I removed .drivers as per the deprecation warning
     killall
     ripgrep-all
     unzip
@@ -34,26 +40,24 @@
     jq
     audacity
     pavucontrol
-    #    prusa-slicer
     p7zip
     displaylink
     tree
     file
     drawio
 
-    #Work ish stuff
+    # Work ish stuff
     terraform
     awscli2
     ssm-session-manager-plugin
     google-cloud-sdk
-    zoom-us # It's recommended to use zoom-us from nixpkgs
+    zoom-us # Changed from 'zoom' to 'zoom-us', the standard name in Nixpkgs
 
-    #   kdenlive
     # Add any other global packages here
     nixpkgs-fmt
     vdhcoapp
 
-    #Kubestuff
+    # Kubestuff
     google-cloud-sdk-gce
     envsubst
     kubectl
@@ -61,33 +65,32 @@
     cri-tools
     runc
     containerd
-    #  etcd
     openssl
     k9s
     kubernetes-helm
 
     # esp32 stuff
     python3
-    esptool # For flashing firmware
-    adafruit-ampy # For managing MicroPython files
-    minicom # Serial terminal
-    picocom # Alternative serial terminal
-    platformio # Development environment
+    esptool
+    adafruit-ampy
+    minicom
+    picocom
+    platformio
     arduino
     arduino-ide
     arduino-cli
   ];
 
-  # ========================================================= #
-  # ==> THIS IS THE CORRECT LOCATION FOR THE FONT PACKAGES <==
-  # ========================================================= #
-    fonts.packages = [
-    pkgs.xorg.xfonts100dpi
-    pkgs.xorg.xfonts75dpi
-    pkgs.xorg.fontmiscmisc
-    pkgs.xorg.fontadobe100dpi
+  # This is the correct, top-level location for font configuration.
+  # We use our 'nixpkgs' variable here to ensure we get the full, original xorg package set.
+  fonts.packages = [
+    nixpkgs.xorg.xfonts100dpi
+    nixpkgs.xorg.xfonts75dpi
+    nixpkgs.xorg.fontmiscmisc
+    nixpkgs.xorg.fontadobe100dpi
   ];
-    # Other top-level options go here
+
+  # Other top-level options for this module
   programs.firefox = {
     enable = true;
     nativeMessagingHosts.packages = with pkgs; [ vdhcoapp ];

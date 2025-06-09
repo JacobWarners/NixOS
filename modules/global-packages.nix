@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
 {
+  # This is the list of packages to install globally
   environment.systemPackages = with pkgs; [
     pciutils
     vim
@@ -45,21 +46,7 @@
     awscli2
     ssm-session-manager-plugin
     google-cloud-sdk
-    zoom
-      fonts.packages = with pkgs; [
-    # ==> Add these lines <==
-    xorg.xfonts100dpi
-    xorg.xfonts75dpi
-    xorg.fontmiscmisc
-    xorg.fontadobe100dpi
-
-    # You might already have other fonts here, leave them.
-    # For example:
-    # noto-fonts
-    # noto-fonts-cjk
-    # noto-fonts-emoji
-    # font-awesome
-  ];
+    zoom-us # It's recommended to use zoom-us from nixpkgs
 
     #   kdenlive
     # Add any other global packages here
@@ -89,13 +76,28 @@
     arduino
     arduino-ide
     arduino-cli
-
-
   ];
 
+  # ========================================================= #
+  # ==> THIS IS THE CORRECT LOCATION FOR THE FONT PACKAGES <==
+  # ========================================================= #
+  fonts.packages = with pkgs; [
+    xorg.xfonts100dpi
+    xorg.xfonts75dpi
+    xorg.fontmiscmisc
+    xorg.fontadobe100dpi
+
+    # You can add other fonts here too if you need them
+    # For example:
+    # noto-fonts
+    # noto-fonts-cjk
+    # noto-fonts-emoji
+    # font-awesome
+  ];
+
+  # Other top-level options go here
   programs.firefox = {
     enable = true;
     nativeMessagingHosts.packages = with pkgs; [ vdhcoapp ];
   };
 }
-

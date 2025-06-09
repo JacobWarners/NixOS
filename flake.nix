@@ -24,33 +24,32 @@
   outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, nix-ld, ... }:
     let
       system = "x86_64-linux";
-
-      # This is the standard package set that modules can override.
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
-
-      # A second, completely independent package set that will NOT be
-      # affected by any module overrides.
-      pristinePkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
-
+      pkgs = import nixpkgs { inherit system; };
     in
     {
       nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
         inherit system;
-
-        # Pass the clean package set into all modules.
         specialArgs = {
-          inherit pristinePkgs;
+          pristinePkgs = inputs.nixpkgs;
+          inherit nix-ld;
         };
 
         modules = [
-          ./configuration.nix
+          ./configuration.nix # Base configuration
+          ./modules/nix-ld.nix # nix-ld module
+          home-manager.nixosModules.home-manager # Home Manager module
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.jake = import ./home/home.nix;
+            home-manager.backupFileExtension = "backup";
+          }
+          {
+            environment.etc."hosts.deny".source = pkgs.lib.mkForce
+              "${ultimate-hosts-blacklist}/hosts.deny/hosts0.deny";
+          }
         ];
       };
     };
 }
+

@@ -1,23 +1,8 @@
-{ config, pkgs, ... }:
-
-# ========================================================================
-# ==> THIS IS THE GUARANTEED FIX <==
-# We import a completely new, pristine instance of the nixpkgs repository.
-# This is completely immune to any overrides or modifications made by
-# other modules (like the gaming/steam one).
-let
-  pristinePkgs = import <nixpkgs> {
-    # We pass the system config from the 'pkgs' we received so that
-    # the new instance builds for the correct architecture (e.g., x86_64-linux).
-    inherit (pkgs) system;
-  };
-in
-# ========================================================================
+# We add 'pristinePkgs' to the function signature to receive it from 'specialArgs' in your flake.nix
+{ config, pkgs, pristinePkgs, ... }:
 
 {
-  # This is the list of packages to install globally.
-  # This section can continue to use the (potentially modified) 'pkgs'
-  # as it seems to be working for everything else.
+  # This list of packages is fine.
   environment.systemPackages = with pkgs; [
     pciutils
     vim
@@ -91,15 +76,14 @@ in
     arduino-cli
   ];
 
-  # ========================================================================
-  # We use our 'pristinePkgs' variable here to get the real font packages.
+  # We use the 'pristinePkgs' we received from the flake.nix specialArgs.
+  # This is the pure, Flakes-native way to solve the override problem.
   fonts.packages = [
     pristinePkgs.xorg.xfonts100dpi
     pristinePkgs.xorg.xfonts75dpi
     pristinePkgs.xorg.fontmiscmisc
     pristinePkgs.xorg.fontadobe100dpi
   ];
-  # ========================================================================
 
   # Other top-level options for this module
   programs.firefox = {

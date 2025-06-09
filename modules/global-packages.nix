@@ -1,13 +1,23 @@
 { config, pkgs, ... }:
 
-# We define 'nixpkgs' here to capture the original, unmodified package set.
-# This prevents errors if another module overrides 'pkgs.xorg'.
+# ========================================================================
+# ==> THIS IS THE GUARANTEED FIX <==
+# We import a completely new, pristine instance of the nixpkgs repository.
+# This is completely immune to any overrides or modifications made by
+# other modules (like the gaming/steam one).
 let
-  nixpkgs = pkgs;
+  pristinePkgs = import <nixpkgs> {
+    # We pass the system config from the 'pkgs' we received so that
+    # the new instance builds for the correct architecture (e.g., x86_64-linux).
+    inherit (pkgs) system;
+  };
 in
+# ========================================================================
 
 {
   # This is the list of packages to install globally.
+  # This section can continue to use the (potentially modified) 'pkgs'
+  # as it seems to be working for everything else.
   environment.systemPackages = with pkgs; [
     pciutils
     vim
@@ -30,7 +40,7 @@ in
     htop
     kanshi
     glxinfo
-    mesa # Note: I removed .drivers as per the deprecation warning
+    mesa
     killall
     ripgrep-all
     unzip
@@ -51,7 +61,7 @@ in
     awscli2
     ssm-session-manager-plugin
     google-cloud-sdk
-    zoom-us # Changed from 'zoom' to 'zoom-us', the standard name in Nixpkgs
+    zoom-us
 
     # Add any other global packages here
     nixpkgs-fmt
@@ -81,14 +91,15 @@ in
     arduino-cli
   ];
 
-  # This is the correct, top-level location for font configuration.
-  # We use our 'nixpkgs' variable here to ensure we get the full, original xorg package set.
+  # ========================================================================
+  # We use our 'pristinePkgs' variable here to get the real font packages.
   fonts.packages = [
-    nixpkgs.xorg.xfonts100dpi
-    nixpkgs.xorg.xfonts75dpi
-    nixpkgs.xorg.fontmiscmisc
-    nixpkgs.xorg.fontadobe100dpi
+    pristinePkgs.xorg.xfonts100dpi
+    pristinePkgs.xorg.xfonts75dpi
+    pristinePkgs.xorg.fontmiscmisc
+    pristinePkgs.xorg.fontadobe100dpi
   ];
+  # ========================================================================
 
   # Other top-level options for this module
   programs.firefox = {

@@ -1,4 +1,4 @@
-2 {
+{
   description = "NixOS Configuration with Flakes and Home Manager";
 
   inputs = {
@@ -26,19 +26,16 @@
       system = "x86_64-linux";
 
       # This is the standard package set that modules can override.
-      # This is what most of your system will use.
       pkgs = import nixpkgs {
         inherit system;
-        # Add any global overlays or configs for the main pkgs here
         config.allowUnfree = true;
       };
 
-      # ==> THIS IS THE CRITICAL ADDITION <==
-      # This is a second, completely independent package set.
-      # It will not be affected by any module overrides.
+      # A second, completely independent package set that will NOT be
+      # affected by any module overrides.
       pristinePkgs = import nixpkgs {
         inherit system;
-        config.allowUnfree = true; # Also needs to know about unfree setting
+        config.allowUnfree = true;
       };
 
     in
@@ -46,15 +43,13 @@
       nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
         inherit system;
 
-        # ==> PASS THE CLEAN SET INTO ALL MODULES <==
-        # It will be available as an argument to every module.
+        # Pass the clean package set into all modules.
         specialArgs = {
           inherit pristinePkgs;
         };
 
         modules = [
           ./configuration.nix
-          # Your other modules are imported inside configuration.nix
         ];
       };
     };

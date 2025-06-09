@@ -145,7 +145,7 @@ programs.librewolf = {
 
 
 #Flatpak
-  services.flatpak.enable = true;
+xdg.enable = true;
   
 
   # Link dotfiles

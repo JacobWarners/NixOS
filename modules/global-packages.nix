@@ -81,21 +81,13 @@
   # ========================================================= #
   # ==> THIS IS THE CORRECT LOCATION FOR THE FONT PACKAGES <==
   # ========================================================= #
-  fonts.packages = with pkgs; [
-    xorg.xfonts100dpi
-    xorg.xfonts75dpi
-    xorg.fontmiscmisc
-    xorg.fontadobe100dpi
-
-    # You can add other fonts here too if you need them
-    # For example:
-    # noto-fonts
-    # noto-fonts-cjk
-    # noto-fonts-emoji
-    # font-awesome
+    fonts.packages = [
+    pkgs.xorg.xfonts100dpi
+    pkgs.xorg.xfonts75dpi
+    pkgs.xorg.fontmiscmisc
+    pkgs.xorg.fontadobe100dpi
   ];
-
-  # Other top-level options go here
+    # Other top-level options go here
   programs.firefox = {
     enable = true;
     nativeMessagingHosts.packages = with pkgs; [ vdhcoapp ];

@@ -1,8 +1,14 @@
-# We add 'pristinePkgs' to the function signature to receive it from 'specialArgs' in your flake.nix
+# We receive pristinePkgs from the flake.nix specialArgs
 { config, pkgs, pristinePkgs, ... }:
 
+# We use a 'let' binding to extract the *actual* package set from the
+# raw 'pristinePkgs' flake input. This is the final, crucial step.
+let
+  finalPristinePkgs = pristinePkgs.legacyPackages.${config.nixpkgs.system};
+in
+
 {
-  # This list of packages is fine.
+  # This section remains unchanged and uses the standard 'pkgs'.
   environment.systemPackages = with pkgs; [
     pciutils
     vim
@@ -40,19 +46,13 @@
     tree
     file
     drawio
-
-    # Work ish stuff
     terraform
     awscli2
     ssm-session-manager-plugin
     google-cloud-sdk
     zoom-us
-
-    # Add any other global packages here
     nixpkgs-fmt
     vdhcoapp
-
-    # Kubestuff
     google-cloud-sdk-gce
     envsubst
     kubectl
@@ -63,8 +63,6 @@
     openssl
     k9s
     kubernetes-helm
-
-    # esp32 stuff
     python3
     esptool
     adafruit-ampy
@@ -76,16 +74,16 @@
     arduino-cli
   ];
 
-  # We use the 'pristinePkgs' we received from the flake.nix specialArgs.
-  # This is the pure, Flakes-native way to solve the override problem.
+  # Here, we use our 'finalPristinePkgs' variable which is now a proper
+  # package set that is guaranteed to contain the .xorg attribute.
   fonts.packages = [
-    pristinePkgs.xorg.xfonts100dpi
-    pristinePkgs.xorg.xfonts75dpi
-    pristinePkgs.xorg.fontmiscmisc
-    pristinePkgs.xorg.fontadobe100dpi
+    finalPristinePkgs.xorg.xfonts100dpi
+    finalPristinePkgs.xorg.xfonts75dpi
+    finalPristinePkgs.xorg.fontmiscmisc
+    finalPristinePkgs.xorg.fontadobe100dpi
   ];
 
-  # Other top-level options for this module
+  # This section remains unchanged.
   programs.firefox = {
     enable = true;
     nativeMessagingHosts.packages = with pkgs; [ vdhcoapp ];

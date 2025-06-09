@@ -30,7 +30,6 @@
       nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          pristinePkgs = inputs.nixpkgs;
           inherit nix-ld;
         };
 

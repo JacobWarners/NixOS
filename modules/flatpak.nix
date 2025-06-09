@@ -3,6 +3,7 @@
 ##This is only for prusa cause too hard
 
 {
+  xdg.mime.enable = true;
   xdg.mime.defaultApplication = {
     "x-scheme-handler/zoommtg" = "us.zoom.Zoom.desktop";
   };

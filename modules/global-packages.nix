@@ -44,7 +44,6 @@
     awscli2
     ssm-session-manager-plugin
     google-cloud-sdk
-    zoom-us
     nixpkgs-fmt
     vdhcoapp
     google-cloud-sdk-gce
@@ -68,7 +67,6 @@
     arduino-cli
   ];
 
-  # The font definition has been REMOVED from this file.
 
   programs.firefox = {
     enable = true;

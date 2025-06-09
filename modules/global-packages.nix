@@ -45,6 +45,22 @@
     awscli2
     ssm-session-manager-plugin
     google-cloud-sdk
+    zoom
+      fonts.packages = with pkgs; [
+    # ==> Add these lines <==
+    xorg.xfonts100dpi
+    xorg.xfonts75dpi
+    xorg.fontmiscmisc
+    xorg.fontadobe100dpi
+
+    # You might already have other fonts here, leave them.
+    # For example:
+    # noto-fonts
+    # noto-fonts-cjk
+    # noto-fonts-emoji
+    # font-awesome
+  ];
+
     #   kdenlive
     # Add any other global packages here
     nixpkgs-fmt

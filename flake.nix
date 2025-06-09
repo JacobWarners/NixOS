@@ -30,7 +30,9 @@
       nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          pristinePkgs = inputs.nixpkgs;
+          # ==> THIS IS THE CORRECTED LINE <==
+          # We use the 'nixpkgs' variable directly from the function arguments.
+          pristinePkgs = nixpkgs;
           inherit nix-ld;
         };
 
@@ -52,4 +54,3 @@
       };
     };
 }
-

@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
 ##This is only for prusa cause too hard
+## And now zoom
 
 {
 #  xdg.mime.enable = true;

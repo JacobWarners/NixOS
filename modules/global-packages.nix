@@ -10,6 +10,8 @@
     kitty
     wget
     git
+    ffmpeg
+    nfs-utils
     obs-studio
     discord
     firefox

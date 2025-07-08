@@ -26,6 +26,7 @@
     kanshi
     glxinfo
     mesa
+    monero-gui
     killall
     ripgrep-all
     unzip

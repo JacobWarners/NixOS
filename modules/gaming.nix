@@ -25,7 +25,7 @@
     # Your other desired gaming packages here
   ];
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       mesa.drivers # This package provides both OpenGL and Vulkan drivers (Intel and AMD RADV)

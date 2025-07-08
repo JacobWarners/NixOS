@@ -7,6 +7,7 @@
     pciutils
     vim
     xclip
+    vim-full
     kitty
     wget
     git

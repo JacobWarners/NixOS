@@ -28,7 +28,7 @@
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
-      mesa.drivers # This package provides both OpenGL and Vulkan drivers (Intel and AMD RADV)
+      mesa # This package provides both OpenGL and Vulkan drivers (Intel and AMD RADV)
     ];
   };
 

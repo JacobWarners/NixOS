@@ -86,6 +86,8 @@ alias cat='bat --style=plain --color=always'
 alias grep='rga'
 alias x='xclip -selection clipboard'
 alias firefox="librewolf"
+alias k='kubectl'
+alias htop='btop'
 
 # k9s
 export K9S_EDITOR=vim

@@ -10,6 +10,7 @@
     kitty
     wget
     git
+    btop
     ffmpeg
     nfs-utils
     obs-studio

@@ -1,6 +1,3 @@
-# /etc/nixos/configuration.nix
-...
-
 systemd.services.auto-transcriber = {
   description = "Watches the OBS folder and transcribes new videos";
   # ... other settings are the same ...
@@ -22,4 +19,3 @@ systemd.services.auto-transcriber = {
   '';
 };
 
-...

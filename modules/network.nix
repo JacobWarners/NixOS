@@ -13,7 +13,7 @@
       '';
   };
 
-  services.nfs.client.enable = true;
+  services.rpcbind.enable
   # Import Wi-Fi secrets
   # imports = [ ../secrets/wifi.nix ];
 }

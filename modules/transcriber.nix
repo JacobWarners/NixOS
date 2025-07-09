@@ -18,15 +18,10 @@
       RestartSec = 10;
       EnvironmentFile = "/home/jake/.config/python-transcriber.env";
     };
+  script = ''
+    # This command will print the API key to the log if it exists, or an error if it doesn't.
+    ${pkgs.nix}/bin/nix-shell --run "python3 -c 'import os; print(\"API Key found: \" + os.getenv(\"GEMINI_API_KEY\", \"KEY NOT FOUND\"))'"
+  '';
 
-    script = ''
-     # ./modules/transcriber.nix
-     ...
-
-      script = ''
-           # This command will print the API key to the log if it exists, or an error if it doesn't.
-           ${pkgs.nix}/bin/nix-shell --run "python3 -c 'import os; print(\"API Key found: \" + os.getenv(\"GEMINI_API_KEY\", \"KEY NOT FOUND\"))'"
-            '';
-  };
 
 }

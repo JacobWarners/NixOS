@@ -16,7 +16,7 @@
       WorkingDirectory = "/home/jake/Videos/OBS/Code";
       Restart = "always";
       RestartSec = 10;
-      LoadCredential = "GEMINI_API_KEY:/home/jake/.config/auto-transcriber.env";
+      LoadCredential = "GEMINI_API_KEY:/home/jake/.config/python-transcriber.env";
     };
 
     script = ''

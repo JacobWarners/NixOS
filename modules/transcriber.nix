@@ -11,7 +11,7 @@
     serviceConfig = {
       User = "jake";
       Group = "users";
-      WorkingDirectory = "/home/jake/Videos/OBS/Code";
+      WorkingDirectory = "/home/jake/Videos/OBS";
       Restart = "always";
       RestartSec = 10;
       EnvironmentFile = "/home/jake/.config/python-transcriber.env";

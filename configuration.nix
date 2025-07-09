@@ -6,6 +6,7 @@
     #    ./modules/specialisation.nix
     #    ./modules/hotplugegpu.nix
     ./modules/amd.nix
+    ./modules/transcriber.nix
     ./modules/flatpak.nix
     ./modules/nix.nix
     ./modules/nix-ld.nix

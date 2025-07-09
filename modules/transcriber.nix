@@ -5,7 +5,7 @@
 {
   # This line is the start of the configuration set
   
-  systemd.services.auto-transcriber = {
+  systemd.services.python-transcriber = {
     description = "Watches the OBS folder and transcribes new videos";
     wantedBy = [ "multi-user.target" ];
     after = [ "network.target" ];
@@ -16,7 +16,7 @@
       WorkingDirectory = "/home/jake/Videos/OBS/Code";
       Restart = "always";
       RestartSec = 10;
-      LoadCredential = "GEMINI_API_KEY:/home/jake/.config/python-transcriber.env";
+      EnvironmentFile = "/home/jake/.config/python-transcriber.env";
     };
 
     script = ''

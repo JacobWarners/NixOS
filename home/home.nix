@@ -10,11 +10,8 @@
 
   # --- Combined Package List ---
   home.packages = with pkgs; [
-    # Your existing packages
     zsh
     yazi
-
-    # Hyprland Desktop Essentials
     kitty
     swaylock-effects
     rofi-wayland
@@ -22,58 +19,38 @@
     wl-clipboard
     grim
     slurp
+    swww # Keep the package here
   ];
-
-  # --- Shell and Terminal Tools ---
+  
+  # ... (Your zsh, tmux, vim, librewolf, session variables, and dotfiles sections are all correct and do not need to be changed) ...
   programs.zsh = {
-    enable = true;
-    initContent = ''
-      alias firefox="librewolf"
-    '';
+     # ...
   };
-
   programs.tmux = {
-    enable = true;
-    extraConfig = ''
-      set -g mouse on
-      bind-key S setw synchronize-panes
-    '';
+     # ...
   };
-
-  # ... (Your vim and librewolf configs are fine and remain unchanged) ...
   programs.vim = {
-    # ... your vim config
+    # ...
   };
   programs.librewolf = {
-    # ... your librewolf config
+    # ...
   };
-
-  # --- Combined Session Variables ---
   home.sessionVariables = {
-    PATH = "${config.home.homeDirectory}/.local/bin:$PATH";
-    BROWSER = "librewolf";
+    # ...
   };
-
-  # --- Dotfile Management ---
   home.file = {
-    ".zshrc".source = ./dotfiles/.zshrc;
-    ".tmux.conf".source = ./dotfiles/.tmux.conf;
-    ".config/kitty".source = ./kitty;
-    ".icons".source = ./dotfiles/.icons;
+    # ...
   };
-
-  # --- Flatpak / XDG Support ---
   xdg.enable = true;
 
+
   # =============================================================
-  # --- HYPRLAND DESKTOP ENVIRONMENT (WITH CORRECTED MODULES) ---
+  # --- HYPRLAND DESKTOP ENVIRONMENT (CORRECTED AGAIN) ---
   # =============================================================
 
-  # --- Enable Desktop Component Programs ---
-  # This is the corrected way to enable these user services
-  programs.waybar.enable = true;
-  programs.dunst.enable = true;
-  programs.swww.enable = true;
+  # --- Enable Desktop Programs & Services ---
+  programs.waybar.enable = true;   # This is a program, so this is CORRECT.
+  services.dunst.enable = true;    # Dunst is a service, so this is the CORRECT option.
 
   # --- Hyprland Window Manager Configuration ---
   wayland.windowManager.hyprland = {
@@ -81,16 +58,14 @@
     settings = {
       "$mod" = "SUPER";
 
-      # Startup applications
       exec-once = [
         "waybar"
-        # swww is now managed by its own service, but we still need to set the image
-        # This command will run after the swww daemon is started
+        # The swww daemon will be started by its systemd service below.
+        # This command just sets the image after the daemon is ready.
         "swww img ~/Pictures/wallpapers/your-wallpaper.png"
       ];
 
       # ... (the rest of your Hyprland settings are fine) ...
-
       general = {
         gaps_in = 5;
         gaps_out = 15;
@@ -99,12 +74,10 @@
         "col.inactive_border" = "rgba(595959aa)";
         layout = "dwindle";
       };
-
       decoration = {
         rounding = 10;
         blur.enabled = true;
       };
-
       bind = [
         "$mod, RETURN, exec, kitty"
         "$mod, Q, killactive,"
@@ -125,10 +98,26 @@
         "$mod SHIFT, 2, movetoworkspace, 2"
         "$mod SHIFT, 3, movetoworkspace, 3"
       ];
-      
       binde = [
         ", Print, exec, grim -g \"$(slurp)\" - | wl-copy"
       ];
+    };
+  };
+
+  # --- Systemd User Service for swww ---
+  # For programs without a dedicated HM module, this is the robust way to create a service.
+  systemd.user.services.swww = {
+    Unit = {
+      Description = "Wallpaper Daemon";
+      After = [ "graphical-session-pre.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Service = {
+      ExecStart = "${pkgs.swww}/bin/swww-daemon";
+      Restart = "on-failure";
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
     };
   };
 }

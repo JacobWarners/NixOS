@@ -26,7 +26,7 @@
     nix-ld.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, nix-ld, ... }:
+  outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, nix-ld, hyprland, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };

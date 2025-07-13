@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./modules/hyprland.nix
     #    ./modules/specialisation.nix
     #    ./modules/hotplugegpu.nix
     ./modules/amd.nix

@@ -11,6 +11,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+    };
+
+
     # Blacklist for hosts
     ultimate-hosts-blacklist = {
       url = "github:Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist";
@@ -37,6 +42,7 @@
           ./configuration.nix # Base configuration
           ./modules/nix-ld.nix # nix-ld module
           home-manager.nixosModules.home-manager # Home Manager module
+          hyprland.nixosModules.default
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;

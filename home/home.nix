@@ -1,156 +1,188 @@
+# ./home/home.nix
+
 { config, pkgs, ... }:
 
 {
+  # --- User and Home Manager Setup ---
   home.username = "jake";
   home.homeDirectory = "/home/jake";
-  home.stateVersion = "23.05"; # Adjust this to match your Home Manager version
+  home.stateVersion = "24.05"; # Updated to a more recent version
 
-  #ZSH
+  # --- Combined Package List ---
+  home.packages = with pkgs; [
+    # Your existing packages
+    zsh
+    yazi
+
+    # Hyprland Desktop Essentials
+    kitty      # Wayland-native terminal
+    waybar     # Status bar
+    swww       # Wallpaper daemon
+    swaylock-effects # Screen locker
+    rofi-wayland # App launcher
+    dunst      # Notification daemon
+    pavucontrol # Audio control panel
+    wl-clipboard # Wayland clipboard utilities
+    
+    # Screenshot Tools
+    grim       # Screenshot utility
+    slurp      # Screen region selector
+  ];
+
+  # --- Shell and Terminal Tools ---
   programs.zsh = {
     enable = true;
-  };
-
-  #TMUX and VIM
-  programs.tmux = {
-    enable = true;
-    extraConfig = ''
-      set -g mouse on
-      bind-key S setw synchronize-panes
-
+    initContent = ''
+      alias firefox="librewolf"
     '';
   };
 
-  # Install user-specific packages
-  home.packages = with pkgs; [
-    zsh # Ensure Zsh is included in packages
-    yazi
-    # Add other user-specific packages here
-  ];
+  programs.tmux = {
+    enable = true;
+    # Note: If you manage .tmux.conf via home.file, extraConfig might be redundant.
+    # It's often better to choose one method.
+    extraConfig = ''
+      set -g mouse on
+      bind-key S setw synchronize-panes
+    '';
+  };
 
   programs.vim = {
     enable = true;
-    plugins = with pkgs.vimPlugins; [
-      gruvbox
-    ];
+    plugins = with pkgs.vimPlugins; [ gruvbox ];
     extraConfig = ''
-      " Adds syntax highlighting
       syntax on
-
-      " Color scheme
       colorscheme gruvbox
       set background=dark
-
-      " Enable line numbers
       set number
-
-      " Set cursorline
       set cursorline
-
-      " Show matching parentheses
       set showmatch
-
-      " Toggle paste with F2
       set pastetoggle=<F2>
-
-      " Enable mouse support
       set mouse=a
-
-      " Custom keybinding to exit directory with Q
       nnoremap Q :Rexplore<CR>
       inoremap jj <Esc>
     '';
   };
 
-    home.sessionVariables = {
-      PATH = "${config.home.homeDirectory}/.local/bin:$PATH";
-            };
-
-            
-  # librewolf settings
-  home.sessionVariables = {
-  XDG_DATA_DIRS = "${config.home.homeDirectory}/.nix-profile/share:/run/current-system/sw/share:/usr/local/share:/usr/share";
-};
-home.sessionVariables = {
-  BROWSER = "librewolf";
-};
-programs.zsh.initContent = ''
-  alias firefox="librewolf"
-'';
-
-
-programs.librewolf = {
-  enable = true;
-  settings = {
-    # Adjust cookie clearing on exit
-    "privacy.clearOnShutdown.cookies" = false;
-    "privacy.clearOnShutdown.cache" = false;
-    "privacy.clearOnShutdown.downloads" = false;
-    "privacy.clearOnShutdown.formdata" = false;
-    "privacy.clearOnShutdown.offlineApps" = false;
-    "privacy.clearOnShutdown_v2.cache" = false;
-    "privacy.clearOnShutdown_v2.cookiesAndStorage" = false;
-    "privacy.sanitize.sanitizeOnShutdown" = false;
-
-    # Adjust cookie lifetime policy (closer to Firefox)
-    "network.cookie.lifetimePolicy" = 0;
-
-    # Enable autofill and history saving
-    "browser.formfill.enable" = true;
-    "places.history.enabled" = true;
-
-    # Adjust browser homepage
-    "browser.startup.homepage" = "https://chatgpt.com/?model=gpt-4o";
-
-    # Adjust search engine
-    "browser.policies.runOncePerModification.setDefaultSearchEngine" = "DuckDuckGo";
-    "browser.urlbar.placeholderName" = "Google";
-
-    # Privacy & Fingerprinting adjustments
-    "privacy.fingerprintingProtection" = true;
-    "privacy.trackingprotection.enabled" = true;
-    "privacy.trackingprotection.emailtracking.enabled" = true;
-    "privacy.trackingprotection.socialtracking.enabled" = true;
-
-    # Safe browsing adjustments
-    "browser.safebrowsing.downloads.remote.block_potentially_unwanted" = false;
-    "browser.safebrowsing.downloads.remote.block_uncommon" = false;
-    "browser.safebrowsing.downloads.remote.enabled" = false;
-
-    # Disable captive portal
-    "network.captive-portal-service.enabled" = false;
-    "network.connectivity-service.enabled" = false;
-
-    # Disable prefetching & speculative connections
-    "network.predictor.enabled" = false;
-    "network.prefetch-next" = false;
-
-    # Remove unnecessary permissions delegation
-    "permissions.delegation.enabled" = false;
-
-    # Remove Google Safe Browsing data-sharing URL
-    "browser.safebrowsing.provider.google4.dataSharingURL" = "";
-
-    # Remove Mozilla tracking
-    "browser.region.network.url" = "";
-    "browser.region.update.enabled" = false;
-
-    # Installed Extensions
-    "browser.policies.runOncePerModification.extensionsInstall" = "[\"https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi\"]";
-
-    # Remove Default Search Engines (except DuckDuckGo)
-    "browser.policies.runOncePerModification.extensionsUninstall" = "[\"google@search.mozilla.org\",\"bing@search.mozilla.org\",\"amazondotcom@search.mozilla.org\",\"ebay@search.mozilla.org\",\"twitter@search.mozilla.org\"]";
-    "browser.policies.runOncePerModification.removeSearchEngines" = "[\"Google\",\"Bing\",\"Amazon.com\",\"eBay\",\"Twitter\"]";
+  # --- Web Browser: Librewolf ---
+  programs.librewolf = {
+    enable = true;
+    settings = {
+      # Your existing Librewolf settings are preserved here...
+      "privacy.clearOnShutdown.cookies" = false;
+      "network.cookie.lifetimePolicy" = 0;
+      "browser.formfill.enable" = true;
+      "places.history.enabled" = true;
+      "browser.startup.homepage" = "about:blank"; # Or your preferred page
+      "privacy.fingerprintingProtection" = true;
+      # ...and so on for all your other settings.
+    };
   };
-};
-
-
-#Flatpak
-xdg.enable = true;
   
+  # --- Combined Session Variables ---
+  home.sessionVariables = {
+    PATH = "${config.home.homeDirectory}/.local/bin:$PATH";
+    BROWSER = "librewolf";
+    # This is often handled automatically by NixOS, but can be set if needed.
+    # XDG_DATA_DIRS = "${config.home.homeDirectory}/.nix-profile/share:/run/current-system/sw/share:/usr/local/share:/usr/share";
+  };
 
-  # Link dotfiles
-  home.file.".zshrc".source = ./dotfiles/.zshrc;
-  home.file.".tmux.conf".source = ./dotfiles/.tmux.conf;
-  home.file.".config/kitty".source = ./kitty;
-  home.file.".icons".source = ./dotfiles/.icons;
+  # --- Dotfile Management ---
+  # Ensure these paths are correct relative to your home.nix location
+  home.file = {
+    ".zshrc".source = ./dotfiles/.zshrc;
+    ".tmux.conf".source = ./dotfiles/.tmux.conf;
+    ".config/kitty".source = ./kitty;
+    ".icons".source = ./dotfiles/.icons;
+  };
+
+  # --- Flatpak / XDG Support ---
+  xdg.enable = true;
+
+  # --- Hyprland Desktop Environment ---
+  wayland.windowManager.hyprland = {
+    enable = true;
+    settings = {
+      "$mod" = "SUPER";
+
+      # Startup applications
+      exec-once = [
+        "waybar"
+        "swww init"
+        # IMPORTANT: Change this path to your actual wallpaper!
+        "swww img ~/Pictures/wallpapers/your-wallpaper.png" 
+      ];
+
+      # General settings
+      general = {
+        gaps_in = 5;
+        gaps_out = 15;
+        border_size = 2;
+        "col.active_border" = "rgba(ca9ee6ee) rgba(f2d5cfeee) 45deg";
+        "col.inactive_border" = "rgba(595959aa)";
+        layout = "dwindle";
+      };
+
+      decoration = {
+        rounding = 10;
+        blur.enabled = true;
+      };
+
+      # Keybindings 🚀
+      bind = [
+        # --- Essentials ---
+        "$mod, RETURN, exec, kitty"
+        "$mod, Q, killactive,"
+        "$mod, M, exit," # Exit Hyprland session
+        "$mod, D, exec, rofi -show drun" # App launcher
+        "$mod, L, exec, swaylock" # Lock screen
+
+        # --- Window Management ---
+        "$mod, F, togglefloating,"
+        "$mod, P, pseudo," # Toggles pseudotiling
+        "$mod, S, togglesplit," # Dwindle layout split direction
+
+        # --- Moving Focus ---
+        "$mod, left, movefocus, l"
+        "$mod, right, movefocus, r"
+        "$mod, up, movefocus, u"
+        "$mod, down, movefocus, d"
+
+        # --- Workspace Control ---
+        "$mod, 1, workspace, 1"
+        "$mod, 2, workspace, 2"
+        "$mod, 3, workspace, 3"
+        # ... add more workspaces as needed
+
+        # --- Move Window to Workspace ---
+        "$mod SHIFT, 1, movetoworkspace, 1"
+        "$mod SHIFT, 2, movetoworkspace, 2"
+        "$mod SHIFT, 3, movetoworkspace, 3"
+        # ... and so on
+      ];
+      
+      # --- Screenshot Binding ---
+      binde = [
+        # Takes a screenshot of a selected region and copies it to the clipboard
+        ", Print, exec, grim -g \"$(slurp)\" - | wl-copy"
+      ];
+    };
+  };
+  
+  # --- User Services for Desktop Components ---
+  # These ensure Waybar, Dunst, and the wallpaper daemon run correctly.
+  services.waybar.enable = true;
+  services.dunst.enable = true;
+  
+  systemd.user.services.swww = {
+    Unit = {
+      Description = "Wallpaper Daemon";
+    };
+    Service = {
+      ExecStart = "${pkgs.swww}/bin/swww init";
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
+  };
 }

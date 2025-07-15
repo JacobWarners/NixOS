@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   services.xserver = {
@@ -61,3 +61,4 @@
     pkgs.nerdfonts # Important for many modern UIs and icons
     pkgs.font-awesome
   ];
+}

@@ -55,9 +55,12 @@
   ];
 
   # XDG portal for desktop integration (e.g., file pickers, screenshots).
-  xdg.portal.enable = true;
+    xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-hyprland
+    ];
   # Uncomment the line below if you need a specific portal backend (e.g., for GTK apps).
-  # xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk];
 
   # Define the .desktop file for Hyprland so display managers can find it.
   environment.etc."xdg/wayland-sessions/hyprland.desktop".text = ''

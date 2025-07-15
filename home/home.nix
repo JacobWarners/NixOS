@@ -196,12 +196,6 @@
           # Change transparency of focused and unfocused windows
           active_opacity = 1.0
           inactive_opacity = 1.0
-
-          drop_shadow = true
-          shadow_range = 4
-          shadow_render_power = 3
-          col.shadow = rgba(1a1a1aee)
-
           # https://wiki.hyprland.org/Configuring/Variables/#blur
           blur {
               enabled = true
@@ -241,8 +235,9 @@
 
       # https://wiki.hyprland.org/Configuring/Variables/#misc
       misc {
-          force_default_wallpaper = -1 # Set to 0 or 1 to disable the anime mascot wallpapers
+          force_default_wallpaper = 0 # Set to 0 or 1 to disable the anime mascot wallpapers
           disable_hyprland_logo = false # If true disables the random hyprland logo / anime girl background. :(
+          disable_splash_rendering = true;
       }
 
 
@@ -291,7 +286,7 @@
       bind = $mainMod, Q, exec, $terminal
       bind = $mainMod, C, killactive,
       bind = $mainMod, mouse:274, killactive,
-      bind = , Print, exec, grimshot --notify copysave area
+      bind = , Print, exec, grimshot --notify savecopy area
       bind = $mainMod, M, exit,
       bind = $mainMod, E, exec, $fileManager
       bind = $mainMod, V, togglefloating,

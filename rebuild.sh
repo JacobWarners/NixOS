@@ -11,6 +11,6 @@ git add -A
 git commit -m "$custom_name-$(date +'%b-%d-%Y')"
 git push
 
-sudo nixos-rebuild switch --flake .#Framework --profile-name $custom_name-$(date +"%b-%d-%Y")
+sudo nixos-rebuild switch --flake .#Framework 
 
 #./generation-cleaner.sh 

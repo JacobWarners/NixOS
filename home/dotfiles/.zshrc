@@ -84,7 +84,8 @@ setopt inc_append_history
 alias ls='ls --color=auto'
 alias cat='bat --style=plain --color=always'
 alias grep='rga'
-alias x='xclip -selection clipboard'
+#alias x='xclip -selection clipboard'
+alias x='wl-copy'
 alias k='kubectl'
 alias htop='btop'
 

@@ -145,7 +145,7 @@
       # exec-once = nm-applet &
       # exec-once = waybar & hyprpaper & firefox
       # IMPORTANT: Add your autostart commands here, e.g.:
-      exec-once = swww init
+      exec-once = ${pkgs.swww}/bin/swww-daemon
       exec-once = swww img /home/jake/Pictures/Wallpapers/Gruvwinter.jpg 
       exec-once = waybar &
       exec-once = dunst &

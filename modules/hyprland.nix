@@ -1,5 +1,5 @@
 # modules/hyprland.nix
-{ config, pkgs, lib, ... }: # <--- This is the module header
+{ config, pkgs, lib, ... }:
 
 {
   services.xserver = {
@@ -12,13 +12,8 @@
   };
 
   # For AMD, you typically don't need explicit 'modesetting.enable' like NVIDIA.
-  # 'opengl.enable = true;' is usually sufficient and often enabled by default
-  # or through other modules for graphics. If you had a 'hardware' block,
-  # ensure it looks like this for AMD:
-  hardware = {
-    opengl.enable = true;
-    # nvidia.modesetting.enable = true; # REMOVED: Not needed for AMD
-  };
+  # 'hardware.graphics.enable' is the new recommended option for enabling general graphics.
+  hardware.graphics.enable = true; # Renamed from hardware.opengl.enable
 
   # Environment variables for Wayland applications (optional but recommended)
   environment.sessionVariables = {
@@ -31,8 +26,8 @@
     (pkgs.waybar.overrideAttrs (oldAttrs: {
       mesonFlags = oldAttrs.mesonFlags ++ ["-Dexperimental=true"];
     }))
-    # Screen capping tools
-    pkgs.xwaylandvideobridge
+    # Screen capping tools (FIXED: Use kdePackages.xwaylandvideobridge)
+    pkgs.kdePackages.xwaylandvideobridge
     pkgs.grim
     pkgs.slurp
     pkgs.wl-clipboard-rs
@@ -65,11 +60,13 @@
     Keywords=wayland;hyprland;compositor;
   '';
 
-  services.xserver.displayManager.sessionPackages = with pkgs; [
+  # Renamed from services.xserver.displayManager.sessionPackages
+  services.displayManager.sessionPackages = with pkgs; [
     hyprland
   ];
 
-  fonts.fonts = with pkgs; [
+  # Renamed from fonts.fonts
+  fonts.packages = with pkgs; [
     pkgs.nerdfonts # Important for many modern UIs and icons
     pkgs.font-awesome
   ];

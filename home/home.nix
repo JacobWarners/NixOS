@@ -7,6 +7,8 @@ let
     version = "1.0";
     src = ./dotfiles/dots/waybar/pac.ttf; # This path must be correct relative to home.nix
 
+    dontUnpack = true; # Tells Nix not to treat the source as an archive
+
     installPhase = ''
       mkdir -p $out/share/fonts/truetype
       cp $src $out/share/fonts/truetype/pac.ttf
@@ -16,7 +18,7 @@ let
 in {
   home.username = "jake";
   home.homeDirectory = "/home/jake";
-  home.stateVersion = "23.05"; # Adjust this to match your Home Manager version
+  home.stateVersion = "24.05"; # Adjust this to match your Home Manager version
 
   #ZSH
   programs.zsh = {
@@ -183,7 +185,7 @@ in {
       # IMPORTANT: Add your autostart commands here, e.g.:
       exec-once = ${pkgs.swww}/bin/swww-daemon
       exec-once = sleep 2 && swww img /home/jake/Pictures/Wallpapers/Gruvwinter.jpg 
-      exec-once = ${pkgs.waybar}/bin/waybar # Launch the new Waybar
+      exec-once = ~/scripts/waybar-monitor.sh
       exec-once = ${pkgs.eww}/bin/eww daemon # Start the Eww daemon
       exec-once = sleep 2 && ${pkgs.eww}/bin/eww open dashboard # Open the Eww dashboard after a delay
 

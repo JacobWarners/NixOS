@@ -8,6 +8,7 @@
   #ZSH
   programs.zsh = {
     enable = true;
+    # programs.zsh.initContent = ''; # Removed as it was empty and not needed if no content
   };
 
   #TMUX and VIM
@@ -16,7 +17,6 @@
     extraConfig = ''
       set -g mouse on
       bind-key S setw synchronize-panes
-
     '';
   };
 
@@ -61,16 +61,27 @@
     '';
   };
 
-
-            
+  # --- START OF CONSOLIDATED HOME MANAGER SESSION VARIABLES ---
   home.sessionVariables = {
-  XDG_DATA_DIRS = "${config.home.homeDirectory}/.nix-profile/share:/run/current-system/sw/share:/usr/local/share:/usr/share";
-};
-home.sessionVariables = {
-};
-programs.zsh.initContent = ''
-'';
+    # This sets the path to your Hyprland configuration file.
+    # You MUST have a `hyprland.conf` at this location.
+    HYPRLAND_CONFIG_PATH = "${config.home.homeDirectory}/.config/hypr/hyprland.conf";
+    PATH = "${config.home.homeDirectory}/.local/bin:$PATH";
+    XDG_DATA_DIRS = "${config.home.homeDirectory}/.nix-profile/share:/run/current-system/sw/share:/usr/local/share:/usr/share";
+    # BROWSER variable removed as requested
+  };
+  # --- END OF CONSOLIDATED HOME MANAGER SESSION VARIABLES ---
 
+  # programs.librewolf = { ... }; # Entire block removed as requested
+
+  #Flatpak
+  xdg.enable = true;
+
+  # Link dotfiles
+  home.file.".zshrc".source = ./dotfiles/.zshrc;
+  home.file.".tmux.conf".source = ./dotfiles/.tmux.conf;
+  home.file.".config/kitty".source = ./kitty; # Ensure this path exists and contains your Kitty config
+  home.file.".icons".source = ./dotfiles/.icons; # Ensure this path exists and contains your icons
 
   # --- START OF HYPRLAND HOME MANAGER CONFIGURATION ---
   wayland.windowManager.hyprland = {
@@ -80,27 +91,5 @@ programs.zsh.initContent = ''
     # provided your flake setup imports it or the nixpkgs channel is up-to-date.
     package = pkgs.hyprland;
   };
-
-  home.sessionVariables = {
-    # This sets the path to your Hyprland configuration file.
-    # You MUST have a `hyprland.conf` at this location.
-    HYPRLAND_CONFIG_PATH = "${config.home.homeDirectory}/.config/hypr/hyprland.conf";
-    # Your existing PATH modification
-    PATH = "${config.home.homeDirectory}/.local/bin:$PATH";
-    # Your existing XDG_DATA_DIRS
-    XDG_DATA_DIRS = "${config.home.homeDirectory}/.nix-profile/share:/run/current-system/sw/share:/usr/local/share:/usr/share";
-    # Your existing BROWSER variable
-    BROWSER = "librewolf";
-  };
   # --- END OF HYPRLAND HOME MANAGER CONFIGURATION ---
-
-#Flatpak
-xdg.enable = true;
-  
-
-  # Link dotfiles
-  home.file.".zshrc".source = ./dotfiles/.zshrc;
-  home.file.".tmux.conf".source = ./dotfiles/.tmux.conf;
-  home.file.".config/kitty".source = ./kitty;
-  home.file.".icons".source = ./dotfiles/.icons;
 }

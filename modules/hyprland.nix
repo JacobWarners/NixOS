@@ -1,13 +1,31 @@
-{ config, pkgs, lib, ... }:
+# modules/hyprland.nix
+{ config, pkgs, lib, ... }: # <--- This is the module header
 
 {
   services.xserver = {
     enable = true;
   };
-    programs.hyprland = {
+
+  programs.hyprland = {
     enable = true;
     xwayland.enable = true; # Essential for X11 applications on Wayland
   };
+
+  # For AMD, you typically don't need explicit 'modesetting.enable' like NVIDIA.
+  # 'opengl.enable = true;' is usually sufficient and often enabled by default
+  # or through other modules for graphics. If you had a 'hardware' block,
+  # ensure it looks like this for AMD:
+  hardware = {
+    opengl.enable = true;
+    # nvidia.modesetting.enable = true; # REMOVED: Not needed for AMD
+  };
+
+  # Environment variables for Wayland applications (optional but recommended)
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1"; # For Chromium-based apps to use Wayland natively
+    # WLR_NO_HARDWARE_CURSORS = "1"; # Uncomment if you have cursor issues
+  };
+
   environment.systemPackages = [
     # Bar at top
     (pkgs.waybar.overrideAttrs (oldAttrs: {
@@ -22,20 +40,14 @@
     pkgs.dunst
     # Notification library (dunst uses this)
     pkgs.libnotify
-    # Networkmanager applet for Waybar
+    # Networkmanager applet for Waybar (if you use NetworkManager)
     pkgs.networkmanagerapplet
     # You mentioned eww, if you use it for widgets/bars
     pkgs.eww
     # Wallpaper utility
     pkgs.swww
-    # App launcher
-    (pkgs.rofi.override {
-      # If using rofi for Wayland, ensure it's compiled with Wayland support.
-      # You might need to check rofi-wayland specifically if this doesn't work.
-      # Or, if your `rofi-wayland` was a separate package, use that.
-      # For now, assuming pkgs.rofi works with wayland or you explicitly had rofi-wayland.
-      # pkgs.rofi-wayland is usually the better choice.
-    })
+    # App launcher (assuming this rofi works for Wayland, or use pkgs.rofi-wayland if available/preferred)
+    (pkgs.rofi.override { })
     # Icons
     pkgs.font-awesome
   ];

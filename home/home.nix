@@ -101,7 +101,7 @@
   home.file.".zshrc".source = ./dotfiles/.zshrc;
   home.file.".tmux.conf".source = ./dotfiles/.tmux.conf;
   home.file.".config/kitty".source = ./kitty; # Ensure this path exists and contains your Kitty config
-  xdg.configFile."eww".source = ./dotfiles/dots/eww;
+  xdg.configFile."eww".source = ./dotfiles/dots;
   xdg.configFile."waybar".source = ./dotfiles/dots/waybar;
   
 

@@ -5,6 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nix-ld.url = "github:Mic92/nix-ld";
 
+
     # Home Manager input
     home-manager = {
       url = "github:nix-community/home-manager";

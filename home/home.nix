@@ -61,9 +61,6 @@
     '';
   };
 
-    home.sessionVariables = {
-      PATH = "${config.home.homeDirectory}/.local/bin:$PATH";
-            };
 
             
   home.sessionVariables = {

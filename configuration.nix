@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     #    ./modules/specialisation.nix
     #    ./modules/hotplugegpu.nix
+    ./modules/hyprland.nix
     ./modules/amd.nix
     ./modules/transcriber.nix
     ./modules/flatpak.nix

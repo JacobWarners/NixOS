@@ -8,6 +8,13 @@ if [[ "$TERM" == "xterm-256color" ]]; then
   export LSCOLORS=ExFxCxDxBxegedabagacad
 fi
 
+if [ -n "$TMUX" ]; then
+    export TERM="screen-256color"
+else
+    export TERM="xterm-kitty"
+fi
+
+
 # Use GNU ls if available, otherwise use BSD ls
 if command -v gls > /dev/null; then
   alias ls='gls --color=auto'
@@ -67,19 +74,35 @@ RESET="%f"
 # Set the prompt
 PS1="${GREEN}%n${BLUE}~%1d${RESET}> "
 
+# Share history across all sessions
+setopt share_history
+setopt hist_ignore_all_dups
+setopt inc_append_history
+
+
 # Alias for ls with color support
 alias ls='ls --color=auto'
 alias cat='bat --style=plain --color=always'
 alias grep='rga'
-function x() {
-  local last_arg
-  last_arg="$(fc -ln -1 | awk '{print $NF}')"
-  if [ -f "$last_arg" ]; then
-    \cat "$last_arg" | xclip -selection clipboard
-  else
-    echo "Error: '$last_arg' is not a valid file."
-  fi
-}
+alias x='xclip -selection clipboard'
+alias firefox="librewolf"
+alias k='kubectl'
+alias htop='btop'
+
+# k9s
+export K9S_EDITOR=vim
+export EDITOR=vim
 
 
-#alias x='xclip -selection clipboard'
+
+# function x() {
+#   local last_arg
+#   last_arg="$(fc -ln -1 | awk '{print $NF}')"
+#   if [ -f "$last_arg" ]; then
+#     \cat "$last_arg" | xclip -selection clipboard
+#   else
+#     echo "Error: '$last_arg' is not a valid file."
+#   fi
+#}
+
+

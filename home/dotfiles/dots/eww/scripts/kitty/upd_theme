@@ -1,0 +1,11 @@
+#!/bin/bash
+DIR="/home/jake/.config/eww/scripts/kitty/"
+A=$(cat ${DIR}theme_o)
+if [ "$A" == "yes" ]; then
+	cp /home/jake/.config/kitty/kitty.conf.white /home/jake/.config/kitty/kitty.conf
+	echo "no" > ${DIR}theme_o
+else
+	cp /home/jake/.config/kitty/kitty.conf.black /home/jake/.config/kitty/kitty.conf
+	echo "yes" > ${DIR}theme_o
+fi
+eww update theme_o="$(cat ${DIR}theme_o)"

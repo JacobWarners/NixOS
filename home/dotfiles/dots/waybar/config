@@ -1,0 +1,100 @@
+// -*- mode: json -*-
+{
+    "layer": "top",
+    "position": "top",
+    "margin-top": 7,
+    "margin-left": 12,
+    "margin-right": 12,
+    "margin-bottom": 0,
+
+    // Distribute modules to fix alignment
+    "modules-left": ["hyprland/workspaces", "hyprland/window"],
+    "modules-center": ["clock"],
+    "modules-right": ["group/hardware", "network", "battery", "tray"],
+
+    // --- Module Definitions ---
+
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "1": "",
+            "2": "",
+            "3": "",
+            "4": "",
+            "5": "",
+            "default": "",
+            "active": ""
+        },
+        "on-click": "activate"
+    },
+    
+    "hyprland/window": {
+        "format": "Apps[1]: {}",
+        "rewrite": {
+            "(.*) - Mozilla Firefox": "$1",
+            "(.*) — Kitty": "$1"
+        }
+    },
+
+    "group/hardware": {
+        "orientation": "horizontal",
+        "modules": [
+            "cpu",
+            "memory",
+            "pulseaudio"
+        ]
+    },
+
+    "cpu": {
+        "interval": 5,
+        "format": " {}%",
+        "tooltip-format": "CPU: {usage}%"
+    },
+    
+    "memory": {
+        "interval": 5,
+        "format": " {}%"
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume:2}%",
+        "format-bluetooth": "{icon} {volume}% ",
+        "format-muted": " Muted",
+        "format-icons": {
+            "headphone": "",
+            "default": ["", ""]
+        },
+        "scroll-step": 5,
+        "on-click": "/home/jake/scripts/audio-switcher.sh",
+        "on-click-right": "pavucontrol"
+    },
+    
+    "network": {
+        "format-wifi": " {essid}",
+        "format-ethernet": "󰈀 {ipaddr}/{cidr}",
+        "format-disconnected": "󰌙 Disconnected",
+        "tooltip-format-wifi": "{ifname} via {gwaddr} ",
+        "on-click": "nm-connection-editor"
+    },
+
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": "󰂄 {capacity}%",
+        "format-icons": ["", "", "", "", ""]
+    },
+
+    "clock": {
+        "format": "{:%H:%M }",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>"
+    },
+    
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10
+    }
+}

@@ -60,6 +60,7 @@
     extraPortals = with pkgs; [
       xdg-desktop-portal-hyprland
     ];
+  };
   # Uncomment the line below if you need a specific portal backend (e.g., for GTK apps).
 
   # Define the .desktop file for Hyprland so display managers can find it.

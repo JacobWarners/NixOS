@@ -1,7 +1,10 @@
 # modules/hyprland.nix
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, ... }: # Module header, essential for all NixOS modules
 
 {
+  # services.xserver.enable is typically managed by a display manager or can be enabled here.
+  # If you disable your display manager, you might need 'services.xserver.enable = true;'
+  # to ensure XWayland compatibility for X11 applications.
   services.xserver = {
     enable = true;
   };
@@ -11,46 +14,52 @@
     xwayland.enable = true; # Essential for X11 applications on Wayland
   };
 
-  # For AMD, you typically don't need explicit 'modesetting.enable' like NVIDIA.
-  # 'hardware.graphics.enable' is the new recommended option for enabling general graphics.
-  hardware.graphics.enable = true; # Renamed from hardware.opengl.enable
+  # Hardware configuration for graphics.
+  # For AMD GPUs, 'hardware.graphics.enable = true;' is usually sufficient.
+  # The old 'hardware.opengl.enable' is renamed.
+  hardware.graphics.enable = true;
 
-  # Environment variables for Wayland applications (optional but recommended)
+  # Environment variables for Wayland applications.
+  # NIXOS_OZONE_WL for Chromium-based apps on Wayland.
   environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1"; # For Chromium-based apps to use Wayland natively
-    # WLR_NO_HARDWARE_CURSORS = "1"; # Uncomment if you have cursor issues
+    NIXOS_OZONE_WL = "1";
+    # Uncomment the line below if you experience cursor issues.
+    # WLR_NO_HARDWARE_CURSORS = "1";
   };
 
+  # System-wide packages typically used in a Hyprland environment.
   environment.systemPackages = [
-    # Bar at top
+    # Waybar - a highly customizable Wayland bar.
     (pkgs.waybar.overrideAttrs (oldAttrs: {
-      mesonFlags = oldAttrs.mesonFlags ++ ["-Dexperimental=true"];
+      mesonFlags = oldAttrs.mesonFlags ++ ["-Dexperimental=true"]; # Enables experimental Waybar features
     }))
-    # Screen capping tools (FIXED: Use kdePackages.xwaylandvideobridge)
+    # Screen capturing tools for Wayland.
+    # xwaylandvideobridge - FIXED: now explicitly `kdePackages.xwaylandvideobridge`
     pkgs.kdePackages.xwaylandvideobridge
-    pkgs.grim
-    pkgs.slurp
-    pkgs.wl-clipboard-rs
-    # Notifications daemon
+    pkgs.grim # Command-line screenshot tool
+    pkgs.slurp # Select a region on screen
+    pkgs.wl-clipboard-rs # Wayland clipboard utilities
+    # Notification daemon.
     pkgs.dunst
-    # Notification library (dunst uses this)
-    pkgs.libnotify
-    # Networkmanager applet for Waybar (if you use NetworkManager)
+    pkgs.libnotify # Library used by dunst for notifications
+    # Network management applet, often used in Waybar.
     pkgs.networkmanagerapplet
-    # You mentioned eww, if you use it for widgets/bars
+    # Eww - another option for custom widgets/bars.
     pkgs.eww
-    # Wallpaper utility
+    # SwWw - Wayland wallpaper setter.
     pkgs.swww
-    # App launcher (assuming this rofi works for Wayland, or use pkgs.rofi-wayland if available/preferred)
-    (pkgs.rofi.override { })
-    # Icons
+    # Rofi - application launcher (ensure it's Wayland-compatible).
+    (pkgs.rofi.override { }) # Override empty, assuming base pkgs.rofi is good or will be customized
+    # Font Awesome for icons.
     pkgs.font-awesome
   ];
 
+  # XDG portal for desktop integration (e.g., file pickers, screenshots).
   xdg.portal.enable = true;
-  # xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk]; # Uncomment if you need a specific portal backend
+  # Uncomment the line below if you need a specific portal backend (e.g., for GTK apps).
+  # xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk];
 
-  # Create a session file for Hyprland so it appears in Display Managers
+  # Define the .desktop file for Hyprland so display managers can find it.
   environment.etc."xdg/wayland-sessions/hyprland.desktop".text = ''
     [Desktop Entry]
     Name=Hyprland
@@ -60,14 +69,16 @@
     Keywords=wayland;hyprland;compositor;
   '';
 
-  # Renamed from services.xserver.displayManager.sessionPackages
+  # Ensure Hyprland is available as a session in display managers.
+  # Renamed from services.xserver.displayManager.sessionPackages.
   services.displayManager.sessionPackages = with pkgs; [
     hyprland
   ];
 
-  # Renamed from fonts.fonts
+  # Font packages for the system.
+  # Renamed from fonts.fonts.
+  # Now explicitly lists font-awesome and all available Nerd Fonts.
   fonts.packages = with pkgs; [
-    pkgs.nerdfonts # Important for many modern UIs and icons
     pkgs.font-awesome
-  ];
+  ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts); # Includes all Nerd Fonts
 }

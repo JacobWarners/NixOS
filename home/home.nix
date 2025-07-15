@@ -66,83 +66,36 @@
             };
 
             
-  # librewolf settings
   home.sessionVariables = {
   XDG_DATA_DIRS = "${config.home.homeDirectory}/.nix-profile/share:/run/current-system/sw/share:/usr/local/share:/usr/share";
 };
 home.sessionVariables = {
-  BROWSER = "librewolf";
 };
 programs.zsh.initContent = ''
-  alias firefox="librewolf"
 '';
 
 
-programs.librewolf = {
-  enable = true;
-  settings = {
-    # Adjust cookie clearing on exit
-    "privacy.clearOnShutdown.cookies" = false;
-    "privacy.clearOnShutdown.cache" = false;
-    "privacy.clearOnShutdown.downloads" = false;
-    "privacy.clearOnShutdown.formdata" = false;
-    "privacy.clearOnShutdown.offlineApps" = false;
-    "privacy.clearOnShutdown_v2.cache" = false;
-    "privacy.clearOnShutdown_v2.cookiesAndStorage" = false;
-    "privacy.sanitize.sanitizeOnShutdown" = false;
-
-    # Adjust cookie lifetime policy (closer to Firefox)
-    "network.cookie.lifetimePolicy" = 0;
-
-    # Enable autofill and history saving
-    "browser.formfill.enable" = true;
-    "places.history.enabled" = true;
-
-    # Adjust browser homepage
-    "browser.startup.homepage" = "https://chatgpt.com/?model=gpt-4o";
-
-    # Adjust search engine
-    "browser.policies.runOncePerModification.setDefaultSearchEngine" = "DuckDuckGo";
-    "browser.urlbar.placeholderName" = "Google";
-
-    # Privacy & Fingerprinting adjustments
-    "privacy.fingerprintingProtection" = true;
-    "privacy.trackingprotection.enabled" = true;
-    "privacy.trackingprotection.emailtracking.enabled" = true;
-    "privacy.trackingprotection.socialtracking.enabled" = true;
-
-    # Safe browsing adjustments
-    "browser.safebrowsing.downloads.remote.block_potentially_unwanted" = false;
-    "browser.safebrowsing.downloads.remote.block_uncommon" = false;
-    "browser.safebrowsing.downloads.remote.enabled" = false;
-
-    # Disable captive portal
-    "network.captive-portal-service.enabled" = false;
-    "network.connectivity-service.enabled" = false;
-
-    # Disable prefetching & speculative connections
-    "network.predictor.enabled" = false;
-    "network.prefetch-next" = false;
-
-    # Remove unnecessary permissions delegation
-    "permissions.delegation.enabled" = false;
-
-    # Remove Google Safe Browsing data-sharing URL
-    "browser.safebrowsing.provider.google4.dataSharingURL" = "";
-
-    # Remove Mozilla tracking
-    "browser.region.network.url" = "";
-    "browser.region.update.enabled" = false;
-
-    # Installed Extensions
-    "browser.policies.runOncePerModification.extensionsInstall" = "[\"https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi\"]";
-
-    # Remove Default Search Engines (except DuckDuckGo)
-    "browser.policies.runOncePerModification.extensionsUninstall" = "[\"google@search.mozilla.org\",\"bing@search.mozilla.org\",\"amazondotcom@search.mozilla.org\",\"ebay@search.mozilla.org\",\"twitter@search.mozilla.org\"]";
-    "browser.policies.runOncePerModification.removeSearchEngines" = "[\"Google\",\"Bing\",\"Amazon.com\",\"eBay\",\"Twitter\"]";
+  # --- START OF HYPRLAND HOME MANAGER CONFIGURATION ---
+  wayland.windowManager.hyprland = {
+    enable = true;
+    # Ensure this package points to the correct Hyprland.
+    # If using the flake input, `pkgs.hyprland` should resolve correctly
+    # provided your flake setup imports it or the nixpkgs channel is up-to-date.
+    package = pkgs.hyprland;
   };
-};
 
+  home.sessionVariables = {
+    # This sets the path to your Hyprland configuration file.
+    # You MUST have a `hyprland.conf` at this location.
+    HYPRLAND_CONFIG_PATH = "${config.home.homeDirectory}/.config/hypr/hyprland.conf";
+    # Your existing PATH modification
+    PATH = "${config.home.homeDirectory}/.local/bin:$PATH";
+    # Your existing XDG_DATA_DIRS
+    XDG_DATA_DIRS = "${config.home.homeDirectory}/.nix-profile/share:/run/current-system/sw/share:/usr/local/share:/usr/share";
+    # Your existing BROWSER variable
+    BROWSER = "librewolf";
+  };
+  # --- END OF HYPRLAND HOME MANAGER CONFIGURATION ---
 
 #Flatpak
 xdg.enable = true;

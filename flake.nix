@@ -10,6 +10,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprland.url = "github:hyprwm/Hyprland";
 
     # Blacklist for hosts
     ultimate-hosts-blacklist = {

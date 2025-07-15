@@ -3,9 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
-    # Hyprland
-    #    hyprland.url = "github:hyprwm/Hyprland";
+    nix-ld.url = "github:Mic92/nix-ld";
 
     # Home Manager input
     home-manager = {
@@ -13,14 +11,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Blacklist etc
+    # Blacklist for hosts
     ultimate-hosts-blacklist = {
       url = "github:Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist";
-      flake = false; # This is not a flake, so we set `flake = false`
+      flake = false; # Not a flake, so mark as false
     };
+
+    # Ensure nix-ld uses the same nixpkgs version
+    nix-ld.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, ... }:
+  outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, nix-ld, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
@@ -28,9 +29,14 @@
     {
       nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
         inherit system;
+        specialArgs = {
+          inherit nix-ld;
+        };
+
         modules = [
-          ./configuration.nix
-          home-manager.nixosModules.home-manager
+          ./configuration.nix # Base configuration
+          ./modules/nix-ld.nix # nix-ld module
+          home-manager.nixosModules.home-manager # Home Manager module
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;

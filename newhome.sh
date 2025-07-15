@@ -1,1 +1,1 @@
-home-manager switch - f ./home/home.nix
+home-manager switch -f ./home/home.nix

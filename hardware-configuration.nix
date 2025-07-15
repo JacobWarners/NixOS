@@ -13,7 +13,6 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
 
   fileSystems."/" =
     {

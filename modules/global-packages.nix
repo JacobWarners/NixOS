@@ -41,7 +41,6 @@
     audacity
     pavucontrol
     p7zip
-    displaylink
     tree
     file
     drawio

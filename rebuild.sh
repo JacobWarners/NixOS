@@ -1,16 +1,22 @@
 #!/usr/bin/env bash
-read -p "Enter a name for this NixOS build: " custom_name
-  full_name="${custom_name} - $(date '+%Y-%m-%d')"
 
+# Prompt for a custom name for the Git commit
+read -p "Enter a name for this NixOS build commit: " custom_commit_name
 
-current_datetime=$(date +"%Y-%m-%d %H:%M:%S")
-
+# Format Nix files
 nixpkgs-fmt *.nix
 
+# Stage all changes
 git add -A
-git commit -m "$custom_name-$(date +'%b-%d-%Y')"
+
+# Commit changes with the custom name
+git commit -m "$custom_commit_name"
+
+# Push changes to the remote repository
 git push
 
-sudo nixos-rebuild switch --flake .#Framework --profile-name $custom_name-$(date +"%b-%d-%Y")
+# Perform a standard NixOS flake switch
+sudo nixos-rebuild switch --flake .#Framework
 
-#./generation-cleaner.sh 
+# Uncomment the line below if you want to run a generation cleaner script
+# ./generation-cleaner.sh

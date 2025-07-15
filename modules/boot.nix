@@ -5,9 +5,11 @@
     kernelPackages = pkgs.linuxPackages_latest;
     supportedFilesystems = [ "nfs" ];
     loader = {
-      systemd-boot.enable = true;
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 5;
+      };
       efi.canTouchEfiVariables = true;
-      systemd-boot.configurationLimit = 5;
     };
     initrd = {
       kernelModules = [ "amdgpu" ];

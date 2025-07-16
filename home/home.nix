@@ -49,6 +49,10 @@ in {
     eww
     waybar
     nerd-fonts.jetbrains-mono
+    pipewire
+    wireplumber
+    xdg-desktop-portal
+    xdg-desktop-portal-hyprland
 
     # Add the custom font package here
     pacman-font

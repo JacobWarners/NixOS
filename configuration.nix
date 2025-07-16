@@ -12,6 +12,7 @@
     ./modules/flatpak.nix
     ./modules/nix.nix
     ./modules/nix-ld.nix
+    ./modules/bluetooth.nix
     #    ./modules/bluray.nix
     ./modules/boot.nix
     ./modules/network.nix

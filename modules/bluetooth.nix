@@ -1,34 +1,26 @@
+# /etc/nixos/modules/bluetooth.nix
+#
+# This module enables Bluetooth services and installs related tools.
+
+{ config, pkgs, ... }:
+
 {
+  # 1. Enable the core Bluetooth service (bluez).
+  hardware.bluetooth.enable = true;
+
+  # 2. Power on the Bluetooth adapter on boot.
+  # This is useful for systems that don't enable it by default.
+  hardware.bluetooth.powerOnBoot = true;
+
+  # 3. Enable Blueman, a graphical Bluetooth manager.
+  # This gives you a GUI to pair and manage devices.
+  services.blueman.enable = true;
+
+  # 4. Explicitly add necessary packages to the system environment.
+  # While enabling the services often pulls these in, being explicit is good practice.
   environment.systemPackages = with pkgs; [
-    bluez # Bluetooth utilities
-    blueman # GUI Bluetooth manager (optional)
-    pipewire # PipeWire itself
-    wireplumber # Session manager for PipeWire
-    pipewire-pulse # PulseAudio compatibility for PipeWire
-    pipewire-alsa # ALSA support for PipeWire
-    pipewire-jack # JACK support for PipeWire
-    pipewire-media-session # Manages Bluetooth audio profiles
+    bluez
+    blueman
   ];
-
-  services.bluetooth = {
-    enable = true;
-    extraConfig = ''
-      AutoEnable=true
-    '';
-  };
-
-  services.dbus.enable = true;
-  services.avahi = {
-    enable = true;
-    nssmdns = true;
-  };
-
-  # PipeWire service setup
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-    jack.enable = true;
-  };
 }
 

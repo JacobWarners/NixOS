@@ -3,11 +3,9 @@
 {
     "layer": "top",
     "position": "top",
-    "margin-top": 7,
-    "margin-bottom": 0,
-
     "output": "eDP-1", // Laptop monitor
     "exclusive": false, // Allow centering
+    "gtk-layer-shell": true,
 
     // All modules combined into one array for centering via CSS
     "modules-left": [

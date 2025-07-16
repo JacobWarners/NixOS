@@ -7,7 +7,6 @@
     
     extraPackages = with pkgs; [
       amdvlk
-      rocm-opencl-runtime
     ];
     
     extraPackages32 = with pkgs; [

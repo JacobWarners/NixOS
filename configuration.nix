@@ -6,6 +6,7 @@
     #    ./modules/specialisation.nix
     #    ./modules/hotplugegpu.nix
     ./modules/hyprland.nix
+    ./modules/amd-performance.nix
     ./modules/amd.nix
     ./modules/transcriber.nix
     ./modules/flatpak.nix
@@ -27,7 +28,7 @@
     # Add any other modules you have
   ];
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
 
   # Global settings can be added here if necessary
 

@@ -3,12 +3,11 @@
 {
     "layer": "top",
     "position": "top",
-    "output": "eDP-1", // Laptop monitor
-    "exclusive": false, // Allow centering
+   // "output": "eDP-1", // Laptop monitor
     "gtk-layer-shell": true,
 
     // All modules combined into one array for centering via CSS
-    "modules-left": [
+    "modules-center": [
         "group/hardware", // Reference to the defined group below
         "custom/space",
         "custom/app",
@@ -21,7 +20,7 @@
         "custom/space",
         "battery",
         "custom/space",
-        "clock"
+        "clock",
         "bluetooth"
     ],
 

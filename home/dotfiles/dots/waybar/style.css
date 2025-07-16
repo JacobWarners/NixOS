@@ -1,5 +1,5 @@
 * {
-    font-size: 12px; /* 18px / 1.5 = 12px */
+    font-size: 24px; /* 18px / 1.5 = 12px */
     font-family: monospace;
     font-weight: bold;
     color: #e3d6ba;
@@ -68,15 +68,9 @@ window#waybar {
     border-radius: 8px;
     min-width: 153.33px; /* 230px / 1.5 = 153.33px */
 }
-.modules-left{
+.modules-center{
     border: 0px solid;
     background: #141619;
-    border-radius: 13px; /* Border radius usually doesn't need scaling unless it looks off */
-    padding-top: 6.67px; /* 10px / 1.5 = 6.67px */
-    padding-bottom: 6.67px; /* 10px / 1.5 = 6.67px */
-    padding-left: 6.67px; /* 10px / 1.5 = 6.67px */
-    padding-right: 6.67px; /* 10px / 1.5 = 6.67px */
-    margin-left: 106.67px; /* 400px / 1.5 = 266.67px. This is crucial for centering. */
 }
 #hardware{
     background: rgb(23, 91, 112);

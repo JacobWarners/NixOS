@@ -84,7 +84,7 @@
     },
     "custom/app": {
         "format": "{}",
-        "exec": "~/.config/waybar/app2.sh",
+        "exec": "~/.config/waybar/rust-bar/top-cpu-monitor/target/release/top_process_monitor",
         "interval": 10,
         "tooltip": false,
     },

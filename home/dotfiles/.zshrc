@@ -88,6 +88,7 @@ alias grep='rga'
 alias x='wl-copy'
 alias k='kubectl'
 alias htop='btop'
+alias ssh='kitten ssh'
 
 # k9s
 export K9S_EDITOR=vim

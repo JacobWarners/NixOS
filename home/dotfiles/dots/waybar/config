@@ -160,8 +160,10 @@
         "format-icons": ["", "", ""]
     },
     "bluetooth": {
+	"on-click": "blueman-manager",
+        "on-click-right": "~/.local/bin/toggle-bluetooth.sh",
         "format": "  0",
-        "format-disabled": "",
+ //       "format-disabled": "",
         "format-connected": "  {num_connections}",
         "tooltip-format": "{controller_alias}\t{controller_address}",
         "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",

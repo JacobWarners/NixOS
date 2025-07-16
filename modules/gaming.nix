@@ -27,7 +27,7 @@
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
-      mesa # This package provides both OpenGL and Vulkan drivers (Intel and AMD RADV)
+      mesa 
     ];
   };
 
@@ -36,7 +36,7 @@
   # Vulkan ICDs for Intel and AMD. We will verify this with vulkaninfo.
 
   environment.variables = {
-    AMD_VULKAN_ICD = "RADV"; # Prefer RADV for AMD GPUs
+    AMD_VULKAN_ICD = lib.mkForce "RADV";# Prefer RADV for AMD GPUs
   };
 
   programs.steam = {

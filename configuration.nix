@@ -29,6 +29,12 @@
   ];
 
   system.stateVersion = "25.05";
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+    openFirewall = true;
+  };
+
 
   # Global settings can be added here if necessary
 

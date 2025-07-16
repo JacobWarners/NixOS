@@ -83,8 +83,9 @@
         "tooltip": false
     },
     "custom/app": {
+        "format": "{}",
         "exec": "~/.config/waybar/app2.sh",
-        "interval": 30,
+        "interval": 10,
         "tooltip": false,
     },
     "clock": {

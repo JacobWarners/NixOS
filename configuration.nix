@@ -36,8 +36,6 @@
     openFirewall = true;
   };
 
-  nix.settings.substituters = [ "https://cache.nixos.org/" ];
-  nix.settings.trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
 
   # Global settings can be added here if necessary
 

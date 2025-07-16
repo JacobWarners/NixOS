@@ -169,7 +169,7 @@ workspace = "2, monitor:desc:Acer Technologies XV271U M3 1322131231233";
 #monitor=desc:BOE 0x095F, 2256x1504@59.999, -1128x688, 1.00
 #monitor=eDP-1,2256x1504@60,-1128x688,1.566667
 #monitor=,preferred,auto,1
-monitor=eDP-1, preferred,auto
+monitor=eDP-1, preferred,auto,1.50
 monitor=,addreserved,10,0,0,0
 workspace = "1, monitor:desc:BOE 0x095F";
 

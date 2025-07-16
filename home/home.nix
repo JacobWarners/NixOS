@@ -18,7 +18,7 @@ let
 in {
   home.username = "jake";
   home.homeDirectory = "/home/jake";
-  home.stateVersion = "24.05"; # Adjust this to match your Home Manager version
+  home.stateVersion = "25.05"; # Adjust this to match your Home Manager version
 
   #ZSH
   programs.zsh = {
@@ -153,15 +153,30 @@ in {
       ### MONITORS ###
       ################
 
-      # See https://wiki.hyprland.org/Configuring/Monitors/
-      monitor=,preferred,auto,auto
-      workspace = "1, monitor:desc:BOE 0x095F";
+# Acer Monitor (Middle) - Main Display
+# description: Acer Technologies XV271U M3 1322131231233
+# Resolution: 2560x1440@179.877 (preferred high refresh rate)
+# Position: 0x0 (center of virtual layout)
+# Scale: 1.00
+monitor=desc:Acer Technologies XV271U M3 1322131231233, 2560x1440@179.877, 0x0, 1.00
+workspace = "2, monitor:desc:Acer Technologies XV271U M3 1322131231233";
 
-      # Workspace 2 -> Middle Monitor (Acer)
-      workspace = "2, monitor:desc:Acer Technologies XV271U M3 1322131231233";
+# BOE Monitor (Left) - Laptop Screen
+# description: BOE 0x095F
+# Resolution: 2256x1504@59.999 (preferred)
+# Position: -1128x688 (left of Acer, bottom-aligned)
+# Scale: 1.00
+#monitor=desc:BOE 0x095F, 2256x1504@59.999, -1128x688, 1.50
+monitor=eDP-1,2256x1504@60,-1128x688,1.25
+workspace = "1, monitor:desc:BOE 0x095F";
 
-      # Workspace 3 -> Right Monitor (Stargate)
-      workspace = "3, monitor:desc:Stargate Technology M156F01 demoset-1";
+# Stargate Monitor (Right) - External Small Monitor
+# description: Stargate Technology M156F01 demoset-1
+# Resolution: 1920x1080@60.000 (preferred)
+# Position: 2560x720 (right of Acer, bottom-aligned)
+# Scale: 1.50
+monitor=desc:Stargate Technology M156F01 demoset-1, 1920x1080@60.000, 2560x720, 1.50
+workspace = "3, monitor:desc:Stargate Technology M156F01 demoset-1";
 
       ###################
       ### MY PROGRAMS ###
@@ -185,7 +200,8 @@ in {
       # IMPORTANT: Add your autostart commands here, e.g.:
       exec-once = ${pkgs.swww}/bin/swww-daemon
       exec-once = sleep 2 && swww img /home/jake/Pictures/Wallpapers/Gruvwinter.jpg 
-      exec-once = ~/scripts/waybar-monitor.sh
+      exec-once = waybar &
+#      exec-once = ~/.config/waybar-monitor.sh
       exec-once = ${pkgs.eww}/bin/eww daemon # Start the Eww daemon
       exec-once = sleep 2 && ${pkgs.eww}/bin/eww open dashboard # Open the Eww dashboard after a delay
 

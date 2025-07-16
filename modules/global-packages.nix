@@ -44,7 +44,7 @@
     displaylink
     tree
     file
-    drawio
+ #   drawio
     terraform
     awscli2
     ssm-session-manager-plugin

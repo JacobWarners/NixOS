@@ -187,7 +187,7 @@ workspace = "1, monitor:desc:BOE 0x095F";
 # Resolution: 1920x1080@60.000 (preferred)
 # Position: 2560x720 (right of Acer, bottom-aligned)
 # Scale: 1.50
-monitor=desc:Stargate Technology M156F01 demoset-1, 1920x1080@60.000, 2560x720, 1.50
+monitor=desc:Stargate Technology M156F01 demoset-1, 1920x1080@60.000, 2560x0, 1.00
 workspace = "3, monitor:desc:Stargate Technology M156F01 demoset-1";
 
       ###################
@@ -364,6 +364,8 @@ workspace = "3, monitor:desc:Stargate Technology M156F01 demoset-1";
       bind = LCTRL SUPER, UP, exec, rofi -show drun
       bind = $mainMod, P, pseudo, # dwindle
       bind = $mainMod, J, togglesplit, # dwindle
+      bind = $mainMod, left, movewindow, l
+      bind = $mainMod, right, movewindow, r
 
       # Move focus with mainMod + arrow keys
       bind = SHIFT ALT_L, h, movefocus, l

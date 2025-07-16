@@ -84,9 +84,8 @@
     },
     "custom/app": {
         "exec": "~/.config/waybar/app2.sh",
-        "interval": 1,
+        "interval": 30,
         "tooltip": false,
-        "tooltip-format": "Active app"
     },
     "clock": {
         "format": " {0:%d-%m-%y}  {0:%H:%M}",

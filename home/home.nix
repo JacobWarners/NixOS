@@ -170,7 +170,7 @@ workspace = "2, monitor:desc:Acer Technologies XV271U M3 1322131231233";
 #monitor=eDP-1,2256x1504@60,-1128x688,1.566667
 #monitor=,preferred,auto,1
 monitor=,addreserved,10,0,0,0
-monitor=eDP-1, preferred,auto,1.25
+monitor=eDP-1, preferred,auto,1.175
 workspace = "1, monitor:desc:BOE 0x095F";
 
 # Stargate Monitor (Right) - External Small Monitor

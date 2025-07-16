@@ -22,7 +22,7 @@
         "battery",
         "custom/space",
         "clock"
-        // If you want bluetooth from 'group/wireless' here, add "bluetooth"
+        "bluetooth"
     ],
 
     // ===============================================

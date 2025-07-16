@@ -15,6 +15,8 @@
         "custom/space",
         "custom/app",
         "custom/space",
+	"custom/nyt",
+        "custom/space",
         "custom/workspaces",
         "custom/space",
         "network",
@@ -72,6 +74,11 @@
     },
     "custom/space": {
         "format": " ",
+        "tooltip": false
+    },
+    "custom/nyt": {
+	"on-click": "~/scripts/nyt-games.sh",
+        "format": "󰾡",
         "tooltip": false
     },
     "custom/dot": {

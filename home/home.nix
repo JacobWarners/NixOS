@@ -316,7 +316,7 @@ workspace = "3, monitor:desc:Stargate Technology M156F01 demoset-1";
           sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
 
           touchpad {
-              natural_scroll = false
+              natural_scroll = true
           }
       }
 

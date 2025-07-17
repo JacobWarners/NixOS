@@ -30,11 +30,9 @@
   # System-wide packages typically used in a Hyprland environment.
   environment.systemPackages = [
     # Waybar - a highly customizable Wayland bar.
-    (pkgs.waybar.overrideAttrs (oldAttrs: {
-      mesonFlags = oldAttrs.mesonFlags ++ ["-Dexperimental=true"]; # Enables experimental Waybar features
-    }))
+    # The override was removed to use the cached version.
+    pkgs.waybar
     # Screen capturing tools for Wayland.
-    # xwaylandvideobridge - FIXED: now explicitly `kdePackages.xwaylandvideobridge`
     pkgs.kdePackages.xwaylandvideobridge
     pkgs.grim # Command-line screenshot tool
     pkgs.slurp # Select a region on screen
@@ -48,8 +46,9 @@
     pkgs.eww
     # SwWw - Wayland wallpaper setter.
     pkgs.swww
-    # Rofi - application launcher (ensure it's Wayland-compatible).
-    (pkgs.rofi.override { }) # Override empty, assuming base pkgs.rofi is good or will be customized
+    # Rofi - application launcher.
+    # The empty override was removed for simplicity.
+    pkgs.rofi
     # Font Awesome for icons.
     pkgs.font-awesome
   ];
@@ -61,7 +60,6 @@
       xdg-desktop-portal-hyprland
     ];
   };
-  # Uncomment the line below if you need a specific portal backend (e.g., for GTK apps).
 
   # Define the .desktop file for Hyprland so display managers can find it.
   environment.etc."xdg/wayland-sessions/hyprland.desktop".text = ''
@@ -74,14 +72,11 @@
   '';
 
   # Ensure Hyprland is available as a session in display managers.
-  # Renamed from services.xserver.displayManager.sessionPackages.
   services.displayManager.sessionPackages = with pkgs; [
     hyprland
   ];
 
   # Font packages for the system.
-  # Renamed from fonts.fonts.
-  # Now explicitly lists font-awesome and all available Nerd Fonts.
   fonts.packages = with pkgs; [
     pkgs.font-awesome
   ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts); # Includes all Nerd Fonts

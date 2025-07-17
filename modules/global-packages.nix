@@ -49,10 +49,10 @@
     terraform
     awscli2
     ssm-session-manager-plugin
-    google-cloud-sdk
+ #   google-cloud-sdk
     nixpkgs-fmt
     vdhcoapp
-    google-cloud-sdk-gce
+ #   google-cloud-sdk-gce
     envsubst
     kubectl
     kubernetes

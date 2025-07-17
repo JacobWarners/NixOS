@@ -1,26 +1,5 @@
 {
   "nodes": {
-    "home-manager": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1752544374,
-        "narHash": "sha256-ReX0NG6nIAEtQQjLqeu1vUU2jjZuMlpymNtb4VQYeus=",
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "rev": "2e00ed310c218127e02ffcf28ddd4e0f669fde3e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "ref": "release-25.05",
-        "repo": "home-manager",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1752620740,
@@ -39,25 +18,7 @@
     },
     "root": {
       "inputs": {
-        "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs",
-        "ultimate-hosts-blacklist": "ultimate-hosts-blacklist"
-      }
-    },
-    "ultimate-hosts-blacklist": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1752696344,
-        "narHash": "sha256-QwomlGk6esJQI1CnMEYkPgfoxiCJx1l4pw+VNlPW1+s=",
-        "owner": "Ultimate-Hosts-Blacklist",
-        "repo": "Ultimate.Hosts.Blacklist",
-        "rev": "e00a57171e95bd06e3bb47c01d5d48e94f6930e1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Ultimate-Hosts-Blacklist",
-        "repo": "Ultimate.Hosts.Blacklist",
-        "type": "github"
+        "nixpkgs": "nixpkgs"
       }
     }
   },

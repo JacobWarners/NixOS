@@ -8,7 +8,7 @@
     ./modules/hyprland.nix
     ./modules/amd-performance.nix
     ./modules/amd.nix
-    ./modules/transcriber.nix
+    #    ./modules/transcriber.nix
     ./modules/flatpak.nix
     ./modules/nix.nix
     ./modules/nix-ld.nix

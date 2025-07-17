@@ -111,12 +111,12 @@ in {
     XDG_DATA_DIRS = "${config.home.homeDirectory}/.nix-profile/share:/run/current-system/sw/share:/usr/local/share:/usr/share";
   };
   # --- END OF CONSOLIDATED HOME MANAGER SESSION VARIABLES ---
-  home.pointerCursor = {
-    name = "Bibata-Modern-Classic";
-    package = pkgs.bibata-cursors;
-    size = 24;
-    enable = true;
-  };
+#  home.pointerCursor = {
+#    name = "Bibata-Modern-Classic";
+#    package = pkgs.bibata-cursors;
+#    size = 24;
+#    enable = true;
+#  };
 
   #Flatpak (xdg.enable should be in home.nix too for user-level xdg config)
   xdg.enable = true;

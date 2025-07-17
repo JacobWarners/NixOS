@@ -137,6 +137,9 @@ in {
   wayland.windowManager.hyprland = {
     enable = true;
     package = pkgs.hyprland; # Still needed to specify the package
+    plugins = [
+      inputs.hypr-dynamic-cursors.packages.${pkgs.system}.hypr-dynamic-cursors
+    ];
 
     # This is where your entire Hyprland configuration goes!
     extraConfig = ''
@@ -363,15 +366,16 @@ workspace = "3, monitor:desc:Stargate Technology M156F01 demoset-1";
       bind = $mainMod, V, togglefloating,
       bind = LCTRL SUPER, UP, exec, rofi -show drun
       bind = $mainMod, P, pseudo, # dwindle
-      bind = $mainMod, J, togglesplit, # dwindle
+      bind = $mainMod, D, togglesplit, # dwindle
       bind = $mainMod, left, movewindow, l
       bind = $mainMod, right, movewindow, r
+      bind = $mainMod, SPACE, exec, rofi -show window
 
       # Move focus with mainMod + arrow keys
-      bind = SHIFT ALT_L, h, movefocus, l
-      bind = SHIFT ALT_L, l, movefocus, r
-      bind = SHIFT ALT_L, j, movefocus, d
-      bind = SHIFT ALT_L, k, movefocus, u
+      bind = $mainMod, h, movefocus, l
+      bind = $mainMod, l, movefocus, r
+      bind = $mainMod, j, movefocus, d
+      bind = $mainMod, k, movefocus, u
 
       bind = , F1, workspace, 1
       bind = , F2, workspace, 2

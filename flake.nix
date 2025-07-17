@@ -14,6 +14,10 @@
     # Hyprland input. Note: Pointing to the main branch may cause cache misses.
     # It's better to use pkgs.hyprland unless you need the absolute latest version.
     hyprland.url = "github:hyprwm/Hyprland";
+    hypr-dynamic-cursors = {
+      url = "github:VirtCode/hypr-dynamic-cursors";
+      inputs.hyprland.follows = "hyprland";
+    };
 
     # Blacklist for hosts (this is correctly configured).
     ultimate-hosts-blacklist = {

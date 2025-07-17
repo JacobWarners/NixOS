@@ -43,6 +43,7 @@
     p7zip
     displaylink
     tree
+    pstree
     file
  #   drawio
     terraform

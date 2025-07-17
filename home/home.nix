@@ -137,9 +137,9 @@ in {
   wayland.windowManager.hyprland = {
     enable = true;
     package = pkgs.hyprland; # Still needed to specify the package
-    plugins = [
-      inputs.hypr-dynamic-cursors.packages.${pkgs.system}.hypr-dynamic-cursors
-    ];
+#    plugins = [
+#      inputs.hypr-dynamic-cursors.packages.${pkgs.system}.hypr-dynamic-cursors
+#    ];
 
     # This is where your entire Hyprland configuration goes!
     extraConfig = ''

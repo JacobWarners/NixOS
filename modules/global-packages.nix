@@ -62,7 +62,7 @@
     openssl
     k9s
     kubernetes-helm
-    python3
+#    python3
     esptool
     adafruit-ampy
     minicom

@@ -26,7 +26,6 @@
     };
   };
 
-  # The 'nix-ld' input has been REMOVED from the function arguments below.
   outputs = { self, nixpkgs, home-manager, hyprland, ultimate-hosts-blacklist, ... }@inputs:
     let
       system = "x86_64-linux";
@@ -34,12 +33,13 @@
     {
       nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
         inherit system;
+        specialArgs = { inherit inputs; };
 
         # 'specialArgs' can pass inputs to your modules. 'nix-ld' is removed from here.
-        specialArgs = {
-          # Pass your other inputs if needed in your custom modules.
-          inherit hyprland ultimate-hosts-blacklist;
-        };
+        #         specialArgs = {
+        #           # Pass your other inputs if needed in your custom modules.
+        #           inherit hyprland ultimate-hosts-blacklist;
+        #         };
 
         modules = [
           # This is the correct way to enable and configure nix-ld.

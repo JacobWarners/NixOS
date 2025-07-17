@@ -23,7 +23,7 @@
     ./modules/users.nix
     ./modules/unfree.nix
     ./modules/global-packages.nix
-    ./modules/virtualization.nix
+    #    ./modules/virtualization.nix
     ./modules/gaming.nix
     ./modules/docker.nix
     # Add any other modules you have

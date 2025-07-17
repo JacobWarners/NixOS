@@ -26,7 +26,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, hyprland, ultimate-hosts-blacklist, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, ... }@inputs:
     let
       system = "x86_64-linux";
     in
@@ -69,9 +69,9 @@
             home-manager.backupFileExtension = "backup";
 
             # This allows home-manager configurations to access flake inputs
-            home-manager.extraSpecialArgs = {
-              inherit hyprland;
-            };
+            #           home-manager.extraSpecialArgs = {
+            #             inherit hyprland;
+            #           };
           }
 
           # Host blacklist configuration

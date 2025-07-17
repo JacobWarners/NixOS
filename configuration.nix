@@ -36,6 +36,7 @@
     openFirewall = true;
   };
 
+  programs.hyprland.enable = true;
 
   # Global settings can be added here if necessary
 

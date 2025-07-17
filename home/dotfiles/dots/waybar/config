@@ -83,10 +83,12 @@
         "tooltip": false
     },
     "custom/app": {
-        "format": "{}",
         "exec": "~/.config/waybar/rust-bar/top-cpu-monitor/target/release/top_process_monitor",
-        "interval": 10,
-        "tooltip": false,
+        "return-type": "json",
+        "format": "{text}",
+        "interval": 60,
+        "tooltip": true,
+        "escape": true
     },
     "clock": {
         "format": " {0:%d-%m-%y}  {0:%H:%M}",

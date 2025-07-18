@@ -18,7 +18,7 @@
 security.sudo.extraConfig = ''
   # Give user 'jake' passwordless sudo access to all commands.
   # WARNING: For testing purposes only.
-  jake ALL=(ALL) NOPASSWD: ALL
+  jake ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/cpupower
 '';
 #security.sudo.extraRules = [
 #  {

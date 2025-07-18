@@ -93,6 +93,8 @@ alias ssh='kitten ssh'
 # k9s
 export K9S_EDITOR=vim
 export EDITOR=vim
+export VISUAL='vim'
+export EDITOR="$VISUAL"
 
 
 

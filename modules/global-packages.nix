@@ -9,6 +9,7 @@
     xclip
     vim-full
     kitty
+    paplay
     wget
     git
     btop

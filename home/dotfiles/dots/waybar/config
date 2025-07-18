@@ -14,16 +14,18 @@
         "custom/space",
 	"custom/nyt",
         "custom/space",
-        "custom/cpu-governor",
-        "custom/space",
         "custom/workspaces",
+        "custom/space",
+        "custom/cpu-governor",
         "custom/space",
         "network",
         "custom/space",
         "battery",
         "custom/space",
         "clock",
+        "custom/space",
         "bluetooth"
+        "custom/space",
     ],
 
     // ===============================================
@@ -82,13 +84,15 @@
     },
 
 "custom/cpu-governor": {
-    "format": "{icon}",
+    "format": "{}",
+    "return-type": "json",
+
     "format-icons": {
-        "performance": "PERF ⚡",
-        "powersave": "SAVE 🔋"
+        "performance": "󱐋",
+        "powersave": "󰌪"
     },
     "exec": "/home/jake/.config/waybar/scripts/governor.sh",
-    "on-click": "sudo /home/jake/.config/waybar/scripts/governor.sh cycle",
+    "on-click": "/home/jake/.config/waybar/scripts/governor.sh cycle",
     "interval": 2
 },
 
@@ -147,7 +151,8 @@
     },
     "battery": {
         "states": {
-            "good": 95,
+            "full": 100,
+            "good": 99,
             "warning": 30,
             "critical": 15
         },

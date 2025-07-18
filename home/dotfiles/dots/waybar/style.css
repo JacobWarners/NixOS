@@ -51,7 +51,7 @@ window#waybar {
     border-radius: 8px;
     padding: 0 10px;
     font-size: 24px;
-    color: #fcba03;
+    color: #f7da21;
 }
 
 #custom-workspaces{
@@ -110,6 +110,18 @@ window#waybar {
     color: #ff5555; /* A bright red */
   }
 }
+@keyframes super-sonic {
+  0% {
+    color: #fcf403; /* A bright red */
+  }
+  50% {
+    color: #ffffff; /* Your default bar text color */
+  }
+  100% {
+    color: #fcf403; /* A bright red */
+  }
+}
+
 
 /* 2. Now, apply the styles to each state */
 
@@ -132,7 +144,14 @@ window#waybar {
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
-#cpu{
+#battery.full {
+  color: #ff5555;
+  animation-name: super-sonic;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}#cpu{
     padding: 2px 0px; /* 3px / 1.5 = 2px */
     margin: 0px 0px 0px 0px;
 }
@@ -177,10 +196,18 @@ window#waybar {
     }
 
 /* --- CPU Governor Styles --- */
+#custom-cpu-governor {
+    background-color: #f9e2af;
+    background: #2e3336;
+    border: 0px solid;
+    border-radius: 8px;
+    padding: 0 10px;
+    font-size: 24px;
+    }
 #custom-cpu-governor.performance {
   color: #ff5555; /* Red */
 }
 
 #custom-cpu-governor.powersave {
-  color: #f0c674; /* Yellow */
+  color: #35b056; /* Yellow */
 }

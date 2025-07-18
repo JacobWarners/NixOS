@@ -26,6 +26,7 @@ set showmatch
 " Toggle paste, first always set to paste then toggle here
 set paste
 set pastetoggle=<F2>
+set clipboard=unnamedplus
 
 set mouse=a
 

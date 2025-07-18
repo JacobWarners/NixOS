@@ -26,11 +26,11 @@ security.sudo.extraRules = [
         command = "/home/jake/.config/waybar/scripts/set_governor.sh";
         options = [ "NOPASSWD" ];
       }
-      {
-        # Rule 2: Authorize the cpupower command directly.
-        command = "/run/current-system/sw/bin/cpupower";
-        options = [ "NOPASSWD" ];
-      }
+#      {
+#        # Rule 2: Authorize the cpupower command directly.
+#        command = "/run/current-system/sw/bin/cpupower";
+#        options = [ "NOPASSWD" ];
+#      }
     ];
   }
 ];

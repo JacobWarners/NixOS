@@ -23,7 +23,7 @@ security.sudo.extraRules = [
     commands = [
       {
         # Rule 1: Authorize the script itself.
-        command = "/home/jake/.config/waybar/scripts/set_governor.sh";
+        command = "/home/jake/.config/waybar/scripts/governor.sh";
         options = [ "NOPASSWD" ];
       }
 #      {

@@ -181,10 +181,6 @@ window#waybar {
   color: #ff5555; /* Red */
 }
 
-#custom-cpu-governor.schedutil {
-  color: #66cc66; /* Green */
-}
-
 #custom-cpu-governor.powersave {
   color: #f0c674; /* Yellow */
 }

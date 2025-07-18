@@ -3,7 +3,6 @@
 {
   hardware.graphics = {
     enable = true;
-    package32 = true;
     enable32Bit = true;
 
     

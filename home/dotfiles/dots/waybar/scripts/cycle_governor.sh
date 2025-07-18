@@ -9,13 +9,13 @@ if [ "$1" == "cycle" ]; then
   CURRENT_GOV=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)
   case $CURRENT_GOV in
     "schedutil" | "ondemand")
-      sudo cpupower frequency-set -g performance
+        cpupower frequency-set -g performance
       ;;
     "performance")
-      sudo cpupower frequency-set -g powersave
+        cpupower frequency-set -g powersave
       ;;
     "powersave")
-      sudo cpupower frequency-set -g schedutil
+        cpupower frequency-set -g schedutil
       ;;
   esac
 fi

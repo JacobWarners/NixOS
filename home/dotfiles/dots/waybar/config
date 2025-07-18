@@ -91,7 +91,7 @@
         "default": "CPU ❔"
     },
     "exec": "~/.config/waybar/scripts/cycle_governor.sh",
-    "on-click": "~/.config/waybar/scripts/cycle_governor.sh cycle",
+    "on-click": "sudo /home/jake/.config/waybar/scripts/cycle_governor.sh cycle",
     "interval": 5,
     "tooltip": true
 },

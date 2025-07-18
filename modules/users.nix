@@ -15,6 +15,19 @@
     settings.PermitRootLogin = "no";
   };
 
+  # Sudo configuration for passwordless cpupower
+  security.sudo.extraRules = [
+    {
+      users = [ "jake" ];
+      commands = [
+        {
+          command = "/run/current-system/sw/bin/cpupower";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+
   programs.zsh.enable = true;
 }
 

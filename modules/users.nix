@@ -15,12 +15,19 @@
     settings.PermitRootLogin = "no";
   };
 # In /etc/nixos/configuration.nix
+
 security.sudo.extraRules = [
   {
     users = [ "jake" ];
+    # We are defining two passwordless commands for user "jake".
     commands = [
       {
-        # Authorize the cpupower command itself using its canonical NixOS path
+        # Rule 1: Authorize the script itself.
+        command = "/home/jake/.config/waybar/scripts/governor.sh";
+        options = [ "NOPASSWD" ];
+      }
+      {
+        # Rule 2: Authorize the cpupower command directly.
         command = "/run/current-system/sw/bin/cpupower";
         options = [ "NOPASSWD" ];
       }
@@ -28,20 +35,6 @@ security.sudo.extraRules = [
   }
 ];
 
-  # Sudo configuration for passwordless cpupower
- 
-   security.sudo.extraRules = [
-   {
-     users = [ "jake" ];
-     commands = [
-       {
-         # Authorize the script itself to be run with passwordless sudo
-         command = "/home/jake/.config/waybar/scripts/cycle_governor.sh";
-         options = [ "NOPASSWD" ];
-       }
-     ];
-   }
- ];
   programs.zsh.enable = true;
 }
 

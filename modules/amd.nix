@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     driSupport32Bit = true; # Enable 32-bit support for Steam and Wine
     

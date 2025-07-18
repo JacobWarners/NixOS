@@ -30,7 +30,7 @@
   ];
 
   system.stateVersion = "25.05";
-  services.avahi = {
+  services.avahi.nssmdns4 = {
     enable = true;
     nssmdns = true;
     openFirewall = true;

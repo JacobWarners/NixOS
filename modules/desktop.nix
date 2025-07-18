@@ -10,7 +10,7 @@
     videoDrivers = ["modesetting" "amdgpu"];
   };
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     driSupport32Bit = true;
     # Ensure Mesa packages for both GPUs are available

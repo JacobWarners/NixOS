@@ -9,7 +9,7 @@
      extraPackages = with pkgs; [
        driversi686Linux.amdvlk
      ];
- 
+   }; 
 #    extraPackages32 = with pkgsi686Linux; [
 #        intel-media-driver
 #        intel-vaapi-driver

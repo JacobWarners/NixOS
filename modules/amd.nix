@@ -25,10 +25,6 @@ powerManagement.cpuFreqGovernor = "performance";
 #    AMD_VULKAN_ICD = "AMDVLK";
 #    VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/amd_icd64.json:/run/opengl-driver-32/share/vulkan/icd.d/amd_icd32.json";
 #  };
-services.lact.enable = true;
-environment.systemPackages = with pkgs; [ lact ];
-systemd.packages = with pkgs; [ lact ];
-systemd.services.lactd.wantedBy = ["multi-user.target"];
   
    # Add kernel parameters for better performance
 # boot.kernelParams = [

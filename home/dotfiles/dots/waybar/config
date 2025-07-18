@@ -24,8 +24,8 @@
         "custom/space",
         "clock",
         "custom/space",
-        "bluetooth"
-        "custom/space",
+        "bluetooth",
+        "custom/space"
     ],
 
     // ===============================================
@@ -78,7 +78,7 @@
         "tooltip": false
     },
     "custom/nyt": {
-	"on-click": "~/scripts/nyt-games.sh",
+	"on-click": "~/.config/waybar/scripts/nyt-games.sh &> /dev/null",
         "format": "󰾡",
         "tooltip": false
     },
@@ -157,7 +157,7 @@
             "critical": 15
         },
         "on-click": "wlogout",
-        "format": "{icon} {capacity}% ",
+        "format": "{icon} {capacity}%  ",
         "format-icons": [
             "",
             "",

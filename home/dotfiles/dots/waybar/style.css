@@ -94,7 +94,7 @@ window#waybar {
     background: #2e3336;
     border: 0px solid;
     border-radius: 8px;
-    min-width: 73.33px; /* 110px / 1.5 = 73.33px */
+    margin-right: 30px;
 }
 /* --- BATTERY STATES --- */
 

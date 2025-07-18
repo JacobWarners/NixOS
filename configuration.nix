@@ -29,10 +29,9 @@
     # Add any other modules you have
   ];
 
-  services.avahi.enable = true;
 
   system.stateVersion = "25.05";
-  services.avahi.nssmdns4 = {
+  services.avahi = {
     enable = true;
     nssmdns = true;
     openFirewall = true;

@@ -37,7 +37,7 @@ security.sudo.extraConfig = ''
 #      }
 #    ];
 #  }
-];
+#];
 
   programs.zsh.enable = true;
 }

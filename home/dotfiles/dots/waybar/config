@@ -14,6 +14,8 @@
         "custom/space",
 	"custom/nyt",
         "custom/space",
+        "custom/cpu-governor",
+        "custom/space",
         "custom/workspaces",
         "custom/space",
         "network",
@@ -78,12 +80,28 @@
         "format": "󰾡",
         "tooltip": false
     },
+
+"custom/cpu-governor": {
+    "format": "{icon}",
+    "format-icons": {
+        "performance": "PERF ⚡",
+        "schedutil": "BAL ⚙️",
+        "ondemand": "BAL ⚙️",
+        "powersave": "SAVE 🔋",
+        "default": "CPU ❔"
+    },
+    "exec": "~/.config/waybar/scripts/cycle_governor.sh",
+    "on-click": "~/.config/waybar/scripts/cycle_governor.sh cycle",
+    "interval": 5,
+    "tooltip": true
+},
+
     "custom/dot": {
         "format": "",
         "tooltip": false
     },
     "custom/app": {
-        "exec": "~/.config/waybar/rust-bar/top-cpu-monitor/target/release/top_process_monitor",
+        "exec": "~/.config/waybar/rust-bar/top-cpu-monitor/target/release/top-process-monitor",
         "return-type": "json",
         "format": "{text}",
         "interval": 60,

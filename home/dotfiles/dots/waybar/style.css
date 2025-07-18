@@ -51,6 +51,7 @@ window#waybar {
     border-radius: 8px;
     padding: 0 10px;
     font-size: 24px;
+    color: #fcba03;
 }
 
 #custom-workspaces{
@@ -95,6 +96,42 @@ window#waybar {
     border-radius: 8px;
     min-width: 73.33px; /* 110px / 1.5 = 73.33px */
 }
+/* --- BATTERY STATES --- */
+
+/* 1. First, define the flashing animation for the critical state */
+@keyframes flash-red {
+  0% {
+    color: #ff5555; /* A bright red */
+  }
+  50% {
+    color: #ffffff; /* Your default bar text color */
+  }
+  100% {
+    color: #ff5555; /* A bright red */
+  }
+}
+
+/* 2. Now, apply the styles to each state */
+
+/* GOOD STATE: Green */
+#battery.good {
+  color: #66cc66; /* A pleasant green */
+}
+
+/* WARNING STATE: Yellow */
+#battery.warning {
+  color: #f0c674; /* A common theme yellow */
+}
+
+/* CRITICAL STATE: Flashing Red */
+#battery.critical {
+  color: #ff5555;
+  animation-name: flash-red;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
 #cpu{
     padding: 2px 0px; /* 3px / 1.5 = 2px */
     margin: 0px 0px 0px 0px;
@@ -138,3 +175,16 @@ window#waybar {
     /* This color is applied when a device is connected */
     color: #a6e3a1; /* A green color to indicate success */
     }
+
+/* --- CPU Governor Styles --- */
+#custom-cpu-governor.performance {
+  color: #ff5555; /* Red */
+}
+
+#custom-cpu-governor.schedutil {
+  color: #66cc66; /* Green */
+}
+
+#custom-cpu-governor.powersave {
+  color: #f0c674; /* Yellow */
+}

@@ -17,7 +17,7 @@
 #      ];
   hardware.amdgpu.overdrive.enable = true;
 hardware.amdgpu.amdvlk.support32Bit.enable = true;
-hardware.amdgpu.overdrive.ppfeaturemask = true;
+hardware.amdgpu.overdrive.ppfeaturemask = "0xffffffff"
 hardware.amdgpu.amdvlk.enable = true;
   # Optionally, prefer AMDVLK over RADV for better performance in some cases
 #  environment.variables = {

@@ -16,7 +16,6 @@
     # Ensure Mesa packages for both GPUs are available
     extraPackages = with pkgs; [
       intel-media-driver # VAAPI driver for Intel
-      va-driver-misc     # For AMD VAAPI
       libva-utils        # VAAPI tools
     ];
   };

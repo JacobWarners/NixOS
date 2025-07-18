@@ -3,15 +3,22 @@
 {
   hardware.graphics = {
     enable = true;
-    driSupport32Bit = true; # Enable 32-bit support for Steam and Wine
+    package32 = true;
+    enable32Bit = true;
+
     
     extraPackages = with pkgs; [
       amdvlk
+      intel-media-driver
+      libva-utils
     ];
     
     extraPackages32 = with pkgs; [
       driversi686Linux.amdvlk
-    ];
+      pkgsi686Linux; [
+        intel-media-driver
+        intel-vaapi-driver
+      ];
   };
   
   # Optionally, prefer AMDVLK over RADV for better performance in some cases

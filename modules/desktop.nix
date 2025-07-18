@@ -12,7 +12,6 @@
 
   hardware.opengl = {
     enable = true;
-    driSupport = true;
     driSupport32Bit = true;
     # Ensure Mesa packages for both GPUs are available
     extraPackages = with pkgs; [

@@ -358,6 +358,7 @@ workspace = "3, monitor:desc:Stargate Technology M156F01 demoset-1";
 
       # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
       bind = LCTRL, Q, exec, $terminal
+      bind = $mainMod, Q, exec, $terminal
       bind = $mainMod, C, killactive,
       bind = $mainMod, mouse:274, killactive,
       bind = , Print, exec, grimshot --notify savecopy area

@@ -2,12 +2,6 @@
 { config, pkgs, lib, ... }: # Module header, essential for all NixOS modules
 
 {
-  # services.xserver.enable is typically managed by a display manager or can be enabled here.
-  # If you disable your display manager, you might need 'services.xserver.enable = true;'
-  # to ensure XWayland compatibility for X11 applications.
-  services.xserver = {
-    enable = true;
-  };
 
   programs.hyprland = {
     enable = true;

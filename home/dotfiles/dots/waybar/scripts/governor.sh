@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-# This script will be CALLED BY sudo. It contains NO sudo commands itself.
+# This script is called by sudo and handles all logic.
 
-# If called with "cycle", change the governor
+# If called with "cycle", change the governor.
 if [ "$1" == "cycle" ]; then
   CURRENT_GOV=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)
 
@@ -13,6 +13,5 @@ if [ "$1" == "cycle" ]; then
   fi
 fi
 
-# After any potential change, always read the final state and print it for Waybar.
-# This read is now done with sudo's privileges because the whole script is.
-cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+# ALWAYS output the current state cleanly for Waybar's icon.
+echo -n "$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)"

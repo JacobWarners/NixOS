@@ -357,7 +357,6 @@ workspace = "3, monitor:desc:Stargate Technology M156F01 demoset-1";
       $mainMod = SUPER # Sets "Windows" key as main modifier
 
       # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
-      bind = LCTRL, Q, exec, $terminal --directory "$(hyprcwd)"
       bind = $mainMod, Q, exec, $terminal
       bind = $mainMod, C, killactive,
       bind = $mainMod, mouse:274, killactive,

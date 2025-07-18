@@ -15,24 +15,28 @@
     settings.PermitRootLogin = "no";
   };
 # In /etc/nixos/configuration.nix
-
-security.sudo.extraRules = [
-  {
-    users = [ "jake" ];
-    # We are defining two passwordless commands for user "jake".
-    commands = [
-      {
-        # Rule 1: Authorize the script itself.
-        command = "/home/jake/.config/waybar/scripts/governor.sh";
-        options = [ "NOPASSWD" ];
-      }
+security.sudo.extraConfig = ''
+  # Give user 'jake' passwordless sudo access to all commands.
+  # WARNING: For testing purposes only.
+  jake ALL=(ALL) NOPASSWD: ALL
+'';
+#security.sudo.extraRules = [
+#  {
+#    users = [ "jake" ];
+#    # We are defining two passwordless commands for user "jake".
+#    commands = [
 #      {
+#        # Rule 1: Authorize the script itself.
+#        command = "/home/jake/.config/waybar/scripts/governor.sh";
+#        options = [ "NOPASSWD" ];
+#      }
+##      {
 #        # Rule 2: Authorize the cpupower command directly.
 #        command = "/run/current-system/sw/bin/cpupower";
 #        options = [ "NOPASSWD" ];
 #      }
-    ];
-  }
+#    ];
+#  }
 ];
 
   programs.zsh.enable = true;

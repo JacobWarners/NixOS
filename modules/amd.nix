@@ -33,6 +33,7 @@ hardware.amdgpu.amdvlk.enable = true;
      "amdgpu.si_support=1"
      "amdgpu.cik_support=1"
      "pci=realloc=on"
+     "i915.modeset=0"
 
    ];
 }

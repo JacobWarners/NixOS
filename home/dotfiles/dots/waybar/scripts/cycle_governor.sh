@@ -1,24 +1,26 @@
 #!/usr/bin/env bash
 
-# This script now only does two things:
-# 1. If clicked, it cycles the CPU governor.
-# 2. It prints the name of the current governor to be used as a CSS class.
+# This script now contains NO sudo commands.
+# Sudo will be handled by the Waybar on-click command.
 
-# Check if the script was clicked
 if [ "$1" == "cycle" ]; then
   CURRENT_GOV=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)
+
   case $CURRENT_GOV in
     "schedutil" | "ondemand")
-        cpupower frequency-set -g performance
+      /run/current-system/sw/bin/cpupower frequency-set -g performance
       ;;
     "performance")
-        cpupower frequency-set -g powersave
+      /run/current-system/sw/bin/cpupower frequency-set -g powersave
       ;;
     "powersave")
-        cpupower frequency-set -g schedutil
+      # This fixes the "Error setting new values" by checking first.
+      if [ "$CURRENT_GOV" != "schedutil" ]; then
+        /run/current-system/sw/bin/cpupower frequency-set -g schedutil
+      fi
       ;;
   esac
 fi
 
-# Always print the current governor name. Waybar will use this as a class.
+# Always print the current governor for Waybar
 cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor

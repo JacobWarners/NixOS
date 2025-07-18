@@ -90,11 +90,12 @@
         "powersave": "SAVE 🔋",
         "default": "CPU ❔"
     },
-    "exec": "~/.config/waybar/scripts/cycle_governor.sh",
+    "exec": "/home/jake/.config/waybar/scripts/cycle_governor.sh",
     "on-click": "sudo /home/jake/.config/waybar/scripts/cycle_governor.sh cycle",
     "interval": 5,
     "tooltip": true
 },
+
 
     "custom/dot": {
         "format": "",

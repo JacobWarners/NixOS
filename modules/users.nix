@@ -16,18 +16,19 @@
   };
 
   # Sudo configuration for passwordless cpupower
-  security.sudo.extraRules = [
-    {
-      users = [ "jake" ];
-      commands = [
-        {
-          command = "/run/current-system/sw/bin/cpupower";
-          options = [ "NOPASSWD" ];
-        }
-      ];
-    }
-  ];
 
+  security.sudo.extraRules = [
+  {
+    users = [ "jake" ];
+    commands = [
+      {
+        # Authorize the script itself to be run with passwordless sudo
+        command = "/home/jake/.config/waybar/scripts/cycle_governor.sh";
+        options = [ "NOPASSWD" ];
+      }
+    ];
+  }
+];
   programs.zsh.enable = true;
 }
 

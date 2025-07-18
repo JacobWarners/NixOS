@@ -432,6 +432,10 @@ workspace = "3, monitor:desc:Stargate Technology M156F01 demoset-1";
 
       # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
       # See https://wiki.hyprland.org/Configuring/Workspace-Rules/ for workspace rules
+      windowrulev2 = noanim, class:^(ffxiv_dx11.exe)$
+      windowrulev2 = opaque, class:^(ffxiv_dx11.exe)$
+      windowrulev2 = fullscreen, class:^(ffxiv_dx11.exe)$
+      
 
       # Example windowrule v1
       # windowrule = float, ^(kitty)$

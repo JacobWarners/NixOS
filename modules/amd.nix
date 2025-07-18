@@ -19,7 +19,7 @@ hardware.amdgpu.amdvlk.support32Bit.enable = true;
 hardware.amdgpu.overdrive.ppfeaturemask = "0xffffffff";
 hardware.amdgpu.amdvlk.enable = true;
 programs.gamemode.enable = true;
-powerManagement.cpuFreqGovernor = "performance";
+#powerManagement.cpuFreqGovernor = "performance";
   # Optionally, prefer AMDVLK over RADV for better performance in some cases
 #  environment.variables = {
 #    AMD_VULKAN_ICD = "AMDVLK";

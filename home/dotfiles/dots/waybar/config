@@ -81,21 +81,18 @@
         "tooltip": false
     },
 
+
 "custom/cpu-governor": {
     "format": "{icon}",
     "format-icons": {
         "performance": "PERF ⚡",
-        "schedutil": "BAL ⚙️",
-        "ondemand": "BAL ⚙️",
-        "powersave": "SAVE 🔋",
-        "default": "CPU ❔"
+        "powersave": "SAVE 🔋"
     },
     "exec": "/home/jake/.config/waybar/scripts/cycle_governor.sh",
-    "on-click": "sudo /home/jake/.config/waybar/scripts/cycle_governor.sh cycle",
-    "interval": 5,
+    "on-click": "/home/jake/.config/waybar/scripts/cycle_governor.sh cycle",
+    "interval": 2,
     "tooltip": true
 },
-
 
     "custom/dot": {
         "format": "",

@@ -7,7 +7,7 @@
     #  displayManager.startx.enable = true;
     #  displayManager.gdm.wayland = false;
     enable = true;
-    videoDrivers = ["modesetting" "amdgpu"];
+    videoDrivers = ["amdgpu"];
   };
 
 

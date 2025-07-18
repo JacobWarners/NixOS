@@ -10,16 +10,13 @@
       intel-media-driver
       libva-utils
     ];
-    
 
 #    extraPackages32 = with pkgsi686Linux; [
 #        intel-media-driver
 #        intel-vaapi-driver
 #      ];
   };
-    hardware.amdgpu.amdvlk.enable = true;
-    hardware.amdgpu.overdrive.enable = true;
-    hardware.amdgpu.amdvlk.support32Bit.enable = true;
+  hardware.amdgpu.overdrive.enable = true;
   # Optionally, prefer AMDVLK over RADV for better performance in some cases
 #  environment.variables = {
 #    AMD_VULKAN_ICD = "AMDVLK";

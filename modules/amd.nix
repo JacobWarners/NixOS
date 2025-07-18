@@ -23,10 +23,10 @@
   };
   
   # Optionally, prefer AMDVLK over RADV for better performance in some cases
-  environment.variables = {
-    AMD_VULKAN_ICD = "AMDVLK";
-    VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/amd_icd64.json:/run/opengl-driver-32/share/vulkan/icd.d/amd_icd32.json";
-  };
+#  environment.variables = {
+#    AMD_VULKAN_ICD = "AMDVLK";
+#    VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/amd_icd64.json:/run/opengl-driver-32/share/vulkan/icd.d/amd_icd32.json";
+#  };
   
   # Add kernel parameters for better performance
   boot.kernelParams = [

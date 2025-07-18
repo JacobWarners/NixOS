@@ -15,9 +15,9 @@
 #        intel-media-driver
 #        intel-vaapi-driver
 #      ];
-hardware.amdgpu.overdrive.enable = true;
+#hardware.amdgpu.overdrive.enable = true;
 hardware.amdgpu.amdvlk.support32Bit.enable = true;
-hardware.amdgpu.overdrive.ppfeaturemask = "0xffffffff";
+#hardware.amdgpu.overdrive.ppfeaturemask = "0xffffffff";
 hardware.amdgpu.amdvlk.enable = true;
   # Optionally, prefer AMDVLK over RADV for better performance in some cases
 #  environment.variables = {
@@ -27,7 +27,7 @@ hardware.amdgpu.amdvlk.enable = true;
   
    # Add kernel parameters for better performance
    boot.kernelParams = [
-     "amdgpu.ppfeaturemask=0xffffffff" # Enables power management features
+#     "amdgpu.ppfeaturemask=0xffffffff" # Enables power management features
      "radeon.si_support=0"
      "radeon.cik_support=0"
      "amdgpu.si_support=1"

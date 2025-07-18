@@ -81,17 +81,15 @@
         "tooltip": false
     },
 
-
 "custom/cpu-governor": {
     "format": "{icon}",
     "format-icons": {
         "performance": "PERF ⚡",
         "powersave": "SAVE 🔋"
     },
-    "exec": "/home/jake/.config/waybar/scripts/cycle_governor.sh",
-    "on-click": "/home/jake/.config/waybar/scripts/cycle_governor.sh cycle",
-    "interval": 2,
-    "tooltip": true
+    "exec": "/home/jake/.config/waybar/scripts/get_governor.sh",
+    "on-click": "sudo /home/jake/.config/waybar/scripts/set_governor.sh",
+    "interval": 2
 },
 
     "custom/dot": {

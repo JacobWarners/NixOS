@@ -87,8 +87,8 @@
         "performance": "PERF ⚡",
         "powersave": "SAVE 🔋"
     },
-    "exec": "/home/jake/.config/waybar/scripts/governor.sh",
-    "on-click": "/home/jake/.config/waybar/scripts/governor.sh cycle",
+    "exec": "/home/jake/.config/waybar/scripts/get_governor.sh",
+    "on-click": "sudo /home/jake/.config/waybar/scripts/set_governor.sh",
     "interval": 2
 },
 
@@ -97,14 +97,15 @@
         "format": "",
         "tooltip": false
     },
-    "custom/app": {
-        "exec": "~/.config/waybar/rust-bar/top-cpu-monitor/target/release/top-process-monitor",
-        "return-type": "json",
-        "format": "{text}",
-        "interval": 60,
-        "tooltip": true,
-        "escape": true
-    },
+
+"custom/app": {
+  "format": "{}",
+  "interval": 60,
+  "exec": "ps -eo pcpu,comm --sort=-%cpu | head -n 2 | tail -n 1 | awk '{printf \"🔥 %s - %.1f%% CPU\", $2, $1}'",
+  "tooltip": true
+},
+
+
     "clock": {
         "format": " {0:%d-%m-%y}  {0:%H:%M}",
         "tooltip-format": "<tt>{calendar}</tt>",

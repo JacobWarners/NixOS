@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# This script only SETS the governor. It will be called BY sudo.
+# This script will be CALLED BY sudo.
 
 CURRENT_GOV=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)
 

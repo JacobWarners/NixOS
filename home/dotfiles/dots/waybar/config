@@ -87,10 +87,11 @@
         "performance": "PERF ⚡",
         "powersave": "SAVE 🔋"
     },
-    "exec": "/home/jake/.config/waybar/scripts/get_governor.sh",
-    "on-click": "sudo /home/jake/.config/waybar/scripts/set_governor.sh",
+    "exec": "/home/jake/.config/waybar/scripts/governor.sh",
+    "on-click": "/home/jake/.config/waybar/scripts/governor.sh cycle",
     "interval": 2
 },
+
 
     "custom/dot": {
         "format": "",

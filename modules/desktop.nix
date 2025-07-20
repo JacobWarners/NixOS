@@ -36,7 +36,6 @@
         name = "Papirus-Dark";
       };
     };
-  };
 
   # 4. Ensure themes are available system-wide for LightDM
   environment.systemPackages = with pkgs; [

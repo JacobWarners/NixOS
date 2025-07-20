@@ -27,11 +27,11 @@
           };
 
           # Dependencies needed during the build process.
-          # xlibsWrapper provides a consistent environment for all necessary X11 libraries.
-          nativeBuildInputs = with pkgs; [
-            pkg-config
-            xorg.xlibsWrapper # <-- Corrected from 'xlibsWrapper'
-            libxkbcommon
+          # Using explicit package paths to avoid resolution issues.
+          nativeBuildInputs = [
+            pkgs.pkg-config
+            pkgs.xorg.xlibsWrapper
+            pkgs.libxkbcommon
           ];
         };
       in
@@ -42,9 +42,9 @@
         # The configuration that is applied when the service is enabled.
         config = lib.mkIf config.services.ratatat-listener.enable {
           # Add the necessary packages to the system environment.
-          environment.systemPackages = with pkgs; [
+          environment.systemPackages = [
             ratatat-pkg
-            mpg123
+            pkgs.mpg123
           ];
 
           # Define the systemd service.
@@ -67,3 +67,4 @@
       };
   };
 }
+

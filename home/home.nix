@@ -41,25 +41,26 @@ in {
 
   # --- START: Theme and Cursor Configuration ---
   # Set GTK theme for application windows and icons
+  # In your home.nix file
+
   gtk = {
     enable = true;
-    # Adwaita-dark is a standard, built-in dark theme.
     theme = {
       name = "Adwaita-dark";
-      package = pkgs.gnome.adwaita-icon-theme;
+      # This is the corrected package name
+      package = pkgs.adwaita-icon-theme;
     };
     iconTheme = {
       name = "Adwaita";
-      package = pkgs.gnome.adwaita-icon-theme;
+      # This is the corrected package name
+      package = pkgs.adwaita-icon-theme;
     };
-    # Set the cursor theme for GTK apps
     cursorTheme = {
       name = "Bibata-Modern-Classic";
       package = bibata-cursors;
     };
   };
-
-  # This ensures the mouse pointer is set correctly system-wide
+   # This ensures the mouse pointer is set correctly system-wide
   home.pointerCursor = {
     package = bibata-cursors;
     name = "Bibata-Modern-Classic";

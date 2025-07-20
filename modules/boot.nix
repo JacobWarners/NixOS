@@ -2,11 +2,11 @@
 
 {
   boot = {
-    # This block now correctly provides the script text as a string 
-    initrd.postDeviceCommands = ''
-      # Wait for 5 seconds to give the theme time to load
-      sleep 5
-    '';
+    # This block ensures your AMD graphics driver loads early
+    initrd.kernelModules = [ "amdgpu" ];
+
+    # Add this line to force early loading for Plymouth
+    initrd.availableKernelModules = [ "amdgpu" ];
 
     plymouth = {
       enable = true;
@@ -32,9 +32,7 @@
     kernelParams = [
       "quiet"
       "splash"
-      "udev.log_priority=3"
       "rd.systemd.show_status=auto"
-      "amdgpu.modeset=1"
     ];
 
     kernelPackages = pkgs.linuxPackages_latest;

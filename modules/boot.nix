@@ -2,8 +2,8 @@
 
 {
   boot = {
-    # Add this block to introduce a 5-second pause ⏸️
-    initrd.postDeviceCommands = pkgs.writeShellScript "plymouth-delay" ''
+    # This block now correctly provides the script text as a string 
+    initrd.postDeviceCommands = ''
       # Wait for 5 seconds to give the theme time to load
       sleep 5
     '';

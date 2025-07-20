@@ -27,15 +27,13 @@
           };
 
           # Dependencies needed during the build process.
+          # The individual protocol packages have been removed and are covered by xorgproto.
           nativeBuildInputs = with pkgs; [
             pkg-config
             xorg.libX11
             xorg.libXtst
             xorg.libXi
-            xorg.xorgproto # <-- This was corrected from 'xproto'
-            xorg.xtstproto
-            xorg.xineramaproto
-            xorg.inputproto
+            xorg.xorgproto
             xorg.libxkbcommon
           ];
         };
@@ -72,4 +70,3 @@
       };
   };
 }
-

@@ -67,7 +67,6 @@ window#waybar {
     background: rgb(23, 91, 112);
     border: 0px solid;
     border-radius: 8px;
-    min-width: 153.33px; /* 230px / 1.5 = 153.33px */
 }
 .modules-center{
     border: 0px solid;
@@ -94,7 +93,6 @@ window#waybar {
     background: #2e3336;
     border: 0px solid;
     border-radius: 8px;
-    margin-right: 30px;
 }
 /* --- BATTERY STATES --- */
 

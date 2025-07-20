@@ -12,6 +12,7 @@
     wget
     git
     btop
+    mpg123
     ffmpeg
     nfs-utils
     obs-studio

@@ -96,8 +96,37 @@ export EDITOR=vim
 export VISUAL='vim'
 export EDITOR="$VISUAL"
 
+#Fun Sounds
+	# THE DEBUGGING VERSION
+	# setopt BEEP
+  # This creates an empty file and has no dependencies.
+  #
+# ========================================================
+#           CUSTOM SOUND CONFIGURATION (COMPLETE)
+# ========================================================
+
+# PART 1: Hijack the Terminal Bell (^G) for tab-completion failures.
+# -----------------------------------------------------------------
+my_custom_bell() {
+  bash /home/jake/.config/waybar/scripts/play-random-fail.sh &
+}
+zle -N my_custom_bell
+bindkey '^G' my_custom_bell
 
 
+# PART 2: Play a sound when any command exits with an error status.
+# -----------------------------------------------------------------
+autoload -U add-zsh-hook
+play_sound_on_error() {
+  # Check if the last command's exit code ($?) was not 0 (success).
+  if [[ $? -ne 0 ]]; then
+    bash /home/jake/.config/waybar/scripts/play-random-fail.sh &
+  fi
+}
+add-zsh-hook precmd play_sound_on_error
+# ========================================================
+# 3. Directly bind the bell character (^G) to our new widget.
+#    This is more forceful than aliasing the 'beep' widget.
 # function x() {
 #   local last_arg
 #   last_arg="$(fc -ln -1 | awk '{print $NF}')"

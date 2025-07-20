@@ -11,22 +11,22 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Hyprland input. Note: Pointing to the main branch may cause cache misses.
-    # It's better to use pkgs.hyprland unless you need the absolute latest version.
-    #    hyprland.url = "github:hyprwm/Hyprland";
-    #    hypr-dynamic-cursors = {
-    #      url = "github:VirtCode/hypr-dynamic-cursors";
-    #      inputs.hyprland.follows = "hyprland";
-    #    };
-
     # Blacklist for hosts (this is correctly configured).
     ultimate-hosts-blacklist = {
       url = "github:Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist";
       flake = false;
     };
+
+    # ==> THIS INPUT IS NOW UPDATED <==
+    # Point to the ratatat-listener project on your filesystem.
+    ratatat-listener = {
+      url = "path:./conf/g/scripts/ratatat-rust";
+      flake = true;
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, ... }@inputs:
+  # Make sure to add 'ratatat-listener' to the function arguments here
+  outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, ratatat-listener, ... }@inputs:
     let
       system = "x86_64-linux";
     in
@@ -35,27 +35,12 @@
         inherit system;
         specialArgs = { inherit inputs; };
 
-        # 'specialArgs' can pass inputs to your modules. 'nix-ld' is removed from here.
-        #         specialArgs = {
-        #           # Pass your other inputs if needed in your custom modules.
-        #           inherit hyprland ultimate-hosts-blacklist;
-        #         };
-
         modules = [
-          # This is the correct way to enable and configure nix-ld.
-          # It uses the version from `nixpkgs`, ensuring cache hits.
+          # ... your other modules like nix-ld ...
           ({ pkgs, ... }: {
             programs.nix-ld.enable = true;
-            programs.nix-ld.libraries = [
-              # Add libraries that need nix-ld here, e.g.:
-              # pkgs.zlib
-            ];
+            programs.nix-ld.libraries = [ ];
           })
-
-          # WARNING: You have two places configuring nix-ld.
-          # The module above is sufficient. You should REMOVE the line below
-          # to avoid conflicting configurations.
-          # ./modules/nix-ld.nix # <-- REMOVE THIS LINE
 
           # Import your other configurations
           ./configuration.nix
@@ -67,11 +52,6 @@
             home-manager.useUserPackages = true;
             home-manager.users.jake = import ./home/home.nix;
             home-manager.backupFileExtension = "backup";
-
-            # This allows home-manager configurations to access flake inputs
-            #           home-manager.extraSpecialArgs = {
-            #             inherit hyprland;
-            #           };
           }
 
           # Host blacklist configuration
@@ -79,7 +59,12 @@
             environment.etc."hosts.deny".source = pkgs.lib.mkForce
               "${ultimate-hosts-blacklist}/hosts.deny/hosts0.deny";
           })
+
+          # ==> ADD THIS MODULE <==
+          # This imports the systemd service definition from the project flake.
+          ratatat-listener.nixosModules.default
         ];
       };
     };
 }
+

@@ -7,6 +7,7 @@
     #    ./modules/hotplugegpu.nix
     ./modules/hyprland.nix
     ./modules/amd-performance.nix
+    ./modules/ratatat-listener.nix
     ./modules/amd.nix
     #    ./modules/transcriber.nix
     ./modules/flatpak.nix

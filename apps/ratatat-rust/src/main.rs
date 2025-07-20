@@ -71,10 +71,14 @@ fn main() {
         }
 
         if should_kill {
-            println!("Kill sequence detected! Stopping music player...");
+            println!("Kill sequence detected! Stopping audio players...");
             // Run the pkill command to stop mpg123.
             if let Err(e) = Command::new("pkill").arg("mpg123").spawn() {
-                eprintln!("Failed to run pkill: {}", e);
+                eprintln!("Failed to run pkill on mpg123: {}", e);
+            }
+            // Also run pkill on paplay.
+            if let Err(e) = Command::new("pkill").arg("paplay").spawn() {
+                eprintln!("Failed to run pkill on paplay: {}", e);
             }
         }
     };

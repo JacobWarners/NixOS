@@ -34,7 +34,7 @@
             xorg.libXtst
             xorg.libXi
             xorg.xorgproto
-            xorg.libxkbcommon
+            libxkbcommon # <-- Corrected from 'xorg.libxkbcommon'
           ];
         };
       in
@@ -70,3 +70,4 @@
       };
   };
 }
+

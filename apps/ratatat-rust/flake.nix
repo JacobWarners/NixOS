@@ -7,7 +7,9 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs }: {
+  # The '...' here tells Nix to ignore any extra arguments passed to this function.
+  # This makes the flake more robust and composable.
+  outputs = { self, nixpkgs, ... }: {
     # This is now a top-level attribute, which your main flake can find.
     nixosModules.default = { config, lib, pkgs, ... }:
       let

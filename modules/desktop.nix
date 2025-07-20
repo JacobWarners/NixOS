@@ -15,7 +15,7 @@
     extraConfig = ''
       logind-check-graphical=true
       '';
-    };
+    
 
     # 3. Customize the Slick Greeter with Auto-Login ✨
     # The greeter handles the visual login screen AND the autologin process.
@@ -42,6 +42,7 @@
     arc-theme
     papirus-icon-theme
   ];
+};
 
   # 5. Disable greetd to prevent conflicts
   services.greetd.enable = false;

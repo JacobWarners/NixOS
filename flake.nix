@@ -9,6 +9,10 @@
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
+      imports = [
+        ./home/home.nix
+        inputs.ratatat-listener.homeManagerModules.default
+      ];
     };
 
     # Blacklist for hosts (this is correctly configured).
@@ -60,11 +64,10 @@
               "${ultimate-hosts-blacklist}/hosts.deny/hosts0.deny";
           })
 
-          # ==> ADD THIS MODULE <==
-          # This imports the systemd service definition from the project flake.
-          ratatat-listener.nixosModules.default
         ];
       };
     };
+  # In /home/jake/nixos-config/flake.nix
+
 }
 

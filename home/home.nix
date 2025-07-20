@@ -117,6 +117,7 @@ in {
 #    size = 24;
 #    enable = true;
 #  };
+  services.ratatat-listener.enable = true;
 
   #Flatpak (xdg.enable should be in home.nix too for user-level xdg config)
   xdg.enable = true;

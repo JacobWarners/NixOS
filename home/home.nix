@@ -138,7 +138,7 @@ in {
       '';
     };
   };
-}
+
 
   # Install user-specific packages
 

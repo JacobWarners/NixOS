@@ -36,7 +36,7 @@ in
       # This is the "fallback" greeter, which you will see if you log out.
       # It will run qtgreet inside the cage compositor.
       default_session = {
-        command = qtgreet_cmd;
+        command = gtkgreet_cmd;
       };
     };
   };

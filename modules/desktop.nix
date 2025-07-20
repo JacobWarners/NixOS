@@ -6,7 +6,6 @@
     enable = true;
     videoDrivers = ["amdgpu"];
     # This ensures Hyprland is an available session for LightDM
-    windowManager.hyprland.enable = true;
   };
 
   # 2. Configure LightDM

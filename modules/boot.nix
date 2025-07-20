@@ -7,12 +7,17 @@ let
     version = "1.0"; # You can set a version for your custom theme
 
     # The source of your theme files (relative to your configuration.nix).
-    src = ./plymouth_themes/abstract_ring_alt;
-    installPhase = ''
-  mkdir -p $out/share/plymouth/themes/${pname}
-  cp -r ./* $out/share/plymouth/themes/${pname}/
-'';
+    src = ../plymouth-themes/abstract_ring_alt; # Corrected path based on your tree structure
 
+    # The installPhase copies the theme content into the correct Plymouth themes directory
+    # within the Nix store.
+    # Use ${pname} inside the string interpolation for it to be correctly evaluated.
+    installPhase = ''
+      runHook preInstall
+      mkdir -p $out/share/plymouth/themes/${pname}
+      cp -r ./* $out/share/plymouth/themes/${pname}/
+      runHook postInstall
+    '';
   };
 in
 {

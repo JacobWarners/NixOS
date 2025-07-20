@@ -23,7 +23,7 @@
     enable = true;
     # Set the background image. The './' syntax references a file
     # in the same directory as this configuration file.
-    background = ./ai-landscape.png;
+ #   background = ./ai-landscape.png;
 
     # Set the theme for the greeter's window.
     # Since your themes are in home-manager, we must also add the theme package

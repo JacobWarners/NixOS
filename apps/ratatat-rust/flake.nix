@@ -27,14 +27,11 @@
           };
 
           # Dependencies needed during the build process.
-          # The individual protocol packages have been removed and are covered by xorgproto.
+          # xlibsWrapper provides a consistent environment for all necessary X11 libraries.
           nativeBuildInputs = with pkgs; [
             pkg-config
-            xorg.libX11
-            xorg.libXtst
-            xorg.libXi
-            xorg.xorgproto
-            libxkbcommon # <-- Corrected from 'xorg.libxkbcommon'
+            xlibsWrapper
+            libxkbcommon
           ];
         };
       in

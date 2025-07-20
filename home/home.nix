@@ -1,7 +1,6 @@
 { config, pkgs, inputs, ... }:
 
 let
-  # Define a custom package for your pac.ttf font
   pacman-font = pkgs.stdenv.mkDerivation {
     pname = "pacman-custom-font";
     version = "1.0";
@@ -13,13 +12,10 @@ let
     '';
   };
 
-  # --- START: Bibata Cursor Theme Package ---
-  # This creates a custom package for your new cursor theme.
   bibata-cursors = pkgs.stdenv.mkDerivation rec {
     pname = "bibata-cursor-theme";
-    version = "2.0.6"; # The version from the GitHub repo
+    version = "2.0.6";
 
-    # This fetches the source code directly from GitHub.
     src = pkgs.fetchFromGitHub {
       owner = "ful1e5";
       repo = "Bibata_Cursor";
@@ -27,21 +23,28 @@ let
       hash = "sha256-iLBgQ0reg8HzUQMUcZboMYJxqpKXks5vJVZMHirK48k=";
     };
 
-    # This script tells Nix how to install the theme.
     installPhase = ''
       mkdir -p $out/share/icons
-      # We copy only the classic version you wanted.
-      cp -r $src/dist/Bibata-Classic $out/share/icons/
+      # This is the corrected line. We copy from the source root, not a 'dist' folder.
+      cp -r $src/Bibata-Classic $out/share/icons/
     '';
   };
-  # --- END: Bibata Cursor Theme Package ---
 
 in {
   home.username = "jake";
   home.homeDirectory = "/home/jake";
   home.stateVersion = "25.05";
 
-  # ... your zsh and tmux config ...
+  # ... your other settings ...
+  
+  home.pointerCursor = {
+    package = bibata-cursors;
+    name = "Bibata-Classic";
+    size = 24;
+    gtk.enable = true;
+  };
+
+  # ... the rest of your home.nix file is unchanged ...
   programs.zsh = {
     enable = true;
     sessionVariables = {
@@ -55,9 +58,7 @@ in {
       bind-key S setw synchronize-panes
     '';
   };
-
   home.packages = with pkgs; [
-    # ... your existing packages ...
     zsh 
     yazi
     pulseaudio
@@ -81,9 +82,7 @@ in {
     brightnessctl
     pamixer
   ];
-
   programs.vim = {
-    # ... your vim config ...
     enable = true;
     plugins = with pkgs.vimPlugins; [ gruvbox ];
     extraConfig = ''
@@ -99,40 +98,23 @@ in {
       inoremap jj <Esc>
     '';
   };
-
   home.sessionVariables = {
     PATH = "${config.home.homeDirectory}/.local/bin:$PATH";
     XDG_DATA_DIRS = "${config.home.homeDirectory}/.nix-profile/share:/run/current-system/sw/share:/usr/local/share:/usr/share";
   };
-
-  # --- START: Set Cursor Theme ---
-  # This section activates your new Bibata cursor.
-  home.pointerCursor = {
-    package = bibata-cursors; # Use the package from the 'let' block
-    name = "Bibata-Classic";
-    size = 24;
-    # Ensure GTK apps use the theme
-    gtk.enable = true;
-  };
-  # --- END: Set Cursor Theme ---
-
   services.ratatat-listener.enable = true;
   xdg.enable = true;
   fonts.fontconfig.enable = true;
-
   home.file.".zshrc".source = ./dotfiles/.zshrc;
   home.file.".tmux.conf".source = ./dotfiles/.tmux.conf;
   home.file.".config/kitty".source = ./kitty;
   home.file.".config/scripts".source = ./scripts;
   xdg.configFile."eww".source = ./dotfiles/dots/eww;
   xdg.configFile."waybar".source = ./dotfiles/dots/waybar;
-
   wayland.windowManager.hyprland = {
-    # ... your existing hyprland config ...
     enable = true;
     package = pkgs.hyprland;
     extraConfig = ''
-      # ... (your extensive hyprland config is unchanged) ...
       monitor=desc:Acer Technologies XV271U M3 1322131231233, 2560x1440@179.877, 0x0, 1.00
       workspace = "2, monitor:desc:Acer Technologies XV271U M3 1322131231233";
       monitor=desc:BOE 0x095F, 2256x1504@59.999, -2256x164, 1.00

@@ -142,6 +142,23 @@ window#waybar {
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
+#battery.plugin {
+  color: #ff5555;
+  animation-name: flash-red;
+  animation-duration: 2s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  font-size: 48px; /* Make the text inside huge too */
+  font-weight: bold;
+  min-width: 50vw; /* 50% of the viewport width */
+  min-height: 50vh; /* 50% of the viewport height */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000; /* Ensure it's on top of everything */
+}
 #battery.full {
   color: #ff5555;
   animation-name: super-sonic;

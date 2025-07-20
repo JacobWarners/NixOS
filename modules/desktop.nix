@@ -36,13 +36,13 @@
         name = "Papirus-Dark";
       };
     };
+};
 
   # 4. Ensure themes are available system-wide for LightDM
   environment.systemPackages = with pkgs; [
     arc-theme
     papirus-icon-theme
   ];
-};
 
   # 5. Disable greetd to prevent conflicts
   services.greetd.enable = false;

@@ -1,60 +1,36 @@
 { config, pkgs, ... }:
 
 let
-  # Define variables for clarity.
+  # Define your session and user for the auto-login
   session = "${pkgs.hyprland}/bin/Hyprland";
   username = "jake";
+
 in
 {
-  # 1. Basic X Server/Wayland Setup
-  services.xserver.enable = true;
-  services.xserver.videoDrivers = ["amdgpu"];
+  # 1. Basic graphical environment setup
+  services.xserver = {
+    enable = true;
+    videoDrivers = ["amdgpu"];
+  };
 
-  # 2. Configure greetd with gtkgreet
+  # 2. Minimal greetd + tuigreet configuration
   services.greetd = {
     enable = true;
-    restart = false; # Good for auto-login setups
-    settings = {
-      # This handles your auto-login
-      initial_session = {
-        command = session;
-        user = username;
-      };
+    # Use the text-based tuigreet
+    settings.default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd ${session}";
 
-      # This is the greeter you see when you log out
-      default_session = {
-        # The command is much simpler for gtkgreet
-        command = "${pkgs.greetd.gtkgreet}/bin/gtkgreet -l";
-      };
+    # This section handles the auto-login on boot
+    settings.initial_session = {
+      command = session;
+      user = username;
     };
   };
 
-  # 3. Theme gtkgreet ✨
-  # This is where you customize the look of the login screen.
-  programs.gtkgreet = {
-    enable = true;
-    # Tell gtkgreet to use Wayland
-    wayland.enable = true;
-    style = {
-      # Set your background image here.
-      # The path is relative to the root of your config folder.
-      background = ./modules/ai-landscape.png;
+  # 3. Ensure tuigreet is installed
+  environment.systemPackages = [ pkgs.greetd.tuigreet ];
 
-      # You can add any custom GTK CSS here!
-      # This example makes the login box semi-transparent.
-      css = ''
-        window {
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-      '';
-    };
-  };
-
-  # 4. Ensure gtkgreet is in the system environment
-  environment.systemPackages = with pkgs; [
-    greetd.gtkgreet # Swapped from qtgreet
-  ];
-
-  # 5. Make sure other display managers are disabled
+  # 4. Explicitly disable everything else to be safe
+  programs.gtkgreet.enable = false;
+  services.accounts-daemon.enable = false;
   services.xserver.displayManager.lightdm.enable = false;
 }

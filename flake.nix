@@ -31,8 +31,8 @@
         ./configuration.nix
         home-manager.nixosModules.home-manager
 
-        # --- Fix Starts Here ---
-        # We just need to wrap your existing block in this function:
+        # This wrapper makes your Home Manager settings a valid module.
+        # This is the critical fix.
         ({ pkgs, ... }: {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
@@ -44,9 +44,7 @@
             ];
           };
           home-manager.backupFileExtension = "backup";
-        # And close it with a parenthesis here. That's it.
         })
-        # --- Fix Ends Here ---
       ];
     };
   };

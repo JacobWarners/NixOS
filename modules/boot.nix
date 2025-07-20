@@ -1,3 +1,4 @@
+# /home/jake/nixos-config/modules/boot.nix
 { config, pkgs, ... }:
 
 {
@@ -7,12 +8,16 @@
       theme = "abstract-ring-alt";
       themePackages = [
         (pkgs.stdenv.mkDerivation {
-          pname = "abstract-ring-alt";
-          version = "1.0.0";
+          # We set the package name directly, without using pname
+          name = "abstract-ring-alt-theme";
+
           src = ../plymouth-themes/abstract-ring-alt;
+
           installPhase = ''
-            mkdir -p $out/share/plymouth/themes/${pname}
-            cp -R ./* $out/share/plymouth/themes/${pname}/
+            # We hard-code the theme name in the destination path
+            local THEME_DIR="$out/share/plymouth/themes/abstract-ring-alt"
+            mkdir -p "$THEME_DIR"
+            cp -R ./* "$THEME_DIR"
           '';
         })
       ];

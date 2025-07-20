@@ -1,4 +1,9 @@
 { config, pkgs, ... }:
+let
+  tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
+  session = "${pkgs.hyprland}/bin/Hyprland";
+  username = "jake";
+in
 {
   # Enable the X server if needed
   services.xserver = {
@@ -10,11 +15,7 @@
     videoDrivers = ["amdgpu"];
   };
 
-let
-  tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
-  session = "${pkgs.hyprland}/bin/Hyprland";
-  username = "jake";
-in
+
 
   services.greetd = {
     enable = true;

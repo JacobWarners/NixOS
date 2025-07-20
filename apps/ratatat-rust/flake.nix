@@ -6,7 +6,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs }:
+  # The '...' here tells Nix to ignore any extra arguments passed to this function.
+  outputs = { self, nixpkgs, ... }:
     let
       # We define the system once here.
       system = "x86_64-linux";

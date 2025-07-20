@@ -11,4 +11,5 @@
   # 2. Configure LightDM
   services.displayManager.ly = {
     enable = true;
+};
 }

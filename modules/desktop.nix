@@ -1,55 +1,60 @@
 { config, pkgs, ... }:
 
 let
-  # Define variables for your session and username for clarity.
+  # Define variables for clarity.
   session = "${pkgs.hyprland}/bin/Hyprland";
   username = "jake";
-
-  # Define the command for the qtgreet greeter.
-  # It needs to be launched within 'cage' to display correctly.
-  # The NixOS module for greetd automatically adds 'cage' to the path.
-  qtgreet_cmd = "cage ${pkgs.greetd.qtgreet}/bin/qtgreet";
-
 in
 {
   # 1. Basic X Server/Wayland Setup
-  # This is still needed for the graphical environment.
-  services.xserver = {
-    enable = true;
-    videoDrivers = ["amdgpu"];
-  };
+  services.xserver.enable = true;
+  services.xserver.videoDrivers = ["amdgpu"];
 
-  # 2. Configure greetd with qtgreet
+  # 2. Configure greetd with gtkgreet
   services.greetd = {
     enable = true;
-    # When using autologin, it's best to disable restarting the service,
-    # otherwise, logging out might try to autologin again immediately.
-    restart = false;
+    restart = false; # Good for auto-login setups
     settings = {
-      # This section handles auto-login.
-      # It runs the specified command as your user, starting your session.
+      # This handles your auto-login
       initial_session = {
         command = session;
         user = username;
       };
 
-      # This is the "fallback" greeter, which you will see if you log out.
-      # It will run qtgreet inside the cage compositor.
+      # This is the greeter you see when you log out
       default_session = {
-        command = gtkgreet_cmd;
+        # The command is much simpler for gtkgreet
+        command = "${pkgs.greetd.gtkgreet}/bin/gtkgreet -l";
       };
     };
   };
 
-  # 3. Ensure qtgreet dependencies are present
-  # While the module handles cage, explicitly adding qtgreet and its
-  # dependencies to systemPackages is good practice.
+  # 3. Theme gtkgreet ✨
+  # This is where you customize the look of the login screen.
+  programs.gtkgreet = {
+    enable = true;
+    # Tell gtkgreet to use Wayland
+    wayland.enable = true;
+    style = {
+      # Set your background image here.
+      # The path is relative to the root of your config folder.
+      background = ./modules/ai-landscape.png;
+
+      # You can add any custom GTK CSS here!
+      # This example makes the login box semi-transparent.
+      css = ''
+        window {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+      '';
+    };
+  };
+
+  # 4. Ensure gtkgreet is in the system environment
   environment.systemPackages = with pkgs; [
-    greetd.gtkgreet
-    cage
-    # Any other system-level packages you need...
+    greetd.gtkgreet # Swapped from qtgreet
   ];
 
-  # 4. Disable LightDM to prevent conflicts
+  # 5. Make sure other display managers are disabled
   services.xserver.displayManager.lightdm.enable = false;
 }

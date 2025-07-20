@@ -33,12 +33,11 @@
               xorgproto
             ];
 
-            # This phase runs after the build. It copies the mp3 into the package.
-            installPhase = ''
-              runHook preInstall
+            # This hook runs AFTER the default install phase, which correctly
+            # places the binary in $out/bin. We then add our sound file.
+            postInstall = ''
               mkdir -p $out/share
               cp ${src}/Loud-pipes.mp3 $out/share/
-              runHook postInstall
             '';
           };
         in

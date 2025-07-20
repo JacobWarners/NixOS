@@ -56,21 +56,27 @@
           pkgs.pkg-config
         ];
 
-        # Libraries to link against.
-        buildInputs = [
+        # Libraries to link against. We now list the core X11 libs directly.
+        buildInputs = with pkgs.xorg; [
           pkgs.udev
-          pkgs.xorg.xlibsWrapper
+          libX11
+          libXtst
+          libXi
+          xorgproto
         ];
       };
 
       # Define the devShell for `nix develop`.
       devShells.x86_64-linux.default = pkgs.mkShell {
-        buildInputs = [
+        buildInputs = with pkgs.xorg; [
           pkgs.rustc
           pkgs.cargo
           pkgs.pkg-config
           pkgs.udev
-          pkgs.xorg.xlibsWrapper
+          libX11
+          libXtst
+          libXi
+          xorgproto
         ];
       };
     };

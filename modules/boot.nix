@@ -1,21 +1,20 @@
-# We add 'inputs' here to get the absolute path to your configuration
 { config, pkgs, inputs, ... }:
 
 {
   boot = {
+    # Add this block to introduce a 5-second pause ⏸️
+    initrd.postDeviceCommands = pkgs.writeShellScript "plymouth-delay" ''
+      # Wait for 5 seconds to give the theme time to load
+      sleep 5
+    '';
+
     plymouth = {
       enable = true;
       theme = "abstract-ring-alt";
       themePackages = [
         (pkgs.stdenv.mkDerivation {
-          # The package is given a simple, direct name. No 'pname' is used.
           name = "my-custom-plymouth-theme";
-
-          # This creates a direct, absolute path to your theme files.
           src = inputs.self + "/plymouth-themes/abstract-ring-alt";
-
-          # This script copies the files to the correct location.
-          # The theme name is hard-coded to avoid any variables.
           installPhase = ''
             mkdir -p $out/share/plymouth/themes/abstract-ring-alt
             cp -R ./* $out/share/plymouth/themes/abstract-ring-alt/
@@ -24,7 +23,10 @@
       ];
     };
 
-    # Your other boot options
+    # Restore the boot entry limit
+    loader.systemd-boot.configurationLimit = 5;
+
+    # Other boot options
     consoleLogLevel = 0;
     initrd.verbose = false;
     kernelParams = [

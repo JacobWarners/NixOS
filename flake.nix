@@ -19,33 +19,33 @@
   };
 
   outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, ratatat-listener, ... }@inputs:
-  let
-    system = "x86_64-linux";
-  in
-  {
-    nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
-      inherit system;
-      specialArgs = { inherit inputs; };
+    let
+      system = "x86_64-linux";
+    in
+    {
+      nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit inputs; };
 
-      modules = [
-        ./configuration.nix
-        home-manager.nixosModules.home-manager
+        modules = [
+          ./configuration.nix
+          home-manager.nixosModules.home-manager
 
-        # This wrapper makes your Home Manager settings a valid module.
-        # This is the critical fix.
-        ({ pkgs, ... }: {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = { inherit inputs; };
-          home-manager.users.jake = {
-            imports = [
-              ./home/home.nix
-              inputs.ratatat-listener.homeManagerModules.default
-            ];
-          };
-          home-manager.backupFileExtension = "backup";
-        })
-      ];
+          # This wrapper makes your Home Manager settings a valid module.
+          # This is the critical fix.
+          ({ pkgs, ... }: {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.users.jake = {
+              imports = [
+                ./home/home.nix
+                inputs.ratatat-listener.homeManagerModules.default
+              ];
+            };
+            home-manager.backupFileExtension = "backup";
+          })
+        ];
+      };
     };
-  };
 }

@@ -11,8 +11,7 @@ let
       cp $src $out/share/fonts/truetype/pac.ttf
     '';
   };
-
-  bibata-cursors = pkgs.stdenv.mkDerivation rec {
+bibata-cursors = pkgs.stdenv.mkDerivation rec {
     pname = "bibata-cursor-theme";
     version = "2.0.6";
 
@@ -25,11 +24,10 @@ let
 
     installPhase = ''
       mkdir -p $out/share/icons
-      # This is the corrected line. We copy from the source root, not a 'dist' folder.
-      cp -r $src/Bibata-Classic $out/share/icons/
+      # This is the corrected line with the new folder name
+      cp -r $src/Bibata-Original-Classic $out/share/icons/
     '';
   };
-
 in {
   home.username = "jake";
   home.homeDirectory = "/home/jake";
@@ -39,7 +37,7 @@ in {
   
   home.pointerCursor = {
     package = bibata-cursors;
-    name = "Bibata-Classic";
+    name = "Bibata-Original-Classic";
     size = 24;
     gtk.enable = true;
   };

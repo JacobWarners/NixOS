@@ -20,7 +20,7 @@
     # ==> THIS INPUT IS NOW UPDATED <==
     # Point to the ratatat-listener project on your filesystem.
     ratatat-listener = {
-      url = "path:./config/scripts/ratatat-rust";
+      url = "path:./apps/ratatat-rust";
       flake = true;
     };
   };

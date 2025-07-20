@@ -1,23 +1,15 @@
-this_is_a_test = "this line is designed to break the build";
 { config, pkgs, ... }:
 
 let
-  # Define your custom Plymouth theme as a derivation
+  # A simplified test derivation
   myCustomPlymouthTheme = pkgs.stdenv.mkDerivation {
-    pname = "abstract-ring-alt"; # The name your theme will be known by in NixOS
-    version = "1.0"; # You can set a version for your custom theme
+    pname = "abstract-ring-alt";
+    version = "1.0";
 
-    # The source of your theme files
-    src = ../plymouth-themes/abstract_ring_alt;
-
-    # The installPhase copies the theme content into the correct Plymouth themes directory
-    # within the Nix store.
-    # Using '' (two single quotes) is crucial here.
+    # We remove the 'src' and just create an empty directory and a test file.
     installPhase = ''
-      runHook preInstall
       mkdir -p $out/share/plymouth/themes/${pname}
-      cp -r ./* $out/share/plymouth/themes/${pname}/
-      runHook postInstall
+      touch $out/share/plymouth/themes/${pname}/test-file
     '';
   };
 in

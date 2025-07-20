@@ -1,18 +1,25 @@
 { config, pkgs, ... }:
 
 let
-  # This builder successfully bypasses the 'pname' error in your environment.
   myCustomPlymouthTheme = pkgs.runCommand "abstract-ring-alt-plymouth-theme" { } ''
-    # Define the destination directory and hard-code the theme name
+    # --- STARTING DEBUG ---
+    echo "Nix build environment debug started."
+    echo "Step 1: Listing the source directory that Nix provides:"
+    ls -laR ${../plymouth-themes/abstract_ring_alt}
+    
+    # --- RUNNING COPY ---
     local THEME_DIR="$out/share/plymouth/themes/abstract-ring-alt"
     mkdir -p "$THEME_DIR"
-
-    # Use the robust copy method to copy all source files
     cp -R ${../plymouth-themes/abstract_ring_alt}/. "$THEME_DIR"
+    
+    # --- VERIFYING COPY ---
+    echo "Step 2: Listing the destination directory after copy:"
+    ls -laR "$THEME_DIR"
+    echo "Nix build environment debug finished."
+    # --- ENDING DEBUG ---
   '';
 in
 {
-  # All boot options are correctly nested inside this single 'boot' block.
   boot = {
     plymouth = {
       enable = true;

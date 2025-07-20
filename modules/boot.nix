@@ -1,30 +1,34 @@
 { config, pkgs, ... }:
 
 let
-  myCustomPlymouthTheme = pkgs.runCommand "abstract-ring-alt-plymouth-theme" { } ''
-    # --- STARTING DEBUG ---
-    echo "Nix build environment debug started."
-    echo "Step 1: Listing the source directory that Nix provides:"
-    ls -laR ${../plymouth-themes/abstract_ring_alt}
-    
-    # --- RUNNING COPY ---
-    local THEME_DIR="$out/share/plymouth/themes/abstract-ring-alt"
-    mkdir -p "$THEME_DIR"
-    cp -R ${../plymouth-themes/abstract_ring_alt}/. "$THEME_DIR"
-    
-    # --- VERIFYING COPY ---
-    echo "Step 2: Listing the destination directory after copy:"
-    ls -laR "$THEME_DIR"
-    echo "Nix build environment debug finished."
-    # --- ENDING DEBUG ---
-  '';
+  my-plymouth-theme = pkgs.stdenv.mkDerivation {
+    # We set the package name directly, removing pname and version
+    name = "abstract-ring-alt-theme-1.0.0";
+
+    # The path still points to your theme directory
+    src = ../plymouth-themes/abstract-ring-alt;
+
+    installPhase = ''
+      runHook preInstall
+      
+      # The destination directory now has the name hard-coded
+      local THEME_DIR="$out/share/plymouth/themes/abstract-ring-alt"
+      mkdir -p "$THEME_DIR"
+      
+      # Copy all source files into the destination
+      cp -R ./* "$THEME_DIR"
+      
+      runHook postInstall
+    '';
+  };
 in
 {
   boot = {
     plymouth = {
       enable = true;
+      # The theme name is hard-coded here
       theme = "abstract-ring-alt";
-      themePackages = [ myCustomPlymouthTheme ];
+      themePackages = [ my-plymouth-theme ];
     };
 
     consoleLogLevel = 0;

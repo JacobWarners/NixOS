@@ -12,7 +12,7 @@
   services.xserver.displayManager.lightdm = {
     enable = true;
     # Auto-login the specified user.
-    autologinUser = "jake";
+#    autologinUser = "jake";
     # Set a timeout for auto-login, or set to 0 to log in immediately.
     autoLogin.timeout = 0;
   };

@@ -12,32 +12,27 @@ let
     '';
   };
 # In the `let` block at the top of your file:
-  bibata-cursors = pkgs.stdenv.mkDerivation rec {
-    pname = "bibata-cursor-theme";
-    version = "2.0.6";
+  home.pointerCursor = 
+  let
+    getFrom = url: hash: name: {
+      gtk.enable = true;
+      name = name;
+      size = 24;
+      package = 
+        pkgs.runCommand "moveUp" {} ''
+          mkdir -p $out/share/icons
+          ln -s ${pkgs.fetchzip {
+            url = url;
+            hash = hash;
+          }} $out/share/icons/${name}
+          '';
+        };
+  in
+    getFrom
+    "https://github.com/ful1e5/Bibata_Cursor/releases/download/v2.0.7/Bibata-Modern-Classic-Right.tar.xz"
+    "sha256-iLBgQ0reg8HzUQMUcZboMYJxqpKXks5vJVZMHirK48k="
+    "Bibata-Modern-Classic-Right";
 
-    src = pkgs.fetchFromGitHub {
-      owner = "ful1e5";
-      repo = "Bibata_Cursor";
-      rev = "v${version}";
-      hash = "sha256-iLBgQ0reg8HzUQMUcZboMYJxqpKXks5vJVZMHirK48k=";
-    };
-
-    installPhase = ''
-      mkdir -p $out/share/icons
-      # This is the final, correct name for the "Classic" theme you wanted
-      cp -r $src/Bibata-Modern-Classic $out/share/icons/
-    '';
-  };
-
-# And further down in the file, update the name:
-  home.pointerCursor = {
-    package = bibata-cursors;
-    # This must match the folder name exactly
-    name = "Bibata-Modern-Classic";
-    size = 24;
-    gtk.enable = true;
-  };
 in {
   home.username = "jake";
   home.homeDirectory = "/home/jake";

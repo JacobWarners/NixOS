@@ -299,22 +299,22 @@ in {
   # --- END OF CONSOLIDATED HOME MANAGER SESSION VARIABLES ---
 
 
-#  home.pointerCursor = {
+  home.pointerCursor = {
 
 
-#    name = "Bibata-Modern-Classic";
+    name = "Bibata-Modern-Classic";
 
 
-#    package = pkgs.bibata-cursors;
+    package = pkgs.bibata-cursors;
 
 
-#    size = 24;
+    size = 24;
 
 
-#    enable = true;
+    enable = true;
 
 
-#  };
+  };
 
 
   services.ratatat-listener.enable = true;

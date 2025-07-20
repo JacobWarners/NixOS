@@ -46,7 +46,7 @@
           ./configuration.nix
 
           # Home Manager module setup
-          home-manager.nixosModules.home-manager # The trailing comma was removed from this line.
+          home-manager.nixosModules.home-manager,
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -55,6 +55,7 @@
             home-manager.extraSpecialArgs = { inherit inputs; };
             home-manager.users.jake = {
               # The imports go here, inside your user definition.
+              # This is the line that fixes the error.
               imports = [
                 ./home/home.nix
                 inputs.ratatat-listener.homeManagerModules.default

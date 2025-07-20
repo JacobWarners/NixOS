@@ -1,3 +1,4 @@
+# /home/jake/nixos-config/flake.nix
 {
   description = "NixOS Configuration with Flakes and Home Manager";
 
@@ -9,10 +10,6 @@
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
-      imports = [
-        ./home/home.nix
-        inputs.ratatat-listener.homeManagerModules.default
-      ];
     };
 
     # Blacklist for hosts (this is correctly configured).
@@ -21,7 +18,6 @@
       flake = false;
     };
 
-    # ==> THIS INPUT IS NOW UPDATED <==
     # Point to the ratatat-listener project on your filesystem.
     ratatat-listener = {
       url = "path:./apps/ratatat-rust";
@@ -50,11 +46,20 @@
           ./configuration.nix
 
           # Home Manager module setup
-          home-manager.nixosModules.home-manager
+          home-manager.nixosModules.home-manager,
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.jake = import ./home/home.nix;
+            # This line is crucial. It passes your flake inputs (like ratatat-listener)
+            # down to your Home Manager configuration.
+            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.users.jake = {
+              # The imports go here, inside your user definition.
+              imports = [
+                ./home/home.nix
+                inputs.ratatat-listener.homeManagerModules.default
+              ];
+            };
             home-manager.backupFileExtension = "backup";
           }
 
@@ -63,11 +68,8 @@
             environment.etc."hosts.deny".source = pkgs.lib.mkForce
               "${ultimate-hosts-blacklist}/hosts.deny/hosts0.deny";
           })
-
         ];
       };
     };
-  # In /home/jake/nixos-config/flake.nix
-
 }
 

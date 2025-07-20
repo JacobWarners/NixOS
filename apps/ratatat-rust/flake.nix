@@ -51,9 +51,13 @@
           lockFile = ./Cargo.lock;
         };
 
-        # Provide all necessary dependencies for inputbot, including X11.
+        # Tools needed at build time.
         nativeBuildInputs = [
           pkgs.pkg-config
+        ];
+
+        # Libraries to link against.
+        buildInputs = [
           pkgs.udev
           pkgs.xorg.xlibsWrapper
         ];

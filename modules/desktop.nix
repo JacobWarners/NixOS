@@ -14,15 +14,12 @@
     # Auto-login the specified user.
 #    autologinUser = "jake";
     # Set a timeout for auto-login, or set to 0 to log in immediately.
-    autoLogin.timeout = 0;
   };
 
   # 3. Customize the Slick Greeter ✨
   # This provides the themed appearance you see when logging out.
   services.xserver.displayManager.lightdm.greeters.slick = {
     enable = true;
-    # Set the background image. The './' syntax references a file
-    # in the same directory as this configuration file.
  #   background = ./ai-landscape.png;
 
     # Set the theme for the greeter's window.

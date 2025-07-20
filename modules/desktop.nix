@@ -29,8 +29,4 @@ in
   # 3. Ensure tuigreet is installed
   environment.systemPackages = [ pkgs.greetd.tuigreet ];
 
-  # 4. Explicitly disable everything else to be safe
-  programs.gtkgreet.enable = false;
-  services.accounts-daemon.enable = false;
-  services.xserver.displayManager.lightdm.enable = false;
 }

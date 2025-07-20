@@ -2,24 +2,21 @@
 
 let
   # Define your custom Plymouth theme as a derivation
-  # This makes your custom theme accessible as a Nix package.
-  # Ensure the 'src' path points to where you placed your 'abstract_ring_alt' folder.
   myCustomPlymouthTheme = pkgs.stdenv.mkDerivation {
     pname = "abstract-ring-alt"; # The name your theme will be known by in NixOS
     version = "1.0"; # You can set a version for your custom theme
 
     # The source of your theme files (relative to your configuration.nix).
-    # Adjust this path if your 'plymouth_themes' folder is elsewhere.
     src = ./plymouth_themes/abstract_ring_alt;
 
     # The installPhase copies the theme content into the correct Plymouth themes directory
     # within the Nix store.
+    # Use ${pname} inside the string interpolation for it to be correctly evaluated.
     installPhase = ''
       mkdir -p $out/share/plymouth/themes/${pname}
       cp -r $src/* $out/share/plymouth/themes/${pname}/
     '';
   };
-
 in
 {
   boot = {

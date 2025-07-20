@@ -39,7 +39,7 @@ in {
     in
       getFrom
         "https://github.com/ful1e5/Bibata_Cursor/releases/download/v2.0.7/Bibata-Modern-Classic.tar.xz"
-        "sha256-wA/qT7D0WkLOKsJ2C/c8sYc0TbrpW74h+yIYV5T1d/o="
+        "sha256-2Fd0OVSCgFZVLRAVo/MxgHp1qK5WUNhKY685XPYrBmk="
         "Bibata-Modern-Classic";
 
   # The rest of your home.nix file is unchanged

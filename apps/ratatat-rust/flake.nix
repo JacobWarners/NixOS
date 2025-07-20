@@ -30,7 +30,7 @@
           # xlibsWrapper provides a consistent environment for all necessary X11 libraries.
           nativeBuildInputs = with pkgs; [
             pkg-config
-            xlibsWrapper
+            xorg.xlibsWrapper # <-- Corrected from 'xlibsWrapper'
             libxkbcommon
           ];
         };
@@ -67,4 +67,3 @@
       };
   };
 }
-

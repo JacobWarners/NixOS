@@ -8,14 +8,11 @@ let
 
     # The source of your theme files (relative to your configuration.nix).
     src = ./plymouth_themes/abstract_ring_alt;
-
-    # The installPhase copies the theme content into the correct Plymouth themes directory
-    # within the Nix store.
-    # Use ${pname} inside the string interpolation for it to be correctly evaluated.
     installPhase = ''
-      mkdir -p $out/share/plymouth/themes/${pname}
-      cp -r $src/* $out/share/plymouth/themes/${pname}/
-    '';
+  mkdir -p $out/share/plymouth/themes/${pname}
+  cp -r ./* $out/share/plymouth/themes/${pname}/
+'';
+
   };
 in
 {

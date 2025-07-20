@@ -32,7 +32,7 @@
             xorg.libX11
             xorg.libXtst
             xorg.libXi
-            xorg.xproto
+            xorg.xorgproto # <-- This was corrected from 'xproto'
             xorg.xtstproto
             xorg.xineramaproto
             xorg.inputproto

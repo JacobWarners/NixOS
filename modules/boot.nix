@@ -1,11 +1,15 @@
 { config, pkgs, ... }:
 
 let
-  # This uses a different, simpler builder which is proven to work in your setup
   myCustomPlymouthTheme = pkgs.runCommand "abstract-ring-alt-plymouth-theme" { } ''
-    # Here, we hard-code the theme name instead of using a variable
-    mkdir -p $out/share/plymouth/themes/abstract-ring-alt
-    cp -r ${../plymouth-themes/abstract_ring_alt}/* $out/share/plymouth/themes/abstract-ring-alt/
+    # Define the destination directory
+    THEME_DIR="$out/share/plymouth/themes/abstract-ring-alt"
+
+    # Create the directory
+    mkdir -p "$THEME_DIR"
+
+    # Use a more robust copy command to copy all contents of the source directory
+    cp -R ${../plymouth-themes/abstract_ring_alt}/. "$THEME_DIR"
   '';
 in
 {

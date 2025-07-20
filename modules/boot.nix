@@ -1,5 +1,26 @@
 { config, pkgs, ... }:
 
+let
+  # Define your custom Plymouth theme as a derivation
+  # This makes your custom theme accessible as a Nix package.
+  # Ensure the 'src' path points to where you placed your 'abstract_ring_alt' folder.
+  myCustomPlymouthTheme = pkgs.stdenv.mkDerivation {
+    pname = "abstract-ring-alt"; # The name your theme will be known by in NixOS
+    version = "1.0"; # You can set a version for your custom theme
+
+    # The source of your theme files (relative to your configuration.nix).
+    # Adjust this path if your 'plymouth_themes' folder is elsewhere.
+    src = ./plymouth_themes/abstract_ring_alt;
+
+    # The installPhase copies the theme content into the correct Plymouth themes directory
+    # within the Nix store.
+    installPhase = ''
+      mkdir -p $out/share/plymouth/themes/${pname}
+      cp -r $src/* $out/share/plymouth/themes/${pname}/
+    '';
+  };
+
+in
 {
   boot = {
     consoleLogLevel = 0;
@@ -9,10 +30,17 @@
       "splash"
       "udev.log_priority=3"
       "rd.systemd.show_status=auto"
+      # You have "amdgpu" in initrd.kernelModules, so adding modeset here is good
+      "amdgpu.modeset=1"
     ];
+
     plymouth = {
       enable = true;
-      theme = "spinner";
+      # Set your custom theme name here.
+      # This MUST match the 'pname' defined in myCustomPlymouthTheme.
+      theme = "abstract-ring-alt";
+      # Add your custom theme package to the list of theme packages that Plymouth can use.
+      themePackages = [ myCustomPlymouthTheme ];
     };
 
     kernelPackages = pkgs.linuxPackages_latest;
@@ -23,6 +51,8 @@
       systemd-boot.configurationLimit = 5;
     };
     initrd = {
+      # Make sure systemd is enabled in the initrd for Plymouth to function correctly
+      systemd.enable = true;
       kernelModules = [ "amdgpu" ];
       luks.devices."luks-6cb1713b-252a-435f-8c5c-d4b404e9db96" = {
         device = "/dev/disk/by-uuid/6cb1713b-252a-435f-8c5c-d4b404e9db96";

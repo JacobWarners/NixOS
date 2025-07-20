@@ -11,7 +11,8 @@ let
       cp $src $out/share/fonts/truetype/pac.ttf
     '';
   };
-bibata-cursors = pkgs.stdenv.mkDerivation rec {
+# In the `let` block at the top of your file:
+  bibata-cursors = pkgs.stdenv.mkDerivation rec {
     pname = "bibata-cursor-theme";
     version = "2.0.6";
 
@@ -24,9 +25,18 @@ bibata-cursors = pkgs.stdenv.mkDerivation rec {
 
     installPhase = ''
       mkdir -p $out/share/icons
-      # This is the corrected line with the new folder name
-      cp -r $src/Bibata-Original-Classic $out/share/icons/
+      # This is the final, correct name for the "Classic" theme you wanted
+      cp -r $src/Bibata-Modern-Classic $out/share/icons/
     '';
+  };
+
+# And further down in the file, update the name:
+  home.pointerCursor = {
+    package = bibata-cursors;
+    # This must match the folder name exactly
+    name = "Bibata-Modern-Classic";
+    size = 24;
+    gtk.enable = true;
   };
 in {
   home.username = "jake";

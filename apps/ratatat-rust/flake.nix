@@ -6,67 +6,72 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs, ... }: {
-    # Define the NixOS module. This is the only output your system needs.
-    nixosModules.default = { config, lib, pkgs, ... }:
-      let
-        # DEFINE THE PACKAGE LOCALLY:
-        # By defining the package inside a `let` block, its path is
-        # guaranteed to be available to the service configuration below.
-        ratatat-pkg = pkgs.rustPlatform.buildRustPackage rec {
-          pname = "ratatat-listener";
-          version = "0.1.0";
-          src = self;
+  outputs = { self, nixpkgs, ... }:
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
+    in
+    {
+      # This is now a Home Manager module.
+      homeManagerModules.default = { config, lib, ... }:
+        let
+          # Define the package that this module provides.
+          ratatat-pkg = pkgs.rustPlatform.buildRustPackage rec {
+            pname = "ratatat-listener";
+            version = "0.1.0";
+            src = self;
 
-          cargoLock = {
-            lockFile = ./Cargo.lock;
+            cargoLock.lockFile = ./Cargo.lock;
+
+            nativeBuildInputs = [ pkgs.pkg-config ];
+            buildInputs = with pkgs.xorg; [
+              pkgs.udev
+              pkgs.libinput
+              libX11
+              libXtst
+              libXi
+              xorgproto
+            ];
+
+            # This phase runs after the build. It copies the mp3 into the package.
+            installPhase = ''
+              runHook preInstall
+              mkdir -p $out/share
+              cp ${src}/Loud-pipes.mp3 $out/share/
+              runHook postInstall
+            '';
           };
+        in
+        {
+          # This creates the option you will use in your home.nix
+          options.services.ratatat-listener.enable = lib.mkEnableOption "Enable the ratatat listener user service";
 
-          # Tools needed at build time.
-          nativeBuildInputs = [
-            pkgs.pkg-config
-          ];
+          config = lib.mkIf config.services.ratatat-listener.enable {
+            # Install the package into the user's profile.
+            home.packages = [
+              ratatat-pkg
+              pkgs.mpg123
+            ];
 
-          # Libraries to link against.
-          buildInputs = with pkgs.xorg; [
-            pkgs.udev
-            pkgs.libinput
-            libX11
-            libXtst
-            libXi
-            xorgproto
-          ];
-        };
-      in
-      {
-        # The option you use in configuration.nix
-        options.services.ratatat-listener.enable = lib.mkEnableOption "Enable the ratatat listener daemon";
-
-        # The configuration that is applied when the service is enabled.
-        config = lib.mkIf config.services.ratatat-listener.enable {
-          # Install the final package and its runtime dependency (mpg123).
-          environment.systemPackages = [
-            ratatat-pkg
-            pkgs.mpg123
-          ];
-
-          # Define the systemd service.
-          systemd.services.ratatat-listener = {
-            description = "Listens for the 'ratatat' key sequence and plays a song.";
-            after = [ "graphical-session.target" ];
-            wants = [ "graphical-session.target" ];
-            partOf = [ "graphical-session.target" ];
-            serviceConfig = {
-              User = "jake";
-              # USE THE LOCAL PACKAGE:
-              # The ExecStart now points to the locally defined package.
-              ExecStart = "${ratatat-pkg}/bin/ratatat-listener";
-              Restart = "always";
-              RestartSec = "5s";
+            # Define the systemd USER service.
+            systemd.user.services.ratatat-listener = {
+              Unit = {
+                Description = "Listens for the 'ratatat' key sequence and plays a song.";
+                After = [ "graphical-session.target" ];
+              };
+              Install = {
+                WantedBy = [ "graphical-session.target" ];
+              };
+              Service = {
+                # This sets the environment variable for the Rust program to find the song.
+                Environment = "RATATAT_SONG_PATH=${ratatat-pkg}/share/Loud-pipes.mp3";
+                ExecStart = "${ratatat-pkg}/bin/ratatat-listener";
+                Restart = "always";
+                RestartSec = "5s";
+              };
             };
           };
         };
-      };
-  };
+    };
 }
 

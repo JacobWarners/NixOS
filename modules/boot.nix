@@ -1,5 +1,5 @@
-# /home/jake/nixos-config/modules/boot.nix
-{ config, pkgs, ... }:
+# This line is important - we add 'inputs' to access the flake's inputs
+{ config, pkgs, inputs, ... }:
 
 {
   boot = {
@@ -8,21 +8,22 @@
       theme = "abstract-ring-alt";
       themePackages = [
         (pkgs.stdenv.mkDerivation {
-          # We set the package name directly, without using pname
-          name = "abstract-ring-alt-theme";
+          pname = "abstract-ring-alt";
+          version = "1.0.0";
 
-          src = ../plymouth-themes/abstract-ring-alt;
+          # This is the key change. 
+          # It uses the absolute path from the flake's root directory.
+          src = inputs.self + "/plymouth-themes/abstract-ring-alt";
 
           installPhase = ''
-            # We hard-code the theme name in the destination path
-            local THEME_DIR="$out/share/plymouth/themes/abstract-ring-alt"
-            mkdir -p "$THEME_DIR"
-            cp -R ./* "$THEME_DIR"
+            mkdir -p $out/share/plymouth/themes/${pname}
+            cp -R ./* $out/share/plymouth/themes/${pname}/
           '';
         })
       ];
     };
 
+    # Other Boot Options
     consoleLogLevel = 0;
     initrd.verbose = false;
     kernelParams = [

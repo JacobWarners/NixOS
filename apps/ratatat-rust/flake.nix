@@ -59,6 +59,7 @@
         # Libraries to link against. We now list the core X11 libs directly.
         buildInputs = with pkgs.xorg; [
           pkgs.udev
+          pkgs.libinput # <-- This was the missing library.
           libX11
           libXtst
           libXi
@@ -73,6 +74,7 @@
           pkgs.cargo
           pkgs.pkg-config
           pkgs.udev
+          pkgs.libinput # <-- Also added here for consistency.
           libX11
           libXtst
           libXi

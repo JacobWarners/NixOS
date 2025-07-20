@@ -6,26 +6,51 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  # The '...' here tells Nix to ignore any extra arguments passed to this function.
-  outputs = { self, nixpkgs, ... }:
-    let
-      # We define the system once here.
-      system = "x86_64-linux";
-      # Create a pkgs set for our system.
-      pkgs = import nixpkgs { inherit system; };
-    in
-    {
-      # Define the NixOS module directly. This is the path your main flake is looking for.
-      nixosModules.default = { config, lib, ... }: {
+  outputs = { self, nixpkgs, ... }: {
+    # Define the NixOS module. This is the only output your system needs.
+    nixosModules.default = { config, lib, pkgs, ... }:
+      let
+        # DEFINE THE PACKAGE LOCALLY:
+        # By defining the package inside a `let` block, its path is
+        # guaranteed to be available to the service configuration below.
+        ratatat-pkg = pkgs.rustPlatform.buildRustPackage rec {
+          pname = "ratatat-listener";
+          version = "0.1.0";
+          src = self;
+
+          cargoLock = {
+            lockFile = ./Cargo.lock;
+          };
+
+          # Tools needed at build time.
+          nativeBuildInputs = [
+            pkgs.pkg-config
+          ];
+
+          # Libraries to link against.
+          buildInputs = with pkgs.xorg; [
+            pkgs.udev
+            pkgs.libinput
+            libX11
+            libXtst
+            libXi
+            xorgproto
+          ];
+        };
+      in
+      {
+        # The option you use in configuration.nix
         options.services.ratatat-listener.enable = lib.mkEnableOption "Enable the ratatat listener daemon";
 
+        # The configuration that is applied when the service is enabled.
         config = lib.mkIf config.services.ratatat-listener.enable {
-          # Install the final package (defined below) and mpg123.
+          # Install the final package and its runtime dependency (mpg123).
           environment.systemPackages = [
-            self.packages.${system}.default
+            ratatat-pkg
             pkgs.mpg123
           ];
 
+          # Define the systemd service.
           systemd.services.ratatat-listener = {
             description = "Listens for the 'ratatat' key sequence and plays a song.";
             after = [ "graphical-session.target" ];
@@ -33,54 +58,15 @@
             partOf = [ "graphical-session.target" ];
             serviceConfig = {
               User = "jake";
-              ExecStart = "${self.packages.${system}.default}/bin/ratatat-listener";
+              # USE THE LOCAL PACKAGE:
+              # The ExecStart now points to the locally defined package.
+              ExecStart = "${ratatat-pkg}/bin/ratatat-listener";
               Restart = "always";
               RestartSec = "5s";
             };
           };
         };
       };
-
-      # Define the package for our specific system.
-      packages.x86_64-linux.default = pkgs.rustPlatform.buildRustPackage rec {
-        pname = "ratatat-listener";
-        version = "0.1.0";
-        src = self;
-
-        cargoLock = {
-          lockFile = ./Cargo.lock;
-        };
-
-        # Tools needed at build time.
-        nativeBuildInputs = [
-          pkgs.pkg-config
-        ];
-
-        # Libraries to link against. We now list the core X11 libs directly.
-        buildInputs = with pkgs.xorg; [
-          pkgs.udev
-          pkgs.libinput # <-- This was the missing library.
-          libX11
-          libXtst
-          libXi
-          xorgproto
-        ];
-      };
-
-      # Define the devShell for `nix develop`.
-      devShells.x86_64-linux.default = pkgs.mkShell {
-        buildInputs = with pkgs.xorg; [
-          pkgs.rustc
-          pkgs.cargo
-          pkgs.pkg-config
-          pkgs.udev
-          pkgs.libinput # <-- Also added here for consistency.
-          libX11
-          libXtst
-          libXi
-          xorgproto
-        ];
-      };
-    };
+  };
 }
 

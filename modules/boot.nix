@@ -1,3 +1,4 @@
+this_is_a_test = "this line is designed to break the build";
 { config, pkgs, ... }:
 
 let

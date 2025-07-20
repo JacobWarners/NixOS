@@ -6,17 +6,24 @@ use std::process::Command;
 use std::sync::{Arc, Mutex};
 
 fn main() {
-    let target_sequence = vec![
+    // Define the sequence to play the song.
+    let play_sequence = vec![
         KeybdKey::RKey, KeybdKey::AKey, KeybdKey::TKey, KeybdKey::AKey,
         KeybdKey::TKey, KeybdKey::AKey, KeybdKey::TKey,
+    ];
+
+    // Define the new sequence to kill the music player.
+    let kill_sequence = vec![
+        KeybdKey::EscapeKey,
+        KeybdKey::EscapeKey,
+        KeybdKey::EscapeKey,
     ];
 
     let recent_keys = Arc::new(Mutex::new(Vec::<KeybdKey>::new()));
 
     let callback = move |key: KeybdKey| {
-        // Use a block to ensure the lock is dropped before the command runs.
-        let should_play = {
-            // If the lock is poisoned, we recover by clearing the state.
+        // Use a block to ensure the lock is dropped before any commands run.
+        let (should_play, should_kill) = {
             let mut keys = match recent_keys.lock() {
                 Ok(guard) => guard,
                 Err(poisoned) => {
@@ -26,44 +33,54 @@ fn main() {
             };
             keys.push(key);
 
-            if keys.len() > target_sequence.len() {
+            // Keep the buffer at a reasonable size (the length of the longest sequence).
+            let max_len = play_sequence.len();
+            if keys.len() > max_len {
                 keys.remove(0);
             }
             
             println!("Current sequence: {:?}", *keys);
 
-            if *keys == target_sequence {
+            // Check if the end of our recent keys matches the play sequence.
+            if keys.ends_with(&play_sequence) {
                 keys.clear();
-                true // Signal that we should play the song
+                (true, false) // Signal to play music.
+            } 
+            // Check if the end of our recent keys matches the kill sequence.
+            else if keys.ends_with(&kill_sequence) {
+                keys.clear();
+                (false, true) // Signal to kill the player.
             } else {
-                false
+                (false, false)
             }
-        }; // Lock is dropped here
+        }; // Mutex lock is dropped here.
 
         if should_play {
             println!("'ratatat' sequence detected! Attempting to play song...");
-            
-            // Read the song path from an environment variable.
             let song_path = match env::var("RATATAT_SONG_PATH") {
                 Ok(path) => path,
                 Err(_) => {
                     eprintln!("Error: RATATAT_SONG_PATH environment variable not set.");
-                    return; // Exit the callback if the path isn't set.
+                    return;
                 }
             };
 
-            // Handle the result of spawning the command gracefully.
-            if let Err(e) = Command::new("mpg123")
-                .arg(song_path) // Use the path from the environment variable.
-                .spawn()
-            {
+            if let Err(e) = Command::new("mpg123").arg(song_path).spawn() {
                 eprintln!("Failed to play song: {}", e);
+            }
+        }
+
+        if should_kill {
+            println!("Kill sequence detected! Stopping music player...");
+            // Run the pkill command to stop mpg123.
+            if let Err(e) = Command::new("pkill").arg("mpg123").spawn() {
+                eprintln!("Failed to run pkill: {}", e);
             }
         }
     };
 
     KeybdKey::bind_all(callback);
-    println!("Listener started. Type 'ratatat' to play a song.");
+    println!("Listener started. Type 'ratatat' to play a song. Press ESC 3 times to stop.");
     inputbot::handle_input_events();
 }
 

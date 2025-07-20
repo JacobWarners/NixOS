@@ -7,7 +7,6 @@
     shell = pkgs.zsh;
     initialHashedPassword = "$y$j9T$MkzXr4RqnBYu92A6DSwJv1$Hxj3vUPY3vCvPyJ1Z8vfaQhSEn4ZO0vKNsJYhpnJkF.";
     extraGroups = [ "wheel" "docker" "podman" "dialout" "libinput" "input"];
-    icon = ./ai-landscape.png;
   };
 
   # Optionally, disable root login via SSH for security

@@ -45,7 +45,7 @@ in
   # While the module handles cage, explicitly adding qtgreet and its
   # dependencies to systemPackages is good practice.
   environment.systemPackages = with pkgs; [
-    greetd.qtgreet
+    greetd.gtkgreet
     cage
     # Any other system-level packages you need...
   ];

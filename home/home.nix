@@ -24,7 +24,7 @@ let
       owner = "ful1e5";
       repo = "Bibata_Cursor";
       rev = "v${version}";
-      hash = "sha256-5U1A3Gcvw5yH1s4i/2B1T+2l1b+yY8tZ8z4z3a6A7b8=";
+      hash = "sha256-iLBgQ0reg8HzUQMUcZboMYJxqpKXks5vJVZMHirK48k=";
     };
 
     # This script tells Nix how to install the theme.

@@ -24,7 +24,7 @@
     };
 
     # Restore the boot entry limit
-    loader.systemd-boot.configurationLimit = 5;
+    loader.systemd-boot.configurationLimit = 3;
 
     # Other boot options
     consoleLogLevel = 0;

@@ -9,9 +9,8 @@
   };
 
   # 2. Configure LightDM with Auto-Login 🚀
-  services.displayManager.sddm = {
+  services.displayManager.ly = {
     enable = true;
-    theme = "sddm-astronaut";
     # Auto-login the specified user.
     # Set a timeout for auto-login, or set to 0 to log in immediately.
   };

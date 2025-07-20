@@ -7,64 +7,60 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  # The '...' here tells Nix to ignore any extra arguments passed to this function.
-  # This makes the flake more robust and composable.
-  outputs = { self, nixpkgs, ... }: {
-    # This is now a top-level attribute, which your main flake can find.
-    nixosModules.default = { config, lib, pkgs, ... }:
-      let
-        # We define the package right here inside the module.
-        # This is a clean pattern that avoids flake-utils and recursion issues.
-        ratatat-pkg = pkgs.rustPlatform.buildRustPackage rec {
-          pname = "ratatat-listener";
-          version = "0.1.0";
+  outputs = { self, nixpkgs, ... }:
+    let
+      # Define a package set using this flake's own nixpkgs input.
+      # This ensures the build is isolated from the host system's nixpkgs version.
+      pkgsFor = system: import nixpkgs { inherit system; };
+    in
+    {
+      # Define the NixOS module.
+      nixosModules.default = { config, lib, pkgs, system, ... }:
+        let
+          # Use the isolated package set to build the Rust application.
+          localPkgs = pkgsFor system;
+          ratatat-pkg = localPkgs.rustPlatform.buildRustPackage rec {
+            pname = "ratatat-listener";
+            version = "0.1.0";
+            src = self;
 
-          # The source code is the flake directory itself.
-          src = self;
+            cargoLock = {
+              lockFile = ./Cargo.lock;
+            };
 
-          cargoLock = {
-            lockFile = ./Cargo.lock;
+            # Use the isolated 'localPkgs' for all build dependencies.
+            nativeBuildInputs = [
+              localPkgs.pkg-config
+              localPkgs.xorg.xlibsWrapper
+              localPkgs.libxkbcommon
+            ];
           };
+        in
+        {
+          options.services.ratatat-listener.enable = lib.mkEnableOption "Enable the ratatat listener daemon";
 
-          # Dependencies needed during the build process.
-          # Using explicit package paths to avoid resolution issues.
-          nativeBuildInputs = [
-            pkgs.pkg-config
-            pkgs.xorg.xlibsWrapper
-            pkgs.libxkbcommon
-          ];
-        };
-      in
-      {
-        # The option that you use in configuration.nix
-        options.services.ratatat-listener.enable = lib.mkEnableOption "Enable the ratatat listener daemon";
+          config = lib.mkIf config.services.ratatat-listener.enable {
+            # Install the final package and its runtime dependency (mpg123)
+            # into the main system environment.
+            environment.systemPackages = [
+              ratatat-pkg
+              pkgs.mpg123
+            ];
 
-        # The configuration that is applied when the service is enabled.
-        config = lib.mkIf config.services.ratatat-listener.enable {
-          # Add the necessary packages to the system environment.
-          environment.systemPackages = [
-            ratatat-pkg
-            pkgs.mpg123
-          ];
-
-          # Define the systemd service.
-          systemd.services.ratatat-listener = {
-            description = "Listens for the 'ratatat' key sequence and plays a song.";
-            after = [ "graphical-session.target" ];
-            wants = [ "graphical-session.target" ];
-            partOf = [ "graphical-session.target" ];
-            serviceConfig = {
-              # IMPORTANT: This user MUST be in the 'libinput' group.
-              # Ensure `users.users.jake.extraGroups = [ "libinput" ];`
-              # is in your main configuration.nix
-              User = "jake";
-              ExecStart = "${ratatat-pkg}/bin/ratatat-listener";
-              Restart = "always";
-              RestartSec = "5s";
+            systemd.services.ratatat-listener = {
+              description = "Listens for the 'ratatat' key sequence and plays a song.";
+              after = [ "graphical-session.target" ];
+              wants = [ "graphical-session.target" ];
+              partOf = [ "graphical-session.target" ];
+              serviceConfig = {
+                User = "jake";
+                ExecStart = "${ratatat-pkg}/bin/ratatat-listener";
+                Restart = "always";
+                RestartSec = "5s";
+              };
             };
           };
         };
-      };
-  };
+    };
 }
 

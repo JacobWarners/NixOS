@@ -151,11 +151,11 @@
     },
     "battery": {
         "states": {
-//            "full": 100,
+            "full": 100,
             "good": 99,
             "warning": 60,
             "critical": 15,
-            "plugin": 100
+            "plugin": 5
         },
         "on-click": "wlogout",
         "format": "{icon} {capacity}%  ",

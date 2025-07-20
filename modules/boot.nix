@@ -1,36 +1,23 @@
 { config, pkgs, ... }:
 
 let
-  my-plymouth-theme = pkgs.stdenv.mkDerivation {
-    pname = "abstract-ring-alt";
-    version = "1.0.0";
+  # This builder successfully bypasses the 'pname' error in your environment.
+  myCustomPlymouthTheme = pkgs.runCommand "abstract-ring-alt-plymouth-theme" { } ''
+    # Define the destination directory and hard-code the theme name
+    local THEME_DIR="$out/share/plymouth/themes/abstract-ring-alt"
+    mkdir -p "$THEME_DIR"
 
-    # The standard way to define the source.
-    # The builder will automatically go into this directory.
-    src = ../plymouth-themes/abstract_ring_alt;
-
-    # This is the standard install phase.
-    installPhase = ''
-      runHook preInstall
-
-      # The destination directory uses the pname variable
-      local THEME_DIR="$out/share/plymouth/themes/${pname}"
-      mkdir -p "$THEME_DIR"
-
-      # Copy all files from the source directory into the destination
-      cp -R ./* "$THEME_DIR"
-
-      runHook postInstall
-    '';
-  };
+    # Use the robust copy method to copy all source files
+    cp -R ${../plymouth-themes/abstract_ring_alt}/. "$THEME_DIR"
+  '';
 in
 {
-  # All boot options are correctly nested inside this block
+  # All boot options are correctly nested inside this single 'boot' block.
   boot = {
     plymouth = {
       enable = true;
       theme = "abstract-ring-alt";
-      themePackages = [ my-plymouth-theme ];
+      themePackages = [ myCustomPlymouthTheme ];
     };
 
     consoleLogLevel = 0;

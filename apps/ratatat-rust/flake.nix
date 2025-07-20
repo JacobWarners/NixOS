@@ -15,8 +15,11 @@
     in
     {
       # Define the NixOS module.
-      nixosModules.default = { config, lib, pkgs, system, ... }:
+      # 'system' is removed from the arguments here, as it's not passed automatically.
+      nixosModules.default = { config, lib, pkgs, ... }:
         let
+          # We derive the system from the 'pkgs' argument, which is always available.
+          system = pkgs.system;
           # Use the isolated package set to build the Rust application.
           localPkgs = pkgsFor system;
           ratatat-pkg = localPkgs.rustPlatform.buildRustPackage rec {

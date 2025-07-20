@@ -1,6 +1,7 @@
 { config, pkgs, inputs, ... }:
 
 let
+  # Your custom pacman font package
   pacman-font = pkgs.stdenv.mkDerivation {
     pname = "pacman-custom-font";
     version = "1.0";
@@ -11,43 +12,37 @@ let
       cp $src $out/share/fonts/truetype/pac.ttf
     '';
   };
-# In the `let` block at the top of your file:
-  home.pointerCursor = 
-  let
-    getFrom = url: hash: name: {
-      gtk.enable = true;
-      name = name;
-      size = 24;
-      package = 
-        pkgs.runCommand "moveUp" {} ''
-          mkdir -p $out/share/icons
-          ln -s ${pkgs.fetchzip {
-            url = url;
-            hash = hash;
-          }} $out/share/icons/${name}
-          '';
-        };
-  in
-    getFrom
-    "https://github.com/ful1e5/Bibata_Cursor/releases/download/v2.0.7/Bibata-Modern-Classic-Right.tar.xz"
-    "sha256-iLBgQ0reg8HzUQMUcZboMYJxqpKXks5vJVZMHirK48k="
-    "Bibata-Modern-Classic-Right";
 
 in {
   home.username = "jake";
   home.homeDirectory = "/home/jake";
   home.stateVersion = "25.05";
 
-  # ... your other settings ...
-  
-  home.pointerCursor = {
-    package = bibata-cursors;
-    name = "Bibata-Original-Classic";
-    size = 24;
-    gtk.enable = true;
-  };
+  # --- YOUR CORRECTED CURSOR CONFIGURATION ---
+  # This section uses the function you found to download and set the theme.
+  home.pointerCursor =
+    let
+      getFrom = url: hash: name: {
+        gtk.enable = true;
+        x11.enable = true; # It's good practice to enable this too
+        name = name;
+        size = 24;
+        package =
+          pkgs.runCommand "moveUp" {} ''
+            mkdir -p $out/share/icons
+            ln -s ${pkgs.fetchzip {
+              url = url;
+              hash = hash;
+            }} $out/share/icons/${name}
+          '';
+      };
+    in
+      getFrom
+        "https://github.com/ful1e5/Bibata_Cursor/releases/download/v2.0.7/Bibata-Modern-Classic.tar.xz"
+        "sha256-wA/qT7D0WkLOKsJ2C/c8sYc0TbrpW74h+yIYV5T1d/o="
+        "Bibata-Modern-Classic";
 
-  # ... the rest of your home.nix file is unchanged ...
+  # The rest of your home.nix file is unchanged
   programs.zsh = {
     enable = true;
     sessionVariables = {
@@ -62,28 +57,10 @@ in {
     '';
   };
   home.packages = with pkgs; [
-    zsh 
-    yazi
-    pulseaudio
-    rofi-wayland
-    nwg-displays
-    slurp
-    wl-clipboard
-    grim
-    libnotify
-    sway-contrib.grimshot
-    eww
-    waybar
-    nerd-fonts.jetbrains-mono
-    pipewire
-    wireplumber
-    xdg-desktop-portal
-    xdg-desktop-portal-hyprland
-    pacman-font
-    jq
-    playerctl
-    brightnessctl
-    pamixer
+    zsh yazi pulseaudio rofi-wayland nwg-displays slurp wl-clipboard grim
+    libnotify sway-contrib.grimshot eww waybar nerd-fonts.jetbrains-mono
+    pipewire wireplumber xdg-desktop-portal xdg-desktop-portal-hyprland
+    pacman-font jq playerctl brightnessctl pamixer
   ];
   programs.vim = {
     enable = true;
@@ -133,65 +110,15 @@ in {
       exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
       env = XCURSOR_SIZE,24
       env = HYPRCURSOR_SIZE,24
-      general {
-        gaps_in = 5
-        gaps_out = 5
-        border_size = 2
-        col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
-        col.inactive_border = rgba(595959aa)
-        resize_on_border = false
-        allow_tearing = false
-        layout = dwindle
-      }
-      decoration {
-        rounding = 10
-        active_opacity = 1.0
-        inactive_opacity = 1.0
-        blur {
-          enabled = true
-          size = 3
-          passes = 1
-          vibrancy = 0.1696
-        }
-      }
-      animations {
-        enabled = true
-        bezier = myBezier, 0.05, 0.9, 0.1, 1.05
-        animation = windows, 1, 7, myBezier
-        animation = windowsOut, 1, 7, default, popin 80%
-        animation = border, 1, 10, default
-        animation = borderangle, 1, 8, default
-        animation = fade, 1, 7, default
-        animation = workspaces, 1, 6, default
-      }
-      dwindle {
-        pseudotile = true
-        preserve_split = true
-      }
-      master {
-        new_status = master
-      }
-      misc {
-        force_default_wallpaper = 0
-        disable_hyprland_logo = false
-        disable_splash_rendering = true;
-      }
-      input {
-        kb_layout = us
-        follow_mouse = 1
-        sensitivity = 0
-        touchpad {
-          natural_scroll = true
-          middle_button_emulation = false
-        }
-      }
-      gestures {
-        workspace_swipe = false
-      }
-      device {
-        name = epic-mouse-v1
-        sensitivity = -0.5
-      }
+      general { gaps_in = 5; gaps_out = 5; border_size = 2; col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg; col.inactive_border = rgba(595959aa); resize_on_border = false; allow_tearing = false; layout = dwindle; }
+      decoration { rounding = 10; active_opacity = 1.0; inactive_opacity = 1.0; blur { enabled = true; size = 3; passes = 1; vibrancy = 0.1696; } }
+      animations { enabled = true; bezier = myBezier, 0.05, 0.9, 0.1, 1.05; animation = windows, 1, 7, myBezier; animation = windowsOut, 1, 7, default, popin 80%; animation = border, 1, 10, default; animation = borderangle, 1, 8, default; animation = fade, 1, 7, default; animation = workspaces, 1, 6, default; }
+      dwindle { pseudotile = true; preserve_split = true; }
+      master { new_status = master; }
+      misc { force_default_wallpaper = 0; disable_hyprland_logo = false; disable_splash_rendering = true; }
+      input { kb_layout = us; follow_mouse = 1; sensitivity = 0; touchpad { natural_scroll = true; middle_button_emulation = false; } }
+      gestures { workspace_swipe = false; }
+      device { name = epic-mouse-v1; sensitivity = -0.5; }
       $mainMod = SUPER
       bind = $mainMod, Q, exec, $terminal
       bind = $mainMod, C, killactive,

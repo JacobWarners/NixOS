@@ -14,7 +14,7 @@
     # Auto-login the specified user.
     autologinUser = "jake";
     # Set a timeout for auto-login, or set to 0 to log in immediately.
-    autologinTimeout = 0;
+    autoLogin.timeout = 0;
   };
 
   # 3. Customize the Slick Greeter ✨

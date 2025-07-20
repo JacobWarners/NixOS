@@ -1,4 +1,4 @@
-# This line is important - we add 'inputs' to access the flake's inputs
+# We add 'inputs' here to get the absolute path to your configuration
 { config, pkgs, inputs, ... }:
 
 {
@@ -8,22 +8,23 @@
       theme = "abstract-ring-alt";
       themePackages = [
         (pkgs.stdenv.mkDerivation {
-          pname = "abstract-ring-alt";
-          version = "1.0.0";
+          # The package is given a simple, direct name. No 'pname' is used.
+          name = "my-custom-plymouth-theme";
 
-          # This is the key change. 
-          # It uses the absolute path from the flake's root directory.
+          # This creates a direct, absolute path to your theme files.
           src = inputs.self + "/plymouth-themes/abstract-ring-alt";
 
+          # This script copies the files to the correct location.
+          # The theme name is hard-coded to avoid any variables.
           installPhase = ''
-            mkdir -p $out/share/plymouth/themes/${pname}
-            cp -R ./* $out/share/plymouth/themes/${pname}/
+            mkdir -p $out/share/plymouth/themes/abstract-ring-alt
+            cp -R ./* $out/share/plymouth/themes/abstract-ring-alt/
           '';
         })
       ];
     };
 
-    # Other Boot Options
+    # Your other boot options
     consoleLogLevel = 0;
     initrd.verbose = false;
     kernelParams = [

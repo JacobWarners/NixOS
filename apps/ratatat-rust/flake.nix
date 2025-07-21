@@ -31,7 +31,6 @@
               libXtst
               libXi
               xorgproto
-              systemd
             ];
 
             # This hook runs AFTER the default install phase, which correctly

@@ -25,13 +25,8 @@ let
   };
 
 in {
-  # ======================================================================
-  # LINE 1: ADD THIS OPENING BLOCK. It tells NixOS this is for user "jake".
-  # ======================================================================
-  home-manager.users.jake = {
-
-  # YOUR ENTIRE ORIGINAL CONFIGURATION IS UNCHANGED BELOW THIS LINE
-  # V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V
+  # This file is now back to its original, correct structure.
+  # NO "home-manager.users.jake" wrapper is needed here.
 
   home.username = "jake";
   home.homeDirectory = "/home/jake";
@@ -431,7 +426,7 @@ in {
       # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
       # See https://wiki.hyprland.org/Configuring/Workspace-Rules/ for workspace rules
       windowrulev2 = noanim, class:^(ffxiv_dx11.exe)$
-      windowruvele_v2 = opaque, class:^(ffxiv_dx11.exe)$
+      windowrulev2 = opaque, class:^(ffxiv_dx11.exe)$
       windowrulev2 = fullscreen, class:^(ffxiv_dx11.exe)$
       windowrulev2 = movetomonitor, DP-3, class:^(ffxiv_dx11.exe)$
       windowrulev2 = center, 1, class:^(ffxiv_dx11.exe)$
@@ -447,5 +442,4 @@ in {
   };
   # --- END OF HYPRLAND HOME MANAGER CONFIGURATION ---
 
-  }; # <--- LINE 2: ADD THIS CLOSING BRACE AT THE VERY END OF THE FILE
 }

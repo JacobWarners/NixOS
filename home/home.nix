@@ -148,11 +148,13 @@ in {
       inoremap jj <Esc>
     '';
   };
-
+############# ROFI ############
+  home.file.".config/rofi/themes/launcher_style_6.rasi".source = ./rofi-themes/launcher_style_6.rasi;
+  home.file.".config/rofi/themes/catppuccin.rasi".source = ./rofi-themes/catppuccin.rasi;
   programs.rofi = {
     enable = true;
 #    theme = "${pkgs.catppuccin-rofi}/share/rofi/themes/catppuccin-macchiato-mauve.rasi";
-    theme = "${config.home.homeDirectory}/.config/rofi/themes/gruvbox-dark.rasi";
+    theme = "${config.home.homeDirectory}/.config/rofi/themes/launcher_style_6.rasi";
   };
   # --- CONSOLIDATED HOME MANAGER SESSION VARIABLES ---
   home.sessionVariables = {
@@ -398,7 +400,7 @@ in {
       bind = $mainMod, 7, movetoworkspace, 7
       bind = $mainMod, 8, movetoworkspace, 8
       bind = $mainMod, 9, movetoworkspace, 9
-      bind = $mainMod, 10, movetoworkspace, 10
+      bind = $mainMod, 0, movetoworkspace, 10
       # Example special workspace (scratchpad)
       bind = $mainMod, S, togglespecialworkspace, magic
       bind = $mainMod SHIFT, S, movetoworkspace, special:magic

@@ -5,7 +5,7 @@ BUDDY_URL="https://www.nytimes.com/interactive/2023/upshot/spelling-bee-buddy.ht
 
 pactl set-sink-volume @DEFAULT_SINK@ 100%
 pactl set-sink-mute @DEFAULT_SINK@ 0
-paplay ~/.config/waybar/sounds/spellingbee.wav
+paplay ~/.config/waybar/sounds/spellingbee.wav &
 hyprctl dispatch workspace 5
 firefox --new-window "$SPELLING_BEE_URL" &
 sleep 1

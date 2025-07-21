@@ -6,5 +6,6 @@ pkgs.mkShell {
     pkgs.cargo
     pkgs.pkg-config
     pkgs.openssl
+    pkgs.systemd
   ];
 }

@@ -1,39 +1,40 @@
-// main.rs
-
 use inputbot::KeybdKey;
 use std::env;
 use std::process::Command;
 use std::sync::{Arc, Mutex};
 
+// Import our new module
+mod sonic_counter;
+
 fn main() {
-    // Define the sequence to play the song.
+    // --- State for "ratatat" player ---
     let play_sequence = vec![
         KeybdKey::RKey, KeybdKey::AKey, KeybdKey::TKey, KeybdKey::AKey,
         KeybdKey::TKey, KeybdKey::AKey, KeybdKey::TKey,
     ];
-
-    // Define the new sequence to kill the music player.
-    let kill_sequence = vec![
-        KeybdKey::EscapeKey,
-        KeybdKey::EscapeKey,
-        KeybdKey::EscapeKey,
-    ];
-
+    let kill_sequence = vec![KeybdKey::EscapeKey, KeybdKey::EscapeKey, KeybdKey::EscapeKey];
     let recent_keys = Arc::new(Mutex::new(Vec::<KeybdKey>::new()));
 
+    // --- State for our new Sonic Counter ---
+    let sonic_state = Arc::new(Mutex::new(sonic_counter::SonicState::new()));
+    
+    // --- Initialize Systems ---
+    sonic_counter::SonicState::initialize_files();
+
+    // --- Unified Callback ---
     let callback = move |key: KeybdKey| {
-        // Use a block to ensure the lock is dropped before any commands run.
+        // First, let the sonic counter handle the key press.
+        // We lock its state and pass it to the handler function.
+        let mut sonic_s = sonic_state.lock().unwrap();
+        if sonic_counter::handle_key_press(key, &mut sonic_s) {
+            return; // The key was handled by the sonic counter, so we're done.
+        }
+
+        // If the sonic counter did NOT handle the key, proceed with "ratatat" logic.
         let (should_play, should_kill) = {
-            let mut keys = match recent_keys.lock() {
-                Ok(guard) => guard,
-                Err(poisoned) => {
-                    eprintln!("Recovering from poisoned mutex");
-                    poisoned.into_inner()
-                }
-            };
+            let mut keys = recent_keys.lock().unwrap();
             keys.push(key);
 
-            // Keep the buffer at a reasonable size (the length of the longest sequence).
             let max_len = play_sequence.len();
             if keys.len() > max_len {
                 keys.remove(0);
@@ -41,50 +42,38 @@ fn main() {
             
             println!("Current sequence: {:?}", *keys);
 
-            // Check if the end of our recent keys matches the play sequence.
             if keys.ends_with(&play_sequence) {
                 keys.clear();
-                (true, false) // Signal to play music.
-            } 
-            // Check if the end of our recent keys matches the kill sequence.
-            else if keys.ends_with(&kill_sequence) {
+                (true, false)
+            } else if keys.ends_with(&kill_sequence) {
                 keys.clear();
-                (false, true) // Signal to kill the player.
+                (false, true)
             } else {
                 (false, false)
             }
-        }; // Mutex lock is dropped here.
+        };
 
         if should_play {
             println!("'ratatat' sequence detected! Attempting to play song...");
-            let song_path = match env::var("RATATAT_SONG_PATH") {
-                Ok(path) => path,
-                Err(_) => {
-                    eprintln!("Error: RATATAT_SONG_PATH environment variable not set.");
-                    return;
+            if let Ok(song_path) = env::var("RATATAT_SONG_PATH") {
+                if let Err(e) = Command::new("mpg123").arg(song_path).spawn() {
+                    eprintln!("Failed to play song: {}", e);
                 }
-            };
-
-            if let Err(e) = Command::new("mpg123").arg(song_path).spawn() {
-                eprintln!("Failed to play song: {}", e);
+            } else {
+                eprintln!("Error: RATATAT_SONG_PATH environment variable not set.");
             }
         }
 
         if should_kill {
             println!("Kill sequence detected! Stopping audio players...");
-            // Run the pkill command to stop mpg123.
             if let Err(e) = Command::new("pkill").arg("mpg123").spawn() {
                 eprintln!("Failed to run pkill on mpg123: {}", e);
-            }
-            // Also run pkill on paplay.
-            if let Err(e) = Command::new("pkill").arg("paplay").spawn() {
-                eprintln!("Failed to run pkill on paplay: {}", e);
             }
         }
     };
 
+    // Bind the single, unified callback and start the listener.
     KeybdKey::bind_all(callback);
-    println!("Listener started. Type 'ratatat' to play a song. Press ESC 3 times to stop.");
+    println!("Listener started for Sonic Counter and Ratatat Player.");
     inputbot::handle_input_events();
 }
-

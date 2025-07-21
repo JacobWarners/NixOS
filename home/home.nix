@@ -4,7 +4,7 @@ let
   sonic-font = pkgs.stdenv.mkDerivation {
     pname = "sonic-custom-font";
     version = "1.0";
-    src = ./fonts/Sonic-regular.otf; # This path must be correct relative to home.nix
+    src = ./fonts/Sonic-Regular.otf; # This path must be correct relative to home.nix
     dontUnpack = true; # Tells Nix not to treat the source as an archive
     installPhase = ''
       mkdir -p $out/share/fonts/opentype

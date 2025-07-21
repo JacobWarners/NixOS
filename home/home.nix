@@ -97,7 +97,7 @@ in {
     zsh # Ensure Zsh is included in packages
     yazi
     pulseaudio
-    rofi-wayland
+#    rofi-wayland
     nwg-displays
     slurp
     wl-clipboard

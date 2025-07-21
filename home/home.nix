@@ -160,7 +160,10 @@ in {
   home.file = {
     # 1. Link the main layout file
     ".config/rofi/launcher.rasi".source = ./rofi-themes/launcher_style_6.rasi;
-
+    ".zshrc".source = ./dotfiles/.zshrc;
+    ".tmux.conf".source = ./dotfiles/.tmux.conf;
+    ".config/kitty".source = ./kitty; # Ensure this path exists and contains your Kitty config
+    ".config/scripts".source = ./scripts;
     # 2. Link the non-color parts of the 'shared' directory
     ".config/rofi/shared".source = ./rofi-themes/shared;
 

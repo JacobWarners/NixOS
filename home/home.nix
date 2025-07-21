@@ -11,7 +11,7 @@ let
     mkdir -p $out/share/fonts/opentype
     cp $src $out/share/fonts/opentype/Sonic-Regular.otf
   '';
-}; 
+};  
   # Define a custom package for your pac.ttf font
   pacman-font = pkgs.stdenv.mkDerivation {
     pname = "pacman-custom-font";
@@ -25,6 +25,14 @@ let
   };
 
 in {
+  # ======================================================================
+  # LINE 1: ADD THIS OPENING BLOCK. It tells NixOS this is for user "jake".
+  # ======================================================================
+  home-manager.users.jake = {
+
+  # YOUR ENTIRE ORIGINAL CONFIGURATION IS UNCHANGED BELOW THIS LINE
+  # V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V
+
   home.username = "jake";
   home.homeDirectory = "/home/jake";
   home.stateVersion = "25.05"; # Adjust this to match your Home Manager version
@@ -112,6 +120,7 @@ in {
     xdg-desktop-portal-hyprland
     # Add the custom font package here
     pacman-font
+    sonic-font # Make sure your new font is here
     # Common dependencies for scripts used in these kinds of themes
     jq # For parsing JSON in shell scripts
     playerctl # For media player controls
@@ -161,7 +170,8 @@ in {
 
   # Enable declarative font management
   fonts.fontconfig.enable = true;
-  fonts.fontconfig.packages = [ sonic-font ];
+  # This list now includes both fonts
+  fonts.fontconfig.packages = [ sonic-font pacman-font ];
 
   # Link dotfiles
   home.file.".zshrc".source = ./dotfiles/.zshrc;
@@ -421,7 +431,7 @@ in {
       # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
       # See https://wiki.hyprland.org/Configuring/Workspace-Rules/ for workspace rules
       windowrulev2 = noanim, class:^(ffxiv_dx11.exe)$
-      windowrulev2 = opaque, class:^(ffxiv_dx11.exe)$
+      windowruvele_v2 = opaque, class:^(ffxiv_dx11.exe)$
       windowrulev2 = fullscreen, class:^(ffxiv_dx11.exe)$
       windowrulev2 = movetomonitor, DP-3, class:^(ffxiv_dx11.exe)$
       windowrulev2 = center, 1, class:^(ffxiv_dx11.exe)$
@@ -436,4 +446,6 @@ in {
     ''; # <--- Closing apostrophe and semicolon for extraConfig
   };
   # --- END OF HYPRLAND HOME MANAGER CONFIGURATION ---
+
+  }; # <--- LINE 2: ADD THIS CLOSING BRACE AT THE VERY END OF THE FILE
 }

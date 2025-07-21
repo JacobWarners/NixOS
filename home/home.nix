@@ -114,6 +114,7 @@ in {
     nwg-displays
     slurp
     wl-clipboard
+    clipman
     grim
     libnotify
     sway-contrib.grimshot
@@ -169,7 +170,7 @@ home.file = {
   ".config/rofi/launcher.rasi".source = ./rofi-themes/launcher_style_6.rasi;
   ".config/rofi/shared".source = ./rofi-themes/shared;
   ".config/rofi/shared/fonts.rasi".source = ./rofi-themes/fonts.rasi;
-  ".config/rofi/shared/colors.rasi" = {
+  ".config/rofi/shared/colors.rasi".text = {
     source = selected-palette-text; # Uses the variable from the 'let' block
     force = true; # Overwrites the colors.rasi from the 'shared' directory link
   };

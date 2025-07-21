@@ -17,7 +17,7 @@ do
         if [ ! $L == $i ]; then
             # This is your 'O' for empty workspaces, now colored yellow.
             # I've used the character 'O' as requested.
-            echo -n "<span color='${COLOR_EMPTY}'>O</span>   "
+            echo -n "<span color='${COLOR_EMPTY}'>o</span>   "
         fi
         L=$(( $L + 1 ))
     done

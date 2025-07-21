@@ -151,7 +151,8 @@ in {
 
   programs.rofi = {
     enable = true;
-    theme = "${pkgs.catppuccin-rofi}/share/rofi/themes/catppuccin-macchiato-mauve.rasi";
+#    theme = "${pkgs.catppuccin-rofi}/share/rofi/themes/catppuccin-macchiato-mauve.rasi";
+    theme = "${config.home.homeDirectory}/.config/rofi/themes/gruvbox-dark.rasi";
   };
   # --- CONSOLIDATED HOME MANAGER SESSION VARIABLES ---
   home.sessionVariables = {

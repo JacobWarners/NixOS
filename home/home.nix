@@ -245,6 +245,7 @@ in {
       # See https://wiki.hyprland.org/Configuring/Environment-variables/
       env = XCURSOR_SIZE,24
       env = HYPRCURSOR_SIZE,24
+      env = DRI_PRIME,1
       # Add other environment variables if needed, e.g., MOZ_ENABLE_WAYLAND, QT_QPA_PLATFORM
 
       #####################
@@ -409,6 +410,7 @@ in {
       windowrulev2 = noanim, class:^(ffxiv_dx11.exe)$
       windowrulev2 = opaque, class:^(ffxiv_dx11.exe)$
       windowrulev2 = fullscreen, class:^(ffxiv_dx11.exe)$
+      windowrulev2 = movetomonitor, DP-3, class:^(ffxiv_dx11.exe)$
       
       # Example windowrule v1
       # windowrule = float, ^(kitty)$
@@ -416,7 +418,6 @@ in {
       # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
       # Ignore maximize requests from apps. You'll probably like this.
       windowrulev2 = suppressevent maximize, class:.*
-      # Fix some dragging issues with XWayland
       windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
     ''; # <--- Closing apostrophe and semicolon for extraConfig
   };

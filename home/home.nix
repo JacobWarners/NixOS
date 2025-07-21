@@ -81,7 +81,7 @@ in {
   sonic-font = pkgs.stdenv.mkDerivation {
   pname = "sonic-custom-font";
   version = "1.0";
-  src = ./fonts/Sonic-Regular.otf; # Points to your new font file
+  src = ../fonts/Sonic-Regular.otf; # Points to your new font file
   dontUnpack = true;
 
   installPhase = ''

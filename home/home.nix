@@ -11,14 +11,19 @@ let
       cp $src $out/share/fonts/opentype/Sonic-Regular.otf
     '';
   };
+
+    # ... (your sonic-font and pacman-font definitions) ...
+
+  # CHOOSE YOUR ROFI THEME PALETTE HERE
   active-rofi-palette = "catppuccin"; # or "gruvbox"
 
-  # This maps your choice to the actual file path
   palette-map = {
     gruvbox = ./rofi-themes/gruvbox.rasi;
     catppuccin = ./rofi-themes/catppuccin.rasi;
   };
-  selected-palette-file = palette-map.${active-rofi-palette};
+
+  # This now READS the content of the selected file
+  selected-palette-text = builtins.readFile palette-map.${active-rofi-palette};
 
 
   # Define a custom package for your pac.ttf font
@@ -163,8 +168,9 @@ home.file = {
   # --- Rofi Theme Files ---
   ".config/rofi/launcher.rasi".source = ./rofi-themes/launcher_style_6.rasi;
   ".config/rofi/shared".source = ./rofi-themes/shared;
+  ".config/rofi/shared/fonts.rasi".source = ./rofi-themes/fonts.rasi;
   ".config/rofi/shared/colors.rasi" = {
-    source = selected-palette-file; # Uses the variable from the 'let' block
+    source = selected-palette-text; # Uses the variable from the 'let' block
     force = true; # Overwrites the colors.rasi from the 'shared' directory link
   };
 

@@ -7,7 +7,7 @@ do
 	while [ $L -le $i ]
 	do
 		if [ ! $L == $i ]; then
-			echo -n "   "
+			echo -n " O    "
 		fi
 		L=$(( $L + 1 ))
 	done

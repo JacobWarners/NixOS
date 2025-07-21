@@ -11,7 +11,7 @@ let
       cp $src $out/share/fonts/opentype/Sonic-Regular.otf
     '';
   };
-  active-rofi-palette = "gruvbox"; # or "catppuccin"
+  active-rofi-palette = "catppuccin"; # or "gruvbox"
 
   # This maps your choice to the actual file path
   palette-map = {

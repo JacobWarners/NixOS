@@ -1,17 +1,6 @@
 { config, pkgs, inputs, ... }:
 
 let
-  sonic-font = pkgs.stdenv.mkDerivation {
-  pname = "sonic-custom-font";
-  version = "1.0";
-  src = ../fonts/Sonic-Regular.otf; # Points to your new font file
-  dontUnpack = true;
-
-  installPhase = ''
-    mkdir -p $out/share/fonts/opentype
-    cp $src $out/share/fonts/opentype/Sonic-Regular.otf
-  '';
-};  
   # Define a custom package for your pac.ttf font
   pacman-font = pkgs.stdenv.mkDerivation {
     pname = "pacman-custom-font";
@@ -25,9 +14,6 @@ let
   };
 
 in {
-  # This file is now back to its original, correct structure.
-  # NO "home-manager.users.jake" wrapper is needed here.
-
   home.username = "jake";
   home.homeDirectory = "/home/jake";
   home.stateVersion = "25.05"; # Adjust this to match your Home Manager version
@@ -115,7 +101,6 @@ in {
     xdg-desktop-portal-hyprland
     # Add the custom font package here
     pacman-font
-    sonic-font # Make sure your new font is here
     # Common dependencies for scripts used in these kinds of themes
     jq # For parsing JSON in shell scripts
     playerctl # For media player controls
@@ -165,8 +150,6 @@ in {
 
   # Enable declarative font management
   fonts.fontconfig.enable = true;
-  # This list now includes both fonts
-  fonts.fontconfig.packages = [ sonic-font pacman-font ];
 
   # Link dotfiles
   home.file.".zshrc".source = ./dotfiles/.zshrc;
@@ -441,5 +424,4 @@ in {
     ''; # <--- Closing apostrophe and semicolon for extraConfig
   };
   # --- END OF HYPRLAND HOME MANAGER CONFIGURATION ---
-
 }

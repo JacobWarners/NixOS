@@ -1,6 +1,18 @@
 { config, pkgs, inputs, ... }:
 
 let
+  sonic-font = pkgs.stdenv.mkDerivation {
+    pname = "sonic-custom-font";
+    version = "1.0";
+    src = ./fonts/Sonic-regular.otf; # This path must be correct relative to home.nix
+    dontUnpack = true; # Tells Nix not to treat the source as an archive
+    installPhase = ''
+      mkdir -p $out/share/fonts/opentype
+      cp $src $out/share/fonts/opentype/Sonic-Regular.otf
+    '';
+  };
+
+
   # Define a custom package for your pac.ttf font
   pacman-font = pkgs.stdenv.mkDerivation {
     pname = "pacman-custom-font";
@@ -101,6 +113,7 @@ in {
     xdg-desktop-portal-hyprland
     # Add the custom font package here
     pacman-font
+    sonic-font
     # Common dependencies for scripts used in these kinds of themes
     jq # For parsing JSON in shell scripts
     playerctl # For media player controls

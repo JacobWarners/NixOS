@@ -7,14 +7,14 @@ do
 	while [ $L -le $i ]
 	do
 		if [ ! $L == $i ]; then
-			echo -n "A    "
+			echo -n "e    "
 		fi
 		L=$(( $L + 1 ))
 	done
 	if [ $A == $i ]; then
-		echo -n "B    "
+		echo -n "p    "
 	else
-		echo -n "C    "
+		echo -n "g    "
 	fi
 done
 echo ""

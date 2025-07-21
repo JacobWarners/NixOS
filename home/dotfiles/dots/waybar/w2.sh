@@ -1,72 +1,35 @@
 #!/usr/bin/env sh
 
-# --- Configuration ---
-# Define the icons and colors you want for each state.
-# This makes it easy to change them later.
-ICON_ACTIVE='A'
-ICON_OCCUPIED='C'
-ICON_EMPTY='O'
-
+# --- Define Your Colors ---
 COLOR_ACTIVE='blue'
-COLOR_OCCUPIED='green'
+COLOR_INACTIVE='green'
 COLOR_EMPTY='yellow'
-# --------------------
 
-# 1. Determine the Primary Monitor and its Active Workspace
-# We check for DP-3, then DP-7, and fall back to eDP-1.
-if hyprctl monitors | grep -q "DP-3"; then
-    PRIMARY_MONITOR="DP-3"
-elif hyprctl monitors | grep -q "DP-7"; then
-    PRIMARY_MONITOR="DP-7"
-else
-    PRIMARY_MONITOR="eDP-1"
-fi
-ACTIVE_WS=$(hyprctl monitors | grep "Monitor $PRIMARY_MONITOR" -A 7 | grep 'active workspace' | awk '{print $3}')
+# --- Your Original Logic ---
+A=$(hyprctl monitors | grep workspace | head -n 1 | awk '{print $3}')
+L=1
 
-# 2. Get all occupied workspaces
-# This creates a list of workspaces that have at least one window.
-OCCUPIED_WSP=$(hyprctl workspaces | grep "windows: [1-9]" | awk '{print $3}' | sort -n)
-
-# 3. Find the highest numbered workspace that is occupied
-# This prevents us from printing infinite empty 'O's.
-LAST_WSP=$(echo "$OCCUPIED_WSP" | tail -n 1)
-if [ -z "$LAST_WSP" ]; then
-    LAST_WSP=0
-fi
-
-# 4. Loop from 1 to the last occupied workspace and build the output
-FINAL_OUTPUT=""
-for i in $(seq 1 "$LAST_WSP"); do
-    STATUS="EMPTY" # Default to empty
-
-    # Check if the workspace is in our list of occupied ones
-    for ws in $OCCUPIED_WSP; do
-        if [ "$i" -eq "$ws" ]; then
-            STATUS="OCCUPIED"
-            break
+# The only change is wrapping the output of each 'echo' in a span tag for color.
+for i in $(hyprctl workspaces | grep "workspace ID" | grep -v lastwindowtitle | cut -d ' ' -f 3 | sort -g)
+do
+    while [ $L -le $i ]
+    do
+        if [ ! $L == $i ]; then
+            # This is your 'O' for empty workspaces, now colored yellow.
+            # I've used the character 'O' as requested.
+            echo -n "<span color='${COLOR_EMPTY}'>O</span>   "
         fi
+        L=$(( $L + 1 ))
     done
 
-    # The active workspace always takes top priority
-    if [ "$i" -eq "$ACTIVE_WS" ]; then
-        STATUS="ACTIVE"
+    if [ "$A" -eq "$i" ]; then
+        # This is your 'A' for the active workspace, now colored blue.
+        echo -n "<span color='${COLOR_ACTIVE}'>A</span>   "
+    else
+        # This is your 'C' for inactive but occupied workspaces, now colored green.
+        echo -n "<span color='${COLOR_INACTIVE}'>C</span>   "
     fi
-
-    # 5. Append the correctly formatted and colored icon to our output string
-    case $STATUS in
-        "ACTIVE")
-            FINAL_OUTPUT="${FINAL_OUTPUT}<span color='${COLOR_ACTIVE}'>${ICON_ACTIVE}</span>"
-            ;;
-        "OCCUPIED")
-            FINAL_OUTPUT="${FINAL_OUTPUT}<span color='${COLOR_OCCUPIED}'>${ICON_OCCUPIED}</span>"
-            ;;
-        "EMPTY")
-            FINAL_OUTPUT="${FINAL_OUTPUT}<span color='${COLOR_EMPTY}'>${ICON_EMPTY}</span>"
-            ;;
-    esac
-    # Add spacing between icons
-    FINAL_OUTPUT="${FINAL_OUTPUT} "
 done
 
-# 6. Print the final result to Waybar
-echo "$FINAL_OUTPUT"
+# This final echo prevents the next shell prompt from appearing on the same line.
+echo ""

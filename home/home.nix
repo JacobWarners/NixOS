@@ -11,6 +11,13 @@ let
       cp $src $out/share/fonts/opentype/Sonic-Regular.otf
     '';
   };
+  active-rofi-palette = "gruvbox"; # or "catppuccin"
+
+  # This maps your choice to the actual file path
+  palette-map = {
+    gruvbox = ./rofi-themes/gruvbox.rasi;
+    catppuccin = ./rofi-themes/catppuccin.rasi;
+  };
 
 
   # Define a custom package for your pac.ttf font
@@ -149,18 +156,26 @@ in {
     '';
   };
 ############# ROFI ############
-  home.file.".config/rofi/themes/launcher_style_6.rasi".source = ./rofi-themes/launcher_style_6.rasi;
-  home.file.".config/rofi/themes/catppuccin.rasi".source = ./rofi-themes/catppuccin.rasi;
-  home.file.".config/rofi/themes/shared".source = ./rofi-themes/shared;
+  home.file = {
+    # 1. Link the main layout file
+    ".config/rofi/launcher.rasi".source = ./rofi-themes/launcher_style_6.rasi;
+
+    # 2. Link the non-color parts of the 'shared' directory
+    ".config/rofi/shared".source = ./rofi-themes/shared;
+
+    # 3. CRITICAL STEP: Create a symlink for the colors.
+    #    This creates a file at ~/.config/rofi/shared/colors.rasi that points
+    #    to your selected palette file (e.g., gruvbox.rasi).
+    ".config/rofi/shared/colors.rasi" = {
+      source = selected-palette-file;
+      force = true; # Allow overwriting the file from the directory link above
+    };
+  };
+
   programs.rofi = {
     enable = true;
-#    theme = "${pkgs.catppuccin-rofi}/share/rofi/themes/catppuccin-macchiato-mauve.rasi";
-    theme = "${config.home.homeDirectory}/.config/rofi/themes/launcher_style_6.rasi";
-  };
-  # --- CONSOLIDATED HOME MANAGER SESSION VARIABLES ---
-  home.sessionVariables = {
-    PATH = "${config.home.homeDirectory}/.local/bin:$PATH";
-    XDG_DATA_DIRS = "${config.home.homeDirectory}/.nix-profile/share:/run/current-system/sw/share:/usr/local/share:/usr/share";
+    # Point rofi to the main layout file
+    theme = "${config.home.homeDirectory}/.config/rofi/launcher.rasi";
   };
   # --- END OF CONSOLIDATED HOME MANAGER SESSION VARIABLES ---
 

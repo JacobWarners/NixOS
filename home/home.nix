@@ -167,12 +167,15 @@ in {
 
 home.file = {
   # --- Rofi Theme Files ---
+  # 1. Link the main layout file.
   ".config/rofi/launcher.rasi".source = ./rofi-themes/launcher_style_6.rasi;
-  ".config/rofi/shared".source = ./rofi-themes/shared;
+
+  # 2. Link your `fonts.rasi` file to where the theme expects it.
   ".config/rofi/shared/fonts.rasi".source = ./rofi-themes/fonts.rasi;
-  ".config/rofi/shared/colors.rasi".text = {
-    source = selected-palette-text; # Uses the variable from the 'let' block
-  };
+
+  # 3. Create the `colors.rasi` file using the text from your chosen palette.
+  #    This is the corrected syntax.
+  ".config/rofi/shared/colors.rasi".text = selected-palette-text;
 
   # --- Your Other Dotfiles ---
   ".zshrc".source = ./dotfiles/.zshrc;
@@ -180,7 +183,6 @@ home.file = {
   ".config/kitty".source = ./kitty;
   ".config/scripts".source = ./scripts;
 };
-
 # You can place the programs.rofi block after the home.file block
 programs.rofi = {
   enable = true;

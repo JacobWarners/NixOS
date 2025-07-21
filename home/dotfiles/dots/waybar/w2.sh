@@ -17,17 +17,17 @@ do
         if [ ! $L == $i ]; then
             # This is your 'O' for empty workspaces, now colored yellow.
             # I've used the character 'O' as requested.
-            echo -n "<span color='${COLOR_EMPTY}'>o</span>   "
+            echo -n " <span color='${COLOR_EMPTY}'>o</span>   "
         fi
         L=$(( $L + 1 ))
     done
 
     if [ "$A" -eq "$i" ]; then
         # This is your 'A' for the active workspace, now colored blue.
-        echo -n "<span color='${COLOR_ACTIVE}'>A</span>   "
+        echo -n " <span color='${COLOR_ACTIVE}'>A</span>   "
     else
         # This is your 'C' for inactive but occupied workspaces, now colored green.
-        echo -n "<span color='${COLOR_INACTIVE}'>C</span>   "
+        echo -n " <span color='${COLOR_INACTIVE}'>C</span>   "
     fi
 done
 

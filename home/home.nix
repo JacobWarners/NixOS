@@ -78,6 +78,17 @@ in {
     enable = true;
   };
   # --- END: Theme and Cursor Configuration ---
+  sonic-font = pkgs.stdenv.mkDerivation {
+  pname = "sonic-custom-font";
+  version = "1.0";
+  src = ./fonts/Sonic-Regular.otf; # Points to your new font file
+  dontUnpack = true;
+
+  installPhase = ''
+    mkdir -p $out/share/fonts/opentype
+    cp $src $out/share/fonts/opentype/Sonic-Regular.otf
+  '';
+};
 
   # Install user-specific packages
   home.packages = with pkgs; [
@@ -219,7 +230,7 @@ in {
       # See https://wiki.hyprland.org/Configuring/Keywords/
       # Set programs that you use
       $terminal = kitty
-      $fileManager = dolphin
+      $fileManager = nautilus
       $menu = rofi-wayland --show drun
 
       #################

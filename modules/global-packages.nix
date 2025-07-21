@@ -11,6 +11,7 @@
     kitty
     wget
     git
+    nautilus
     btop
     mpg123
     ffmpeg

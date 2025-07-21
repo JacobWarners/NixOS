@@ -411,6 +411,7 @@ in {
       windowrulev2 = opaque, class:^(ffxiv_dx11.exe)$
       windowrulev2 = fullscreen, class:^(ffxiv_dx11.exe)$
       windowrulev2 = movetomonitor, DP-3, class:^(ffxiv_dx11.exe)$
+      windowrulev2 = center, 1, class:^(ffxiv_dx11.exe)$
       
       # Example windowrule v1
       # windowrule = float, ^(kitty)$

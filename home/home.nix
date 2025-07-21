@@ -18,6 +18,7 @@ let
     gruvbox = ./rofi-themes/gruvbox.rasi;
     catppuccin = ./rofi-themes/catppuccin.rasi;
   };
+  selected-palette-file = palette-map.${active-rofi-palette};
 
 
   # Define a custom package for your pac.ttf font

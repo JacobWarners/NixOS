@@ -152,7 +152,7 @@ in {
   programs.rofi = {
     enable = true;
     theme = "${pkgs.catppuccin-rofi}/share/rofi/themes/catppuccin-macchiato-mauve.rasi";
-
+  };
   # --- CONSOLIDATED HOME MANAGER SESSION VARIABLES ---
   home.sessionVariables = {
     PATH = "${config.home.homeDirectory}/.local/bin:$PATH";

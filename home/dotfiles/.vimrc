@@ -26,10 +26,14 @@ set showmatch
 " Toggle paste, first always set to paste then toggle here
 set paste
 set pastetoggle=<F2>
-set clipboard=unnamedplus
 
 set mouse=a
 
 " Exit to directory with Q
 nnoremap Q :Rexplore<CR>
 inoremap jj <Esc>
+
+xnoremap "+y y:call system("wl-copy", @")<cr>
+nnoremap "+p :let @"=substitute(system("wl-paste --no-newline"), '\<C-v><C-m>', '', 'g')<cr>p
+nnoremap "*p :let @"=substitute(system("wl-paste --no-newline --primary"), '\<C-v><C-m>', '', 'g')<cr>p
+

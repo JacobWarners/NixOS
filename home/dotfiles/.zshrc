@@ -124,17 +124,3 @@ play_sound_on_error() {
   fi
 }
 add-zsh-hook precmd play_sound_on_error
-# ========================================================
-# 3. Directly bind the bell character (^G) to our new widget.
-#    This is more forceful than aliasing the 'beep' widget.
-# function x() {
-#   local last_arg
-#   last_arg="$(fc -ln -1 | awk '{print $NF}')"
-#   if [ -f "$last_arg" ]; then
-#     \cat "$last_arg" | xclip -selection clipboard
-#   else
-#     echo "Error: '$last_arg' is not a valid file."
-#   fi
-#}
-
-

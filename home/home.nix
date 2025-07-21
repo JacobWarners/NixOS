@@ -151,6 +151,7 @@ in {
 ############# ROFI ############
   home.file.".config/rofi/themes/launcher_style_6.rasi".source = ./rofi-themes/launcher_style_6.rasi;
   home.file.".config/rofi/themes/catppuccin.rasi".source = ./rofi-themes/catppuccin.rasi;
+  home.file.".config/rofi/themes/shared".source = ./rofi-themes/shared;
   programs.rofi = {
     enable = true;
 #    theme = "${pkgs.catppuccin-rofi}/share/rofi/themes/catppuccin-macchiato-mauve.rasi";

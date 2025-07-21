@@ -191,11 +191,6 @@ in {
   # Enable declarative font management
   fonts.fontconfig.enable = true;
 
-  # Link dotfiles
-  home.file.".zshrc".source = ./dotfiles/.zshrc;
-  home.file.".tmux.conf".source = ./dotfiles/.tmux.conf;
-  home.file.".config/kitty".source = ./kitty; # Ensure this path exists and contains your Kitty config
-  home.file.".config/scripts".source = ./scripts;
   # The incorrect font link has been removed from here.
   xdg.configFile."eww".source = ./dotfiles/dots/eww;
   xdg.configFile."waybar".source = ./dotfiles/dots/waybar;

@@ -1,6 +1,17 @@
 { config, pkgs, inputs, ... }:
 
 let
+  sonic-font = pkgs.stdenv.mkDerivation {
+  pname = "sonic-custom-font";
+  version = "1.0";
+  src = ../fonts/Sonic-Regular.otf; # Points to your new font file
+  dontUnpack = true;
+
+  installPhase = ''
+    mkdir -p $out/share/fonts/opentype
+    cp $src $out/share/fonts/opentype/Sonic-Regular.otf
+  '';
+}; 
   # Define a custom package for your pac.ttf font
   pacman-font = pkgs.stdenv.mkDerivation {
     pname = "pacman-custom-font";
@@ -78,17 +89,7 @@ in {
     enable = true;
   };
   # --- END: Theme and Cursor Configuration ---
-  sonic-font = pkgs.stdenv.mkDerivation {
-  pname = "sonic-custom-font";
-  version = "1.0";
-  src = ../fonts/Sonic-Regular.otf; # Points to your new font file
-  dontUnpack = true;
 
-  installPhase = ''
-    mkdir -p $out/share/fonts/opentype
-    cp $src $out/share/fonts/opentype/Sonic-Regular.otf
-  '';
-};
 
   # Install user-specific packages
   home.packages = with pkgs; [
@@ -160,6 +161,7 @@ in {
 
   # Enable declarative font management
   fonts.fontconfig.enable = true;
+  fonts.fontconfig.packages = [ sonic-font ];
 
   # Link dotfiles
   home.file.".zshrc".source = ./dotfiles/.zshrc;

@@ -107,12 +107,12 @@ export EDITOR="$VISUAL"
 
 # PART 1: Hijack the Terminal Bell (^G) for tab-completion failures.
 # -----------------------------------------------------------------
-my_custom_bell() {
-  bash /home/jake/.config/waybar/scripts/play-random-fail.sh > /dev/null 2>&1 &
-}
-zle -N my_custom_bell
-bindkey '^G' my_custom_bell
-
+#my_custom_bell() {
+#  bash /home/jake/.config/waybar/scripts/play-random-fail.sh > /dev/null 2>&1 &|
+#}
+#zle -N my_custom_bell
+#bindkey '^G' my_custom_bell
+#
 
 # PART 2: Play a sound when any command exits with an error status.
 # -----------------------------------------------------------------
@@ -120,7 +120,7 @@ autoload -U add-zsh-hook
 play_sound_on_error() {
   # Check if the last command's exit code ($?) was not 0 (success).
   if [[ $? -ne 0 ]]; then
-    bash /home/jake/.config/waybar/scripts/play-random-fail.sh > /dev/null 2>&1 &
+    bash /home/jake/.config/waybar/scripts/play-random-fail.sh > /dev/null 2>&1 &|
   fi
 }
 add-zsh-hook precmd play_sound_on_error

@@ -12,7 +12,6 @@ let
     '';
   };
 
-    # ... (your sonic-font and pacman-font definitions) ...
 
   # CHOOSE YOUR ROFI THEME PALETTE HERE
   active-rofi-palette = "catppuccin"; # or "gruvbox"
@@ -24,19 +23,6 @@ let
 
   # This now READS the content of the selected file
   selected-palette-text = builtins.readFile palette-map.${active-rofi-palette};
-
-
-  # Define a custom package for your pac.ttf font
-  pacman-font = pkgs.stdenv.mkDerivation {
-    pname = "pacman-custom-font";
-    version = "1.0";
-    src = ./dotfiles/dots/waybar/pac.ttf; # This path must be correct relative to home.nix
-    dontUnpack = true; # Tells Nix not to treat the source as an archive
-    installPhase = ''
-      mkdir -p $out/share/fonts/truetype
-      cp $src $out/share/fonts/truetype/pac.ttf
-    '';
-  };
 
 in {
   home.username = "jake";
@@ -126,7 +112,6 @@ in {
     xdg-desktop-portal
     xdg-desktop-portal-hyprland
     # Add the custom font package here
-    pacman-font
     sonic-font
     # Common dependencies for scripts used in these kinds of themes
     jq # For parsing JSON in shell scripts

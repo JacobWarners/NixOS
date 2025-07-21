@@ -157,30 +157,29 @@ in {
     '';
   };
 ############# ROFI ############
-  home.file = {
-    # 1. Link the main layout file
-    ".config/rofi/launcher.rasi".source = ./rofi-themes/launcher_style_6.rasi;
-    ".zshrc".source = ./dotfiles/.zshrc;
-    ".tmux.conf".source = ./dotfiles/.tmux.conf;
-    ".config/kitty".source = ./kitty; # Ensure this path exists and contains your Kitty config
-    ".config/scripts".source = ./scripts;
-    # 2. Link the non-color parts of the 'shared' directory
-    ".config/rofi/shared".source = ./rofi-themes/shared;
+# Find and replace your home.file definitions with this single block
 
-    # 3. CRITICAL STEP: Create a symlink for the colors.
-    #    This creates a file at ~/.config/rofi/shared/colors.rasi that points
-    #    to your selected palette file (e.g., gruvbox.rasi).
-    ".config/rofi/shared/colors.rasi" = {
-      source = selected-palette-file;
-      force = true; # Allow overwriting the file from the directory link above
-    };
+home.file = {
+  # --- Rofi Theme Files ---
+  ".config/rofi/launcher.rasi".source = ./rofi-themes/launcher_style_6.rasi;
+  ".config/rofi/shared".source = ./rofi-themes/shared;
+  ".config/rofi/shared/colors.rasi" = {
+    source = selected-palette-file; # Uses the variable from the 'let' block
+    force = true; # Overwrites the colors.rasi from the 'shared' directory link
   };
 
-  programs.rofi = {
-    enable = true;
-    # Point rofi to the main layout file
-    theme = "${config.home.homeDirectory}/.config/rofi/launcher.rasi";
-  };
+  # --- Your Other Dotfiles ---
+  ".zshrc".source = ./dotfiles/.zshrc;
+  ".tmux.conf".source = ./dotfiles/.tmux.conf;
+  ".config/kitty".source = ./kitty;
+  ".config/scripts".source = ./scripts;
+};
+
+# You can place the programs.rofi block after the home.file block
+programs.rofi = {
+  enable = true;
+  theme = "${config.home.homeDirectory}/.config/rofi/launcher.rasi";
+};
   # --- END OF CONSOLIDATED HOME MANAGER SESSION VARIABLES ---
 
   services.ratatat-listener.enable = true;

@@ -58,7 +58,7 @@ in {
     iconTheme = {
       package = pkgs.catppuccin-papirus-folders.override {
         flavor = "macchiato";
-        accent = "lavender";
+        accent = "teal";
       };
       name = "Papirus-Dark";
     };
@@ -100,7 +100,6 @@ in {
     nwg-displays
     slurp
     wl-clipboard
-    clipman
     xclip
     grim
     libnotify
@@ -267,8 +266,7 @@ programs.rofi = {
       exec-once = dunst &
       # exec-once = nm-applet & # Uncomment if you use networkmanager applet
       exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP # Recommended for some apps
-      exec-once = ${pkgs.wl-clipboard}/bin/wl-paste --type text --watch ${pkgs.clipman}/bin/clipman store
-      exec-once = ${pkgs.wl-clipboard}/bin/wl-paste --type image --watch ${pkgs.clipman}/bin/clipman store
+      exec-once = ${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store
 
       #############################
       ### ENVIRONMENT VARIABLES ###

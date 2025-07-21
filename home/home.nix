@@ -172,7 +172,6 @@ home.file = {
   ".config/rofi/shared/fonts.rasi".source = ./rofi-themes/fonts.rasi;
   ".config/rofi/shared/colors.rasi".text = {
     source = selected-palette-text; # Uses the variable from the 'let' block
-    force = true; # Overwrites the colors.rasi from the 'shared' directory link
   };
 
   # --- Your Other Dotfiles ---

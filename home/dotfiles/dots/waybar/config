@@ -54,11 +54,9 @@
         ]
     },
     "custom/workspaces": {
-        "exec": "~/.config/waybar/w2.sh",
+        "exec": "~/.config/waybar/test.sh",
 	"format": "{}",
         "interval": 1,
-        "tooltip": false,
-        "tooltip-format": "Workspaces"
     },
     "custom/cpuicon": {
         "format": " ",

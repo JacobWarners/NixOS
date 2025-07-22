@@ -22,5 +22,14 @@
     bluez
     blueman
   ];
+  services.tlp.settings = {
+  # ... other TLP settings
+
+  # Ensure bluetooth is not listed in devices to disable
+  DEVICES_TO_DISABLE_ON_STARTUP = ""; # Or ensure "bluetooth" is not in the list
+
+  # Or more explicitly, tell it to restore the bluetooth state
+  RESTORE_DEVICE_STATE_ON_STARTUP = 1;
+};
 }
 

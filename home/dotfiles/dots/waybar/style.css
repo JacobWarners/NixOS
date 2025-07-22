@@ -194,12 +194,14 @@ window#waybar {
     min-width: 120px; /* 180px / 1.5 = 120px */
 }
 #bluetooth {
-    /* This is the default color when OFF */
+    border-radius: 8px;
+    border: 0px solid;  /* This is the default color when OFF */
     color: #9399b2; /* A muted, grayish color */
 }
 
 #bluetooth.on {
-    /* This color is applied when ON but not connected */
+    border-radius: 8px;
+    border: 0px solid;  /* This is the default color when OFF */
     color: #89b4fa; /* A nice blue */
 }
 

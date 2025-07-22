@@ -18,5 +18,5 @@ fi
 # --- Output JSON for Waybar ---
 # We'll add a diamond icon for flair. You can change it to any icon or text.
 # The tooltip will show a helpful message when you hover over it.
-printf '{"text": "💎 %s", "tooltip": "Current Score: %s", "class": "counter"}\n' "$count" "$count"
+printf '{"text": "%s", "tooltip": "Current Score: %s", "class": "counter"}\n' "$count" "$count"
 

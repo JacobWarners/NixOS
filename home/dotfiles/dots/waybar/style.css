@@ -45,13 +45,10 @@ window#waybar {
     border-radius: 8px;
 }
 #custom-nyt{
-    background-color: #f9e2af;
-    background: #2e3336;
+    background-image: url(~/.config/waybar/spelling-bee.png);
     border: 0px solid;
     border-radius: 8px;
     padding: 0 10px;
-    font-size: 24px;
-    color: #f7da21;
 }
 
 #custom-workspaces{

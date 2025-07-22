@@ -3,7 +3,7 @@
 # --- Define Your Colors ---
 COLOR_ACTIVE='#03d7fc'
 COLOR_INACTIVE='#03fc45'
-COLOR_EMPTY='yellow'
+COLOR_EMPTY='#e6e600'
 
 # --- Your Original Logic ---
 A=$(hyprctl monitors | grep workspace | head -n 1 | awk '{print $3}')

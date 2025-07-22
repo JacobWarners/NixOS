@@ -149,6 +149,47 @@ in {
       set clipboard=unnamedplus
     '';
   };
+# In your home.nix
+
+programs.neovim = {
+  enable = true;
+  # Neovim can use the same plugins
+  plugins = with pkgs.vimPlugins; [
+    gruvbox
+    vim-sensible # This was in your :scriptnames output
+  ];
+  # Copy your Vim settings here
+  extraConfig = ''
+    " Adds syntax highlighting
+    syntax on
+    " Color scheme
+    colorscheme gruvbox
+    set background=dark
+    " Enable line numbers
+    set number
+    " Set cursorline
+    set cursorline
+    " Show matching parentheses
+    set showmatch
+    " Toggle paste with F2
+    set pastetoggle=<F2>
+    " Enable mouse support
+    set mouse=a
+    " Custom keybinding to exit directory with Q
+    nnoremap Q :Rexplore<CR>
+    inoremap jj <Esc>
+
+    " --- Neovim's working clipboard config ---
+    set clipboard+=unnamedplus
+
+    let g:clipboard = {
+    \   'name': 'wl-clipboard',
+    \   'copy': {'+': 'wl-copy', '*': 'wl-copy'},
+    \   'paste': {'+': 'wl-paste', '*': 'wl-paste'},
+    \   'cache_enabled': 1,
+    \ }
+  '';
+};
 ############# ROFI ############
 # Find and replace your home.file definitions with this single block
 

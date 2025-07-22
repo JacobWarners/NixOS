@@ -252,7 +252,4 @@ window#waybar {
   background-image: url("/home/jake/Pictures/sonic-pixels/sonic-sprite-sonic1.gif");
   background-size: contain;
   background-repeat: no-repeat;
-  
-  /* CORRECTED: The horizontal position (left 5px) comes before the vertical (center) */
-  background-position: left 5px center;
 }

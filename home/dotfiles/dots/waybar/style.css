@@ -45,7 +45,7 @@ window#waybar {
     border-radius: 8px;
 }
 #custom-nyt{
-    background-image: url(/home/jake/.config/waybar/spelling-bee.png);
+    background-image: url("/home/jake/.config/waybar/spelling-bee.png");
     border: 0px solid;
     border-radius: 8px;
     padding: 0 10px;

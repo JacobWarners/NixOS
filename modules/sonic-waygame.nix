@@ -1,6 +1,6 @@
 # In your NixOS configuration (e.g., configuration.nix or home.nix)
 
-systemd.user.services.key-counter-daemon = {
+systemd.user.services.key-counter-daemon {
   # A short description for the service
   description = "A daemon that counts keystrokes and manages game states for Waybar.";
 
@@ -20,4 +20,3 @@ systemd.user.services.key-counter-daemon = {
     RestartSec = "1s";
   };
 };
-

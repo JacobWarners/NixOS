@@ -31,7 +31,7 @@ do
     done
 
     if [ "$A" -eq "$i" ]; then
-        if [ "$BATT_LEVEL" -eq 46 ]; then
+        if [ "$BATT_LEVEL" -eq 52 ]; then
             output_text="${output_text}<span color='${COLOR_SUPER_CHARGE}'>B</span>   "
             css_class="super-charge-flash" # Set class for full battery
         else

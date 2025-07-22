@@ -239,16 +239,20 @@ window#waybar {
 #custom-cpu-governor.powersave {
   color: #35b056; /* Yellow */
 }
-
 #custom-counter {
-  background-image: url("/home/jake/Pictures/sonic-pixels/sonic-sprite-sonic1.gif");
-  background-color: #175b70; /* A nice "slate blue" color */
-  background-size: contain;   /* or 'cover' */
-  background-repeat: no-repeat;
-  background-position: center left 5px; /* Position image on the left */
+  /* --- These properties are for the module's box --- */
+  background-color: #175b70;
   color: #ffffff;
-  padding: 0 12px;
+  padding: 0 12px 0 30px; /* Top, Right, Bottom, Left (30px on left for image) */
   margin: 0 5px;
   border-radius: 8px;
   font-weight: bold;
+
+  /* --- These properties are for the background image --- */
+  background-image: url("/home/jake/Pictures/sonic-pixels/sonic-sprite-sonic1.gif");
+  background-size: contain;
+  background-repeat: no-repeat;
+  
+  /* CORRECTED: The horizontal position (left 5px) comes before the vertical (center) */
+  background-position: left 5px center;
 }

@@ -12,7 +12,7 @@ COLOR_EMPTY='#e6e600'
 COLOR_SUPER_CHARGE='#fcf403'
 
 # --- Get Battery Level ---
-BATT_PATH="/sys/class/power_supply/BAT0" # Adjust if your battery is not BAT0
+BATT_PATH="/sys/class/power_supply/BAT1" # Adjust if your battery is not BAT0
 BATT_LEVEL=0
 if [ -f "${BATT_PATH}/capacity" ]; then
     BATT_LEVEL=$(cat "${BATT_PATH}/capacity")
@@ -51,7 +51,7 @@ do
     if [ "$A" -eq "$i" ]; then
         echo "DEBUG: MATCH FOUND! Now checking battery." >> "$LOG_FILE"
         # NOTE: Set your test battery level here
-        if [ "$BATT_LEVEL" -eq 69 ]; then
+        if [ "$BATT_LEVEL" -eq 74 ]; then
             echo "DEBUG: Battery match. Setting class to 'super-charge-flash'." >> "$LOG_FILE"
             css_class="super-charge-flash"
             output_text="${output_text}<span color='${COLOR_SUPER_CHARGE}'>B</span>   "

@@ -19,6 +19,7 @@ security.sudo.extraConfig = ''
   # Give user 'jake' passwordless sudo access to all commands.
   # WARNING: For testing purposes only.
   jake ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/cpupower
+  Defaults editor = ${pkgs.neovim}/bin/nvim
 '';
 #security.sudo.extraRules = [
 #  {

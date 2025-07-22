@@ -146,6 +146,7 @@ in {
       " Custom keybinding to exit directory with Q
       nnoremap Q :Rexplore<CR>
       inoremap jj <Esc>
+      set clipboard=unnamedplus
     '';
   };
 ############# ROFI ############

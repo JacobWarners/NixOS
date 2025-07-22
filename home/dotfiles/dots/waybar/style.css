@@ -70,7 +70,7 @@ window#waybar {
     
 #custom-workspaces.super-charge-flash label {
   color : #ffffff;
-  animation-name: super-sonic; /* You already have this @keyframe */
+  animation-name: super-sonic !important; /* You already have this @keyframe */
   animation-duration: 2s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
@@ -125,13 +125,13 @@ window#waybar {
 }
 @keyframes super-sonic {
   0% {
-    color: #fcf403; /* A bright red */
+    color: #fcf403; 
   }
   50% {
-    color: #ffffff; /* Your default bar text color */
+    color: #ffffff; 
   }
   100% {
-    color: #fcf403; /* A bright red */
+    color: #fcf403; 
   }
 }
 

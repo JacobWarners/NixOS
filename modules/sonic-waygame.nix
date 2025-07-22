@@ -4,7 +4,7 @@
 { config, pkgs, ... }:
 
 {
-  systemd.user.services.key-counter-daemon = {
+  systemd.user.services.sonic-waygame = {
     # A short description for the service
     description = "A daemon that counts keystrokes and manages game states for Waybar.";
 

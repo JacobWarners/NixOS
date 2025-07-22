@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 
-
 # --- This is the file your external script will write to ---
 STATE_FILE="/tmp/waybar_status.txt"
 
@@ -36,11 +35,11 @@ for i in $(hyprctl workspaces | grep "workspace ID" | grep -v lastwindowtitle | 
         # THIS IS THE ACTIVE WORKSPACE
         # Check the class from the state file to decide which character to show.
         if [ "$css_class" = "super-charge-flash" ]; then
-            # If class is 'super-charge-flash', show 'B'
-            output_text="${output_text}<span>B</span>   "
+            # If class is 'super-charge-flash', show 'B' without span tags.
+            output_text="${output_text}B   "
         else
-            # For the 'flashing' class (or any other), show 'A'
-            output_text="${output_text}<span>A</span>   "
+            # For the 'flashing' class, show 'A' without span tags.
+            output_text="${output_text}A   "
         fi
     else
         # This is for an inactive but occupied workspace
@@ -51,3 +50,4 @@ done
 # --- Final JSON Output ---
 # It sends the icon string and the class read from the file to Waybar.
 printf '{"text": "%s", "class": "%s"}\n' "$output_text" "$css_class"
+

@@ -55,7 +55,7 @@
     },
     "custom/workspaces": {
         "exec": "~/.config/waybar/w2.sh",
-	"format": "{}"
+	"format": "{}",
         "interval": 1,
         "tooltip": false,
         "tooltip-format": "Workspaces"

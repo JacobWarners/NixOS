@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./modules/sonic-waygame.nix
     #    ./modules/specialisation.nix
     #    ./modules/hotplugegpu.nix
     ./modules/hyprland.nix

@@ -4,32 +4,45 @@
 COLOR_ACTIVE='#03d7fc'
 COLOR_INACTIVE='#03fc45'
 COLOR_EMPTY='#e6e600'
+COLOR_SUPER_CHARGE='#fcf403' # The yellow from your super-sonic animation
 
-# --- Your Original Logic ---
+# --- Get Battery Level ---
+# Note: Your battery might be BAT1 or something else.
+# Check your system with the command: ls /sys/class/power_supply/
+BATT_PATH="/sys/class/power_supply/BAT0"
+BATT_LEVEL=0 # Default to 0 if battery not found
+if [ -f "${BATT_PATH}/capacity" ]; then
+    BATT_LEVEL=$(cat "${BATT_PATH}/capacity")
+fi
+
+# --- Workspace Logic ---
 A=$(hyprctl monitors | grep workspace | head -n 1 | awk '{print $3}')
 L=1
 
-# The only change is wrapping the output of each 'echo' in a span tag for color.
 for i in $(hyprctl workspaces | grep "workspace ID" | grep -v lastwindowtitle | cut -d ' ' -f 3 | sort -g)
 do
     while [ $L -le $i ]
     do
         if [ ! $L == $i ]; then
-            # This is your 'O' for empty workspaces, now colored yellow.
-            # I've used the character 'O' as requested.
             echo -n " <span color='${COLOR_EMPTY}'>o</span>   "
         fi
         L=$(( $L + 1 ))
     done
 
+    # This is the main conditional logic block
     if [ "$A" -eq "$i" ]; then
-        # This is your 'A' for the active workspace, now colored blue.
-        echo -n " <span color='${COLOR_ACTIVE}'>A</span>   "
+        # If workspace is active, check battery level
+        if [ "$BATT_LEVEL" -eq 19 ]; then
+            # AT 100%: Display 'B' with the super-charge flashing animation
+            echo -n " <span class='super-charge-flash' color='${COLOR_SUPER_CHARGE}'>B</span>   "
+        else
+            # BELOW 100%: Display 'A' with the regular flashing animation
+            echo -n " <span class='flashing' color='${COLOR_ACTIVE}'>A</span>   "
+        fi
     else
-        # This is your 'C' for inactive but occupied workspaces, now colored green.
+        # Inactive but occupied workspaces
         echo -n " <span color='${COLOR_INACTIVE}'>C</span>   "
     fi
 done
 
-# This final echo prevents the next shell prompt from appearing on the same line.
 echo ""

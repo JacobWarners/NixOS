@@ -56,7 +56,7 @@
     "custom/workspaces": {
         "exec": "~/.config/waybar/w2.sh",
 //	"format": "{}",
-        "return-type": "json",
+//        "return-type": "json",
         "interval": 1,
     },
     "custom/cpuicon": {

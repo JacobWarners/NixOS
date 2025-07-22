@@ -68,9 +68,9 @@ window#waybar {
     min-width: 146.67px; /* 220px / 1.5 = 146.67px */
     }
     
-#custom-workspaces.super-charge-flash label {
+window#waybar #custom-workspaces.super-charge-flash label {
   color : #ffffff;
-  animation-name: super-sonic !important; /* You already have this @keyframe */
+  animation-name: super-sonic; /* You already have this @keyframe */
   animation-duration: 2s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;

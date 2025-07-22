@@ -89,11 +89,14 @@ alias x='wl-copy'
 alias k='kubectl'
 alias htop='btop'
 alias ssh='kitten ssh'
+alias vim='nvim'
+alias vi='nvim'
+
 
 # k9s
-export K9S_EDITOR=vim
-export EDITOR=vim
-export VISUAL='vim'
+export K9S_EDITOR=nvim
+export EDITOR=nvim
+export VISUAL='nvim'
 export EDITOR="$VISUAL"
 
 #Fun Sounds

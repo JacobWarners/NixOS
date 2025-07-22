@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 
 # --- Define Your Colors ---
-COLOR_ACTIVE='blue'
-COLOR_INACTIVE='green'
+COLOR_ACTIVE='#03d7fc'
+COLOR_INACTIVE='#03fc45'
 COLOR_EMPTY='yellow'
 
 # --- Your Original Logic ---

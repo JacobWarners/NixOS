@@ -172,7 +172,7 @@ home.file = {
 programs.rofi = {
   enable = true;
   theme = "${config.home.homeDirectory}/.config/rofi/launcher.rasi";
-  package = rofi-wayland
+  package = rofi-wayland;
 };
   # --- END OF CONSOLIDATED HOME MANAGER SESSION VARIABLES ---
 

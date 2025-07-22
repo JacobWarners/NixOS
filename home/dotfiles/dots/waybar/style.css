@@ -68,14 +68,16 @@ window#waybar {
     min-width: 146.67px; /* 220px / 1.5 = 146.67px */
     }
     
-#custom-workspaces.super-charge-flash {
+#custom-workspaces.super-charge-flash label {
   animation-name: super-sonic;
   animation-duration: 2s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
-
+#custom-workspaces.flashing label {
+  color: #03d7fc;
+}
 
 
 #clock{

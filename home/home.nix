@@ -122,35 +122,6 @@ in {
     # Add other user-specific packages here
   ];
 
-  programs.vim = {
-    enable = true;
-    plugins = with pkgs.vimPlugins; [
-      gruvbox
-    ];
-    extraConfig = ''
-      " Adds syntax highlighting
-      syntax on
-      " Color scheme
-      colorscheme gruvbox
-      set background=dark
-      " Enable line numbers
-      set number
-      " Set cursorline
-      set cursorline
-      " Show matching parentheses
-      set showmatch
-      " Toggle paste with F2
-      set pastetoggle=<F2>
-      " Enable mouse support
-      set mouse=a
-      " Custom keybinding to exit directory with Q
-      nnoremap Q :Rexplore<CR>
-      inoremap jj <Esc>
-      set clipboard=unnamedplus
-    '';
-  };
-# In your home.nix
-
 programs.neovim = {
   enable = true;
   # Neovim can use the same plugins

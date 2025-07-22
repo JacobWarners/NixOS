@@ -100,6 +100,7 @@ in {
     nwg-displays
     slurp
     wl-clipboard
+    cliphist
     xclip
     grim
     libnotify

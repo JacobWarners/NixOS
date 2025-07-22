@@ -66,7 +66,9 @@ window#waybar {
     border: 0px solid;
     border-radius: 8px;
     min-width: 146.67px; /* 220px / 1.5 = 146.67px */
-#custom-worksaces .flashing{
+    }
+
+#custom-worksaces .super-charge.flash{
   animation-name: super-sonic;
   animation-duration: 2s;
   animation-timing-function: linear;

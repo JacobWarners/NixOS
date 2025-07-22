@@ -15,7 +15,7 @@ if [ -f "${BATT_PATH}/capacity" ]; then
 fi
 
 # --- Prepare variables ---
-A=$(hyprctl monitors | grep workspace | head -n 1 | awk '{print $3}')
+A=$(hyprctl activeworkspace | head -n 1 | awk '{print $3}')
 L=1
 output_text=""
 css_class="" # This will hold our dynamic class name

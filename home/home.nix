@@ -352,6 +352,7 @@ programs.rofi = {
         sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
         touchpad {
           natural_scroll = true
+          clickfinger_behavior = 1
           middle_button_emulation = false
         }
       }

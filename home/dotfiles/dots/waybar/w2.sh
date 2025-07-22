@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env sh
+
 
 # --- This is the file your external script will write to ---
 STATE_FILE="/tmp/waybar_status.txt"

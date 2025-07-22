@@ -25,7 +25,8 @@
         "clock",
         "custom/space",
         "bluetooth",
-        "custom/space"
+        "custom/space",
+	"custom/counter"
     ],
 
     // ===============================================
@@ -106,6 +107,13 @@
   "format": "{}",
   "interval": 60,
   "exec": "ps -eo pcpu,comm --sort=-%cpu | head -n 2 | tail -n 1 | awk '{printf \"🔥 %s - %.1f%% CPU\", $2, $1}'",
+  "tooltip": true
+},
+
+"custom/counter": {
+  "exec": "~/.config/waybar/scripts/sonic/show_counter.sh",
+  "return-type": "json",
+  "interval": 1,
   "tooltip": true
 },
 

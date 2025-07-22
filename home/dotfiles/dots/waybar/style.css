@@ -241,3 +241,12 @@ window#waybar #custom-workspaces.flashing label {
 #custom-cpu-governor.powersave {
   color: #35b056; /* Yellow */
 }
+
+#custom-counter {
+  background-color: #6a5acd; /* A nice "slate blue" color */
+  color: #ffffff;
+  padding: 0 12px;
+  margin: 0 5px;
+  border-radius: 8px;
+  font-weight: bold;
+}

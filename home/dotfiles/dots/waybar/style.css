@@ -242,7 +242,10 @@ window#waybar {
 
 #custom-counter {
   background-image: url("/home/jake/Pictures/sonic-pixels/sonic-sprite-sonic1.gif");
-  background-color: #4848f8; /* A nice "slate blue" color */
+  background-color: #175b70; /* A nice "slate blue" color */
+  background-size: contain;   /* or 'cover' */
+  background-repeat: no-repeat;
+  background-position: center left 5px; /* Position image on the left */
   color: #ffffff;
   padding: 0 12px;
   margin: 0 5px;

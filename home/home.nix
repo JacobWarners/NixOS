@@ -171,8 +171,6 @@ programs.neovim = {
     set cursorline
     " Show matching parentheses
     set showmatch
-    " Toggle paste with F2
-    set pastetoggle=<F2>
     " Enable mouse support
     set mouse=a
     " Custom keybinding to exit directory with Q

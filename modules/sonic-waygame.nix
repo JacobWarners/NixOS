@@ -15,7 +15,7 @@
     serviceConfig = {
       # --- IMPORTANT ---
       # Replace this with the full, absolute path to your compiled Rust binary.
-      ExecStart = "/home/jake/Documents/Code/sonic/key_counter_daemon/target/release/key_counter_daemon --normal";
+      ExecStart = "/home/jake/Documents/Code/sonic-waygame/key_counter_daemon/target/release/key_counter_daemon --normal";
 
       # This makes systemd automatically restart the service if it ever stops.
       Restart = "always";

@@ -9,7 +9,6 @@
     extraGroups = [ "wheel" "docker" "podman" "dialout" "libinput" "input"];
   };
 
-{
   users.users.reen = {
     isNormalUser = true;
     home = "/home/reen";

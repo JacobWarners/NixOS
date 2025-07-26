@@ -11,8 +11,9 @@ in
   services.xserver = {
     enable = true;
     videoDrivers = ["amdgpu"];
-  };
 
+  };
+  services.desktopManager.plasma.enable = true;
   # 2. Minimal greetd + tuigreet configuration
   services.greetd = {
     enable = true;

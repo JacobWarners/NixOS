@@ -13,7 +13,7 @@ in
     videoDrivers = ["amdgpu"];
 
   };
-  services.desktopManager.plasma6.enable = true;
+  services.desktopManager.plasma5.enable = true;
   # 2. Minimal greetd + tuigreet configuration
   services.greetd = {
     enable = true;

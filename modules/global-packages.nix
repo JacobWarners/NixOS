@@ -10,6 +10,7 @@
     vim-full
     kitty
     wget
+    mpv
     git
     nautilus
     btop

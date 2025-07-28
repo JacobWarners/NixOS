@@ -98,6 +98,7 @@ export K9S_EDITOR=nvim
 export EDITOR=nvim
 export VISUAL='nvim'
 export EDITOR="$VISUAL"
+export TERM=xterm-256color
 
 #Fun Sounds
 	# THE DEBUGGING VERSION

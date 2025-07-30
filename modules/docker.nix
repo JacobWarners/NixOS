@@ -2,7 +2,7 @@
 
 
 {
-  virtualisation.docker.enable = false;
+  virtualisation.docker.enable = true;
   environment.systemPackages = [
     pkgs.docker
     pkgs.docker-compose

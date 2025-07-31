@@ -159,6 +159,7 @@
     },
     // In your config file, just add the two new format lines
     "battery": {
+    "interval": 5,
     "states": {
         "full": 100,
         "good": 99,

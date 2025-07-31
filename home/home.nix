@@ -188,7 +188,7 @@ programs.rofi = {
 };
   # --- END OF CONSOLIDATED HOME MANAGER SESSION VARIABLES ---
 
-  services.ratatat-listener.enable = true;
+#  services.ratatat-listener.enable = true;
 
   #Flatpak (xdg.enable should be in home.nix too for user-level xdg config)
   xdg.enable = true;

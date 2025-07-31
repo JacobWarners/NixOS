@@ -47,5 +47,13 @@
           })
         ];
       };
+      homeConfigurations.jake = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = { inherit inputs; }; # Makes inputs available in home.nix
+        modules = [
+          ./home/home.nix
+          inputs.ratatat-listener.homeManagerModules.default
+        ];
+      };
     };
 }

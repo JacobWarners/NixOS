@@ -157,30 +157,25 @@
         "on-click": "emacsclient -c -e '(proced)'",
         "format": "{usage:2}%"
     },
-    // In your config file, just add the two new format lines
     "battery": {
-    "states": {
-        "full": 100,
-        "good": 99,
-        "warning": 60,
-        "critical": 15,
-        "plugin": 5
+        "states": {
+            "full": 100,
+            "good": 99,
+            "warning": 60,
+            "critical": 15,
+            "plugin": 5
+        },
+        "on-click": "wlogout",
+        "format": "{icon} {capacity}%  ",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
     },
-    "on-click": "wlogout",
-    "format": "{icon} {capacity}%  ",
-    "format-icons": [
-        "",
-        "",
-        "",
-        "",
-        ""
-    ],
-
-    // ADD THESE TWO LINES FOR CHARGING:
-    "format-charging": " {capacity}% ", // Used when actively charging
-    "format-plugged": " {capacity}% "   // Used when plugged in but full
-},
-   "tray": {
+    "tray": {
         "icon-size": 20
     },
     "network": {

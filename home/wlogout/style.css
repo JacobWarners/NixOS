@@ -1,39 +1,18 @@
-/* Final attempt to force a smaller layout */
+/* A stable CSS for tuning the size */
 * {
   font-family: "JetBrainsMono Nerd Font";
-  /*
-   * The most important change is here. We are going WAY smaller.
-   * If this is too small/big, you can adjust it. Try 6px or 10px.
-   */
-  font-size: 8px;
 }
 
 window {
   background-color: rgba(30, 30, 46, 0.9);
 }
 
-/*
- * This rule attempts to stop the grid container from stretching.
- * We're giving it a max-width relative to our tiny font size.
- */
-#box {
-  margin: auto;
-  padding: 2em;
-  max-width: 50em; /* 50 * 8px = 400px wide */
-}
-
 button {
   background-color: #1e1e2e;
   color: #cdd6f4;
   border: 1px solid #313244;
-  border-radius: 2em; /* Rounded corners will scale with font size */
+  border-radius: 12px;
   background-repeat: no-repeat;
-
-  /*
-   * Tighter padding and margin, also relative to font-size
-   */
-  padding: 2.5em;
-  margin: 1.2em;
 }
 
 button:focus,
@@ -45,28 +24,48 @@ button:hover {
   outline: none;
 }
 
+/* --- TUNING SECTION --- */
+/* Change these values to control the final look */
+
+button {
+  /* This controls the size of the text */
+  font-size: 14px;
+
+  /* This controls the space BETWEEN the buttons (the gaps) */
+  /* Try smaller values like 10px, 5px, etc. */
+  margin: 25px;
+
+  /* This controls the space between the icon/text and the button border */
+  padding: 20px;
+}
+
+#lock,
+#logout,
+#suspend,
+#hibernate,
+#shutdown,
+#reboot {
+  /* This controls the size of the icon inside the button */
+  background-size: 40%;
+  background-position: center;
+}
+
 /* --- Icon Definitions --- */
 #lock {
   background-image: image(url("./lock.png"));
-  background-size: 50%;
 }
 #logout {
   background-image: image(url("./logout.png"));
-  background-size: 50%;
 }
 #suspend {
   background-image: image(url("./suspend.png"));
-  background-size: 50%;
 }
 #hibernate {
   background-image: image(url("./hibernate.png"));
-  background-size: 50%;
 }
 #shutdown {
   background-image: image(url("./shutdown.png"));
-  background-size: 50%;
 }
 #reboot {
   background-image: image(url("./reboot.png"));
-  background-size: 50%;
 }

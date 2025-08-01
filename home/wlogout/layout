@@ -1,23 +1,33 @@
-{
-    "label" : "lock",
-    "action" : "hyprlock"
-}
-
-{
-    "label" : "suspend",
-    "action" : "systemctl suspend"
-}
-
-{
-    "label" : "shutdown",
-    "action" : "shutdown -h now"
-}
-
-{
-    "label" : "reboot",
-    "action" : "reboot"
-}
-
-# Modified to remove keybinds as I did not need them and changed the "actions" to match the software I am running
-# Last modified date 6/5/2025 by Dimitrios Psaroudakis
-
+// wlogout/layout.json
+[
+  {
+    "label": "lock",
+    "action": "swaylock-effects",
+    "text": "Lock"
+  },
+  {
+    "label": "logout",
+    "action": "hyprctl dispatch exit",
+    "text": "Logout"
+  },
+  {
+    "label": "suspend",
+    "action": "systemctl suspend",
+    "text": "Suspend"
+  },
+  {
+    "label": "hibernate",
+    "action": "systemctl hibernate",
+    "text": "Hibernate"
+  },
+  {
+    "label": "shutdown",
+    "action": "systemctl poweroff",
+    "text": "Shutdown"
+  },
+  {
+    "label": "reboot",
+    "action": "systemctl reboot",
+    "text": "Reboot"
+  }
+]

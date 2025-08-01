@@ -1,53 +1,54 @@
+/* wlogout/style.css */
 * {
-    background-image: none;
+  background-image: none;
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 20px;
 }
 
 window {
-    background-color: rgba(25, 0, 46, 0.5);
+  background-color: rgba(30, 30, 46, 0.85);
 }
 
 button {
-    color: rgb(255, 14, 130);
-    font-size: 16px;
-    background-color: rgb(36, 0, 65);
-    border-style: none;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 35%;
-    border-radius: 30px;
-    margin: 182px 5px;
-    text-shadow: 0px 0px;
-    box-shadow: 0px 0px;
+  color: #cdd6f4;
+  background-color: #1e1e2e;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 25%;
+  border: 2px solid #313244;
+  border-radius: 15px;
+  margin: 20px; /* Use a reasonable margin for a grid layout */
+  transition: all 0.3s ease-in-out;
 }
 
 button:focus,
 button:active,
 button:hover {
-    background-color: rgb(144, 0, 72);
-    outline-style: none;
+  background-color: #585b70;
+  color: #cba6f7;
+  border: 2px solid #cba6f7;
 }
 
 #lock {
-    background-image: image(url("/home/Lord_Worm/.config/wlogout/lock.png"));
+  background-image: image(url("./lock.png")); /* Correct relative path */
+}
+
+#logout {
+  background-image: image(url("./logout.png")); /* Added and corrected path */
 }
 
 #suspend {
-    background-image: image(url("/home/Lord_Worm/.config/wlogout/suspend.png"));
+  background-image: image(url("./suspend.png")); /* Correct relative path */
+}
+
+#hibernate {
+  background-image: image(url("./hibernate.png")); /* Added and corrected path */
 }
 
 #shutdown {
-    background-image: image(
-        url("/home/Lord_Worm/.config/wlogout/shutdown.png")
-    );
+  background-image: image(url("./shutdown.png")); /* Correct relative path */
 }
 
 #reboot {
-    background-image: image(url("/home/Lord_Worm/.config/wlogout/reboot.png"));
+  background-image: image(url("./reboot.png")); /* Correct relative path */
 }
-
-/*
-Changed the colors of the original source file
-Lastly modified on 6/5/2025 by Dimitrios Psaroudakis
-For the icons please find some that you like
-*/
-

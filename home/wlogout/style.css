@@ -1,37 +1,30 @@
-/* In wlogout/style.css */
-
+/* A simpler, more reliable CSS for a smaller grid */
 * {
-  background-image: none;
   font-family: "JetBrainsMono Nerd Font";
-  font-size: 16px; /* <-- Smaller font size */
+  /*
+   * THIS IS THE MAIN SIZE CONTROL.
+   * Try different values like 10px, 12px, or 14px to find the scale you like.
+   */
+  font-size: 12px;
 }
 
 window {
   background-color: rgba(30, 30, 46, 0.9);
 }
 
-/* This new #box section will constrain the grid's overall width */
-#box {
-  margin: auto; /* This helps center the grid on screen */
-  max-width: 550px; /* <-- Prevents the grid from becoming too wide */
-}
-
 button {
-  color: #cdd6f4;
   background-color: #1e1e2e;
-  background-repeat: no-repeat;
-  background-position: center 30%; /* Position icon towards the top */
-  background-size: 40%; /* <-- Smaller icon size */
+  color: #cdd6f4;
   border: 1px solid #313244;
-  border-radius: 16px;
+  border-radius: 12px;
+  background-repeat: no-repeat;
 
-  /* --- Main Sizing Controls --- */
-  padding-top: 65px; /* <-- Less padding on top to shrink button height */
-  margin: 10px;      /* <-- Less margin to bring buttons closer */
-  min-width: 150px;  /* <-- Smaller minimum width for buttons */
-  min-height: 50px;  /* <-- Smaller minimum height for buttons */
-
-  transition: all 0.3s ease;
+  /*
+   * Control button size and spacing with 'em'.
+   * This means they will scale with the font-size above.
+   */
+  padding: 2.5em;
+  margin: 1.5em;
 }
 
 button:focus,
@@ -40,25 +33,34 @@ button:hover {
   background-color: #585b70;
   color: #cba6f7;
   border-color: #cba6f7;
-  outline-style: none;
+  outline: none;
 }
 
-/* --- Icon Definitions (These paths stay the same) --- */
+/*
+ * --- Icon Definitions ---
+ * We define the image and its size for each button individually.
+ */
 #lock {
   background-image: image(url("./lock.png"));
+  background-size: 45%;
 }
 #logout {
   background-image: image(url("./logout.png"));
+  background-size: 45%;
 }
 #suspend {
   background-image: image(url("./suspend.png"));
+  background-size: 45%;
 }
 #hibernate {
   background-image: image(url("./hibernate.png"));
+  background-size: 45%;
 }
 #shutdown {
   background-image: image(url("./shutdown.png"));
+  background-size: 45%;
 }
 #reboot {
   background-image: image(url("./reboot.png"));
+  background-size: 45%;
 }

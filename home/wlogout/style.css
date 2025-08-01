@@ -1,24 +1,37 @@
-/* wlogout/style.css */
+/* In wlogout/style.css */
+
 * {
   background-image: none;
   font-family: "JetBrainsMono Nerd Font";
-  font-size: 20px;
+  font-size: 16px; /* <-- Smaller font size */
 }
 
 window {
-  background-color: rgba(30, 30, 46, 0.85);
+  background-color: rgba(30, 30, 46, 0.9);
+}
+
+/* This new #box section will constrain the grid's overall width */
+#box {
+  margin: auto; /* This helps center the grid on screen */
+  max-width: 550px; /* <-- Prevents the grid from becoming too wide */
 }
 
 button {
   color: #cdd6f4;
   background-color: #1e1e2e;
   background-repeat: no-repeat;
-  background-position: center;
-  background-size: 25%;
-  border: 2px solid #313244;
-  border-radius: 15px;
-  margin: 20px; /* Use a reasonable margin for a grid layout */
-  transition: all 0.3s ease-in-out;
+  background-position: center 30%; /* Position icon towards the top */
+  background-size: 40%; /* <-- Smaller icon size */
+  border: 1px solid #313244;
+  border-radius: 16px;
+
+  /* --- Main Sizing Controls --- */
+  padding-top: 65px; /* <-- Less padding on top to shrink button height */
+  margin: 10px;      /* <-- Less margin to bring buttons closer */
+  min-width: 150px;  /* <-- Smaller minimum width for buttons */
+  min-height: 50px;  /* <-- Smaller minimum height for buttons */
+
+  transition: all 0.3s ease;
 }
 
 button:focus,
@@ -26,30 +39,26 @@ button:active,
 button:hover {
   background-color: #585b70;
   color: #cba6f7;
-  border: 2px solid #cba6f7;
+  border-color: #cba6f7;
+  outline-style: none;
 }
 
+/* --- Icon Definitions (These paths stay the same) --- */
 #lock {
-  background-image: image(url("./lock.png")); /* Correct relative path */
+  background-image: image(url("./lock.png"));
 }
-
 #logout {
-  background-image: image(url("./logout.png")); /* Added and corrected path */
+  background-image: image(url("./logout.png"));
 }
-
 #suspend {
-  background-image: image(url("./suspend.png")); /* Correct relative path */
+  background-image: image(url("./suspend.png"));
 }
-
 #hibernate {
-  background-image: image(url("./hibernate.png")); /* Added and corrected path */
+  background-image: image(url("./hibernate.png"));
 }
-
 #shutdown {
-  background-image: image(url("./shutdown.png")); /* Correct relative path */
+  background-image: image(url("./shutdown.png"));
 }
-
 #reboot {
-  background-image: image(url("./reboot.png")); /* Correct relative path */
+  background-image: image(url("./reboot.png"));
 }
-

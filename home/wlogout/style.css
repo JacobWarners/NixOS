@@ -1,10 +1,22 @@
-/* A new approach using precise 'px' units for predictable sizing */
+/* Final attempt to create a small and centered layout */
 * {
   font-family: "JetBrainsMono Nerd Font";
 }
 
 window {
   background-color: rgba(30, 30, 46, 0.9);
+}
+
+/*
+ * This is the one new section. We are carefully trying to set a
+ * maximum width on the container that holds all the buttons.
+ *
+ * If this makes the icons disappear again, please DELETE this
+ * entire "#box" section and the layout will revert to being
+ * large but functional.
+*/
+#box {
+  max-width: 500px;
 }
 
 button {
@@ -25,20 +37,12 @@ button:hover {
   border-color: #cba6f7;
 }
 
-/*
- * --- TUNING SECTION (using pixels) ---
- * Change these px values to control the final look.
- * This gives us direct control that should not be affected by the theme.
-*/
+/* --- SMALLER SIZING (using pixels) --- */
+/* I have reduced all of these values to make everything smaller */
 button {
-  /* Controls the text size */
-  font-size: 14px;
-
-  /* Controls the gaps between buttons */
-  margin: 10px;
-
-  /* Controls the space from the text to the button border (bottom, left, right) */
-  padding: 15px;
+  font-size: 12px; /* Smaller text */
+  margin: 8px;     /* Smaller gaps */
+  padding: 10px;   /* Tighter padding */
 }
 
 #lock,
@@ -47,14 +51,9 @@ button {
 #hibernate,
 #shutdown,
 #reboot {
-  /* This controls the icon size */
-  background-size: 45px;
-
-  /* This positions the icon 15px from the top of the button */
-  background-position: center 15px;
-
-  /* This adds 60px of space AT THE TOP of the button for the icon to sit in */
-  padding-top: 60px;
+  background-size: 35px;           /* Smaller icon */
+  background-position: center 12px;  /* Icon positioned closer to the top */
+  padding-top: 45px;                 /* Less top padding */
 }
 
 /* --- Icon Definitions --- */

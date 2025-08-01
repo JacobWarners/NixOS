@@ -107,8 +107,10 @@ window#waybar {
 }
 
 #battery {
-    padding: 2px 6.67px 2px 6.67px; /* 3px / 1.5 = 2px, 10px / 1.5 = 6.67px */
+    padding: 2px 8px 2px 10px; /* 3px / 1.5 = 2px, 10px / 1.5 = 6.67px */
     background: #2e3336;
+/* Top, Right, Bottom, Left (30px on left for image) */
+
     border: 0px solid;
     border-radius: 8px;
 }
@@ -152,7 +154,7 @@ window#waybar {
 }
 
 /* CRITICAL STATE: Flashing Red */
-#battery.critical {
+#battery.critical:not(.charging) {
   color: #ff5555;
   animation-name: flash-red;
   animation-duration: 2s;
@@ -160,7 +162,7 @@ window#waybar {
   animation-iteration-count: infinite;
   animation-direction: alternate;
 }
-#battery.plugin {
+#battery.plugin:not(.charging) {
   color: #ff5555;
   animation-name: flash-red;
   animation-duration: 2s;
@@ -262,7 +264,8 @@ window#waybar {
 
 /* Replace your old #battery.plugin rule with this */
 #battery.charging {
-    padding: 2px 6.67px 2px 6.67px; /* 3px / 1.5 = 2px, 10px / 1.5 = 6.67px */
+
+    padding: 0 16px 0 10px; /* Top, Right, Bottom, Left (30px on left for image) */
 
     color: #89b4fa; /* A nice light blue */
     background-color: #2e3336;

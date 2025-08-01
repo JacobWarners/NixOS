@@ -1,0 +1,49 @@
+/* wlogout/style.css */
+* {
+  background-image: none;
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 20px;
+}
+
+window {
+  background-color: rgba(30, 30, 46, 0.85); /* Catppuccin Macchiato Base */
+}
+
+button {
+  color: #cdd6f4; /* Catppuccin Macchiato Text */
+  background-color: #1e1e2e; /* Catppuccin Macchiato Base */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 25%;
+  border: 2px solid #313244; /* Catppuccin Macchiato Surface0 */
+  border-radius: 15px;
+  margin: 20px;
+  transition: all 0.3s ease-in-out;
+}
+
+button:focus,
+button:active,
+button:hover {
+  background-color: #585b70; /* Catppuccin Macchiato Surface2 */
+  color: #cba6f7; /* Catppuccin Macchiato Mauve */
+  border: 2px solid #cba6f7; /* Catppuccin Macchiato Mauve */
+}
+
+#lock {
+  background-image: image(url("./lock.png"));
+}
+#logout {
+  background-image: image(url("./logout.png"));
+}
+#suspend {
+  background-image: image(url("./suspend.png"));
+}
+#hibernate {
+  background-image: image(url("./hibernate.png"));
+}
+#shutdown {
+  background-image: image(url("./shutdown.png"));
+}
+#reboot {
+  background-image: image(url("./reboot.png"));
+}

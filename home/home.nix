@@ -99,6 +99,8 @@ in {
 #    rofi-wayland
     nwg-displays
     slurp
+    wlogout
+    swaylock-effects
     wl-clipboard
     cliphist
     xclip
@@ -198,6 +200,7 @@ programs.rofi = {
 
   # The incorrect font link has been removed from here.
   xdg.configFile."eww".source = ./dotfiles/dots/eww;
+  xdg.configFile."wlogout".source = ./wlogout;
   xdg.configFile."waybar".source = ./dotfiles/dots/waybar;
   
   # --- HYPRLAND HOME MANAGER CONFIGURATION ---

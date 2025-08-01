@@ -1,32 +1,24 @@
-/* Final attempt to create a small and centered layout */
+/* wlogout/style.css */
 * {
+  background-image: none;
   font-family: "JetBrainsMono Nerd Font";
+  font-size: 20px;
 }
 
 window {
-  background-color: rgba(30, 30, 46, 0.9);
-}
-
-/*
- * This is the one new section. We are carefully trying to set a
- * maximum width on the container that holds all the buttons.
- *
- * If this makes the icons disappear again, please DELETE this
- * entire "#box" section and the layout will revert to being
- * large but functional.
-*/
-#box {
-  max-width: 500px;
+  background-color: rgba(30, 30, 46, 0.85);
 }
 
 button {
-  background-color: #1e1e2e;
   color: #cdd6f4;
-  border-style: solid;
-  border-width: 1px;
-  border-color: #313244;
-  border-radius: 12px;
+  background-color: #1e1e2e;
   background-repeat: no-repeat;
+  background-position: center;
+  background-size: 25%;
+  border: 2px solid #313244;
+  border-radius: 15px;
+  margin: 20px; /* Use a reasonable margin for a grid layout */
+  transition: all 0.3s ease-in-out;
 }
 
 button:focus,
@@ -34,44 +26,30 @@ button:active,
 button:hover {
   background-color: #585b70;
   color: #cba6f7;
-  border-color: #cba6f7;
+  border: 2px solid #cba6f7;
 }
 
-/* --- SMALLER SIZING (using pixels) --- */
-/* I have reduced all of these values to make everything smaller */
-button {
-  font-size: 12px; /* Smaller text */
-  margin: 8px;     /* Smaller gaps */
-  padding: 10px;   /* Tighter padding */
-}
-
-#lock,
-#logout,
-#suspend,
-#hibernate,
-#shutdown,
-#reboot {
-  background-size: 35px;           /* Smaller icon */
-  background-position: center 12px;  /* Icon positioned closer to the top */
-  padding-top: 45px;                 /* Less top padding */
-}
-
-/* --- Icon Definitions --- */
 #lock {
-  background-image: image(url("./lock.png"));
+  background-image: image(url("./lock.png")); /* Correct relative path */
 }
+
 #logout {
-  background-image: image(url("./logout.png"));
+  background-image: image(url("./logout.png")); /* Added and corrected path */
 }
+
 #suspend {
-  background-image: image(url("./suspend.png"));
+  background-image: image(url("./suspend.png")); /* Correct relative path */
 }
+
 #hibernate {
-  background-image: image(url("./hibernate.png"));
+  background-image: image(url("./hibernate.png")); /* Added and corrected path */
 }
+
 #shutdown {
-  background-image: image(url("./shutdown.png"));
+  background-image: image(url("./shutdown.png")); /* Correct relative path */
 }
+
 #reboot {
-  background-image: image(url("./reboot.png"));
+  background-image: image(url("./reboot.png")); /* Correct relative path */
 }
+

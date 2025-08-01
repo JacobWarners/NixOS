@@ -1,49 +1,52 @@
-/* wlogout/style.css */
 * {
-  background-image: none;
-  font-family: "JetBrainsMono Nerd Font";
-  font-size: 20px;
+    background-image: none;
 }
 
 window {
-  background-color: rgba(30, 30, 46, 0.85); /* Catppuccin Macchiato Base */
+    background-color: rgba(25, 0, 46, 0.5);
 }
 
 button {
-  color: #cdd6f4; /* Catppuccin Macchiato Text */
-  background-color: #1e1e2e; /* Catppuccin Macchiato Base */
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 25%;
-  border: 2px solid #313244; /* Catppuccin Macchiato Surface0 */
-  border-radius: 15px;
-  margin: 20px;
-  transition: all 0.3s ease-in-out;
+    color: rgb(255, 14, 130);
+    font-size: 16px;
+    background-color: rgb(36, 0, 65);
+    border-style: none;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35%;
+    border-radius: 30px;
+    margin: 182px 5px;
+    text-shadow: 0px 0px;
+    box-shadow: 0px 0px;
 }
 
 button:focus,
 button:active,
 button:hover {
-  background-color: #585b70; /* Catppuccin Macchiato Surface2 */
-  color: #cba6f7; /* Catppuccin Macchiato Mauve */
-  border: 2px solid #cba6f7; /* Catppuccin Macchiato Mauve */
+    background-color: rgb(144, 0, 72);
+    outline-style: none;
 }
 
 #lock {
-  background-image: image(url("./lock.png"));
+    background-image: image(url("/home/Lord_Worm/.config/wlogout/lock.png"));
 }
-#logout {
-  background-image: image(url("./logout.png"));
-}
+
 #suspend {
-  background-image: image(url("./suspend.png"));
+    background-image: image(url("/home/Lord_Worm/.config/wlogout/suspend.png"));
 }
-#hibernate {
-  background-image: image(url("./hibernate.png"));
-}
+
 #shutdown {
-  background-image: image(url("./shutdown.png"));
+    background-image: image(
+        url("/home/Lord_Worm/.config/wlogout/shutdown.png")
+    );
 }
+
 #reboot {
-  background-image: image(url("./reboot.png"));
+    background-image: image(url("/home/Lord_Worm/.config/wlogout/reboot.png"));
 }
+
+/*
+Changed the colors of the original source file
+Lastly modified on 6/5/2025 by Dimitrios Psaroudakis
+For the icons please find some that you like
+*/

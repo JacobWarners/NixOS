@@ -15,6 +15,7 @@
     nautilus
     btop
     mpg123
+    mullvad
     ffmpeg
     nfs-utils
     obs-studio

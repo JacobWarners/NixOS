@@ -26,8 +26,8 @@ while [ $(( $(date +%s) - start_time )) -lt $POLL_DURATION ]; do
 
     # Read each line of the process list using a here-string to avoid a subshell.
     while read -r cpu comm; do
-        # Check if the command name is not empty.
-        if [ -n "$comm" ]; then
+        # Check if the command name is not empty and is not 'ps' itself.
+        if [ -n "$comm" ] && [ "$comm" != "ps" ]; then
             # Add the current CPU usage to the cumulative total for that command.
             cpu_usage["$comm"]=$(echo "${cpu_usage[$comm]:-0} + $cpu" | bc)
         fi
@@ -62,4 +62,3 @@ else
     # Show a fallback message.
     echo "$ICON No process found"
 fi
-

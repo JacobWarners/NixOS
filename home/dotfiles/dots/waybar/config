@@ -20,6 +20,8 @@
         "custom/space",
         "network",
         "custom/space",
+	"custom/vpn",
+        "custom/space",
         "battery",
         "custom/space",
         "clock",
@@ -102,13 +104,9 @@
 "custom/vpn": {
     "format": "{}",
     "return-type": "json",
-
-    "format-icons": {
-        "performance": "󱐋",
-        "powersave": "󰌪"
     },
-    "exec": "/home/jake/.config/waybar/scripts/governor.sh",
-    "on-click": "/home/jake/.config/waybar/scripts/governor.sh cycle",
+    "exec": "~/.config/waybar/scripts/vpn.sh",
+    "on-click": "~/.config/waybar/scripts/vpn.sh cycle,
     "interval": 2
 },
 

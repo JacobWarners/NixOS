@@ -108,6 +108,7 @@ in {
     swaylock-effects
     wl-clipboard
     cliphist
+    wallust
     xclip
     grim
     libnotify

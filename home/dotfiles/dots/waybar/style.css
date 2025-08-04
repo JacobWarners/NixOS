@@ -290,6 +290,8 @@ window#waybar {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    min-height: 32px;
+    min-width: 32px;
 }
 #custom-vpn.disconnected {
     background-color: #2e3336;
@@ -299,5 +301,7 @@ window#waybar {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    min-height: 28px;
+    min-width: 28px;
 }
 

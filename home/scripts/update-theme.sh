@@ -11,8 +11,7 @@ WALLPAPER_IMAGE="$1"
 # --- Main Script ---
 
 # Check if a wallpaper image was provided
-if [ -z "$WALLPAPER_IMAGE" ];
-then
+if [ -z "$WALLPAPER_IMAGE" ]; then
   echo "Usage: $0 /path/to/your/wallpaper.jpg"
   exit 1
 fi
@@ -21,19 +20,28 @@ echo "Running wallust to generate color palette..."
 wallust run "$WALLPAPER_IMAGE"
 
 echo "Finding the latest color palette JSON file..."
-# Find the most recently modified .json file in the cache
 LATEST_JSON=$(ls -t "$CACHE_DIR"/*.json | head -n 1)
 
-if [ -z "$LATEST_JSON" ];
-then
+if [ -z "$LATEST_JSON" ]; then
   echo "Error: No JSON palette file found in $CACHE_DIR"
   exit 1
 fi
 
 echo "Generating colors.css from $LATEST_JSON..."
-
-# --- THIS IS THE FINAL CORRECTED COMMAND (NO QUOTES) ---
 sed 's/}.*$/}/' "$LATEST_JSON" | jq -r 'to_entries[] | "@define-color \(.key) \(.value);"' > "$CSS_OUTPUT_FILE"
-
 echo "Successfully created $CSS_OUTPUT_FILE!"
-echo "You can now use it in your waybar style.css."
+
+# --- THE FINAL FIX: Force a full restart of Waybar ---
+echo "Performing a full restart of Waybar to apply new theme..."
+
+# The '|| true' prevents the script from exiting if waybar isn't running
+# The '-w' flag waits for the process to die before continuing.
+killall -w waybar || true
+
+# Give it a moment to die completely before restarting
+sleep 0.2
+
+# Restart waybar in the background
+waybar &
+
+echo "Theme updated and Waybar restarted for hot-reloading."

@@ -175,6 +175,7 @@ window#waybar {
 }
 #battery.full {
   color: #ff5555;
+  padding: 0 16px 0 10px; /* Top, Right, Bottom, Left (30px on left for image) */
   animation-name: super-sonic;
   animation-duration: 2s;
   animation-timing-function: linear;

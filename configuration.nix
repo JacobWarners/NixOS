@@ -40,6 +40,9 @@
   };
 
   programs.hyprland.enable = true;
+  # In /etc/nixos/configuration.nix
+
+  systemd.services."home-manager-jake".after = [ "graphical-session-pre.target" ];
 
   # Global settings can be added here if necessary
 

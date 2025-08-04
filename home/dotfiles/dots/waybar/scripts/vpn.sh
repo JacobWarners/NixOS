@@ -1,18 +1,24 @@
 #!/usr/bin/env bash
 
 # --- Configuration with FULL PATHS ---
-# NixOS path for Mullvad
+# Your correct NixOS path for Mullvad
 MULLVAD_CMD="/run/current-system/sw/bin/mullvad"
 
-# Standard paths for other tools (run 'which grep' and 'which head' to confirm)
-GREP_CMD="/run/current-system/sw/bin/grep"
+# Standard path for the 'head' command (confirm with 'which head' if needed)
 HEAD_CMD="/run/current-system/sw/bin/head"
 
 
 # --- Logic ---
+######################################
+## THIS IS THE CORRECTED LOGIC ##
+######################################
 check_status() {
-    # Use full paths for every command in the pipeline
-    if "$MULLVAD_CMD" status | "$GREP_CMD" -q "Connected to"; then
+    # Get the very first line of the status output
+    local first_line
+    first_line=$("$MULLVAD_CMD" status | "$HEAD_CMD" -n 1)
+
+    # Check if that line is exactly the word "Connected"
+    if [[ "$first_line" == "Connected" ]]; then
         echo "connected"
     else
         echo "disconnected"
@@ -23,7 +29,7 @@ check_status() {
 # --- Main ---
 case "$1" in
     cycle)
-        # The toggle commands now use the full path variable
+        # This toggle logic will now work correctly
         if [[ "$(check_status)" == "connected" ]]; then
             "$MULLVAD_CMD" disconnect
         else
@@ -34,7 +40,9 @@ case "$1" in
         # Output JSON for Waybar
         status=$(check_status)
         if [[ "$status" == "connected" ]]; then
-            tooltip_text=$("$MULLVAD_CMD" status | "$HEAD_CMD" -n 1)
+            # THIS IS THE IMPROVED TOOLTIP
+            # It grabs the FULL status output for more detail
+            tooltip_text=$("$MULLVAD_CMD" status)
             printf '{"text": "", "class": "connected", "tooltip": "%s"}' "$tooltip_text"
         else
             printf '{"text": "", "class": "disconnected", "tooltip": "Mullvad: Disconnected"}'

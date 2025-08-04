@@ -14,3 +14,4 @@ git push
 sudo nixos-rebuild switch --flake .#Framework 
 
 #./generation-cleaner.sh 
+#sudo nixos-rebuild switch --flake .#Framework --profile-name $custom_name-$(date +"%b-%d-%Y")

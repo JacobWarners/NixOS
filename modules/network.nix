@@ -16,6 +16,7 @@
         192.168.5.55   ai.home.local
       '';
   };
+  services.mullvad-vpn.enable = true;
 
   services.rpcbind.enable = true;
   # Import Wi-Fi secrets

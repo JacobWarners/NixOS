@@ -103,6 +103,7 @@ in {
     pulseaudio
 #    rofi-wayland
     nwg-displays
+    imagemagick
     slurp
     wlogout
     swaylock-effects

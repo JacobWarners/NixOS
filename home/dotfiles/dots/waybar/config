@@ -2,6 +2,7 @@
 
 {
     "layer": "top",
+    "style": "./style.css"
     "position": "top",
    // "output": "eDP-1", // Laptop monitor
     "gtk-layer-shell": true,

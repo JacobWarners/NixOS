@@ -16,32 +16,33 @@ if [ -z "$WALLPAPER_IMAGE" ]; then
   exit 1
 fi
 
-echo "Running wallust to generate color palette..."
-wallust run "$WALLPAPER_IMAGE"
+echo "Running wallust and capturing its output..."
+WALLUST_OUTPUT=$(wallust run "$WALLPAPER_IMAGE" 2>&1)
+echo "$WALLUST_OUTPUT"
 
-echo "Finding the latest color palette JSON file..."
-LATEST_JSON=$(ls -t "$CACHE_DIR"/*.json | head -n 1)
+# --- THE BULLETPROOF FIX ---
+# 1. Use `sed` to strip out all ANSI color escape codes.
+# 2. Pipe the now-clean text to `grep`.
+# 3. Pipe the result to `awk` to get the 5th field (the path).
+JSON_PATH=$(echo "$WALLUST_OUTPUT" | sed 's/\x1b\[[0-9;]*m//g' | grep 'cache: Using cache' | awk '{print $5}')
 
-if [ -z "$LATEST_JSON" ]; then
-  echo "Error: No JSON palette file found in $CACHE_DIR"
+# Check if we successfully found the path
+if [ -z "$JSON_PATH" ]; then
+  echo "Error: Could not determine the JSON palette file path from wallust's output."
   exit 1
 fi
 
-echo "Generating colors.css from $LATEST_JSON..."
-sed 's/}.*$/}/' "$LATEST_JSON" | jq -r 'to_entries[] | "@define-color \(.key) \(.value);"' > "$CSS_OUTPUT_FILE"
+echo "Found correct JSON file: $JSON_PATH"
+echo "Generating colors.css..."
+
+# Use the guaranteed-correct path to generate the CSS
+sed 's/}.*$/}/' "$JSON_PATH" | jq -r 'to_entries[] | "@define-color \(.key) \(.value);"' > "$CSS_OUTPUT_FILE"
 echo "Successfully created $CSS_OUTPUT_FILE!"
 
-# --- THE FINAL FIX: Force a full restart of Waybar ---
-echo "Performing a full restart of Waybar to apply new theme..."
-
-# The '|| true' prevents the script from exiting if waybar isn't running
-# The '-w' flag waits for the process to die before continuing.
+# --- Perform a full restart of Waybar to apply the theme ---
+echo "Performing a full restart of Waybar..."
 killall -w waybar || true
-
-# Give it a moment to die completely before restarting
 sleep 0.2
-
-# Restart waybar in the background
 waybar &
 
 echo "Theme updated and Waybar restarted for hot-reloading."

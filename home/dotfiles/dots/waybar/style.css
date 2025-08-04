@@ -99,7 +99,7 @@ window#waybar {
     min-width: 140px; /* 210px / 1.5 = 140px */
 }
 #network{
-    background: @color3;
+    background: @color4;
     padding: 2px 6.67px; /* 3px / 1.5 = 2px, 10px / 1.5 = 6.67px */
     margin: 0px 0px 0px 0px;
     border: 0px solid;

@@ -1,36 +1,43 @@
 #!/usr/bin/env bash
 
-VPN_CONNECT_CMD="mullvad connect"
-VPN_DISCONNECT_CMD="mullvad disconnect"
+# --- Configuration with FULL PATHS ---
+# NixOS path for Mullvad
+MULLVAD_CMD="/run/current-system/sw/bin/mullvad"
+
+# Standard paths for other tools (run 'which grep' and 'which head' to confirm)
+GREP_CMD="/run/current-system/sw/bin/grep"
+HEAD_CMD="/run/current-system/sw/bin/head"
 
 
-# Function to check VPN status
+# --- Logic ---
 check_status() {
-    if ip addr show "$VPN_INTERFACE" &> /dev/null; then
+    # Use full paths for every command in the pipeline
+    if "$MULLVAD_CMD" status | "$GREP_CMD" -q "Connected to"; then
         echo "connected"
     else
         echo "disconnected"
     fi
 }
 
-# Main logic: handle 'cycle' argument or print Waybar JSON
+
+# --- Main ---
 case "$1" in
     cycle)
-        # Toggle connection
+        # The toggle commands now use the full path variable
         if [[ "$(check_status)" == "connected" ]]; then
-            $VPN_DISCONNECT_CMD
+            "$MULLVAD_CMD" disconnect
         else
-            $VPN_CONNECT_CMD
+            "$MULLVAD_CMD" connect
         fi
         ;;
     *)
         # Output JSON for Waybar
         status=$(check_status)
         if [[ "$status" == "connected" ]]; then
-            printf '{"text": "", "class": "connected", "tooltip": "VPN: Connected"}'
+            tooltip_text=$("$MULLVAD_CMD" status | "$HEAD_CMD" -n 1)
+            printf '{"text": "", "class": "connected", "tooltip": "%s"}' "$tooltip_text"
         else
-            printf '{"text": "", "class": "disconnected", "tooltip": "VPN: Disconnected"}'
+            printf '{"text": "", "class": "disconnected", "tooltip": "Mullvad: Disconnected"}'
         fi
         ;;
 esac
-

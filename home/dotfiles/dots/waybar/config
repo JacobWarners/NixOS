@@ -190,7 +190,7 @@
         "tooltip-format": "{ifname} via {gwaddr}\n           {signalStrength}% ",
         "format-linked": "{ifname} (No IP)  ",
         "format-disconnected": "  ",
-        "on-click": "nmcli dev wifi rescan; hyprctl notify 5 1500 'rgb(d3c6aa)' 'Wifi rescan!'"
+        "on-click": "~/.config/waybar/scripts/wifi.sh
     },
     "backlight": {
         "device": "intel_backlight",

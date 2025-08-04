@@ -55,6 +55,11 @@ in {
   };
   gtk = {
     enable = true;
+      cursorTheme = {
+    name = "Bibata-Modern-Classic";
+    package = pkgs.bibata-cursors;
+    size = 24;
+  };
     iconTheme = {
       package = pkgs.catppuccin-papirus-folders.override {
         flavor = "macchiato";
@@ -82,12 +87,12 @@ in {
     };
   };
 
-  home.pointerCursor = {
-    name = "Bibata-Modern-Classic";
-    package = pkgs.bibata-cursors;
-    size = 24;
-    enable = true;
-  };
+#  home.pointerCursor = {
+#    name = "Bibata-Modern-Classic";
+#    package = pkgs.bibata-cursors;
+#    size = 24;
+#    enable = true;
+#  };
   # --- END: Theme and Cursor Configuration ---
 
 

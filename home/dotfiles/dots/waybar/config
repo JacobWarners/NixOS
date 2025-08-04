@@ -102,7 +102,7 @@
 
 
 "custom/vpn": {
-    "format": "{}",
+    "format": " ",
     "return-type": "json",
     "exec": "~/.config/waybar/scripts/vpn.sh",
     "on-click": "~/.config/waybar/scripts/vpn.sh cycle",

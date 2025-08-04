@@ -282,20 +282,22 @@ window#waybar {
 }
 
 /* Use the module name (#custom-vpn) and the class from the script (.disconnected / .connected) */
-
-#custom-vpn.disconnected {
-    background-image: url("/home/jake/.config/waybar/pics/Mullvad-Off.png");
-
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    min-width: 20px; /* Adjust size as needed */
-}
-
 #custom-vpn.connected {
+    background-color: #2e3336;
     background-image: url("/home/jake/.config/waybar/pics/Mullvad-On.png");
+    border-radius: 8px;
+    border: 0px solid;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    min-width: 20px; /* Adjust size as needed */
 }
+#custom-vpn.disconnected {
+    background-color: #2e3336;
+    background-image: url("/home/jake/.config/waybar/pics/Mullvad-Off.png");
+    border-radius: 8px;
+    border: 0px solid;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+

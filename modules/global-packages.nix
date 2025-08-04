@@ -16,6 +16,7 @@
     btop
     mpg123
     mullvad
+    mullvad-vpn
     ffmpeg
     nfs-utils
     obs-studio

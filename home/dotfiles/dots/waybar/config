@@ -98,6 +98,21 @@
 },
 
 
+
+"custom/vpn": {
+    "format": "{}",
+    "return-type": "json",
+
+    "format-icons": {
+        "performance": "󱐋",
+        "powersave": "󰌪"
+    },
+    "exec": "/home/jake/.config/waybar/scripts/governor.sh",
+    "on-click": "/home/jake/.config/waybar/scripts/governor.sh cycle",
+    "interval": 2
+},
+
+
     "custom/dot": {
         "format": "",
         "tooltip": false

@@ -106,6 +106,9 @@
     "return-type": "json",
     "exec": "~/.config/waybar/scripts/vpn.sh",
     "on-click": "~/.config/waybar/scripts/vpn.sh cycle",
+    "on-click-right": "~/.config/waybar/scripts/vpn-gui.sh",
+
+
     "interval": 2
 },
 

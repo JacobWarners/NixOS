@@ -245,7 +245,7 @@ window#waybar {
   /* --- These properties are for the module's box --- */
   background-color: #175b70;
   color: #ffffff;
-  padding: 0 12px 0 55px; /* Top, Right, Bottom, Left (30px on left for image) */
+  padding: 0 12px 0 75px; /* Top, Right, Bottom, Left (30px on left for image) */
   margin: 0 5px;
   border-radius: 8px;
   font-weight: bold;
@@ -290,8 +290,8 @@ window#waybar {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    min-height: 42px;
-    min-width: 42px;
+    min-height: 40px;
+    min-width: 40px;
 }
 #custom-vpn.disconnected {
     background-color: #2e3336;
@@ -301,7 +301,7 @@ window#waybar {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    min-height: 42px;
-    min-width: 42px;
+    min-height: 40px;
+    min-width: 40px;
 }
 

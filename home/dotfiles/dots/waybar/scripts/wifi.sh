@@ -1,4 +1,4 @@
-#!/usr/vin/env bash
+#!/usr/bin/env bash
 
 # A simple rofi-based wifi menu using nmcli
 # Icons from Nerd Fonts:  (secure),  (open),  (wifi)

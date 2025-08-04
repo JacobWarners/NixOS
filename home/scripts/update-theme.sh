@@ -16,38 +16,41 @@ echo "Setting new wallpaper with swww..."
 swww img "$WALLPAPER_IMAGE" --transition-type any
 
 echo "Running wallust to generate all color palettes..."
-# We run wallust without capturing output, its messages will show in the terminal
-wallust run "$WALLPAPER_IMAGE"
-sleep 0.1 # Give filesystem a moment to update
+WALLUST_OUTPUT=$(wallust run "$WALLPAPER_IMAGE" 2>&1)
+echo "$WALLUST_OUTPUT"
 
-# Find the latest JSON palette file
-LATEST_JSON=$(ls -t "$CACHE_DIR"/*.json | head -n 1)
-if [ -z "$LATEST_JSON" ]; then
-  echo "Error: No JSON palette file found after running wallust."
+# --- THE CORRECT LOGIC FOR FINDING THE JSON FILE ---
+# First, try to find the path for an EXISTING wallpaper in the log
+JSON_PATH=$(echo "$WALLUST_OUTPUT" | sed 's/\x1b\[[0-9;]*m//g' | grep 'Using cache' | awk '{print $5}')
+
+# If that fails, it must be a NEW wallpaper, so find the newest file in the cache
+if [ -z "$JSON_PATH" ]; then
+  echo "Existing wallpaper not found in cache log, finding newest file for new wallpaper..."
+  sleep 0.1 # Give filesystem a moment
+  JSON_PATH=$(ls -t "$CACHE_DIR"/*.json | head -n 1)
+fi
+
+# Final check to ensure we have a path
+if [ -z "$JSON_PATH" ]; then
+  echo "Error: Could not determine JSON palette file path."
   exit 1
 fi
 
+echo "Using JSON file: $JSON_PATH"
+# --- END OF LOGIC FIX ---
+
 # --- Generate Waybar CSS ---
 echo "Generating colors.css for Waybar..."
-sed 's/}.*$/}/' "$LATEST_JSON" | jq -r 'to_entries[] | "@define-color \(.key) \(.value);"' > "$CSS_OUTPUT_FILE"
+sed 's/}.*$/}/' "$JSON_PATH" | jq -r 'to_entries[] | "@define-color \(.key) \(.value);"' > "$CSS_OUTPUT_FILE"
 
-# --- NEW: Apply theme to GTK applications ---
+# --- Apply theme to GTK applications ---
 echo "Applying theme to GTK applications..."
-# wallust generates gtk.css and gtk-4.0.css in its cache
 WALLUST_GTK3_CSS="$CACHE_DIR/gtk.css"
 WALLUST_GTK4_CSS="$CACHE_DIR/gtk-4.0.css"
-
-# Ensure the target directories exist
 mkdir -p "$HOME/.config/gtk-3.0"
 mkdir -p "$HOME/.config/gtk-4.0"
-
-# Copy the colors to where GTK will find them
-if [ -f "$WALLUST_GTK3_CSS" ]; then
-    cp "$WALLUST_GTK3_CSS" "$HOME/.config/gtk-3.0/gtk.css"
-fi
-if [ -f "$WALLUST_GTK4_CSS" ]; then
-    cp "$WALLUST_GTK4_CSS" "$HOME/.config/gtk-4.0/gtk.css"
-fi
+if [ -f "$WALLUST_GTK3_CSS" ]; then cp "$WALLUST_GTK3_CSS" "$HOME/.config/gtk-3.0/gtk.css"; fi
+if [ -f "$WALLUST_GTK4_CSS" ]; then cp "$WALLUST_GTK4_CSS" "$HOME/.config/gtk-4.0/gtk.css"; fi
 echo "GTK theme colors updated."
 
 # --- Reload Components ---

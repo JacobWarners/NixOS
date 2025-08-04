@@ -1,23 +1,17 @@
 #!/usr/bin/env bash
 
 # --- Configuration with FULL PATHS ---
-# Your correct NixOS path for Mullvad
+# Your correct NixOS paths
 MULLVAD_CMD="/run/current-system/sw/bin/mullvad"
-
-# Standard path for the 'head' command (confirm with 'which head' if needed)
 HEAD_CMD="/run/current-system/sw/bin/head"
+# Add the path to sed you found with 'which sed'
+SED_CMD="/run/current-system/sw/bin/sed"
 
 
 # --- Logic ---
-######################################
-## THIS IS THE CORRECTED LOGIC ##
-######################################
 check_status() {
-    # Get the very first line of the status output
     local first_line
     first_line=$("$MULLVAD_CMD" status | "$HEAD_CMD" -n 1)
-
-    # Check if that line is exactly the word "Connected"
     if [[ "$first_line" == "Connected" ]]; then
         echo "connected"
     else
@@ -29,7 +23,6 @@ check_status() {
 # --- Main ---
 case "$1" in
     cycle)
-        # This toggle logic will now work correctly
         if [[ "$(check_status)" == "connected" ]]; then
             "$MULLVAD_CMD" disconnect
         else
@@ -37,12 +30,13 @@ case "$1" in
         fi
         ;;
     *)
-        # Output JSON for Waybar
         status=$(check_status)
         if [[ "$status" == "connected" ]]; then
-            # THIS IS THE IMPROVED TOOLTIP
-            # It grabs the FULL status output for more detail
-            tooltip_text=$("$MULLVAD_CMD" status)
+            #########################################################
+            # THIS IS THE FIX:
+            # We pipe the status to 'sed' to escape newlines for JSON
+            #########################################################
+            tooltip_text=$("$MULLVAD_CMD" status | "$SED_CMD" -z 's/\n/\\n/g')
             printf '{"text": "", "class": "connected", "tooltip": "%s"}' "$tooltip_text"
         else
             printf '{"text": "", "class": "disconnected", "tooltip": "Mullvad: Disconnected"}'

@@ -130,7 +130,7 @@ in {
     pamixer # A pulseaudio/pipewire mixer for volume control
     # Add other user-specific packages here
   ];
-    xdg.configFile."wallust/templates".source = "/home/jake/nixos-config/home/wallust/templates";
+    xdg.configFile."wallust/templates".source = "${pkgs.wallust}/share/wallust/templates";
 
 programs.neovim = {
   enable = true;
@@ -402,6 +402,7 @@ programs.rofi = {
       bind = $mainMod, mouse:274, killactive,
       bind = , Print, exec, grimshot --notify savecopy area
       bind = $mainMod, M, exit,
+      bind = $mainMod, T, exec, /home/jake/.config/scripts/rofi-theme-selector.sh
       bind = $mainMod, E, exec, $fileManager
       bind = $mainMod, V, togglefloating,
       bind = LCTRL SUPER, UP, exec, rofi -show drun

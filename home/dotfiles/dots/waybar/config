@@ -190,7 +190,7 @@
         "tooltip-format": "{ifname} via {gwaddr}\n           {signalStrength}% ",
         "format-linked": "{ifname} (No IP)  ",
         "format-disconnected": "  ",
-        "on-click": "~/.config/waybar/scripts/wifi.sh
+        "on-click": "~/.config/waybar/scripts/wifi.sh"
     },
     "backlight": {
         "device": "intel_backlight",

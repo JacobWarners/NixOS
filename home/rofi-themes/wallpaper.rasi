@@ -1,0 +1,43 @@
+/* ~/.config/rofi/wallpaper.rasi */
+* {
+    background-color: #2E3440;
+    text-color: #D8DEE9;
+    font: "monospace 12";
+}
+
+window {
+    width: 800px;
+    padding: 20px;
+    border: 2px;
+    border-color: #88C0D0;
+    border-radius: 8px;
+}
+
+mainbox {
+    children: [inputbar, listview];
+}
+
+listview {
+    columns: 4;
+    lines: 2;
+    spacing: 20px;
+}
+
+element {
+    orientation: vertical;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+element-icon {
+    size: 150px;
+    border-radius: 8px;
+}
+
+element-text {
+    horizontal-align: 0.5;
+}
+
+element selected {
+    background-color: #4C566A;
+}

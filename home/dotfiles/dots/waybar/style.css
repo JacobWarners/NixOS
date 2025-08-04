@@ -147,9 +147,6 @@ window#waybar {
 /* GOOD STATE: Green */
 #battery.good {
   color: #66cc66; /* A pleasant green */
-  padding: 0 12px 0 10px; /* Top, Right, Bottom, Left (30px on left for image) */
-
-
 }
 
 /* WARNING STATE: Yellow */

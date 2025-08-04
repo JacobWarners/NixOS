@@ -129,6 +129,7 @@ in {
     pamixer # A pulseaudio/pipewire mixer for volume control
     # Add other user-specific packages here
   ];
+    xdg.configFile."wallust/templates".source = "${pkgs.wallust}/share/wallust/templates";
 
 programs.neovim = {
   enable = true;
@@ -187,6 +188,7 @@ home.file = {
   ".tmux.conf".source = ./dotfiles/.tmux.conf;
   ".config/kitty".source = ./kitty;
   ".config/scripts".source = ./scripts;
+
 };
 # You can place the programs.rofi block after the home.file block
 programs.rofi = {

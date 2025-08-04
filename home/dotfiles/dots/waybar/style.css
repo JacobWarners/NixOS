@@ -1,22 +1,23 @@
+@import '/home/jake/.cache/wallust/colors.css';
 * {
     font-size: 24px; /* 18px / 1.5 = 12px */
     font-family: monospace;
     font-weight: bold;
-    color: #e3d6ba;
+    color: @foreground;
 }
 tooltip label {
     padding: 3px 3px 3px 3px;
     font-family: monospace;
     font-weight: bold;
     font-size: 12px; /* 18px / 1.5 = 12px */
-    color: #e3d6ba;
+    color: @foreground;
 }
 tooltip {
     padding: 10px 10px 10px 10px; /* Padding generally doesn't need to be scaled unless it affects overall bar size significantly */
-    background: #2e3336;
+    background: @color0;
     border: 0px solid;
     border-radius: 8px;
-    color: #e3d6ba;
+    color: @foreground;
 }
 
 window#waybar {
@@ -40,12 +41,12 @@ window#waybar {
     font-family: Sonic;
 }
 #custom-app{
-    background: #2e3336;
+    background: @color0;
     border: 0px solid;
     border-radius: 8px;
 }
 #custom-nyt{
-    background-color: #2e3336;
+    background-color: @color0;
     border-radius: 8px;
     border: 0px solid;
     background-image: url("/home/jake/.config/waybar/pics/spelling-bee.png");
@@ -62,7 +63,7 @@ window#waybar {
 #custom-workspaces{
     padding: 2px 0px 2px 12px; /* 3px / 1.5 = 2px, 18px / 1.5 = 12px */
     background: #1e2326;
-    background: #2e3336;
+    background: @color0;
     border: 0px solid;
     border-radius: 8px;
     min-width: 146.67px; /* 220px / 1.5 = 146.67px */
@@ -82,7 +83,7 @@ window#waybar {
 
 #clock{
     padding: 2px 6.67px 2px 6.67px; /* 3px / 1.5 = 2px, 10px / 1.5 = 6.67px */
-    background: rgb(23, 91, 112);
+    background: @color4;
     border: 0px solid;
     border-radius: 8px;
 }
@@ -91,14 +92,14 @@ window#waybar {
     background: #141619;
 }
 #hardware{
-    background: rgb(23, 91, 112);
+    background: @color4;
     padding: 0px 0px 0px 0px;
     border: 0px solid;
     border-radius: 8px;
     min-width: 140px; /* 210px / 1.5 = 140px */
 }
 #network{
-    background: rgb(23, 91, 112);
+    background: @color4;
     padding: 2px 6.67px; /* 3px / 1.5 = 2px, 10px / 1.5 = 6.67px */
     margin: 0px 0px 0px 0px;
     border: 0px solid;
@@ -108,7 +109,7 @@ window#waybar {
 
 #battery {
     padding: 2px 8px 2px 10px; /* 3px / 1.5 = 2px, 10px / 1.5 = 6.67px */
-    background: #2e3336;
+    background: @color0;
 /* Top, Right, Bottom, Left (30px on left for image) */
 
     border: 0px solid;
@@ -228,7 +229,7 @@ window#waybar {
 /* --- CPU Governor Styles --- */
 #custom-cpu-governor {
     background-color: #f9e2af;
-    background: #2e3336;
+    background: @color0;
     border: 0px solid;
     border-radius: 8px;
     padding: 0 10px;
@@ -268,10 +269,10 @@ window#waybar {
     padding: 0 16px 0 10px; /* Top, Right, Bottom, Left (30px on left for image) */
 
     color: #89b4fa; /* A nice light blue */
-    background-color: #2e3336;
+    background-color: @color0;
     
     /* Gradient for the filling effect */
-    background-image: linear-gradient(to right, #175b70 50%, #2e3336 50%);
+    background-image: linear-gradient(to right, #175b70 50%, @color0 50%);
     background-size: 200% 100%;
     
     /* Animation settings */
@@ -283,7 +284,7 @@ window#waybar {
 
 /* Use the module name (#custom-vpn) and the class from the script (.disconnected / .connected) */
 #custom-vpn.connected {
-    background-color: #2e3336;
+    background-color: @color0;
     background-image: url("/home/jake/.config/waybar/pics/Mullvad-On.png");
     border-radius: 8px;
     border: 0px solid;
@@ -294,7 +295,7 @@ window#waybar {
     min-width: 40px;
 }
 #custom-vpn.disconnected {
-    background-color: #2e3336;
+    background-color: @color0;
     background-image: url("/home/jake/.config/waybar/pics/Mullvad-Off.png");
     border-radius: 8px;
     border: 0px solid;

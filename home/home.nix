@@ -190,7 +190,7 @@ home.file = {
   ".tmux.conf".source = ./dotfiles/.tmux.conf;
   ".config/kitty".source = ./kitty;
   ".config/scripts".source = ./scripts;
-  ".config/wallus".source = ./wallust;
+  ".config/wallust".source = ./wallust;
 
 
 };

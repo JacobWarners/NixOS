@@ -216,7 +216,7 @@
     "bluetooth": {
 	"on-click": "blueman-manager",
         "on-click-right": "/home/jake/.config/waybar/scripts/toggle-bluetooth.sh",
-        "format": "  0",
+        "format": " 0",
  //       "format-disabled": "",
         "format-connected": "  {num_connections}",
         "tooltip-format": "{controller_alias}\t{controller_address}",

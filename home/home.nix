@@ -130,7 +130,8 @@ in {
     pamixer # A pulseaudio/pipewire mixer for volume control
     # Add other user-specific packages here
   ];
-    xdg.configFile."wallust/templates".source = "${pkgs.wallust}/share/wallust/templates";
+
+  xdg.configFile."wallust/templates".source = /home/jake/nixos-config/home/wallust/templates;
 
 programs.neovim = {
   enable = true;

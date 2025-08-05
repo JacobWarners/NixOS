@@ -217,7 +217,6 @@ window#waybar {
 }
 
 #bluetooth.on {
-    border-radius: 8px;
     color: #89b4fa; /* A nice blue */
 }
 

@@ -46,17 +46,13 @@ mkdir -p "$HOME/.config/gtk-3.0"
 if [ -f "$WALLUST_GTK3_CSS" ]; then cp "$WALLUST_GTK3_CSS" "$HOME/.config/gtk-3.0/gtk.css"; fi
 echo "GTK theme colors updated."
 
-# --- NEW: Apply theme to Firefox ---
+# --- Apply theme to Firefox ---
 echo "Applying theme to Firefox..."
-# Find the generated userChrome.css from wallust's cache
 WALLUST_CHROME_CSS="$CACHE_DIR/userChrome.css"
-# Find the default Firefox profile directory
 FIREFOX_PROFILE_DIR=$(find "$HOME/.mozilla/firefox/" -maxdepth 1 -type d -name "*.default-release")
 
 if [ -f "$WALLUST_CHROME_CSS" ] && [ -d "$FIREFOX_PROFILE_DIR" ]; then
-    # Ensure the 'chrome' subdirectory exists
     mkdir -p "$FIREFOX_PROFILE_DIR/chrome"
-    # Copy the theme to where Firefox will find it
     cp "$WALLUST_CHROME_CSS" "$FIREFOX_PROFILE_DIR/chrome/userChrome.css"
     echo "Firefox theme updated. You may need to restart Firefox to see changes."
 else
@@ -66,7 +62,9 @@ fi
 # --- Reload Components ---
 echo "Sending reload signal to Waybar..."
 pkill -SIGUSR2 waybar
+
 echo "Sending reload signal to Kitty..."
-pkill -SIGUSR-I kitty || true
+# THIS IS THE CORRECTED LINE
+pkill -SIGUSR1 kitty || true
 
 echo "Desktop theme fully updated."

@@ -131,7 +131,7 @@ in {
     # Add other user-specific packages here
   ];
 
-  xdg.configFile."wallust/templates".source = /home/jake/nixos-config/home/wallust/templates;
+
 
 programs.neovim = {
   enable = true;
@@ -190,6 +190,8 @@ home.file = {
   ".tmux.conf".source = ./dotfiles/.tmux.conf;
   ".config/kitty".source = ./kitty;
   ".config/scripts".source = ./scripts;
+  ".config/wallus".source = ./wallust;
+
 
 };
 # You can place the programs.rofi block after the home.file block

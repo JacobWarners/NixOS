@@ -6,7 +6,6 @@
 }
 
 configuration {
-    # Disable GIF previews
     disable-gif-preview: true;
 }
 window {

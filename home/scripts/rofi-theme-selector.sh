@@ -17,9 +17,18 @@ generate_rofi_list() {
         THUMBNAIL_PATH="$THUMBNAIL_DIR/$THUMBNAIL_FNAME"
 
         if [ ! -f "$THUMBNAIL_PATH" ]; then
-            magick "$F_PATH" -thumbnail '200x200^' -gravity center -extent 200x200 "$THUMBNAIL_PATH"
+            # Set the source image path, handling GIFs specifically
+            local source_image="$F_PATH"
+            # Check if the file is a gif (case-insensitive)
+            if [[ "${F_PATH,,}" == *.gif ]]; then
+                # Use the first frame of the GIF
+                source_image="$F_PATH[0]"
+            fi
+
+            # Generate the thumbnail from the correct source
+            magick "$source_image" -thumbnail '200x200^' -gravity center -extent 200x200 "$THUMBNAIL_PATH"
         fi
-        
+
         echo -en "$(basename "$F_PATH")\0icon\x1f$THUMBNAIL_PATH\n"
     done
 }

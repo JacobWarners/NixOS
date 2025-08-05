@@ -5,9 +5,6 @@
     font: "monospace 12";
 }
 
-configuration {
-    disable-gif-preview: true;
-}
 window {
     width: 800px;
     padding: 20px;

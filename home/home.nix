@@ -191,7 +191,6 @@ home.file = {
   ".config/kitty".source = ./kitty;
   ".config/scripts".source = ./scripts;
   ".cache/wallust".source = ./wallust;
-<D-r>
 
 };
 # You can place the programs.rofi block after the home.file block

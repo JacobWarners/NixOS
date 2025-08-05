@@ -211,7 +211,8 @@ window#waybar {
     min-width: 120px; /* 180px / 1.5 = 120px */
 }
 #bluetooth {
-    padding: 0 8px 0 8px; /* Top, Right, Bottom, Left (30px on left for image) */
+    border-radius: 8px;
+    padding: 0px 0px 0px 0px; /* Top, Right, Bottom, Left (30px on left for image) */
     background-color: @color0;
     color: #9399b2; /* A muted, grayish color */
 }

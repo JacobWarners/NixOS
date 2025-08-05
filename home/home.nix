@@ -190,8 +190,8 @@ home.file = {
   ".tmux.conf".source = ./dotfiles/.tmux.conf;
   ".config/kitty".source = ./kitty;
   ".config/scripts".source = ./scripts;
-  ".config/wallust".source = ./wallust;
-
+  ".cache/wallust".source = ./wallust;
+<D-r>
 
 };
 # You can place the programs.rofi block after the home.file block

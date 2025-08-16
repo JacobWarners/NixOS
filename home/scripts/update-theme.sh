@@ -61,15 +61,15 @@ cp "$CACHE_DIR/gtk.css" "$HOME/.config/gtk-3.0/gtk.css"
 
 # --- THIS IS THE CORRECTED PART ---
 # Use the exact Firefox profile path you provided
-FIREFOX_PROFILE_DIR="/home/jake/.mozilla/firefox/hv5gsrjf.default"
-if [ -d "$FIREFOX_PROFILE_DIR" ]; then
-    mkdir -p "$FIREFOX_PROFILE_DIR/chrome"
-    cp "$CACHE_DIR/userChrome.css" "$FIREFOX_PROFILE_DIR/chrome/userChrome.css"
-    echo "Firefox theme updated. Restart Firefox to see changes."
-else
-    echo "Warning: Specific Firefox profile not found at $FIREFOX_PROFILE_DIR"
-fi
-
+# FIREFOX_PROFILE_DIR="/home/jake/.mozilla/firefox/hv5gsrjf.default"
+# if [ -d "$FIREFOX_PROFILE_DIR" ]; then
+#     mkdir -p "$FIREFOX_PROFILE_DIR/chrome"
+#     cp "$CACHE_DIR/userChrome.css" "$FIREFOX_PROFILE_DIR/chrome/userChrome.css"
+#     echo "Firefox theme updated. Restart Firefox to see changes."
+# else
+#     echo "Warning: Specific Firefox profile not found at $FIREFOX_PROFILE_DIR"
+# fi
+# 
 # --- Reload Components ---
 echo "Sending reload signal to Waybar..."
 pkill -SIGUSR2 waybar

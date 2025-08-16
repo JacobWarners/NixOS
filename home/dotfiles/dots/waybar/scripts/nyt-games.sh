@@ -10,6 +10,7 @@ hyprctl dispatch workspace 5
 firefox --new-window "$SPELLING_BEE_URL" &
 sleep 1
 firefox --new-window "$BUDDY_URL" &
+sleep 1
 hyprctl dispatch togglefloating active
 hyprctl dispatch fullscreen 1
 sleep 1

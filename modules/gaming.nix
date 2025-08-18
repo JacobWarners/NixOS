@@ -1,59 +1,59 @@
-# modules/gaming.nix
 { config, pkgs, lib, ... }:
 
 {
+  # Other gaming packages can remain here
   environment.systemPackages = with pkgs; [
-    # Your XIVLauncher script
     (pkgs.writeShellScriptBin "xivlauncher-amd-egpu" ''
       #!${pkgs.bash}/bin/bash
       export DXVK_HUD="0"
+      # To ensure XIVLauncher also uses the dGPU, we add DRI_PRIME=1 here too.
+      export DRI_PRIME=1
       exec "${xivlauncher}/bin/.XIVLauncher.Core-wrapped" "$@"
     '')
-
-#      export DRI_PRIME=1
-
     lutris
     wineWowPackages.staging
     winetricks
-    vulkan-tools # This provides vulkaninfo and ensures vulkan-loader is present
+    vulkan-tools
     radeontop
     intel-gpu-tools
     mangohud
     gamemode
     dxvk
     xivlauncher
-    # Your other desired gaming packages here
   ];
 
-  hardware.graphics = {
-    enable = true;
-    extraPackages = with pkgs; [
-      mesa 
-    ];
-  };
-
-  # We are intentionally omitting the explicit hardware.vulkan section for now.
-  # The mesa.drivers package and vulkan-tools should be sufficient to set up
-  # Vulkan ICDs for Intel and AMD. We will verify this with vulkaninfo.
+  # This is no longer needed here, as it's correctly set in another module.
+  # We are removing a redundant declaration.
+  # hardware.graphics = { ... };
 
   environment.variables = {
-    AMD_VULKAN_ICD = lib.mkForce "RADV";# Prefer RADV for AMD GPUs
+    # This setting is good, it forces the use of the high-performance RADV driver.
+    AMD_VULKAN_ICD = lib.mkForce "RADV";
   };
 
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
-    # dedicatedServer.openFirewall = true;
-    # extraCompatPackages = with pkgs; [ steam-runtime ];
+
+    # === THE FIX IS HERE ===
+    # 1. Force Steam to use the AMD dGPU.
+    # We override the default Steam package with one that is wrapped in a
+    # script setting DRI_PRIME=1, which tells Vulkan/OpenGL to use the
+    # non-default GPU (your RX 6600).
+    package = pkgs.steam.override {
+      extraEnv = {
+        DRI_PRIME = "1";
+      };
+    };
+
+    # 2. Explicitly provide 32-bit AMD drivers to Steam's environment.
+    # Many games and Steam itself rely on 32-bit libraries. This ensures
+    # the correct Vulkan drivers are always available.
+    extraPackages = with pkgs; [
+      amdvlk # Official AMD 64-bit Vulkan driver
+      (driversi686.amdvlk) # Official AMD 32-bit Vulkan driver
+    ];
   };
 
   programs.gamemode.enable = true;
-
-  # Optional: If you use PipeWire
-  # services.pipewire = {
-  #   enable = true;
-  #   alsa.enable = true;
-  #   alsa.support32Bit = true;
-  #   pulse.enable = true;
-  # };
 }

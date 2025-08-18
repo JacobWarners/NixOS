@@ -3,44 +3,32 @@
 
 {
   environment.systemPackages = with pkgs; [
-    # Your XIVLauncher script
-    (pkgs.writeShellScriptBin "xivlauncher-amd-egpu" ''
-      #!${pkgs.bash}/bin/bash
-      export DXVK_HUD="0"
-      export DRI_PRIME=1
-      exec "${xivlauncher}/bin/.XIVLauncher.Core-wrapped" "$@"
-    '')
+    # ... other packages like lutris, xivlauncher, etc. ...
 
-    lutris
-    wineWowPackages.staging
-    winetricks
-    vulkan-tools
-    radeontop
-    intel-gpu-tools
-    mangohud
-    gamemode
-    dxvk
-    xivlauncher
+    # === THE NEW LAUNCHER SCRIPT ===
+    # We create a new command called `steam-amd`.
+    # This script explicitly sets DRI_PRIME=1 to force the use of the AMD GPU,
+    # then executes the real Steam binary.
+    (pkgs.writeShellScriptBin "steam-amd" ''
+      #!${pkgs.bash}/bin/bash
+      export DRI_PRIME=1
+      exec ${pkgs.steam}/bin/steam "$@"
+    '')
   ];
 
   environment.variables = {
     AMD_VULKAN_ICD = lib.mkForce "RADV"; # Prefer RADV for AMD GPUs
   };
 
+  # We now use a simplified Steam configuration.
+  # The override has been removed because it was not working.
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
-
-    package = pkgs.steam.override {
-      extraEnv = {
-        DRI_PRIME = "1";
-      };
-    };
-
-    # Use the explicitly passed 32-bit package set.
+    # Ensure the 32-bit drivers are available.
     extraPackages = [
-      pkgs.amdvlk      # The 64-bit package from the default pkgs
-      pkgs-i686.amdvlk # The 32-bit package from the pkgs-i686 set
+      pkgs.amdvlk
+      pkgs-i686.amdvlk
     ];
   };
 

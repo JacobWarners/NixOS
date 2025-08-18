@@ -2,13 +2,20 @@
 
 {
   environment.systemPackages = with pkgs; [
-    (pkgs.writeShellScriptBin "steam" ''
-      #!${pkgs.bash}/bin/bash
-      export DRI_PRIME=0
-      exec ${pkgs.steam}/bin/steam "$@"
-    '')
-    # ... your other packages
+    # ... your other packages ...
+    
+    # === ADD THIS LINE ===
+    # This installs the mangohud command to your system, making it available.
+    mangohud
   ];
+
+  # This script now launches Steam on the STABLE Integrated GPU.
+  # We will tell Steam how to launch games on the AMD GPU separately.
+  (pkgs.writeShellScriptBin "steam" ''
+    #!${pkgs.bash}/bin/bash
+    export DRI_PRIME=0
+    exec ${pkgs.steam}/bin/steam "$@"
+  '');
 
   environment.variables = {
     AMD_VULKAN_ICD = lib.mkForce "RADV";
@@ -18,9 +25,7 @@
     enable = true;
     remotePlay.openFirewall = true;
     
-    # === FINAL MANGO HUD FIX ===
-    # Add both 64-bit and 32-bit MangoHud to ensure it works
-    # with any game, regardless of its architecture.
+    # This ensures the necessary libraries are available inside Steam's runtime
     extraPackages = [
       pkgs.mesa
       pkgs-i686.mesa

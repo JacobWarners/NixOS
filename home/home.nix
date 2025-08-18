@@ -218,7 +218,6 @@ programs.rofi = {
   wayland.windowManager.hyprland = {
     enable = true;
     package = pkgs.hyprland; # Still needed to specify the package
-    settings.env = [ "DRI_PRIME,1"];
     # plugins = [
     #   inputs.hypr-dynamic-cursors.packages.${pkgs.system}.hypr-dynamic-cursors
     # ];

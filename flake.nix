@@ -1,4 +1,3 @@
-# /home/jake/nixos-config/flake.nix
 {
   description = "NixOS Configuration with Flakes and Home Manager";
 
@@ -21,19 +20,20 @@
   outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, ratatat-listener, ... }@inputs:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system}; # <-- ADD THIS LINE
+      pkgs = nixpkgs.legacyPackages.${system};
+      # Create a dedicated package set for the i686 (32-bit) architecture.
+      pkgs-i686 = nixpkgs.legacyPackages."i686-linux";
     in
     {
       nixosConfigurations.Framework = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs; };
+        # Pass the 32-bit package set down to all modules via specialArgs.
+        specialArgs = { inherit inputs pkgs-i686; };
 
         modules = [
           ./configuration.nix
           home-manager.nixosModules.home-manager
 
-          # This wrapper makes your Home Manager settings a valid module.
-          # This is the critical fix.
           ({ pkgs, ... }: {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -50,7 +50,7 @@
       };
       homeConfigurations.jake = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = { inherit inputs; }; # Makes inputs available in home.nix
+        extraSpecialArgs = { inherit inputs; };
         modules = [
           ./home/home.nix
           inputs.ratatat-listener.homeManagerModules.default

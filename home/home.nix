@@ -218,6 +218,7 @@ programs.rofi = {
   wayland.windowManager.hyprland = {
     enable = true;
     package = pkgs.hyprland; # Still needed to specify the package
+    settings.env = [ "DRI_PRIME,1"];
     # plugins = [
     #   inputs.hypr-dynamic-cursors.packages.${pkgs.system}.hypr-dynamic-cursors
     # ];
@@ -301,7 +302,6 @@ programs.rofi = {
       # See https://wiki.hyprland.org/Configuring/Environment-variables/
       env = XCURSOR_SIZE,24
       env = HYPRCURSOR_SIZE,24
-      env = DRI_PRIME,1
       # Add other environment variables if needed, e.g., MOZ_ENABLE_WAYLAND, QT_QPA_PLATFORM
 
       #####################

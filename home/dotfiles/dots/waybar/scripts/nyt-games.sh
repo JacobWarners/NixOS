@@ -7,9 +7,9 @@ pactl set-sink-volume @DEFAULT_SINK@ 100%
 pactl set-sink-mute @DEFAULT_SINK@ 0
 paplay ~/.config/waybar/sounds/spellingbee.wav &
 hyprctl dispatch workspace 5
-firefox --new-window "$SPELLING_BEE_URL" &
-sleep 1
 firefox --new-window "$BUDDY_URL" &
+sleep 1
+firefox --new-window "$SPELLING_BEE_URL" &
 sleep 1
 hyprctl dispatch togglefloating active
 hyprctl dispatch fullscreen 1

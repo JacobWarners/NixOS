@@ -7,9 +7,10 @@
     (pkgs.writeShellScriptBin "xivlauncher-amd-egpu" ''
       #!${pkgs.bash}/bin/bash
       export DXVK_HUD="0"
-      export DRI_PRIME=1
       exec "${xivlauncher}/bin/.XIVLauncher.Core-wrapped" "$@"
     '')
+
+#      export DRI_PRIME=1
 
     lutris
     wineWowPackages.staging

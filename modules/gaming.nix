@@ -19,6 +19,7 @@
     # You can add other gaming-related packages here too.
     # For example:
      lutris
+     moonlight-qt
   ];
 
   environment.variables = {

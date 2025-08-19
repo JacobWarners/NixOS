@@ -15,12 +15,17 @@
   # === THIS IS THE FINAL FIX ===
   # All other xdg.portal blocks must be removed. This single block
   # correctly configures the portals for Hyprland and GTK apps (like Steam).
+  services.flatpak.enable = true;
+
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
       xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
     ];
+  };
+    xdg.mime.defaultApplications = {
+    "x-scheme-handler/zoommtg" = "us.zoom.Zoom.desktop";
   };
 
   # System-wide packages typically used in a Hyprland environment.

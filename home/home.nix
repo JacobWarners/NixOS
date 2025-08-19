@@ -119,8 +119,6 @@ in {
     nerd-fonts.jetbrains-mono
     pipewire
     wireplumber
-    xdg-desktop-portal
-    xdg-desktop-portal-hyprland
     # Add the custom font package here
     sonic-font
     # Common dependencies for scripts used in these kinds of themes
@@ -203,8 +201,6 @@ programs.rofi = {
 
   services.ratatat-listener.enable = true;
 
-  #Flatpak (xdg.enable should be in home.nix too for user-level xdg config)
-  xdg.enable = true;
 
   # Enable declarative font management
   fonts.fontconfig.enable = true;

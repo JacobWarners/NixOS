@@ -4,6 +4,7 @@
   environment.systemPackages = with pkgs; [
     # This installs the mangohud command to your system.
     mangohud
+    
 
     # This script becomes the default "steam" command.
     # It was moved inside this list to fix the syntax error.
@@ -17,7 +18,7 @@
     
     # You can add other gaming-related packages here too.
     # For example:
-    # lutris
+     lutris
   ];
 
   environment.variables = {

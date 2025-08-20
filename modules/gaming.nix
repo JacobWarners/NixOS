@@ -2,26 +2,44 @@
 
 {
   environment.systemPackages = with pkgs; [
-    # This installs the mangohud command to your system.
+    # General gaming packages
+    lutris
+    wineWowPackages.staging
+    winetricks
+    vulkan-tools
+    radeontop
+    intel-gpu-tools
     mangohud
-    
+    gamemode
+    dxvk
+    xivlauncher
+    moonlight-qt
 
-    # This script becomes the default "steam" command.
-    # It was moved inside this list to fix the syntax error.
+    # Custom script to run XIVLauncher on the AMD eGPU
+    (pkgs.writeShellScriptBin "xivlauncher-amd-egpu" ''
+      #!${pkgs.bash}/bin/bash
+      export DXVK_HUD="0"
+      export DRI_PRIME=1
+      exec "${xivlauncher}/bin/.XIVLauncher.Core-wrapped" "$@"
+    '')
+
+    # Custom script to force the Steam UI to use the Intel iGPU
     (pkgs.writeShellScriptBin "steam" ''
       #!${pkgs.bash}/bin/bash
-      # This forces the Steam client UI to run on the stable Intel GPU.
       export DRI_PRIME=0
-      # This executes the *original* steam binary.
       exec ${pkgs.steam}/bin/steam "$@"
     '')
-    
-    # You can add other gaming-related packages here too.
-    # For example:
-     lutris
-     moonlight-qt
   ];
 
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      mesa # Provides OpenGL and Vulkan drivers for Intel and AMD (RADV)
+    ];
+  };
+
+  # Set the preferred Vulkan ICD for AMD GPUs to RADV
+  # `lib.mkForce` is used to ensure this setting takes precedence
   environment.variables = {
     AMD_VULKAN_ICD = lib.mkForce "RADV";
   };
@@ -29,9 +47,9 @@
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
-    
-    # This ensures the necessary 32-bit and 64-bit libraries
-    # for drivers and MangoHud are available inside Steam's runtime.
+
+    # Ensure necessary 32-bit and 64-bit libraries for drivers and MangoHud
+    # are available within Steam's runtime environment for game compatibility.
     extraPackages = [
       pkgs.mesa
       pkgs-i686.mesa

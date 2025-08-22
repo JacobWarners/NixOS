@@ -37,4 +37,6 @@
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
   };
+  # Enable support for Thunderbolt 3/4 devices like your eGPU
+services.hardware.bolt.enable = true;
 }

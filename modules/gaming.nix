@@ -8,7 +8,6 @@
     winetricks
     vulkan-tools
     radeontop
-    intel-gpu-tools
     mangohud
     gamemode
     dxvk

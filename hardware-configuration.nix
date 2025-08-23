@@ -35,7 +35,9 @@
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
-  networking.useDHCP = lib.mkDefault true;
+  #networking.useDHCP = lib.mkDefault true;
+  networking.useDHCP = lib.mkDefault false;
+
   # networking.interfaces.enp105s0u1.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp195s0f3u1u4.useDHCP = lib.mkDefault true;
 

@@ -10,8 +10,6 @@ notify() {
 
 main() {
     # Get a list of available wifi networks and format for Rofi
-    # --terse provides a more script-friendly output
-    # --rescan tells nmcli to scan for new networks before listing
     local networks=$(nmcli --terse --fields "SSID,SECURITY" device wifi list --rescan yes | awk -F: '{if ($2 ~ /WPA|WEP|802.1X/) print " " $1; else if ($1 != "") print " " $1}')
 
     # Present the networks in a Rofi menu
@@ -27,8 +25,8 @@ main() {
 
     # Check if a connection for this SSID already exists
     if nmcli connection show | grep -q "^${selected_ssid}\s"; then
-        # If it exists, just bring it up
-        if nmcli connection up "$selected_ssid"; then
+        # If it exists, just bring it up using pkexec for privileges
+        if pkexec nmcli connection up "$selected_ssid"; then
             notify "Connected to $selected_ssid."
         else
             notify "Failed to connect to $selected_ssid."
@@ -39,15 +37,16 @@ main() {
             # Prompt for a password for a secure network
             local password=$(rofi -dmenu -password -p "Password for $selected_ssid")
             if [ -n "$password" ]; then
-                if nmcli device wifi connect "$selected_ssid" password "$password"; then
+                # Use pkexec to run the connection command as root
+                if pkexec nmcli device wifi connect "$selected_ssid" password "$password"; then
                     notify "Successfully connected to $selected_ssid."
                 else
                     notify "Failed to connect. Check password."
                 fi
             fi
         else
-            # Connect to an open network without a password
-            if nmcli device wifi connect "$selected_ssid"; then
+            # Connect to an open network without a password, using pkexec
+            if pkexec nmcli device wifi connect "$selected_ssid"; then
                 notify "Successfully connected to $selected_ssid."
             else
                 notify "Failed to connect to open network."

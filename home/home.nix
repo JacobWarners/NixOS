@@ -100,6 +100,7 @@ in {
   home.packages = with pkgs; [
     zsh # Ensure Zsh is included in packages
     yazi
+    polkit_gnome
     pulseaudio
 #    rofi-wayland
     nwg-displays

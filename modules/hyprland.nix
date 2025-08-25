@@ -8,9 +8,9 @@
 
   hardware.graphics.enable = true;
 
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-  };
+#  environment.sessionVariables = {
+#    NIXOS_OZONE_WL = "1";
+#  };
 
   # === THIS IS THE FINAL FIX ===
   # All other xdg.portal blocks must be removed. This single block

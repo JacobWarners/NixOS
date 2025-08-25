@@ -29,14 +29,19 @@
 
     # This configuration explicitly forces the hyprland portal backend.
     # It addresses the D-Bus errors by ensuring the correct backend is used.
-    config = {
-      common = {
-        "org.freedesktop.portal.Filer" = "gtk";
-        "org.freedesktop.portal.FileChooser" = "gtk";
-        "org.freedesktop.portal.Request" = "hyprland";
-        "org.freedesktop.portal.Screenshot" = "hyprland";
-      };
-    };
+#    config = {
+#      common = {
+#        "org.freedesktop.portal.Filer" = "gtk";
+#        "org.freedesktop.portal.FileChooser" = "gtk";
+#        "org.freedesktop.portal.Request" = "hyprland";
+#        "org.freedesktop.portal.Screenshot" = "hyprland";
+#      };
+#    };
+#  };
+  config.common = {
+    default = [ "hyprland" "gtk" ];
+    "org.freedesktop.portal.FileChooser" = "gtk";
+  };
   };
 
   # === Default Application Handlers ===
@@ -60,7 +65,6 @@
     pkgs.libnotify
     pkgs.networkmanagerapplet
     pkgs.eww
-    pkgs.cowsay # <--- ADD THIS LINE
     pkgs.swww
     pkgs.rofi
     pkgs.font-awesome

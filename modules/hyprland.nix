@@ -1,36 +1,55 @@
 { config, pkgs, lib, ... }:
 
 {
+  # === Hyprland Program Configuration ===
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
   };
 
+  # === Graphics and Environment Variables ===
   hardware.graphics.enable = true;
 
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
   };
 
-  # === THIS IS THE FINAL FIX ===
-  # All other xdg.portal blocks must be removed. This single block
-  # correctly configures the portals for Hyprland and GTK apps (like Steam).
+  # === Flatpak Configuration ===
   services.flatpak.enable = true;
 
+  # === XDG Portal Configuration (The Final Fix) ===
+  # This single block correctly configures the portals for Hyprland.
+  # It explicitly tells the system to use the hyprland backend for key functions.
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
       xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
     ];
+
+    # This configuration explicitly forces the hyprland portal backend.
+    # It addresses the D-Bus errors by ensuring the correct backend is used.
+    config = {
+      common = {
+        "org.freedesktop.portal.Filer" = "hyprland";
+        "org.freedesktop.portal.FileChooser" = "hyprland";
+        "org.freedesktop.portal.Request" = "hyprland";
+        "org.freedesktop.portal.Screenshot" = "hyprland";
+      };
+    };
   };
-    xdg.mime.defaultApplications = {
+
+  # === Default Application Handlers ===
+  # This block is for setting default applications for specific protocols.
+  # It must be outside the xdg.portal block.
+  xdg.mime.defaultApplications = {
     "x-scheme-handler/zoommtg" = "us.zoom.Zoom.desktop";
     "x-scheme-handler/http" = "firefox.desktop";
     "x-scheme-handler/https" = "firefox.desktop";
   };
 
-  # System-wide packages typically used in a Hyprland environment.
+  # === System-wide Packages ===
+  # Add packages available to all users.
   environment.systemPackages = [
     pkgs.waybar
     pkgs.kdePackages.xwaylandvideobridge
@@ -46,6 +65,7 @@
     pkgs.font-awesome
   ];
 
+  # === Display Manager and Session Configuration ===
   # Define the .desktop file for Hyprland so display managers can find it.
   environment.etc."xdg/wayland-sessions/hyprland.desktop".text = ''
     [Desktop Entry]
@@ -61,9 +81,9 @@
     hyprland
   ];
 
-  # Font packages for the system.
+  # === Font Packages ===
+  # Add font packages to the system.
   fonts.packages = with pkgs; [
     pkgs.font-awesome
   ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 }
-

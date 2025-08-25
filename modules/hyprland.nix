@@ -60,6 +60,7 @@
     pkgs.libnotify
     pkgs.networkmanagerapplet
     pkgs.eww
+    pkgs.cowsay # <--- ADD THIS LINE
     pkgs.swww
     pkgs.rofi
     pkgs.font-awesome

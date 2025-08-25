@@ -27,8 +27,8 @@
   };
     xdg.mime.defaultApplications = {
     "x-scheme-handler/zoommtg" = "us.zoom.Zoom.desktop";
-    "x-scheme-handler/http" = "firefox.desktop";
-    "x-scheme-handler/https" = "firefox.desktop";
+    "x-scheme-handler/http" = "chromium.desktop";
+    "x-scheme-handler/https" = "chromium.desktop";
   };
 
   # System-wide packages typically used in a Hyprland environment.

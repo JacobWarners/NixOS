@@ -30,6 +30,7 @@
     # This configuration explicitly forces the hyprland portal backend.
     # It addresses the D-Bus errors by ensuring the correct backend is used.
       config.common.default = [ "hyprland" "gtk" ];
+      };
 #    config = {
 #      common = {
 #        "org.freedesktop.portal.Filer" = "hyprland";

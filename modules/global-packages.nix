@@ -19,6 +19,7 @@
     mullvad-vpn
     ffmpeg
     nfs-utils
+    rpcbind
     obs-studio
     discord
     firefox
@@ -78,8 +79,6 @@
     arduino-cli
     rustc
   ];
-
-  services.nfs.client.enable = true;
 
   programs.firefox = {
     enable = true;

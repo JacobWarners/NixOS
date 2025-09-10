@@ -76,8 +76,10 @@
     arduino
     arduino-ide
     arduino-cli
+    rustc
   ];
 
+  services.nfs.client.enable = true;
 
   programs.firefox = {
     enable = true;

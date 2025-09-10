@@ -78,6 +78,8 @@
     arduino-ide
     arduino-cli
     rustc
+    rustup
+    cargo
   ];
 
   programs.firefox = {

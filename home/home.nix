@@ -93,6 +93,8 @@ in {
     yazi
     polkit_gnome
     pulseaudio
+    direnv
+    nix-direnv
 #    rofi-wayland
     nwg-displays
     imagemagick
@@ -122,12 +124,7 @@ in {
   ];
 
 
-# Auto load flake in directory for coding
-programs.direnv = {
-  enable = true;
-  # This is the essential part for flake integration
-  nix-direnv.enable = true;
-};
+
 ############## NVIM ##############################
 programs.neovim = {
   enable = true;

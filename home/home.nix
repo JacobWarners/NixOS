@@ -131,44 +131,53 @@ in {
   ];
 
 
-
+############## NVIM ##############################
 programs.neovim = {
   enable = true;
-  # Neovim can use the same plugins
+  defaultEditor = true;
+
+  # All plugins are now managed here.
+  # Home Manager will install them, and lazy.nvim will configure them.
   plugins = with pkgs.vimPlugins; [
+    # Plugin Manager
+    lazy-nvim
+
+    # LSP, Linter & Completion Tools
+    nvim-lspconfig
+    mason-nvim
+    mason-lspconfig-nvim
+    nvim-cmp
+    cmp-nvim-lsp
+    cmp-buffer
+    luasnip
+
+    # Your existing plugins
     gruvbox
-    vim-sensible # This was in your :scriptnames output
+    vim-sensible
   ];
-  # Copy your Vim settings here
+
+  # This section handles basic settings. The complex Lua logic is now in separate files.
   extraConfig = ''
-    " Adds syntax highlighting
     syntax on
-    " Color scheme
     colorscheme gruvbox
     set background=dark
-    " Enable line numbers
     set number
-    " Set cursorline
     set cursorline
-    " Show matching parentheses
     set showmatch
-    " Enable mouse support
     set mouse=a
-    " Custom keybinding to exit directory with Q
+
+    " Custom keybindings
     nnoremap Q :Rexplore<CR>
     inoremap jj <Esc>
 
-    " --- Neovim's working clipboard config ---
+    " Wayland clipboard configuration
     set clipboard+=unnamedplus
-
-    let g:clipboard = {
-    \   'name': 'wl-clipboard',
-    \   'copy': {'+': 'wl-copy', '*': 'wl-copy'},
-    \   'paste': {'+': 'wl-paste', '*': 'wl-paste'},
-    \   'cache_enabled': 1,
-    \ }
   '';
 };
+
+# Use xdg.configFile to link your new nvim directory into the correct location.
+xdg.configFile."nvim".source = ./nvim;
+
 ############# ROFI ############
 # Find and replace your home.file definitions with this single block
 

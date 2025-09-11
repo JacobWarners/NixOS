@@ -29,15 +29,6 @@ in {
   home.homeDirectory = "/home/jake";
   home.stateVersion = "25.05"; # Adjust this to match your Home Manager version
 
-  #ZSH
-  programs.zsh = {
-    enable = true;
-    sessionVariables = {
-      # Add Flatpak data dirs to XDG_DATA_DIRS
-      # This prepends the flatpak paths to the existing variable.
-      XDG_DATA_DIRS = "$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:/home/jake/.local/share/flatpak/exports/share";
-    };
-  };
 
   #TMUX and VIM
   programs.tmux = {

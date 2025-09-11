@@ -148,22 +148,7 @@ programs.neovim = {
   ];
 
   # This section handles basic settings. The complex Lua logic is now in separate files.
-  extraConfig = ''
-    syntax on
-    colorscheme gruvbox
-    set background=dark
-    set number
-    set cursorline
-    set showmatch
-    set mouse=a
 
-    " Custom keybindings
-    nnoremap Q :Rexplore<CR>
-    inoremap jj <Esc>
-
-    " Wayland clipboard configuration
-    set clipboard+=unnamedplus
-  '';
 };
 
 # Use xdg.configFile to link your new nvim directory into the correct location.

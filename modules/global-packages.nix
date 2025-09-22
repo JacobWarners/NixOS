@@ -6,7 +6,7 @@
   environment.systemPackages = with pkgs; [
     pciutils
     vim
-    remmina
+    tigervnc
     xclip
     vim-full
     kitty

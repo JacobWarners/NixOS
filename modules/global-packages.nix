@@ -12,6 +12,7 @@
     kitty
     wget
     mpv
+    appimage-run
     git
     nautilus
     btop

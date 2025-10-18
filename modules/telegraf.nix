@@ -17,7 +17,7 @@ in
 	};
     outputs = {
       influxdb_v2 = {
-        urls = [ "https://influxdb.root-beards.com" ];
+        urls = [ "https://influx.root-beards.com" ];
 #sops#        token = "$influx_token";
         token =  secrets.influxToken;
         organization = "home";

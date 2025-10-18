@@ -14,6 +14,7 @@ in
         mem = {};
         disk = {};
         net = {};
+	};
     outputs = {
       influxdb_v2 = {
         urls = [ "https://influxdb.root-beards.com" ];

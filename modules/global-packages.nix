@@ -6,6 +6,7 @@
   environment.systemPackages = with pkgs; [
     pciutils
     vim
+    sops
     tigervnc
     freerdp
     xclip

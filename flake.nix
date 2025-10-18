@@ -11,13 +11,17 @@
       url = "github:Ultimate-Hosts-Blacklist/Ultimate.Hosts.Blacklist";
       flake = false;
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     ratatat-listener = {
       url = "path:./apps/ratatat-rust";
       flake = true;
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, ratatat-listener, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, ratatat-listener, sops-nix, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -32,6 +36,7 @@
 
         modules = [
           ./configuration.nix
+          sops-nix.nixosModules.sops
           home-manager.nixosModules.home-manager
 
           ({ pkgs, ... }: {

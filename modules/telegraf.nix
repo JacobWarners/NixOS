@@ -1,9 +1,13 @@
 { config, pkgs, ... }:
 
+let
+	secrets = import ./secrets.nix;
+in
+
 {
   services.telegraf = {
     enable = true;
-    environmentFiles = [config.sops.secrets.influx_token.path];
+ #This would be for sops#   environmentFiles = [config.sops.secrets.influx_token.path];
     extraConfig = {
       inputs = {
         cpu = {};
@@ -13,7 +17,8 @@
     outputs = {
       influxdb_v2 = {
         urls = [ "https://influxdb.root-beards.com" ];
-        token = "$influx_token";
+#sops#        token = "$influx_token";
+        token =  secrets.influxToken;
         organization = "home";
         bucket = "home";
         };

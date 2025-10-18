@@ -72,7 +72,28 @@
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "ratatat-listener": "ratatat-listener",
+        "sops-nix": "sops-nix",
         "ultimate-hosts-blacklist": "ultimate-hosts-blacklist"
+      }
+    },
+    "sops-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1760393368,
+        "narHash": "sha256-8mN3kqyqa2PKY0wwZ2UmMEYMcxvNTwLaOrrDsw6Qi4E=",
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "rev": "ab8d56e85b8be14cff9d93735951e30c3e86a437",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "type": "github"
       }
     },
     "ultimate-hosts-blacklist": {

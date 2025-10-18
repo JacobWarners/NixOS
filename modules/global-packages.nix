@@ -7,6 +7,7 @@
     pciutils
     vim
     tigervnc
+    freerdp
     xclip
     vim-full
     kitty

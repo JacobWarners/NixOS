@@ -4,33 +4,28 @@ let
   sonic-font = pkgs.stdenv.mkDerivation {
     pname = "sonic-custom-font";
     version = "1.0";
-    src = ./fonts/Sonic-Regular.otf; # This path must be correct relative to home.nix
-    dontUnpack = true; # Tells Nix not to treat the source as an archive
+    src = ./fonts/Sonic-Regular.otf;
+    dontUnpack = true;
     installPhase = ''
       mkdir -p $out/share/fonts/opentype
       cp $src $out/share/fonts/opentype/Sonic-Regular.otf
     '';
   };
 
-
-  # CHOOSE YOUR ROFI THEME PALETTE HERE
-  active-rofi-palette = "catppuccin"; # or "gruvbox"
+  active-rofi-palette = "catppuccin";
 
   palette-map = {
     gruvbox = ./rofi-themes/gruvbox.rasi;
     catppuccin = ./rofi-themes/catppuccin.rasi;
   };
 
-  # This now READS the content of the selected file
   selected-palette-text = builtins.readFile palette-map.${active-rofi-palette};
 
 in {
   home.username = "jake";
   home.homeDirectory = "/home/jake";
-  home.stateVersion = "25.05"; # Adjust this to match your Home Manager version
+  home.stateVersion = "25.05";
 
-
-  #TMUX and VIM
   programs.tmux = {
     enable = true;
     extraConfig = ''
@@ -39,18 +34,17 @@ in {
     '';
   };
 
-  # --- START: Theme and Cursor Configuration ---
   qt = {
     enable = true;
     platformTheme.name = "gtk";
   };
   gtk = {
     enable = true;
-      cursorTheme = {
-    name = "Bibata-Modern-Classic";
-    package = pkgs.bibata-cursors;
-    size = 24;
-  };
+    cursorTheme = {
+      name = "Bibata-Modern-Classic";
+      package = pkgs.bibata-cursors;
+      size = 24;
+    };
     iconTheme = {
       package = pkgs.catppuccin-papirus-folders.override {
         flavor = "macchiato";
@@ -78,24 +72,13 @@ in {
     };
   };
 
-#  home.pointerCursor = {
-#    name = "Bibata-Modern-Classic";
-#    package = pkgs.bibata-cursors;
-#    size = 24;
-#    enable = true;
-#  };
-  # --- END: Theme and Cursor Configuration ---
-
-
-  # Install user-specific packages
   home.packages = with pkgs; [
-    zsh # Ensure Zsh is included in packages
+    zsh
     yazi
     polkit_gnome
     pulseaudio
     direnv
     nix-direnv
-#    rofi-wayland
     nwg-displays
     imagemagick
     slurp
@@ -113,206 +96,141 @@ in {
     nerd-fonts.jetbrains-mono
     pipewire
     wireplumber
-    # Add the custom font package here
     sonic-font
-    # Common dependencies for scripts used in these kinds of themes
-    jq # For parsing JSON in shell scripts
-    playerctl # For media player controls
-    brightnessctl # For screen brightness
-    pamixer # A pulseaudio/pipewire mixer for volume control
-    # Add other user-specific packages here
+    jq
+    playerctl
+    brightnessctl
+    pamixer
   ];
 
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    plugins = with pkgs.vimPlugins; [
+      lazy-nvim
+      nvim-lspconfig
+      mason-nvim
+      mason-lspconfig-nvim
+      nvim-cmp
+      cmp-nvim-lsp
+      cmp-buffer
+      luasnip
+      gruvbox
+      vim-sensible
+    ];
+  };
 
+  xdg.configFile."nvim".source = ./nvim;
 
-############## NVIM ##############################
-programs.neovim = {
-  enable = true;
-  defaultEditor = true;
+  home.file = {
+    ".config/rofi/launcher.rasi".source = ./rofi-themes/launcher_style_6.rasi;
+    ".config/rofi/shared/fonts.rasi".source = ./rofi-themes/fonts.rasi;
+    ".config/rofi/shared/colors.rasi".text = selected-palette-text;
 
-  # All plugins are now managed here.
-  # Home Manager will install them, and lazy.nvim will configure them.
-  plugins = with pkgs.vimPlugins; [
-    # Plugin Manager
-    lazy-nvim
+    ".zshrc".source = ./dotfiles/.zshrc;
+    ".tmux.conf".source = ./dotfiles/.tmux.conf;
+    ".config/kitty".source = ./kitty;
+    # ".config/scripts".source = ./scripts; ### MODIFIED: We link the script individually below ###
+    ".config/wallust".source = ./wallust;
 
-    # LSP, Linter & Completion Tools
-    nvim-lspconfig
-    mason-nvim
-    mason-lspconfig-nvim
-    nvim-cmp
-    cmp-nvim-lsp
-    cmp-buffer
-    luasnip
+    ### ADDED: Link the new toggle script and make it executable ###
+    ".config/hypr/scripts/toggle-fkeys.sh" = {
+      source = ./scripts/toggle-fkeys.sh;
+      executable = true;
+    };
+  };
 
-    # Your existing plugins
-    gruvbox
-    vim-sensible
-  ];
-
-  # This section handles basic settings. The complex Lua logic is now in separate files.
-
-};
-
-# Use xdg.configFile to link your new nvim directory into the correct location.
-xdg.configFile."nvim".source = ./nvim;
-
-############# ROFI ############
-# Find and replace your home.file definitions with this single block
-
-home.file = {
-  # --- Rofi Theme Files ---
-  # 1. Link the main layout file.
-  ".config/rofi/launcher.rasi".source = ./rofi-themes/launcher_style_6.rasi;
-
-  # 2. Link your `fonts.rasi` file to where the theme expects it.
-  ".config/rofi/shared/fonts.rasi".source = ./rofi-themes/fonts.rasi;
-
-  # 3. Create the `colors.rasi` file using the text from your chosen palette.
-  #    This is the corrected syntax.
-  ".config/rofi/shared/colors.rasi".text = selected-palette-text;
-
-  # --- Your Other Dotfiles ---
-  ".zshrc".source = ./dotfiles/.zshrc;
-  ".tmux.conf".source = ./dotfiles/.tmux.conf;
-  ".config/kitty".source = ./kitty;
-  ".config/scripts".source = ./scripts;
-  ".config/wallust".source = ./wallust;
-
-};
-# You can place the programs.rofi block after the home.file block
-programs.rofi = {
-  enable = true;
-  theme = "${config.home.homeDirectory}/.config/rofi/launcher.rasi";
-  package = pkgs.rofi-wayland;
-};
-  # --- END OF CONSOLIDATED HOME MANAGER SESSION VARIABLES ---
+  programs.rofi = {
+    enable = true;
+    theme = "${config.home.homeDirectory}/.config/rofi/launcher.rasi";
+    package = pkgs.rofi-wayland;
+  };
 
   services.ratatat-listener.enable = true;
 
-
-  # Enable declarative font management
   fonts.fontconfig.enable = true;
 
-  # The incorrect font link has been removed from here.
-  xdg.configFile."eww".source = ./dotfiles/dots/eww;
-  xdg.configFile."wlogout".source = ./wlogout;
-  xdg.configFile."waybar".source = ./dotfiles/dots/waybar;
+  xdg.configFile = {
+    "eww".source = ./dotfiles/dots/eww;
+    "wlogout".source = ./wlogout;
+    "waybar".source = ./dotfiles/dots/waybar;
+
+    ### ADDED: Create the fkeys.conf file for Hyprland ###
+    "hypr/fkeys.conf" = {
+      text = ''
+        # F-Key Workspace Bindings (Managed by home.nix)
+        bind = , F1, workspace, 1
+        bind = , F2, workspace, 2
+        bind = , F3, workspace, 3
+        bind = , F4, workspace, 4
+        bind = , F5, workspace, 5
+        bind = , F6, workspace, 6
+        bind = , F7, workspace, 7
+        bind = , F8, workspace, 8
+        bind = , F9, workspace, 9
+        bind = , F10, workspace, 10
+      '';
+    };
+  };
   
-  # --- HYPRLAND HOME MANAGER CONFIGURATION ---
   wayland.windowManager.hyprland = {
     enable = true;
-    package = pkgs.hyprland; # Still needed to specify the package
-    # plugins = [
-    #   inputs.hypr-dynamic-cursors.packages.${pkgs.system}.hypr-dynamic-cursors
-    # ];
-    # This is where your entire Hyprland configuration goes!
+    package = pkgs.hyprland;
     extraConfig = ''
-      # #######################################################################################
-      # AUTOGENERATED HYPR CONFIG.
-      # PLEASE USE THE CONFIG PROVIDED IN THE GIT REPO /examples/hypr.conf AND EDIT IT,
-      # OR EDIT THIS ONE ACCORDING TO THE WIKI INSTRUCTIONS.
-      # #######################################################################################
-      # This is an example Hyprland config file.
-      # Refer to the wiki for more information.
-      # https://wiki.hyprland.org/Configuring/Configuring-Hyprland/
-      # Please note not all available settings / options are set here.
-      # For a full list, see the wiki
-      # You can split this configuration into multiple files
-      # Create your files separately and then link them to this file like this:
-      # source = ~/.config/hypr/myColors.conf
+      # ... (your monitor and other settings remain the same) ...
 
-      ################
+      ###################
       ### MONITORS ###
-      ################
-      # Acer Monitor (Middle) - Main Display
-      # description: Acer Technologies XV271U M3 1322131231233
-      # Resolution: 2560x1440@179.877 (preferred high refresh rate)
-      # Position: 0x0 (center of virtual layout)
-      # Scale: 1.00
+      ###################
       monitor=desc:Acer Technologies XV271U M3 1322131231233, 2560x1440@179.877, 0x0, 1.00
       workspace = "2, monitor:desc:Acer Technologies XV271U M3 1322131231233";
-
-      # BOE Monitor (Left) - Laptop Screen
-      # description: BOE 0x095F
-      # Resolution: 2256x1504@59.999 (preferred)
-      # Position: -1128x688 (left of Acer, bottom-aligned)
-      # Scale: 1.00
       monitor=desc:BOE 0x095F, 2256x1504@59.999, -2256x164, 1.00
-      #monitor=eDP-1,2256x1504@60,-1128x688,1.566667
-      #monitor=,preferred,auto,1
-      #monitor=eDP-1, preferred,auto, 1.00
-      #monitor=,addreserved,20,0,0,0
       workspace = "1, monitor:desc:BOE 0x095F";
-
-      # Stargate Monitor (Right) - External Small Monitor
-      # description: Stargate Technology M156F01 demoset-1
-      # Resolution: 1920x1080@60.000 (preferred)
-      # Position: 2560x720 (right of Acer, bottom-aligned)
-      # Scale: 1.50
       monitor=desc:Stargate Technology M156F01 demoset-1, 1920x1080@60.000, 2560x0, 1.00
       workspace = "3, monitor:desc:Stargate Technology M156F01 demoset-1";
-
+      
       ###################
       ### MY PROGRAMS ###
       ###################
-      # See https://wiki.hyprland.org/Configuring/Keywords/
-      # Set programs that you use
       $terminal = kitty
       $fileManager = nautilus
       $menu = rofi-wayland --show drun
-
+      
       #################
       ### AUTOSTART ###
       #################
-      # Autostart necessary processes (like notifications daemons, status bars, etc.)
-      # Or execute your favorite apps at launch like this:
-      # IMPORTANT: Add your autostart commands here, e.g.:
       exec-once = ${pkgs.swww}/bin/swww-daemon
       exec-once = sleep 2 && swww img /home/jake/Pictures/Wallpapers/Gruvwinter.jpg
       exec-once = waybar &
-      # exec-once = ~/.config/waybar-monitor.sh
-      exec-once = ${pkgs.eww}/bin/eww daemon # Start the Eww daemon
-      exec-once = sleep 2 && ${pkgs.eww}/bin/eww open dashboard # Open the Eww dashboard after a delay
-      #exec-once = waybar &
+      exec-once = ${pkgs.eww}/bin/eww daemon
+      exec-once = sleep 2 && ${pkgs.eww}/bin/eww open dashboard
       exec-once = dunst &
-      # exec-once = nm-applet & # Uncomment if you use networkmanager applet
-      exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP # Recommended for some apps
+      exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
       exec-once = ${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store
-
+      
       #############################
       ### ENVIRONMENT VARIABLES ###
       #############################
-      # See https://wiki.hyprland.org/Configuring/Environment-variables/
       env = XCURSOR_SIZE,24
       env = HYPRCURSOR_SIZE,24
-      # Add other environment variables if needed, e.g., MOZ_ENABLE_WAYLAND, QT_QPA_PLATFORM
-
+      
       #####################
       ### LOOK AND FEEL ###
       #####################
-      # Refer to https://wiki.hyprland.org/Configuring/Variables/
-      # https://wiki.hyprland.org/Configuring/Variables/#general
       general {
         gaps_in = 5
         gaps_out = 5
         border_size = 2
-        # https://wiki.hyprland.org/Configuring/Variables/#variable-types for info about colors
         col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
         col.inactive_border = rgba(595959aa)
-        # Set to true enable resizing windows by clicking and dragging on borders and gaps
         resize_on_border = false
-        # Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
         allow_tearing = false
         layout = dwindle
       }
-      # https://wiki.hyprland.org/Configuring/Variables/#decoration
       decoration {
         rounding = 10
-        # Change transparency of focused and unfocused windows
         active_opacity = 1.0
         inactive_opacity = 1.0
-        # https://wiki.hyprland.org/Configuring/Variables/#blur
         blur {
           enabled = true
           size = 3
@@ -320,10 +238,8 @@ programs.rofi = {
           vibrancy = 0.1696
         }
       }
-      # https://wiki.hyprland.org/Configuring/Variables/#animations
       animations {
         enabled = true
-        # Default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
         bezier = myBezier, 0.05, 0.9, 0.1, 1.05
         animation = windows, 1, 7, myBezier
         animation = windowsOut, 1, 7, default, popin 80%
@@ -332,57 +248,44 @@ programs.rofi = {
         animation = fade, 1, 7, default
         animation = workspaces, 1, 6, default
       }
-      # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
       dwindle {
-        pseudotile = true # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
-        preserve_split = true # You probably want this
+        pseudotile = true
+        preserve_split = true
       }
-      # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
       master {
         new_status = master
       }
-      # https://wiki.hyprland.org/Configuring/Variables/#misc
       misc {
-        force_default_wallpaper = 0 # Set to 0 or 1 to disable the anime mascot wallpapers
-        disable_hyprland_logo = false # If true disables the random hyprland logo / anime girl background. :(
+        force_default_wallpaper = 0
+        disable_hyprland_logo = false
         disable_splash_rendering = true;
       }
-
+      
       #############
       ### INPUT ###
       #############
-      # https://wiki.hyprland.org/Configuring/Variables/#input
       input {
         kb_layout = us
-        kb_variant =
-        kb_model =
-        kb_options =
-        kb_rules =
         follow_mouse = 1
-        sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
+        sensitivity = 0
         touchpad {
           natural_scroll = true
           clickfinger_behavior = 1
           middle_button_emulation = false
         }
       }
-      # https://wiki.hyprland.org/Configuring/Variables/#gestures
       gestures {
         workspace_swipe = false
       }
-      # Example per-device config
-      # See https://wiki.hyprland.org/Configuring/Keywords/#per-device-input-configs for more
       device {
         name = epic-mouse-v1
         sensitivity = -0.5
       }
-
+      
       ###################
       ### KEYBINDINGS ###
       ###################
-      # See https://wiki.hyprland.org/Configuring/Keywords/
-      $mainMod = SUPER # Sets "Windows" key as main modifier
-      # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
+      $mainMod = SUPER
       bind = $mainMod, Q, exec, $terminal
       bind = $mainMod, C, killactive,
       bind = $mainMod, mouse:274, killactive,
@@ -392,26 +295,20 @@ programs.rofi = {
       bind = $mainMod, E, exec, $fileManager
       bind = $mainMod, V, togglefloating,
       bind = LCTRL SUPER, UP, exec, rofi -show drun
-      bind = $mainMod, P, pseudo, # dwindle
-      bind = $mainMod, D, togglesplit, # dwindle
+      bind = $mainMod, P, pseudo,
+      bind = $mainMod, D, togglesplit,
       bind = $mainMod, left, movewindow, l
       bind = $mainMod, right, movewindow, r
       bind = $mainMod, SPACE, exec, rofi -show window
-      # Move focus with mainMod + arrow keys
       bind = $mainMod, h, movefocus, l
       bind = $mainMod, l, movefocus, r
       bind = $mainMod, j, movefocus, d
       bind = $mainMod, k, movefocus, u
-      bind = , F1, workspace, 1
-      bind = , F2, workspace, 2
-      bind = , F3, workspace, 3
-      bind = , F4, workspace, 4
-      bind = , F5, workspace, 5
-      bind = , F6, workspace, 6
-      bind = , F7, workspace, 7
-      bind = , F8, workspace, 8
-      bind = , F9, workspace, 9
-      bind = , F10, workspace, 10
+      
+      ### MODIFIED: Keybindings for F-keys and toggle ###
+      source = ~/.config/hypr/fkeys.conf
+      bind = SUPER, F12, exec, ~/.config/hypr/scripts/toggle-fkeys.sh
+      
       bind = $mainMod, 1, movetoworkspace, 1
       bind = $mainMod, 2, movetoworkspace, 2
       bind = $mainMod, 3, movetoworkspace, 3
@@ -422,23 +319,18 @@ programs.rofi = {
       bind = $mainMod, 8, movetoworkspace, 8
       bind = $mainMod, 9, movetoworkspace, 9
       bind = $mainMod, 0, movetoworkspace, 10
-      # Example special workspace (scratchpad)
       bind = $mainMod, S, togglespecialworkspace, magic
       bind = $mainMod SHIFT, S, movetoworkspace, special:magic
-      # Scroll through existing workspaces with mainMod + scroll
       bind = $mainMod, mouse_down, workspace, e+1
       bind = $mainMod, mouse_up, workspace, e-1
-      # Move/resize windows with mainMod + LMB/RMB and dragging
       bindm = $mainMod, mouse:272, movewindow
       bindm = $mainMod, mouse:273, resizewindow
-      # Laptop multimedia keys for volume and LCD brightness
       bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
       bindel = ,XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
       bindel = ,XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
       bindel = ,XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
       bindel = ,XF86MonBrightnessUp, exec, brightnessctl s 10%+
       bindel = ,XF86MonBrightnessDown, exec, brightnessctl s 10%-
-      # Requires playerctl
       bindl = , XF86AudioNext, exec, playerctl next
       bindl = , XF86AudioPause, exec, playerctl play-pause
       bindl = , XF86AudioPlay, exec, playerctl play-pause
@@ -447,22 +339,13 @@ programs.rofi = {
       ##############################
       ### WINDOWS AND WORKSPACES ###
       ##############################
-      # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
-      # See https://wiki.hyprland.org/Configuring/Workspace-Rules/ for workspace rules
       windowrulev2 = noanim, class:^(ffxiv_dx11.exe)$
       windowrulev2 = opaque, class:^(ffxiv_dx11.exe)$
       windowrulev2 = fullscreen, class:^(ffxiv_dx11.exe)$
       windowrulev2 = movetomonitor, DP-3, class:^(ffxiv_dx11.exe)$
       windowrulev2 = center, 1, class:^(ffxiv_dx11.exe)$
-      
-      # Example windowrule v1
-      # windowrule = float, ^(kitty)$
-      # Example windowrule v2
-      # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
-      # Ignore maximize requests from apps. You'll probably like this.
       windowrulev2 = suppressevent maximize, class:.*
       windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
-    ''; # <--- Closing apostrophe and semicolon for extraConfig
+    '';
   };
-  # --- END OF HYPRLAND HOME MANAGER CONFIGURATION ---
 }

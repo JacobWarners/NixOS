@@ -34,26 +34,26 @@
 
   ##############SOPS###################
 
-  # 1. Point sops-nix to the host's private key for decryption
-  sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-
-  # 2. Define your secrets
-  sops.secrets = {
-    influx_token = {
-      sopsFile = ./secrets.yaml;
-      key = "influx_token";
-      owner = config.services.telegraf.user;
-    };
-
-    "ssh_key" = {
-      sopsFile = ./secrets.yaml;
-      key = "ssh_private_key";
-      path = "/home/jake/.ssh/id_ed25519";
-      owner = "jake";
-      mode = "0600";
-    };
-  };
-
+  #  # 1. Point sops-nix to the host's private key for decryption
+  #  sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+  #
+  #  # 2. Define your secrets
+  #  sops.secrets = {
+  #    influx_token = {
+  #      sopsFile = ./secrets.yaml;
+  #      key = "influx_token";
+  #      owner = config.services.telegraf.user;
+  #    };
+  #
+  #    "ssh_key" = {
+  #      sopsFile = ./secrets.yaml;
+  #      key = "ssh_private_key";
+  #      path = "/home/jake/.ssh/id_ed25519";
+  #      owner = "jake";
+  #      mode = "0600";
+  #    };
+  #  };
+  #
   #####################################
 
   system.stateVersion = "25.05";

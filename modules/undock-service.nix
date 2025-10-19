@@ -1,21 +1,21 @@
+# /etc/nixos/configuration.nix
+
 { config, pkgs, ... }:
 
 {
-  # -- eGPU Hot-Unplug Recovery --
-
-  # 1. Systemd service to restart the display manager upon trigger.
-  systemd.services.egpu-undock-recover = {
-    description = "Restart Display Manager after eGPU is unplugged.";
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.systemd}/bin/systemctl restart display-manager.service";
-    };
+# 1. Systemd service to KILL the Hyprland process directly.
+#    This is much faster than restarting the display-manager.
+systemd.services.egpu-undock-recover = {
+  description = "Kill Hyprland session after eGPU is unplugged.";
+  serviceConfig = {
+    Type = "oneshot";
+    # The CHANGE is here: We now use pkill to terminate Hyprland.
+    ExecStart = "${pkgs.procps}/bin/pkill Hyprland";
   };
+};
 
-  # 2. Udev rule to detect your specific Radeon eGPU's removal.
-  services.udev.extraRules = ''
-    # Trigger on removal of the AMD Radeon RX 6600 series eGPU.
-    ACTION=="remove", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{device}=="0x73ff", TAG+="systemd", ENV{SYSTEMD_WANTS}+="egpu-undock-recover.service"
-  '';
-
+# 2. The Udev rule remains UNCHANGED.
+services.udev.extraRules = ''
+  ACTION=="remove", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{device}=="0x73ff", TAG+="systemd", ENV{SYSTEMD_WANTS}+="egpu-undock-recover.service"
+'';
 }

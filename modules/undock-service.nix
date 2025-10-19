@@ -10,28 +10,26 @@ let
       echo "$1" | ${pkgs.systemd}/bin/systemd-cat -p info -t egpu-undock
     }
 
-    log "eGPU undock detected. Firing intelligent recovery script."
+    log "eGPU undock detected. Firing refined recovery script."
 
-    # --- Find the Active Hyprland User and Session ---
-    # Get the user ID of the person logged into the active graphical session
-    USER_ID=$(loginctl list-sessions | grep 'seat0' | grep 'graphical' | awk '{print $1}' | xargs loginctl show-session -p User --value)
+    # --- Find the Active Hyprland User (More Robust Method) ---
+    # Find the Hyprland process and get its owner's user ID.
+    USER_ID=$(pgrep -a Hyprland | head -n 1 | awk '{print $1}' | xargs -r ps -o uid= -p)
     
     if [ -z "$USER_ID" ]; then
-      log "Error: Could not find active graphical user ID."
+      log "Error: Could not find the User ID of the Hyprland process. Aborting."
       exit 1
     fi
 
     USER_NAME=$(id -un $USER_ID)
     log "Found active graphical user: $USER_NAME (UID: $USER_ID)"
 
-    # Get the specific environment variables for that user's session
+    # --- Find the Hyprland Session ---
     export XDG_RUNTIME_DIR="/run/user/$USER_ID"
     export HYPRLAND_INSTANCE_SIGNATURE=$(ls -t $XDG_RUNTIME_DIR/hypr/ 2>/dev/null | head -n 1)
 
     if [ -z "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
-      log "Error: Could not find HYPRLAND_INSTANCE_SIGNATURE."
-      # As a fallback, try the forceful pkill anyway
-      log "Attempting fallback pkill..."
+      log "Error: Could not find HYPRLAND_INSTANCE_SIGNATURE. Attempting fallback pkill..."
       ${pkgs.procps}/bin/pkill -9 -f ".Hyprland-wrapped"
       exit 1
     fi
@@ -56,7 +54,7 @@ let
 
 in
 {
-  # -- eGPU Hot-Unplug Recovery (Intelligent Version) --
+  # -- eGPU Hot-Unplug Recovery (Refined User-Finding) --
 
   systemd.services.egpu-undock-recover = {
     description = "Run eGPU undock recovery script for Hyprland.";

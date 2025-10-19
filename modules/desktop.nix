@@ -12,6 +12,7 @@ in
     enable = true;
     videoDrivers = ["amdgpu"];
 
+
   };
   services.desktopManager.plasma6.enable = true;
   # 2. Minimal greetd + tuigreet configuration
@@ -19,7 +20,7 @@ in
     enable = true;
     # Use the text-based tuigreet
     settings.default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd ${session}";
-
+    vt = 1;
     # This section handles the auto-login on boot
     settings.initial_session = {
       command = session;
@@ -30,5 +31,6 @@ in
   # 3. Ensure tuigreet is installed
   environment.systemPackages = [ pkgs.greetd.tuigreet ];
   security.polkit.enable = true;
+  console.enable= true;
 
 }

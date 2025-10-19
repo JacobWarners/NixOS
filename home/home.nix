@@ -292,7 +292,7 @@ in {
       
       # <<< ADDED THIS BINDING for safe eGPU undocking >>>
       # It uses pkexec to ask for your password to run the script with root privileges.
-      bind = SUPER, U, exec, sudo ~/.config/hypr/scripts/undock.sh
+      bind = SUPER, U, exec, /home/jake/.config/hypr/scripts/undock.sh
       # <<< END ADDITION >>>
 
       source = ~/.config/hypr/fkeys.conf

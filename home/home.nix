@@ -21,13 +21,10 @@ let
   selected-palette-text = builtins.readFile palette-map.${active-rofi-palette};
 
   # --- <<< SCRIPT PACKAGES (THE FIX) >>> ---
-  # This section defines your custom scripts as packages, which solves
-  # the PATH issues when running them from keybindings.
 
-  # 1. Package for toggle-fkeys.sh
+  # 1. toggle-fkeys.sh (This is correct and unchanged)
   toggleFkeysScript = pkgs.writeShellScriptBin "toggle-fkeys" ''
     #!${pkgs.runtimeShell}
-    # Nix will replace the command names below with absolute paths at build time.
     LOCK_FILE="/tmp/hypr_fkeys_disabled.lock"
     if [ -f "$LOCK_FILE" ]; then
         ${pkgs.libnotify}/bin/notify-send "Hyprland" "F-Keys ENABLED for workspaces" -u normal
@@ -42,12 +39,20 @@ let
     fi
   '';
 
-  # 2. Package for rofi-theme-selector.sh
-  # This wrapper executes your original script but guarantees 'rofi' is in the PATH.
+  # 2. rofi-theme-selector.sh (<<< THIS IS THE CORRECTED PART >>>)
+  # We now provide the script with all the tools it needs in its PATH.
   rofiThemeSelectorScript = pkgs.writeShellScriptBin "rofi-theme-selector" ''
     #!${pkgs.runtimeShell}
-    export PATH=${pkgs.lib.makeBinPath [ pkgs.rofi-wayland ]}
-    exec ${./scripts/rofi-theme-selector.sh}
+    # This provides rofi, swww, waybar, wallust, and killall (from psmisc)
+    export PATH=${pkgs.lib.makeBinPath [
+      pkgs.rofi-wayland
+      pkgs.swww
+      pkgs.waybar
+      pkgs.wallust
+      pkgs.psmisc 
+    ]}
+    # Now execute the original script, which can find all the commands it needs.
+    exec /home/jake/.config/hypr/scripts/rofi-theme-selector.sh
   '';
 
 in {
@@ -124,7 +129,7 @@ in {
     brightnessctl
     pamixer
 
-    # <<< ADDED: Install our new script packages >>>
+    # Install our robust script packages
     toggleFkeysScript
     rofiThemeSelectorScript
   ];
@@ -149,7 +154,7 @@ in {
     ".config/kitty".source = ./kitty;
     ".config/wallust".source = ./wallust;
 
-    # The undock scripts are linked as normal because they use sudo.
+    # Link the scripts that are called by our packages or use sudo
     ".config/hypr/scripts/undock-helper.sh" = {
       source = ./scripts/undock-helper.sh;
       executable = true;
@@ -158,8 +163,7 @@ in {
       source = ./scripts/undock.sh;
       executable = true;
     };
-
-    # We also still need to link the original rofi script file itself.
+    # <<< MODIFIED: This script is now called by the wrapper package >>>
     ".config/hypr/scripts/rofi-theme-selector.sh" = {
       source = ./scripts/rofi-theme-selector.sh;
       executable = true;
@@ -256,12 +260,12 @@ in {
       bind = $mainMod, j, movefocus, d
       bind = $mainMod, k, movefocus, u
       
-      # This is working, so we keep the absolute path.
+      # This binding is working and correct.
       bind = SUPER, U, exec, /home/jake/.config/hypr/scripts/undock.sh
       
       source = ~/.config/hypr/fkeys.conf
       
-      # <<< CORRECTED: Calls the new robust package >>>
+      # This binding is working and correct.
       bind = SUPER, F12, exec, toggle-fkeys
 
       bind = $mainMod, 1, movetoworkspace, 1

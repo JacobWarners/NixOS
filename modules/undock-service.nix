@@ -1,16 +1,18 @@
 { config, pkgs, ... }:
 {
-
   systemd.services.recover-on-undock = {
-    description = "Kill Hyprland and restart the session manager on eGPU undock.";
-    path = [ pkgs.systemd pkgs.procps ];
+    description = "Recover from eGPU undock by switching to a TTY.";
+    # We need pkill (procps) and chvt (kbd)
+    path = [ pkgs.procps pkgs.kbd pkgs.coreutils ];
     serviceConfig = {
       Type = "oneshot";
-      # THE FINAL ATTEMPT:
-      # 1. Kill the frozen Hyprland session.
-      # 2. Restart systemd-logind, the service that is actually stuck.
+      # THE SIDESTEP STRATEGY:
+      # 1. Kill the frozen Hyprland graphical session.
+      # 2. Pause briefly to let the system process the kill signal.
+      # 3. Force the kernel to switch to a non-graphical text console (TTY2).
+      #    This bypasses the deadlocked systemd-logind.
       ExecStart = ''
-        /bin/sh -c "pkill -9 -f '^${pkgs.hyprland}/bin/Hyprland' && systemctl restart systemd-logind.service"
+        /bin/sh -c "${pkgs.procps}/bin/pkill -9 -f '^${pkgs.hyprland}/bin/Hyprland' && sleep 1 && ${pkgs.kbd}/bin/chvt 2"
       '';
     };
   };

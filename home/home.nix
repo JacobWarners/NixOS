@@ -1,6 +1,6 @@
 { config, pkgs, inputs, ... }:
 let
-  # --- Font Derivations (Unchanged) ---
+  # --- Font Derivation (Unchanged) ---
   sonic-font = pkgs.stdenv.mkDerivation {
     pname = "sonic-custom-font";
     version = "1.0";
@@ -12,7 +12,7 @@ let
     '';
   };
 
-  # --- Rofi Palette (Unchanged) ---
+  # --- Rofi Palette (Unchanged, from your working config) ---
   active-rofi-palette = "catppuccin";
   palette-map = {
     gruvbox = ./rofi-themes/gruvbox.rasi;
@@ -20,9 +20,9 @@ let
   };
   selected-palette-text = builtins.readFile palette-map.${active-rofi-palette};
 
-  # --- <<< SCRIPT PACKAGES (THE FINAL FIX) >>> ---
-
-  # 1. toggle-fkeys.sh (Correct and working)
+  # --- New Feature: Robust Toggle F-Keys Script Package ---
+  # This is the one part of the "packaging" approach that is beneficial,
+  # as it guarantees hyprctl is found. We will keep it.
   toggleFkeysScript = pkgs.writeShellScriptBin "toggle-fkeys" ''
     #!${pkgs.runtimeShell}
     LOCK_FILE="/tmp/hypr_fkeys_disabled.lock"
@@ -37,26 +37,6 @@ let
         done
         touch "$LOCK_FILE"
     fi
-  '';
-
-  # 2. rofi-theme-selector.sh (<<< THIS IS THE CORRECTED PART >>>)
-  # This new package embeds your script's logic and provides its full toolbox.
-  rofiThemeSelectorScript = pkgs.writeShellScriptBin "rofi-theme-selector" ''
-    #!${pkgs.runtimeShell}
-    # First, we build a complete PATH with every tool the script could need.
-    export PATH=${pkgs.lib.makeBinPath [
-      pkgs.rofi-wayland
-      pkgs.swww
-      pkgs.wallust
-      pkgs.waybar
-      pkgs.eww
-      pkgs.psmisc # for killall
-      pkgs.coreutils # for basename, etc.
-    ]}
-
-    # Second, we embed the actual content of your script directly here.
-    # Now it will run with the correct PATH environment.
-    ${builtins.readFile ./scripts/rofi-theme-selector.sh}
   '';
 
 in {
@@ -94,8 +74,9 @@ in {
     swaylock-effects wl-clipboard cliphist wallust xclip grim libnotify sway-contrib.grimshot
     eww waybar nerd-fonts.jetbrains-mono pipewire wireplumber sonic-font jq playerctl
     brightnessctl pamixer
+    
+    # Install our one custom script package
     toggleFkeysScript
-    rofiThemeSelectorScript
   ];
 
   programs.neovim = {
@@ -110,18 +91,30 @@ in {
   xdg.configFile."nvim".source = ./nvim;
 
   home.file = {
+    # --- Rofi Theme Files (from your working config) ---
     ".config/rofi/launcher.rasi".source = ./rofi-themes/launcher_style_6.rasi;
     ".config/rofi/shared/fonts.rasi".source = ./rofi-themes/fonts.rasi;
     ".config/rofi/shared/colors.rasi".text = selected-palette-text;
+
+    # --- Other Dotfiles (from your working config) ---
     ".zshrc".source = ./dotfiles/.zshrc;
     ".tmux.conf".source = ./dotfiles/.tmux.conf;
     ".config/kitty".source = ./kitty;
     ".config/wallust".source = ./wallust;
-    ".config/hypr/scripts/undock-helper.sh" = { source = ./scripts/undock-helper.sh; executable = true; };
-    ".config/hypr/scripts/undock.sh" = { source = ./scripts/undock.sh; executable = true; };
 
-    # The rofi-theme-selector.sh link is no longer needed here, as its logic is now
-    # part of the rofiThemeSelectorScript package defined above.
+    # <<< RESTORED: Link the entire scripts directory, which is what worked before >>>
+    ".config/scripts" = {
+      source = ./scripts;
+      recursive = true; # Make sure to copy all scripts within the directory
+      executable = true; # Make all scripts executable
+    };
+    
+    # We also need the undock helper script for sudo to find it by absolute path.
+    # While it's inside .config/scripts, a separate link ensures the path is predictable.
+    "/home/jake/.config/scripts/undock-helper.sh" = {
+      source = ./scripts/undock-helper.sh;
+      executable = true;
+    };
   };
 
   programs.rofi = {
@@ -137,6 +130,8 @@ in {
     "eww".source = ./dotfiles/dots/eww;
     "wlogout".source = ./wlogout;
     "waybar".source = ./dotfiles/dots/waybar;
+    
+    # This creates the fkeys config that our toggle script uses.
     "hypr/fkeys.conf" = {
       text = ''
         bind = , F1, workspace, 1
@@ -157,25 +152,16 @@ in {
     enable = true;
     package = pkgs.hyprland;
     extraConfig = ''
-      # This entire section is your working, multi-line version.
-      ###################
-      ### MONITORS ###
-      ###################
+      # Your full, working, multi-line Hyprland config
       monitor=desc:Acer Technologies XV271U M3 1322131231233, 2560x1440@179.877, 0x0, 1.00
       workspace = "2, monitor:desc:Acer Technologies XV271U M3 1322131231233";
       monitor=desc:BOE 0x095F, 2256x1504@59.999, -2256x164, 1.00
       workspace = "1, monitor:desc:BOE 0x095F";
       monitor=desc:Stargate Technology M156F01 demoset-1, 1920x1080@60.000, 2560x0, 1.00
       workspace = "3, monitor:desc:Stargate Technology M156F01 demoset-1";
-      ###################
-      ### MY PROGRAMS ###
-      ###################
       $terminal = kitty
       $fileManager = nautilus
       $menu = rofi-wayland --show drun
-      #################
-      ### AUTOSTART ###
-      #################
       exec-once = ${pkgs.swww}/bin/swww-daemon
       exec-once = sleep 2 && swww img /home/jake/Pictures/Wallpapers/Gruvwinter.jpg
       exec-once = waybar &
@@ -184,14 +170,8 @@ in {
       exec-once = dunst &
       exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
       exec-once = ${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store
-      #############################
-      ### ENVIRONMENT VARIABLES ###
-      #############################
       env = XCURSOR_SIZE,24
       env = HYPRCURSOR_SIZE,24
-      #####################
-      ### LOOK AND FEEL ###
-      #####################
       general {
         gaps_in = 5
         gaps_out = 5
@@ -235,9 +215,6 @@ in {
         disable_hyprland_logo = false
         disable_splash_rendering = true;
       }
-      #############
-      ### INPUT ###
-      #############
       input {
         kb_layout = us
         follow_mouse = 1
@@ -255,6 +232,7 @@ in {
         name = epic-mouse-v1
         sensitivity = -0.5
       }
+      
       ###################
       ### KEYBINDINGS ###
       ###################
@@ -264,7 +242,10 @@ in {
       bind = $mainMod, mouse:274, killactive,
       bind = , Print, exec, grimshot --notify savecopy area
       bind = $mainMod, M, exit,
-      bind = $mainMod, T, exec, rofi-theme-selector
+      
+      # <<< RESTORED: This is the exact, working binding from your old config >>>
+      bind = $mainMod, T, exec, /home/jake/.config/scripts/rofi-theme-selector.sh
+      
       bind = $mainMod, E, exec, $fileManager
       bind = $mainMod, V, togglefloating,
       bind = LCTRL SUPER, UP, exec, rofi -show drun
@@ -277,9 +258,14 @@ in {
       bind = $mainMod, l, movefocus, r
       bind = $mainMod, j, movefocus, d
       bind = $mainMod, k, movefocus, u
-      bind = SUPER, U, exec, /home/jake/.config/hypr/scripts/undock.sh
+
+      # <<< NEW: The working undock script using an absolute path >>>
+      bind = SUPER, U, exec, /home/jake/.config/scripts/undock.sh
+
+      # <<< NEW: The toggle F-keys feature >>>
       source = ~/.config/hypr/fkeys.conf
       bind = SUPER, F12, exec, toggle-fkeys
+
       bind = $mainMod, 1, movetoworkspace, 1
       bind = $mainMod, 2, movetoworkspace, 2
       bind = $mainMod, 3, movetoworkspace, 3
@@ -306,6 +292,7 @@ in {
       bindl = , XF86AudioPause, exec, playerctl play-pause
       bindl = , XF86AudioPlay, exec, playerctl play-pause
       bindl = , XF86AudioPrev, exec, playerctl previous
+      
       ##############################
       ### WINDOWS AND WORKSPACES ###
       ##############################

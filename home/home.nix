@@ -125,7 +125,7 @@ in {
     };
     # <<< ADDED THIS BLOCK to link the new undock script >>>
     ".config/hypr/scripts/undock.sh" = {
-      source = ./home/scripts/undock.sh;
+      source = ./scripts/undock.sh;
       executable = true;
     };
     # <<< END ADDITION >>>

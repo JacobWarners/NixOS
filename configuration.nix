@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ./modules/sonic-waygame.nix
     ./modules/telegraf.nix
+    ./modules/undock-service.nix
     #    ./modules/specialisation.nix
     #    ./modules/hotplugegpu.nix
     ./modules/hyprland.nix

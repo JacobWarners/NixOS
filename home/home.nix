@@ -124,6 +124,14 @@ in {
       executable = true;
     };
     # <<< ADDED THIS BLOCK to link the new undock script >>>
+        ".config/hypr/scripts/undock-helper.sh" = {
+      source = ./scripts/undock-helper.sh;
+      executable = true;
+    };
+    # <<< END ADDITION >>>
+
+
+
     ".config/hypr/scripts/undock.sh" = {
       source = ./scripts/undock.sh;
       executable = true;
@@ -284,7 +292,7 @@ in {
       
       # <<< ADDED THIS BINDING for safe eGPU undocking >>>
       # It uses pkexec to ask for your password to run the script with root privileges.
-      bind = $mainMod, U, exec, sudo ~/.config/hypr/scripts/undock.sh
+      bind = SUPER, U, exec, sudo ~/.config/hypr/scripts/undock.sh
       # <<< END ADDITION >>>
 
       source = ~/.config/hypr/fkeys.conf

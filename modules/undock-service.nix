@@ -2,6 +2,7 @@
 
 { config, pkgs, ... }:
 let
+  # The forceful recovery script.
   egpu-undock-script = pkgs.writeShellScriptBin "egpu-undock-script" ''
     #! ${pkgs.bash}/bin/bash
     
@@ -9,10 +10,9 @@ let
       echo "$1" | ${pkgs.systemd}/bin/systemd-cat -p info -t egpu-undock
     }
 
-    log "eGPU undock detected (DEVPATH match). Starting recovery sequence."
+    log "eGPU undock detected (Bridge DEVPATH). Firing recovery script."
 
-    log "Attempting forceful pkill (SIGKILL) immediately."
-    # We go straight for the hammer, as we know the session will not respond gracefully.
+    # Go straight for the hammer. The session is already doomed.
     ${pkgs.procps}/bin/pkill -9 -f ".Hyprland-wrapped"
 
     log "Recovery sequence complete."
@@ -20,9 +20,7 @@ let
 
 in
 {
-  # ... your other NixOS configuration options
-
-  # -- eGPU Hot-Unplug Recovery (DEVPATH Version) --
+  # -- eGPU Hot-Unplug Recovery (Final Version) --
 
   systemd.services.egpu-undock-recover = {
     description = "Run eGPU undock recovery script for Hyprland.";
@@ -33,9 +31,10 @@ in
   };
 
   services.udev.extraRules = ''
-    # THIS IS THE FINAL RULE:
-    # Trigger on the REMOVE action for the GPU's exact DEVPATH.
-    ACTION=="remove", DEVPATH=="/devices/pci0000:00/0000:00:01.2/0000:60:00.0/0000:61:01.0/0000:62:00.0/0000:63:00.0/0000:64:00.0", TAG+="systemd", ENV{SYSTEMD_WANTS}+="egpu-undock-recover.service"
+    # THE FINAL RULE:
+    # Target the 'remove' action on the exact DEVPATH of the parent Thunderbolt PCI bridge.
+    # This is immune to the attribute race condition.
+    ACTION=="remove", DEVPATH=="/devices/pci0000:00/0000:00:01.2/0000:60:00.0/0000:61:04.0", TAG+="systemd", ENV{SYSTEMD_WANTS}+="egpu-undock-recover.service"
   '';
 
 }

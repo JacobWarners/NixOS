@@ -1,20 +1,22 @@
 { config, pkgs, ... }:
 {
-  systemd.services.kill-hyprland-on-undock = {
-    description = "Forcefully terminate Hyprland and restart the display manager.";
-    path = [ pkgs.systemd ];
+
+  systemd.services.recover-on-undock = {
+    description = "Kill Hyprland and restart the session manager on eGPU undock.";
+    path = [ pkgs.systemd pkgs.procps ];
     serviceConfig = {
       Type = "oneshot";
-      # THE FINAL FIX: We run the restart command in the background
-      # using 'nohup ... &' to prevent a deadlock.
+      # THE FINAL ATTEMPT:
+      # 1. Kill the frozen Hyprland session.
+      # 2. Restart systemd-logind, the service that is actually stuck.
       ExecStart = ''
-        /bin/sh -c "${pkgs.procps}/bin/pkill -9 -f '^${pkgs.hyprland}/bin/Hyprland' && nohup systemctl restart display-manager.service &"
+        /bin/sh -c "pkill -9 -f '^${pkgs.hyprland}/bin/Hyprland' && systemctl restart systemd-logind.service"
       '';
     };
   };
 
   # This udev rule is CONFIRMED WORKING. Do not change it.
   services.udev.extraRules = ''
-    ACTION=="unbind", DEVPATH=="/devices/pci0000:00/0000:00:01.2/0000:60:00.0/0000:61:04.0", TAG+="systemd", ENV{SYSTEMD_WANTS}+="kill-hyprland-on-undock.service"
+    ACTION=="unbind", DEVPATH=="/devices/pci0000:00/0000:00:01.2/0000:60:00.0/0000:61:04.0", TAG+="systemd", ENV{SYSTEMD_WANTS}+="recover-on-undock.service"
   '';
 }

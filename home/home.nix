@@ -1,6 +1,6 @@
 { config, pkgs, inputs, ... }:
 let
-  # --- Font Derivations (Unchanged) ---
+  # --- Font Derivations ---
   sonic-font = pkgs.stdenv.mkDerivation {
     pname = "sonic-custom-font";
     version = "1.0";
@@ -12,7 +12,7 @@ let
     '';
   };
 
-  # --- Rofi Palette (Unchanged) ---
+  # --- Rofi Palette ---
   active-rofi-palette = "catppuccin";
   palette-map = {
     gruvbox = ./rofi-themes/gruvbox.rasi;
@@ -20,9 +20,7 @@ let
   };
   selected-palette-text = builtins.readFile palette-map.${active-rofi-palette};
 
-  # --- <<< SCRIPT PACKAGES (THE FIX) >>> ---
-
-  # 1. toggle-fkeys.sh (This is correct and unchanged)
+  # --- Script Packages ---
   toggleFkeysScript = pkgs.writeShellScriptBin "toggle-fkeys" ''
     #!${pkgs.runtimeShell}
     LOCK_FILE="/tmp/hypr_fkeys_disabled.lock"
@@ -39,19 +37,15 @@ let
     fi
   '';
 
-  # 2. rofi-theme-selector.sh (<<< THIS IS THE CORRECTED PART >>>)
-  # We now provide the script with all the tools it needs in its PATH.
   rofiThemeSelectorScript = pkgs.writeShellScriptBin "rofi-theme-selector" ''
     #!${pkgs.runtimeShell}
-    # This provides rofi, swww, waybar, wallust, and killall (from psmisc)
     export PATH=${pkgs.lib.makeBinPath [
       pkgs.rofi-wayland
       pkgs.swww
       pkgs.waybar
       pkgs.wallust
-      pkgs.psmisc 
+      pkgs.psmisc
     ]}
-    # Now execute the original script, which can find all the commands it needs.
     exec /home/jake/.config/hypr/scripts/rofi-theme-selector.sh
   '';
 
@@ -68,68 +62,28 @@ in {
     '';
   };
 
-  qt = {
-    enable = true;
-    platformTheme.name = "gtk";
-  };
+  qt = { enable = true; platformTheme.name = "gtk"; };
 
   gtk = {
     enable = true;
-    cursorTheme = {
-      name = "Bibata-Modern-Classic";
-      package = pkgs.bibata-cursors;
-      size = 24;
-    };
+    cursorTheme = { name = "Bibata-Modern-Classic"; package = pkgs.bibata-cursors; size = 24; };
     iconTheme = {
-      package = pkgs.catppuccin-papirus-folders.override {
-        flavor = "macchiato";
-        accent = "teal";
-      };
+      package = pkgs.catppuccin-papirus-folders.override { flavor = "macchiato"; accent = "teal"; };
       name = "Papirus-Dark";
     };
     theme = {
       name = "catppuccin-macchiato-mauve-compact";
-      package = pkgs.catppuccin-gtk.override {
-        accents = ["mauve"];
-        variant = "macchiato";
-        size = "compact";
-      };
+      package = pkgs.catppuccin-gtk.override { accents = ["mauve"]; variant = "macchiato"; size = "compact"; };
     };
     gtk3.extraConfig = { Settings = '' gtk-application-prefer-dark-theme=1 ''; };
     gtk4.extraConfig = { Settings = '' gtk-application-prefer-dark-theme=1 ''; };
   };
 
   home.packages = with pkgs; [
-    zsh
-    yazi
-    polkit_gnome
-    pulseaudio
-    direnv
-    nix-direnv
-    nwg-displays
-    imagemagick
-    slurp
-    wlogout
-    swaylock-effects
-    wl-clipboard
-    cliphist
-    wallust
-    xclip
-    grim
-    libnotify
-    sway-contrib.grimshot
-    eww
-    waybar
-    nerd-fonts.jetbrains-mono
-    pipewire
-    wireplumber
-    sonic-font
-    jq
-    playerctl
-    brightnessctl
-    pamixer
-
-    # Install our robust script packages
+    zsh yazi polkit_gnome pulseaudio direnv nix-direnv nwg-displays imagemagick slurp wlogout
+    swaylock-effects wl-clipboard cliphist wallust xclip grim libnotify sway-contrib.grimshot
+    eww waybar nerd-fonts.jetbrains-mono pipewire wireplumber sonic-font jq playerctl
+    brightnessctl pamixer
     toggleFkeysScript
     rofiThemeSelectorScript
   ];
@@ -153,21 +107,9 @@ in {
     ".tmux.conf".source = ./dotfiles/.tmux.conf;
     ".config/kitty".source = ./kitty;
     ".config/wallust".source = ./wallust;
-
-    # Link the scripts that are called by our packages or use sudo
-    ".config/hypr/scripts/undock-helper.sh" = {
-      source = ./scripts/undock-helper.sh;
-      executable = true;
-    };
-    ".config/hypr/scripts/undock.sh" = {
-      source = ./scripts/undock.sh;
-      executable = true;
-    };
-    # <<< MODIFIED: This script is now called by the wrapper package >>>
-    ".config/hypr/scripts/rofi-theme-selector.sh" = {
-      source = ./scripts/rofi-theme-selector.sh;
-      executable = true;
-    };
+    ".config/hypr/scripts/undock-helper.sh" = { source = ./scripts/undock-helper.sh; executable = true; };
+    ".config/hypr/scripts/undock.sh" = { source = ./scripts/undock.sh; executable = true; };
+    ".config/hypr/scripts/rofi-theme-selector.sh" = { source = ./scripts/rofi-theme-selector.sh; executable = true; };
   };
 
   programs.rofi = {
@@ -185,7 +127,6 @@ in {
     "waybar".source = ./dotfiles/dots/waybar;
     "hypr/fkeys.conf" = {
       text = ''
-        # F-Key Workspace Bindings (Managed by home.nix)
         bind = , F1, workspace, 1
         bind = , F2, workspace, 2
         bind = , F3, workspace, 3
@@ -204,16 +145,24 @@ in {
     enable = true;
     package = pkgs.hyprland;
     extraConfig = ''
-      # ... (monitor, autostart, env, look and feel sections unchanged) ...
+      ###################
+      ### MONITORS ###
+      ###################
       monitor=desc:Acer Technologies XV271U M3 1322131231233, 2560x1440@179.877, 0x0, 1.00
       workspace = "2, monitor:desc:Acer Technologies XV271U M3 1322131231233";
       monitor=desc:BOE 0x095F, 2256x1504@59.999, -2256x164, 1.00
       workspace = "1, monitor:desc:BOE 0x095F";
       monitor=desc:Stargate Technology M156F01 demoset-1, 1920x1080@60.000, 2560x0, 1.00
       workspace = "3, monitor:desc:Stargate Technology M156F01 demoset-1";
+      ###################
+      ### MY PROGRAMS ###
+      ###################
       $terminal = kitty
       $fileManager = nautilus
       $menu = rofi-wayland --show drun
+      #################
+      ### AUTOSTART ###
+      #################
       exec-once = ${pkgs.swww}/bin/swww-daemon
       exec-once = sleep 2 && swww img /home/jake/Pictures/Wallpapers/Gruvwinter.jpg
       exec-once = waybar &
@@ -222,17 +171,79 @@ in {
       exec-once = dunst &
       exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
       exec-once = ${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store
+      #############################
+      ### ENVIRONMENT VARIABLES ###
+      #############################
       env = XCURSOR_SIZE,24
       env = HYPRCURSOR_SIZE,24
-      general { gaps_in = 5, gaps_out = 5, border_size = 2, col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg, col.inactive_border = rgba(595959aa), resize_on_border = false, allow_tearing = false, layout = dwindle }
-      decoration { rounding = 10, active_opacity = 1.0, inactive_opacity = 1.0, blur { enabled = true, size = 3, passes = 1, vibrancy = 0.1696 } }
-      animations { enabled = true, bezier = myBezier, 0.05, 0.9, 0.1, 1.05, animation = windows, 1, 7, myBezier, animation = windowsOut, 1, 7, default, popin 80%, animation = border, 1, 10, default, animation = borderangle, 1, 8, default, animation = fade, 1, 7, default, animation = workspaces, 1, 6, default }
-      dwindle { pseudotile = true, preserve_split = true }
-      master { new_status = master }
-      misc { force_default_wallpaper = 0, disable_hyprland_logo = false, disable_splash_rendering = true; }
-      input { kb_layout = us, follow_mouse = 1, sensitivity = 0, touchpad { natural_scroll = true, clickfinger_behavior = 1, middle_button_emulation = false } }
-      gestures { workspace_swipe = false }
-      device { name = epic-mouse-v1, sensitivity = -0.5 }
+      
+      # <<< THIS SECTION HAS BEEN RESTORED TO THE CORRECT MULTI-LINE SYNTAX >>>
+      #####################
+      ### LOOK AND FEEL ###
+      #####################
+      general {
+        gaps_in = 5
+        gaps_out = 5
+        border_size = 2
+        col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
+        col.inactive_border = rgba(595959aa)
+        resize_on_border = false
+        allow_tearing = false
+        layout = dwindle
+      }
+      decoration {
+        rounding = 10
+        active_opacity = 1.0
+        inactive_opacity = 1.0
+        blur {
+          enabled = true
+          size = 3
+          passes = 1
+          vibrancy = 0.1696
+        }
+      }
+      animations {
+        enabled = true
+        bezier = myBezier, 0.05, 0.9, 0.1, 1.05
+        animation = windows, 1, 7, myBezier
+        animation = windowsOut, 1, 7, default, popin 80%
+        animation = border, 1, 10, default
+        animation = borderangle, 1, 8, default
+        animation = fade, 1, 7, default
+        animation = workspaces, 1, 6, default
+      }
+      dwindle {
+        pseudotile = true
+        preserve_split = true
+      }
+      master {
+        new_status = master
+      }
+      misc {
+        force_default_wallpaper = 0
+        disable_hyprland_logo = false
+        disable_splash_rendering = true;
+      }
+      #############
+      ### INPUT ###
+      #############
+      input {
+        kb_layout = us
+        follow_mouse = 1
+        sensitivity = 0
+        touchpad {
+          natural_scroll = true
+          clickfinger_behavior = 1
+          middle_button_emulation = false
+        }
+      }
+      gestures {
+        workspace_swipe = false
+      }
+      device {
+        name = epic-mouse-v1
+        sensitivity = -0.5
+      }
 
       ###################
       ### KEYBINDINGS ###
@@ -243,10 +254,7 @@ in {
       bind = $mainMod, mouse:274, killactive,
       bind = , Print, exec, grimshot --notify savecopy area
       bind = $mainMod, M, exit,
-
-      # <<< CORRECTED: Calls the new robust package >>>
       bind = $mainMod, T, exec, rofi-theme-selector
-
       bind = $mainMod, E, exec, $fileManager
       bind = $mainMod, V, togglefloating,
       bind = LCTRL SUPER, UP, exec, rofi -show drun
@@ -259,15 +267,9 @@ in {
       bind = $mainMod, l, movefocus, r
       bind = $mainMod, j, movefocus, d
       bind = $mainMod, k, movefocus, u
-      
-      # This binding is working and correct.
       bind = SUPER, U, exec, /home/jake/.config/hypr/scripts/undock.sh
-      
       source = ~/.config/hypr/fkeys.conf
-      
-      # This binding is working and correct.
       bind = SUPER, F12, exec, toggle-fkeys
-
       bind = $mainMod, 1, movetoworkspace, 1
       bind = $mainMod, 2, movetoworkspace, 2
       bind = $mainMod, 3, movetoworkspace, 3
@@ -294,7 +296,6 @@ in {
       bindl = , XF86AudioPause, exec, playerctl play-pause
       bindl = , XF86AudioPlay, exec, playerctl play-pause
       bindl = , XF86AudioPrev, exec, playerctl previous
-
       ##############################
       ### WINDOWS AND WORKSPACES ###
       ##############################

@@ -68,6 +68,6 @@ in
 
   # 3. The Udev rule that triggers the service (unchanged logic).
   services.udev.extraRules = ''
-    ACTION=="remove", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{device}=="0x73ff", TAG+="systemd", ENV{SYSTEMD_WANTS}+="egpu-undock-recover.service"
+    ACTION=="unbind", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{device}=="0x73ff", TAG+="systemd", ENV{SYSTEMD_WANTS}+="egpu-undock-recover.service"
   '';
 }

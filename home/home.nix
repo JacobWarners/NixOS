@@ -1,6 +1,6 @@
 { config, pkgs, inputs, ... }:
 let
-  # --- Font Derivations ---
+  # --- Font Derivations (Unchanged) ---
   sonic-font = pkgs.stdenv.mkDerivation {
     pname = "sonic-custom-font";
     version = "1.0";
@@ -12,7 +12,7 @@ let
     '';
   };
 
-  # --- Rofi Palette ---
+  # --- Rofi Palette (Unchanged) ---
   active-rofi-palette = "catppuccin";
   palette-map = {
     gruvbox = ./rofi-themes/gruvbox.rasi;
@@ -20,7 +20,9 @@ let
   };
   selected-palette-text = builtins.readFile palette-map.${active-rofi-palette};
 
-  # --- Script Packages ---
+  # --- <<< SCRIPT PACKAGES (THE FINAL FIX) >>> ---
+
+  # 1. toggle-fkeys.sh (Correct and working)
   toggleFkeysScript = pkgs.writeShellScriptBin "toggle-fkeys" ''
     #!${pkgs.runtimeShell}
     LOCK_FILE="/tmp/hypr_fkeys_disabled.lock"
@@ -37,16 +39,24 @@ let
     fi
   '';
 
+  # 2. rofi-theme-selector.sh (<<< THIS IS THE CORRECTED PART >>>)
+  # This new package embeds your script's logic and provides its full toolbox.
   rofiThemeSelectorScript = pkgs.writeShellScriptBin "rofi-theme-selector" ''
     #!${pkgs.runtimeShell}
+    # First, we build a complete PATH with every tool the script could need.
     export PATH=${pkgs.lib.makeBinPath [
       pkgs.rofi-wayland
       pkgs.swww
-      pkgs.waybar
       pkgs.wallust
-      pkgs.psmisc
+      pkgs.waybar
+      pkgs.eww
+      pkgs.psmisc # for killall
+      pkgs.coreutils # for basename, etc.
     ]}
-    exec /home/jake/.config/hypr/scripts/rofi-theme-selector.sh
+
+    # Second, we embed the actual content of your script directly here.
+    # Now it will run with the correct PATH environment.
+    ${builtins.readFile ./scripts/rofi-theme-selector.sh}
   '';
 
 in {
@@ -109,7 +119,9 @@ in {
     ".config/wallust".source = ./wallust;
     ".config/hypr/scripts/undock-helper.sh" = { source = ./scripts/undock-helper.sh; executable = true; };
     ".config/hypr/scripts/undock.sh" = { source = ./scripts/undock.sh; executable = true; };
-    ".config/hypr/scripts/rofi-theme-selector.sh" = { source = ./scripts/rofi-theme-selector.sh; executable = true; };
+
+    # The rofi-theme-selector.sh link is no longer needed here, as its logic is now
+    # part of the rofiThemeSelectorScript package defined above.
   };
 
   programs.rofi = {
@@ -145,6 +157,7 @@ in {
     enable = true;
     package = pkgs.hyprland;
     extraConfig = ''
+      # This entire section is your working, multi-line version.
       ###################
       ### MONITORS ###
       ###################
@@ -176,8 +189,6 @@ in {
       #############################
       env = XCURSOR_SIZE,24
       env = HYPRCURSOR_SIZE,24
-      
-      # <<< THIS SECTION HAS BEEN RESTORED TO THE CORRECT MULTI-LINE SYNTAX >>>
       #####################
       ### LOOK AND FEEL ###
       #####################
@@ -244,7 +255,6 @@ in {
         name = epic-mouse-v1
         sensitivity = -0.5
       }
-
       ###################
       ### KEYBINDINGS ###
       ###################

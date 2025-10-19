@@ -1,4 +1,5 @@
 { config, pkgs, inputs, ... }:
+
 let
   sonic-font = pkgs.stdenv.mkDerivation {
     pname = "sonic-custom-font";
@@ -10,16 +11,21 @@ let
       cp $src $out/share/fonts/opentype/Sonic-Regular.otf
     '';
   };
+
   active-rofi-palette = "catppuccin";
+
   palette-map = {
     gruvbox = ./rofi-themes/gruvbox.rasi;
     catppuccin = ./rofi-themes/catppuccin.rasi;
   };
+
   selected-palette-text = builtins.readFile palette-map.${active-rofi-palette};
+
 in {
   home.username = "jake";
   home.homeDirectory = "/home/jake";
   home.stateVersion = "25.05";
+
   programs.tmux = {
     enable = true;
     extraConfig = ''
@@ -27,6 +33,7 @@ in {
       bind-key S setw synchronize-panes
     '';
   };
+
   qt = {
     enable = true;
     platformTheme.name = "gtk";
@@ -64,6 +71,7 @@ in {
       '';
     };
   };
+
   home.packages = with pkgs; [
     zsh
     yazi
@@ -94,6 +102,7 @@ in {
     brightnessctl
     pamixer
   ];
+
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -110,37 +119,43 @@ in {
       vim-sensible
     ];
   };
+
   xdg.configFile."nvim".source = ./nvim;
+
   home.file = {
     ".config/rofi/launcher.rasi".source = ./rofi-themes/launcher_style_6.rasi;
     ".config/rofi/shared/fonts.rasi".source = ./rofi-themes/fonts.rasi;
     ".config/rofi/shared/colors.rasi".text = selected-palette-text;
+
     ".zshrc".source = ./dotfiles/.zshrc;
     ".tmux.conf".source = ./dotfiles/.tmux.conf;
     ".config/kitty".source = ./kitty;
+    # ".config/scripts".source = ./scripts; ### MODIFIED: We link the script individually below ###
     ".config/wallust".source = ./wallust;
+
+    ### ADDED: Link the new toggle script and make it executable ###
     ".config/hypr/scripts/toggle-fkeys.sh" = {
       source = ./scripts/toggle-fkeys.sh;
       executable = true;
     };
-    # <<< ADDED THIS BLOCK to link the new undock script >>>
-    ".config/hypr/scripts/undock.sh" = {
-      source = ./home/scripts/undock.sh;
-      executable = true;
-    };
-    # <<< END ADDITION >>>
   };
+
   programs.rofi = {
     enable = true;
     theme = "${config.home.homeDirectory}/.config/rofi/launcher.rasi";
     package = pkgs.rofi-wayland;
   };
+
   services.ratatat-listener.enable = true;
+
   fonts.fontconfig.enable = true;
+
   xdg.configFile = {
     "eww".source = ./dotfiles/dots/eww;
     "wlogout".source = ./wlogout;
     "waybar".source = ./dotfiles/dots/waybar;
+
+    ### ADDED: Create the fkeys.conf file for Hyprland ###
     "hypr/fkeys.conf" = {
       text = ''
         # F-Key Workspace Bindings (Managed by home.nix)
@@ -157,11 +172,13 @@ in {
       '';
     };
   };
+  
   wayland.windowManager.hyprland = {
     enable = true;
     package = pkgs.hyprland;
     extraConfig = ''
       # ... (your monitor and other settings remain the same) ...
+
       ###################
       ### MONITORS ###
       ###################
@@ -171,12 +188,14 @@ in {
       workspace = "1, monitor:desc:BOE 0x095F";
       monitor=desc:Stargate Technology M156F01 demoset-1, 1920x1080@60.000, 2560x0, 1.00
       workspace = "3, monitor:desc:Stargate Technology M156F01 demoset-1";
+      
       ###################
       ### MY PROGRAMS ###
       ###################
       $terminal = kitty
       $fileManager = nautilus
       $menu = rofi-wayland --show drun
+      
       #################
       ### AUTOSTART ###
       #################
@@ -188,11 +207,13 @@ in {
       exec-once = dunst &
       exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
       exec-once = ${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store
+      
       #############################
       ### ENVIRONMENT VARIABLES ###
       #############################
       env = XCURSOR_SIZE,24
       env = HYPRCURSOR_SIZE,24
+      
       #####################
       ### LOOK AND FEEL ###
       #####################
@@ -239,6 +260,7 @@ in {
         disable_hyprland_logo = false
         disable_splash_rendering = true;
       }
+      
       #############
       ### INPUT ###
       #############
@@ -259,6 +281,7 @@ in {
         name = epic-mouse-v1
         sensitivity = -0.5
       }
+      
       ###################
       ### KEYBINDINGS ###
       ###################
@@ -282,13 +305,10 @@ in {
       bind = $mainMod, j, movefocus, d
       bind = $mainMod, k, movefocus, u
       
-      # <<< ADDED THIS BINDING for safe eGPU undocking >>>
-      # It uses pkexec to ask for your password to run the script with root privileges.
-      bind = $mainMod, U, exec, pkexec ~/.config/hypr/scripts/undock.sh
-      # <<< END ADDITION >>>
-
+      ### MODIFIED: Keybindings for F-keys and toggle ###
       source = ~/.config/hypr/fkeys.conf
       bind = SUPER, F12, exec, ~/.config/hypr/scripts/toggle-fkeys.sh
+      
       bind = $mainMod, 1, movetoworkspace, 1
       bind = $mainMod, 2, movetoworkspace, 2
       bind = $mainMod, 3, movetoworkspace, 3
@@ -315,6 +335,7 @@ in {
       bindl = , XF86AudioPause, exec, playerctl play-pause
       bindl = , XF86AudioPlay, exec, playerctl play-pause
       bindl = , XF86AudioPrev, exec, playerctl previous
+
       ##############################
       ### WINDOWS AND WORKSPACES ###
       ##############################

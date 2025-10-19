@@ -67,7 +67,9 @@ in
 
   # 3. The Udev rule that triggers the service (unchanged logic).
   services.udev.extraRules = ''
-    ACTION=="unbind", SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{device}=="0x73ff", TAG+="systemd", ENV{SYSTEMD_WANTS}+="egpu-undock-recover.service"
+  # Temporary diagnostic rule to log all properties of the GPU event.
+  # This will trigger on ANY change, bind, unbind, or remove event.
+  SUBSYSTEM=="pci", ATTR{vendor}=="0x1002", ATTR{device}=="0x73ff", RUN+="/bin/sh -c 'echo --- EVENT --- >> /tmp/gpu_event.log; env >> /tmp/gpu_event.log'"
   '';
 
 

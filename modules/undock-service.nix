@@ -10,7 +10,7 @@ let
       echo "$1" | ${pkgs.systemd}/bin/systemd-cat -p info -t egpu-undock
     }
 
-    log "eGPU undock detected (Bridge DEVPATH). Firing recovery script."
+    log "eGPU undock detected (Bridge DEVPATH unbind). Firing recovery script."
 
     # Go straight for the hammer. The session is already doomed.
     ${pkgs.procps}/bin/pkill -9 -f ".Hyprland-wrapped"
@@ -31,10 +31,9 @@ in
   };
 
   services.udev.extraRules = ''
-    # THE FINAL RULE:
-    # Target the 'remove' action on the exact DEVPATH of the parent Thunderbolt PCI bridge.
+    # THIS IS THE FINAL RULE:
+    # Target the 'unbind' action on the exact DEVPATH of the parent Thunderbolt PCI bridge.
     # This is immune to the attribute race condition.
-    ACTION=="remove", DEVPATH=="/devices/pci0000:00/0000:00:01.2/0000:60:00.0/0000:61:04.0", TAG+="systemd", ENV{SYSTEMD_WANTS}+="egpu-undock-recover.service"
+    ACTION=="unbind", DEVPATH=="/devices/pci0000:00/0000:00:01.2/0000:60:00.0/0000:61:04.0", TAG+="systemd", ENV{SYSTEMD_WANTS}+="egpu-undock-recover.service"
   '';
-
 }

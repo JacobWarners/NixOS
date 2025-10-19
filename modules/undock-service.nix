@@ -1,7 +1,7 @@
 # /etc/nixos/configuration.nix
 
 { config, pkgs, ... }:
-{
+
 let
   # 1. Define our robust recovery script.
   #    This gives us a multi-step process with logging.

@@ -119,24 +119,26 @@ in {
     ".tmux.conf".source = ./dotfiles/.tmux.conf;
     ".config/kitty".source = ./kitty;
     ".config/wallust".source = ./wallust;
+    
+    # <<< MODIFIED THIS BLOCK to make the script robust >>>
     ".config/hypr/scripts/toggle-fkeys.sh" = {
-      source = ./scripts/toggle-fkeys.sh;
+      text = builtins.readFile ./scripts/toggle-fkeys.sh;
       executable = true;
+      substitutions = [
+        "hyprctl" "${pkgs.hyprland}/bin/hyprctl"
+        "notify-send" "${pkgs.libnotify}/bin/notify-send"
+      ];
     };
-    # <<< ADDED THIS BLOCK to link the new undock script >>>
-        ".config/hypr/scripts/undock-helper.sh" = {
+    # <<< END MODIFICATION >>>
+
+    ".config/hypr/scripts/undock-helper.sh" = {
       source = ./scripts/undock-helper.sh;
       executable = true;
     };
-    # <<< END ADDITION >>>
-
-
-
     ".config/hypr/scripts/undock.sh" = {
       source = ./scripts/undock.sh;
       executable = true;
     };
-    # <<< END ADDITION >>>
   };
   programs.rofi = {
     enable = true;
@@ -276,7 +278,10 @@ in {
       bind = $mainMod, mouse:274, killactive,
       bind = , Print, exec, grimshot --notify savecopy area
       bind = $mainMod, M, exit,
+      
+      # <<< MODIFIED THIS BINDING >>>
       bind = $mainMod, T, exec, /home/jake/.config/scripts/rofi-theme-selector.sh
+      
       bind = $mainMod, E, exec, $fileManager
       bind = $mainMod, V, togglefloating,
       bind = LCTRL SUPER, UP, exec, rofi -show drun
@@ -290,13 +295,14 @@ in {
       bind = $mainMod, j, movefocus, d
       bind = $mainMod, k, movefocus, u
       
-      # <<< ADDED THIS BINDING for safe eGPU undocking >>>
-      # It uses pkexec to ask for your password to run the script with root privileges.
+      # <<< This binding is now correct and robust >>>
       bind = SUPER, U, exec, /home/jake/.config/hypr/scripts/undock.sh
-      # <<< END ADDITION >>>
-
+      
       source = ~/.config/hypr/fkeys.conf
-      bind = SUPER, F12, exec, ~/.config/hypr/scripts/toggle-fkeys.sh
+      
+      # <<< MODIFIED THIS BINDING >>>
+      bind = SUPER, F12, exec, /home/jake/.config/hypr/scripts/toggle-fkeys.sh
+
       bind = $mainMod, 1, movetoworkspace, 1
       bind = $mainMod, 2, movetoworkspace, 2
       bind = $mainMod, 3, movetoworkspace, 3

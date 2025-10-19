@@ -30,6 +30,21 @@ security.sudo.extraConfig = ''
   jake ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/cpupower
   Defaults editor = ${pkgs.neovim}/bin/nvim
 '';
+
+  # ... your existing system configuration (bootloader, networking, etc.) ...
+
+  # Grant passwordless sudo access for the eGPU undock script.
+  security.sudo.extraRules = [
+    {
+      users = [ "jake" ]; # Your username
+      commands = [
+        {
+          command = "${config.home-manager.users.jake.home.homeDirectory}/.config/hypr/scripts/undock.sh";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
 #security.sudo.extraRules = [
 #  {
 #    users = [ "jake" ];

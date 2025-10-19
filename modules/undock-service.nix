@@ -1,17 +1,20 @@
 { config, pkgs, ... }:
 {
-  # -- eGPU Hot-Unplug Recovery (Future-Proof) --
+  # -- eGPU Hot-Unplug Recovery (Complete) --
 
   services.openssh.enable = true;
 
   systemd.services.kill-hyprland-on-undock = {
-    description = "Forcefully terminate Hyprland session for eGPU undock recovery.";
+    description = "Forcefully terminate Hyprland and restart the display manager.";
+    # We need this to allow the service to restart another service.
+    path = [ pkgs.systemd ];
     serviceConfig = {
       Type = "oneshot";
-      # THE FINAL FIX: We use a Nix expression to get the correct path at build time.
-      # This makes the command robust against updates.
+      # The final command: a chain of two actions.
+      # 1. Kill the frozen Hyprland session.
+      # 2. Restart the display-manager service to get a login screen.
       ExecStart = ''
-        ${pkgs.procps}/bin/pkill -9 -f "^${pkgs.hyprland}/bin/Hyprland"
+        /bin/sh -c "${pkgs.procps}/bin/pkill -9 -f '^${pkgs.hyprland}/bin/Hyprland' && systemctl restart display-manager.service"
       '';
     };
   };

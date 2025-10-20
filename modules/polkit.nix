@@ -1,0 +1,22 @@
+{ config, lib, pkgs, ... }:
+{
+security.polkit.extraConfig = ''
+  polkit.addRule(function(action, subject) {
+    // Rule for CoreCtrl
+    if ((action.id == "org.corectrl.helper.init" ||
+         action.id == "org.corectrl.helperkiller.init") &&
+        subject.isInGroup("wheel")) {
+          return polkit.Result.YES;
+    }
+
+    // Rule for nmcli, checking BOTH the symlink and the real store path
+    if (action.id == "org.freedesktop.policykit.exec" &&
+        subject.isInGroup("wheel") &&
+        (action.lookup("program") == "'' + pkgs.networkmanager + ''/bin/nmcli" ||
+         action.lookup("program") == "/run/current-system/sw/bin/nmcli")) {
+      return polkit.Result.YES;
+    }
+  });
+
+  '';
+} 

@@ -9,5 +9,4 @@
     pkgs.docker-compose
   ];
 
-  users.users.jake.extraGroups = [ "docker" ];
 }

@@ -74,14 +74,5 @@
     ];
   };
 
-  # Set user permissions
-  users.users.jake = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel" # For sudo privileges
-      "kvm" # For KVM access
-      "libvirt" # For libvirt access
-    ];
-  };
 }
 

@@ -6,7 +6,7 @@
     home = "/home/jake";
     shell = pkgs.zsh;
     initialHashedPassword = "$y$j9T$MkzXr4RqnBYu92A6DSwJv1$Hxj3vUPY3vCvPyJ1Z8vfaQhSEn4ZO0vKNsJYhpnJkF.";
-    extraGroups = [ "wheel" "docker" "podman" "dialout" "libinput" "input" "networkmanager"];
+    extraGroups = [ "wheel" "kvm" "libvirt" "docker" "podman" "dialout" "libinput" "input" "networkmanager"];
   };
 
   users.users.reen = {

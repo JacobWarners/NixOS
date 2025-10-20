@@ -41,7 +41,6 @@ let
 
 in {
   home.username = "jake";
-  home.homeDirectory = "/home/jake";
   home.stateVersion = "25.05";
 
   programs.tmux = {
@@ -111,7 +110,7 @@ in {
     
     # We also need the undock helper script for sudo to find it by absolute path.
     # While it's inside .config/scripts, a separate link ensures the path is predictable.
-    "/home/jake/.config/scripts/undock-helper.sh" = {
+    ".config/scripts/undock-helper.sh" = {
       source = ./scripts/undock-helper.sh;
       executable = true;
     };
@@ -163,7 +162,7 @@ in {
       $fileManager = nautilus
       $menu = rofi-wayland --show drun
       exec-once = ${pkgs.swww}/bin/swww-daemon
-      exec-once = sleep 2 && swww img /home/jake/Pictures/Wallpapers/Gruvwinter.jpg
+      exec-once = sleep 2 && swww img ${config.home.homeDirectory}/Pictures/Wallpapers/Gruvwinter.jpg
       exec-once = waybar &
       exec-once = ${pkgs.eww}/bin/eww daemon
       exec-once = sleep 2 && ${pkgs.eww}/bin/eww open dashboard
@@ -245,7 +244,7 @@ in {
       bind = $mainMod, M, exit,
       
       # <<< RESTORED: This is the exact, working binding from your old config >>>
-      bind = $mainMod, T, exec, /home/jake/.config/scripts/rofi-theme-selector.sh
+      bind = $mainMod, T, exec, ${config.home.homeDirectory}/.config/scripts/rofi-theme-selector.sh
       
       bind = $mainMod, E, exec, $fileManager
       bind = $mainMod, V, togglefloating,
@@ -261,7 +260,7 @@ in {
       bind = $mainMod, k, movefocus, u
 
       # <<< NEW: The working undock script using an absolute path >>>
-      bind = SUPER, U, exec, /home/jake/.config/scripts/undock.sh
+      bind = SUPER, U, exec, ${config.home.homeDirectory}/.config/scripts/undock.sh
 
       # <<< NEW: The toggle F-keys feature >>>
       source = ~/.config/hypr/fkeys.conf

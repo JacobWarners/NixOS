@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-	secrets = import /home/jake/nixos-config/secrets.nix;
+	secrets = import ./secrets.nix;
 in
 
 {

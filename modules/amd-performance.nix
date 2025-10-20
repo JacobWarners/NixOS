@@ -10,22 +10,20 @@
   # Allow users to control GPU settings
   security.polkit.extraConfig = ''
   polkit.addRule(function(action, subject) {
-    // Rule to allow users in "wheel" group to control CoreCtrl
+    // Rule for CoreCtrl
     if ((action.id == "org.corectrl.helper.init" ||
          action.id == "org.corectrl.helperkiller.init") &&
-        subject.local == true &&
-        subject.active == true &&
         subject.isInGroup("wheel")) {
           return polkit.Result.YES;
     }
 
-    // Rule to allow users in "wheel" group to manage networks
-    if (action.id == "org.freedesktop.NetworkManager.network-control" &&
+    // Rule for allowing passwordless nmcli execution via pkexec
+    if (action.id == "org.freedesktop.policykit.exec" &&
+        action.lookup("program") == "${pkgs.networkmanager}/bin/nmcli" &&
         subject.isInGroup("wheel")) {
           return polkit.Result.YES;
     }
   });
-
   '';
   
   # Enable performance governor

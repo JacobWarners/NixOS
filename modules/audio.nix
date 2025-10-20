@@ -11,9 +11,9 @@
     };
     pulse.enable = true;
 
-    # This is the modern way to add a config snippet for the
-    # PipeWire-PulseAudio server.
-    extraConfig."pipewire-pulse.d/99-custom-sinks.conf" = ''
+    # This is the correct option for your system, as shown
+    # in your search results.
+    extraConfig.pipewire-pulse = ''
       # Create a virtual sink for error sounds
       load-module module-null-sink sink_name=error_sounds sink_properties=device.description="Error_Sounds"
 

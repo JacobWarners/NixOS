@@ -9,7 +9,7 @@
   
   # Allow users to control GPU settings
   security.polkit.extraConfig = ''
-  polkit.addRule(function(action, subject) {
+polkit.addRule(function(action, subject) {
     // Rule for CoreCtrl
     if ((action.id == "org.corectrl.helper.init" ||
          action.id == "org.corectrl.helperkiller.init") &&
@@ -17,9 +17,9 @@
           return polkit.Result.YES;
     }
 
-    // Rule for allowing passwordless nmcli execution via pkexec
+    // Corrected rule for allowing passwordless nmcli execution
     if (action.id == "org.freedesktop.policykit.exec" &&
-        action.lookup("program") == "${pkgs.networkmanager}/bin/nmcli" &&
+        action.lookup("program") == "'' + pkgs.networkmanager + ''/bin/nmcli" &&
         subject.isInGroup("wheel")) {
           return polkit.Result.YES;
     }

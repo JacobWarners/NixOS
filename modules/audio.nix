@@ -11,16 +11,14 @@
     };
     pulse.enable = true;
 
-    # Add this block to declaratively create the virtual sink
-    pulse.extraConfig = ''
-      # Create a virtual sink for error sounds
-      load-module module-null-sink sink_name=error_sounds sink_properties=device.description="Error_Sounds"
+    # Use this older, more compatible method to create the sink
+    config.pulse = {
+      "context.exec" = [
+        "load-module module-null-sink sink_name=error_sounds sink_properties=device.description=\"Error Sounds\""
+        "load-module module-loopback source=error_sounds.monitor"
+      ];
+    };
 
-      # Route its output back to the default hardware sink
-      load-module module-loopback source=error_sounds.monitor sink=@DEFAULT_SINK@
-    '';
-
-    # Uncomment if you need JACK support
     # jack.enable = true;
   };
 }

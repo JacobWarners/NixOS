@@ -10,7 +10,7 @@
 
   # 2. Power on the Bluetooth adapter on boot.
   # This is useful for systems that don't enable it by default.
-  hardware.bluetooth.powerOnBoot = true;
+  hardware.bluetooth.powerOnBoot = false;
 
   # 3. Enable Blueman, a graphical Bluetooth manager.
   # This gives you a GUI to pair and manage devices.

@@ -22,6 +22,5 @@ fi
 # Pick a random .wav file from the array.
 CHOSEN_FILE="${SOUND_FILES[RANDOM % ${#SOUND_FILES[@]}]}"
 
-# Play the chosen file on the dedicated "error_sounds" sink and run it in the background.
-paplay --device=error_sounds "$CHOSEN_FILE" &
-
+# Play the chosen file with paplay and run it in the background.
+paplay "$CHOSEN_FILE" &

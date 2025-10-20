@@ -11,7 +11,7 @@
     mangohud
     gamemode
     dxvk
-    xivlauncher
+#    xivlauncher
     moonlight-qt
 
     # Custom script to run XIVLauncher on the AMD eGPU

@@ -170,6 +170,7 @@ in {
       exec-once = dunst &
       exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
       exec-once = ${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store
+      exec-once = /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
       env = XCURSOR_SIZE,24
       env = HYPRCURSOR_SIZE,24
       general {

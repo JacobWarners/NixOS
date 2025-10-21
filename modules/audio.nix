@@ -11,14 +11,12 @@
     };
     pulse.enable = true;
 
-    # This structure matches the NixOS documentation you provided.
-    # We create a virtual config file ("99-custom-sinks.conf")
-    # and place the configuration inside it.
+    # Final diagnostic test:
+    # We are ONLY loading the null-sink to see if it works by itself.
     extraConfig.pipewire-pulse = {
       "99-custom-sinks.conf" = {
         "context.exec" = [
-          "load-module module-null-sink sink_name=error_sounds sink_properties=device.description=\"Error_Sounds\""
-          "load-module module-loopback source=error_sounds.monitor sink=@DEFAULT_SINK@"
+          "load-module module-null-sink sink_name=error_sounds"
         ];
       };
     };
@@ -26,4 +24,3 @@
     # jack.enable = true;
   };
 }
-

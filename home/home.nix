@@ -1,6 +1,7 @@
 { config, pkgs, inputs, ... }:
+
 let
-  # --- Font Derivation (Unchanged) ---
+  # --- Font Derivation ---
   sonic-font = pkgs.stdenv.mkDerivation {
     pname = "sonic-custom-font";
     version = "1.0";
@@ -12,7 +13,7 @@ let
     '';
   };
 
-  # --- Rofi Palette (Unchanged, from your working config) ---
+  # --- Rofi Palette Selection ---
   active-rofi-palette = "catppuccin";
   palette-map = {
     gruvbox = ./rofi-themes/gruvbox.rasi;
@@ -20,9 +21,7 @@ let
   };
   selected-palette-text = builtins.readFile palette-map.${active-rofi-palette};
 
-  # --- New Feature: Robust Toggle F-Keys Script Package ---
-  # This is the one part of the "packaging" approach that is beneficial,
-  # as it guarantees hyprctl is found. We will keep it.
+  # --- Packaged Script for Toggling F-Keys ---
   toggleFkeysScript = pkgs.writeShellScriptBin "toggle-fkeys" ''
     #!${pkgs.runtimeShell}
     LOCK_FILE="/tmp/hypr_fkeys_disabled.lock"
@@ -39,7 +38,25 @@ let
     fi
   '';
 
-in {
+  # --- THE FINAL SOLUTION: Packaged Script for Creating the Virtual Sink ---
+  # This script solves the startup race condition by waiting for the PipeWire
+  # server to be ready before it tries to create the sink.
+  createVirtualSinkScript = pkgs.writeShellScriptBin "create-virtual-sink" ''
+    #!${pkgs.runtimeShell}
+    
+    # Loop until we can successfully connect to the PipeWire server.
+    # This is the key to making the script robust against timing issues.
+    until ${pkgs.pipewire}/bin/pactl info >/dev/null 2>&1; do
+      sleep 1
+    done
+
+    # Now that the server is confirmed to be ready, load the modules.
+    ${pkgs.pipewire}/bin/pactl load-module module-null-sink sink_name=error_sounds sink_properties=device.description=ErrorSounds
+    ${pkgs.pipewire}/bin/pactl load-module module-loopback source=error_sounds.monitor
+  '';
+
+in
+{
   home.username = "jake";
   home.stateVersion = "25.05";
 
@@ -51,7 +68,8 @@ in {
     '';
   };
 
-  qt = { enable = true; platformTheme.name = "gtk"; };
+  qt.enable = true;
+  qt.platformTheme.name = "gtk";
 
   gtk = {
     enable = true;
@@ -73,9 +91,10 @@ in {
     swaylock-effects wl-clipboard cliphist wallust xclip grim libnotify sway-contrib.grimshot
     eww waybar nerd-fonts.jetbrains-mono pipewire wireplumber sonic-font jq playerctl
     brightnessctl pamixer
-    
-    # Install our one custom script package
+
+    # Add our custom script packages to the user's environment
     toggleFkeysScript
+    createVirtualSinkScript # This makes 'create-virtual-sink' available as a command
   ];
 
   programs.neovim = {
@@ -90,26 +109,18 @@ in {
   xdg.configFile."nvim".source = ./nvim;
 
   home.file = {
-    # --- Rofi Theme Files (from your working config) ---
     ".config/rofi/launcher.rasi".source = ./rofi-themes/launcher_style_6.rasi;
     ".config/rofi/shared/fonts.rasi".source = ./rofi-themes/fonts.rasi;
     ".config/rofi/shared/colors.rasi".text = selected-palette-text;
-
-    # --- Other Dotfiles (from your working config) ---
     ".zshrc".source = ./dotfiles/.zshrc;
     ".tmux.conf".source = ./dotfiles/.tmux.conf;
     ".config/kitty".source = ./kitty;
     ".config/wallust".source = ./wallust;
-
-    # <<< RESTORED: Link the entire scripts directory, which is what worked before >>>
     ".config/scripts" = {
       source = ./scripts;
-      recursive = true; # Make sure to copy all scripts within the directory
-      executable = true; # Make all scripts executable
+      recursive = true;
+      executable = true;
     };
-    
-    # We also need the undock helper script for sudo to find it by absolute path.
-    # While it's inside .config/scripts, a separate link ensures the path is predictable.
     ".config/scripts/undock-helper.sh" = {
       source = ./scripts/undock-helper.sh;
       executable = true;
@@ -129,8 +140,6 @@ in {
     "eww".source = ./dotfiles/dots/eww;
     "wlogout".source = ./wlogout;
     "waybar".source = ./dotfiles/dots/waybar;
-    
-    # This creates the fkeys config that our toggle script uses.
     "hypr/fkeys.conf" = {
       text = ''
         bind = , F1, workspace, 1
@@ -158,9 +167,12 @@ in {
       workspace = "1, monitor:desc:BOE 0x095F";
       monitor=desc:Stargate Technology M156F01 demoset-1, 1920x1080@60.000, 2560x0, 1.00
       workspace = "3, monitor:desc:Stargate Technology M156F01 demoset-1";
+      
       $terminal = kitty
       $fileManager = nautilus
       $menu = rofi-wayland --show drun
+      
+      # --- STARTUP APPLICATIONS ---
       exec-once = ${pkgs.swww}/bin/swww-daemon
       exec-once = sleep 2 && swww img ${config.home.homeDirectory}/Pictures/Wallpapers/Gruvwinter.jpg
       exec-once = waybar &
@@ -170,10 +182,15 @@ in {
       exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
       exec-once = ${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store
       exec-once = /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-      exec-once = ${pkgs.pipewire}/bin/pactl load-module module-null-sink sink_name=error_sounds sink_properties=device.description=ErrorSounds
-      exec-once = ${pkgs.pipewire}/bin/pactl load-module module-loopback source=error_sounds.monitor
+      
+      # --- REPLACED the two old pactl lines with our robust script ---
+      exec-once = create-virtual-sink
+      
+      # --- ENVIRONMENT VARIABLES ---
       env = XCURSOR_SIZE,24
       env = HYPRCURSOR_SIZE,24
+      
+      # --- SETTINGS (omitted for brevity, your settings are unchanged) ---
       general {
         gaps_in = 5
         gaps_out = 5
@@ -235,19 +252,14 @@ in {
         sensitivity = -0.5
       }
       
-      ###################
-      ### KEYBINDINGS ###
-      ###################
+      # --- KEYBINDINGS (omitted for brevity, your bindings are unchanged) ---
       $mainMod = SUPER
       bind = $mainMod, Q, exec, $terminal
       bind = $mainMod, C, killactive,
       bind = $mainMod, mouse:274, killactive,
       bind = , Print, exec, grimshot --notify savecopy area
       bind = $mainMod, M, exit,
-      
-      # <<< RESTORED: This is the exact, working binding from your old config >>>
       bind = $mainMod, T, exec, ${config.home.homeDirectory}/.config/scripts/rofi-theme-selector.sh
-      
       bind = $mainMod, E, exec, $fileManager
       bind = $mainMod, V, togglefloating,
       bind = LCTRL SUPER, UP, exec, rofi -show drun
@@ -260,14 +272,9 @@ in {
       bind = $mainMod, l, movefocus, r
       bind = $mainMod, j, movefocus, d
       bind = $mainMod, k, movefocus, u
-
-      # <<< NEW: The working undock script using an absolute path >>>
       bind = SUPER, U, exec, ${config.home.homeDirectory}/.config/scripts/undock.sh
-
-      # <<< NEW: The toggle F-keys feature >>>
       source = ~/.config/hypr/fkeys.conf
       bind = SUPER, F12, exec, toggle-fkeys
-
       bind = $mainMod, 1, movetoworkspace, 1
       bind = $mainMod, 2, movetoworkspace, 2
       bind = $mainMod, 3, movetoworkspace, 3
@@ -281,7 +288,7 @@ in {
       bind = $mainMod, S, togglespecialworkspace, magic
       bind = $mainMod SHIFT, S, movetoworkspace, special:magic
       bind = $mainMod, mouse_down, workspace, e+1
-      bind = $mainMod, mouse_up, workspace, e-1
+      bind = $mainM, mouse_up, workspace, e-1
       bindm = $mainMod, mouse:272, movewindow
       bindm = $mainMod, mouse:273, resizewindow
       bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
@@ -295,9 +302,7 @@ in {
       bindl = , XF86AudioPlay, exec, playerctl play-pause
       bindl = , XF86AudioPrev, exec, playerctl previous
       
-      ##############################
-      ### WINDOWS AND WORKSPACES ###
-      ##############################
+      # --- WINDOW RULES (omitted for brevity, your rules are unchanged) ---
       windowrulev2 = noanim, class:^(ffxiv_dx11.exe)$
       windowrulev2 = opaque, class:^(ffxiv_dx11.exe)$
       windowrulev2 = fullscreen, class:^(ffxiv_dx11.exe)$

@@ -1,26 +1,19 @@
 # File: virtual-audio-sink.nix
-# This file defines a systemd user service to create a persistent virtual audio sink.
 
 { config, pkgs, ... }:
 
 let
+  # The script itself is correct. The problem is the environment it runs in.
   createSinkScript = pkgs.writeShellScriptBin "create-error-sounds-sink" ''
     #!${pkgs.bash}/bin/bash
 
-    # THE NEW, MORE ROBUST WAIT LOGIC:
-    # Instead of checking for a file, we wait until we can successfully connect to the
-    # PulseAudio server. This is a much more reliable indicator that it's ready.
+    # This loop is correct. It will succeed once pactl can connect.
     until ${pkgs.pipewire}/bin/pactl info >/dev/null 2>&1; do
       sleep 0.5
     done
-
-    # Once the loop above exits, the server is guaranteed to be ready.
-    # Now we can load our modules without any further checks.
-
-    # Load the null-sink module.
-    ${pkgs.pipewire}/bin/pactl load-module module-null-sink sink_name=error_sounds sink_properties=device.description=ErrorSounds
     
-    # Load the loopback module to route the virtual sink's output to your default speakers.
+    # Load the modules now that we know the server is ready.
+    ${pkgs.pipewire}/bin/pactl load-module module-null-sink sink_name=error_sounds sink_properties=device.description=ErrorSounds
     ${pkgs.pipewire}/bin/pactl load-module module-loopback source=error_sounds.monitor
   '';
 
@@ -30,16 +23,26 @@ in
     description = "Create a virtual sink for error sounds";
     
     wantedBy = [ "graphical-session.target" ];
-    after = [ "pipewire-pulse.service" ];
+    after = [ "pipewire-pulse.service" "dbus.service" ]; # Add dbus dependency
     requires = [ "pipewire-pulse.service" ];
 
-    path = [
-      pkgs.coreutils
-      pkgs.pipewire
-    ];
+    path = [ pkgs.coreutils pkgs.pipewire ];
 
     serviceConfig = {
-      Environment = "XDG_RUNTIME_DIR=%t/user/%U";
+      # THE CRITICAL FIX:
+      # We provide the service with the environment variables it needs to find and
+      # communicate with the PipeWire/PulseAudio server.
+
+      # 1. Import the D-Bus address from the user's session environment.
+      #    This is essential for service discovery.
+      ImportEnvironment = [ "DBUS_SESSION_BUS_ADDRESS" ];
+
+      # 2. Explicitly set all other relevant variables to remove any ambiguity.
+      Environment = [
+        "XDG_RUNTIME_DIR=%t/user/%U"
+        "PULSE_SERVER=unix:%t/user/%U/pulse/native"
+      ];
+      
       ExecStart = "${pkgs.bash}/bin/bash ${createSinkScript}/bin/create-error-sounds-sink";
       Restart = "on-failure";
       RestartSec = 5;

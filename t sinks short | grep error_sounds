@@ -1,0 +1,13 @@
+[0;1;32m●[0m create-error-sounds-sink.service - Create a virtual sink for error sounds
+     Loaded: loaded (]8;;file://nixos/etc/systemd/user/create-error-sounds-sink.service\/etc/systemd/user/create-error-sounds-sink.service]8;;\; [0;1;32menabled[0m; preset: ignored)
+     Active: [0;1;32mactive (running)[0m since Tue 2025-10-21 14:25:31 PDT; 3s ago
+ Invocation: f4a49b74b9d64a1cb3f0df48da2fc82c
+   Main PID: 93302 (bash)
+      Tasks: 2[0;38;5;245m (limit: 37345)[0m
+     Memory: 2.2M (peak: 2.4M)
+        CPU: 27ms
+     CGroup: /user.slice/user-1000.slice/user@1000.service/app.slice/create-error-sounds-sink.service
+             ├─[0;38;5;245m93302 /nix/store/smkzrg2vvp3lng3hq7v9svfni5mnqjh2-bash-interactive-5.2p37/bin/bash /nix/store/5ika202njihzfqfvxzmkl01nhghdd7g6-create-error-sounds-sink/bin/create-error-sounds-sink[0m
+             └─[0;38;5;245m93413 sleep 0.5[0m
+
+Oct 21 14:25:31 nixos systemd[1835]: Started Create a virtual sink for error sounds.

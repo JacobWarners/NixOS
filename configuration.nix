@@ -4,7 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ./modules/sonic-waygame.nix
-    ./modules/virtual-audio-sink.nix
+    #    ./modules/virtual-audio-sink.nix
     ./modules/polkit.nix
     ./modules/telegraf.nix
     #    ./modules/undock-service.nix

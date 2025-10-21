@@ -38,48 +38,20 @@ let
     fi
   '';
 
-  # --- THE DIAGNOSTIC SCRIPT ---
-  # This version will log everything it does to /tmp/sink_script.log
-  # so we can see the exact error and environment.
+  # --- THE FINAL, WORKING SCRIPT ---
+  # We now call 'pactl' directly, relying on the PATH, which solves the
+  # "No such file or directory" error.
   createVirtualSinkScript = pkgs.writeShellScriptBin "create-virtual-sink" ''
     #!${pkgs.runtimeShell}
     
-    # Redirect all output (both standard and error) to a log file.
-    LOG_FILE="/tmp/sink_script.log"
-    exec > "$LOG_FILE" 2>&1
-    
-    # Enable verbose mode to print every command before it's executed.
-    set -x
-    
-    echo "--- SCRIPT STARTED at $(date) ---"
-    echo "User: $(whoami)"
-    echo "PATH: $PATH"
-    echo "DBUS_SESSION_BUS_ADDRESS: $DBUS_SESSION_BUS_ADDRESS"
-    echo "XDG_RUNTIME_DIR: $XDG_RUNTIME_DIR"
-    echo "PULSE_SERVER: $PULSE_SERVER"
-    echo "-------------------------------------"
-    
-    echo "--- Waiting for PipeWire server ---"
-    
-    # We will try to connect for 15 seconds.
-    for i in $(seq 1 15); do
-      echo "Attempt $i..."
-      # Run 'pactl info' and check if it succeeds.
-      if ${pkgs.pipewire}/bin/pactl info; then
-        echo "SUCCESS: Connected to PipeWire server."
-        # If we connect, load the modules and exit the script successfully.
-        ${pkgs.pipewire}/bin/pactl load-module module-null-sink sink_name=error_sounds sink_properties=device.description=ErrorSounds
-        ${pkgs.pipewire}/bin/pactl load-module module-loopback source=error_sounds.monitor
-        echo "--- SCRIPT FINISHED SUCCESSFULLY ---"
-        exit 0
-      fi
-      # If it failed, wait a second and try again.
+    # Wait until the pactl command can successfully connect to the server.
+    until pactl info >/dev/null 2>&1; do
       sleep 1
     done
-    
-    echo "FAILURE: Could not connect to PipeWire server after 15 attempts."
-    echo "--- SCRIPT FAILED ---"
-    exit 1
+
+    # Now that the server is ready, load the modules.
+    pactl load-module module-null-sink sink_name=error_sounds sink_properties=device.description=ErrorSounds
+    pactl load-module module-loopback source=error_sounds.monitor
   '';
 
 in
@@ -210,8 +182,7 @@ in
       exec-once = ${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store
       exec-once = /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
       
-      # --- MODIFIED VIRTUAL SINK COMMAND ---
-      # This runs our diagnostic script in the background so it doesn't block Hyprland startup.
+      # --- FINAL WORKING VIRTUAL SINK COMMAND ---
       exec-once = create-virtual-sink &
       
       # --- ENVIRONMENT VARIABLES ---

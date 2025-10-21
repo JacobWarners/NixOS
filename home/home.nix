@@ -38,21 +38,48 @@ let
     fi
   '';
 
-  # --- THE FINAL SOLUTION: Packaged Script for Creating the Virtual Sink ---
-  # This script solves the startup race condition by waiting for the PipeWire
-  # server to be ready before it tries to create the sink.
+  # --- THE DIAGNOSTIC SCRIPT ---
+  # This version will log everything it does to /tmp/sink_script.log
+  # so we can see the exact error and environment.
   createVirtualSinkScript = pkgs.writeShellScriptBin "create-virtual-sink" ''
     #!${pkgs.runtimeShell}
     
-    # Loop until we can successfully connect to the PipeWire server.
-    # This is the key to making the script robust against timing issues.
-    until ${pkgs.pipewire}/bin/pactl info >/dev/null 2>&1; do
+    # Redirect all output (both standard and error) to a log file.
+    LOG_FILE="/tmp/sink_script.log"
+    exec > "$LOG_FILE" 2>&1
+    
+    # Enable verbose mode to print every command before it's executed.
+    set -x
+    
+    echo "--- SCRIPT STARTED at $(date) ---"
+    echo "User: $(whoami)"
+    echo "PATH: $PATH"
+    echo "DBUS_SESSION_BUS_ADDRESS: $DBUS_SESSION_BUS_ADDRESS"
+    echo "XDG_RUNTIME_DIR: $XDG_RUNTIME_DIR"
+    echo "PULSE_SERVER: $PULSE_SERVER"
+    echo "-------------------------------------"
+    
+    echo "--- Waiting for PipeWire server ---"
+    
+    # We will try to connect for 15 seconds.
+    for i in $(seq 1 15); do
+      echo "Attempt $i..."
+      # Run 'pactl info' and check if it succeeds.
+      if ${pkgs.pipewire}/bin/pactl info; then
+        echo "SUCCESS: Connected to PipeWire server."
+        # If we connect, load the modules and exit the script successfully.
+        ${pkgs.pipewire}/bin/pactl load-module module-null-sink sink_name=error_sounds sink_properties=device.description=ErrorSounds
+        ${pkgs.pipewire}/bin/pactl load-module module-loopback source=error_sounds.monitor
+        echo "--- SCRIPT FINISHED SUCCESSFULLY ---"
+        exit 0
+      fi
+      # If it failed, wait a second and try again.
       sleep 1
     done
-
-    # Now that the server is confirmed to be ready, load the modules.
-    ${pkgs.pipewire}/bin/pactl load-module module-null-sink sink_name=error_sounds sink_properties=device.description=ErrorSounds
-    ${pkgs.pipewire}/bin/pactl load-module module-loopback source=error_sounds.monitor
+    
+    echo "FAILURE: Could not connect to PipeWire server after 15 attempts."
+    echo "--- SCRIPT FAILED ---"
+    exit 1
   '';
 
 in
@@ -94,7 +121,7 @@ in
 
     # Add our custom script packages to the user's environment
     toggleFkeysScript
-    createVirtualSinkScript # This makes 'create-virtual-sink' available as a command
+    createVirtualSinkScript
   ];
 
   programs.neovim = {
@@ -183,14 +210,15 @@ in
       exec-once = ${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store
       exec-once = /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
       
-      # --- REPLACED the two old pactl lines with our robust script ---
-      exec-once = create-virtual-sink
+      # --- MODIFIED VIRTUAL SINK COMMAND ---
+      # This runs our diagnostic script in the background so it doesn't block Hyprland startup.
+      exec-once = create-virtual-sink &
       
       # --- ENVIRONMENT VARIABLES ---
       env = XCURSOR_SIZE,24
       env = HYPRCURSOR_SIZE,24
       
-      # --- SETTINGS (omitted for brevity, your settings are unchanged) ---
+      # --- SETTINGS ---
       general {
         gaps_in = 5
         gaps_out = 5
@@ -252,7 +280,7 @@ in
         sensitivity = -0.5
       }
       
-      # --- KEYBINDINGS (omitted for brevity, your bindings are unchanged) ---
+      # --- KEYBINDINGS ---
       $mainMod = SUPER
       bind = $mainMod, Q, exec, $terminal
       bind = $mainMod, C, killactive,
@@ -288,7 +316,7 @@ in
       bind = $mainMod, S, togglespecialworkspace, magic
       bind = $mainMod SHIFT, S, movetoworkspace, special:magic
       bind = $mainMod, mouse_down, workspace, e+1
-      bind = $mainM, mouse_up, workspace, e-1
+      bind = $mainMod, mouse_up, workspace, e-1
       bindm = $mainMod, mouse:272, movewindow
       bindm = $mainMod, mouse:273, resizewindow
       bindel = ,XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
@@ -302,7 +330,7 @@ in
       bindl = , XF86AudioPlay, exec, playerctl play-pause
       bindl = , XF86AudioPrev, exec, playerctl previous
       
-      # --- WINDOW RULES (omitted for brevity, your rules are unchanged) ---
+      # --- WINDOW RULES ---
       windowrulev2 = noanim, class:^(ffxiv_dx11.exe)$
       windowrulev2 = opaque, class:^(ffxiv_dx11.exe)$
       windowrulev2 = fullscreen, class:^(ffxiv_dx11.exe)$

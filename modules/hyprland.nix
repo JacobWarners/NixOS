@@ -1,34 +1,22 @@
-# modules/hyprland.nix
-# This module is now only responsible for SYSTEM-LEVEL configuration.
-# User-specific packages and config are handled by Home-Manager.
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
-  # 1. Enable Hyprland Programs & Services
-  # This makes the hyprland package and XWayland available to the system.
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
   };
 
-  # 2. Display Manager Integration
-  # This makes Hyprland appear as an option in your login screen (e.g., GDM, SDDM).
-  services.displayManager.sessionPackages = with pkgs; [
-    hyprland
-  ];
+  hardware.graphics.enable = true;
 
-  # Creates the .desktop file needed for the session.
-  environment.etc."xdg/wayland-sessions/hyprland.desktop".text = ''
-    [Desktop Entry]
-    Name=Hyprland
-    Comment=A dynamic tiling Wayland compositor
-    Exec=Hyprland
-    Type=Application
-  '';
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+  };
 
-  # 3. Portal Configuration
-  # This is a system-level service, so it belongs here. It allows Flatpaks
-  # and other sandboxed apps to communicate with Hyprland.
+  # === THIS IS THE FINAL FIX ===
+  # All other xdg.portal blocks must be removed. This single block
+  # correctly configures the portals for Hyprland and GTK apps (like Steam).
+  services.flatpak.enable = true;
+
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
@@ -36,7 +24,45 @@
       xdg-desktop-portal-gtk
     ];
   };
+    xdg.mime.defaultApplications = {
+    "x-scheme-handler/zoommtg" = "us.zoom.Zoom.desktop";
+    "x-scheme-handler/http" = "firefox.desktop";
+    "x-scheme-handler/https" = "firefox.desktop";
+  };
 
-  # NOTE: User packages (rofi, waybar), fonts, and session variables have been
-  # removed because they are correctly managed by your Home-Manager configuration.
+  # System-wide packages typically used in a Hyprland environment.
+  environment.systemPackages = [
+    pkgs.waybar
+    pkgs.kdePackages.xwaylandvideobridge
+    pkgs.grim
+    pkgs.slurp
+    pkgs.wl-clipboard-rs
+    pkgs.dunst
+    pkgs.libnotify
+    pkgs.networkmanagerapplet
+    pkgs.eww
+    pkgs.swww
+    pkgs.rofi
+    pkgs.font-awesome
+  ];
+
+  # Define the .desktop file for Hyprland so display managers can find it.
+  environment.etc."xdg/wayland-sessions/hyprland.desktop".text = ''
+    [Desktop Entry]
+    Name=Hyprland
+    Comment=A dynamic tiling Wayland compositor
+    Exec=Hyprland
+    Type=Application
+    Keywords=wayland;hyprland;compositor;
+  '';
+
+  # Ensure Hyprland is available as a session in display managers.
+  services.displayManager.sessionPackages = with pkgs; [
+    hyprland
+  ];
+
+  # Font packages for the system.
+  fonts.packages = with pkgs; [
+    pkgs.font-awesome
+  ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 }

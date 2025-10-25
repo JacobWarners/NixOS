@@ -58,7 +58,19 @@
   #  };
   #
   #####################################
+  #Overlay
+  #######################################
+  nixpkgs.overlays = [
+    (self: super: {
+      # We are redefining the package here.
+      notion-app-enhanced = super.notion-app-enhanced.override {
+        # This disables the broken auto-updater.
+        disableAutoUpdate = true;
+      };
+    })
+  ];
 
+  ###################################
   system.stateVersion = "25.05";
   services.avahi = {
     enable = true;

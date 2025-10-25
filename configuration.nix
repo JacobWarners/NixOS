@@ -62,14 +62,18 @@
   #######################################
   nixpkgs.overlays = [
     (self: super: {
-      # We are redefining the package here.
-      notion-app-enhanced = super.notion-app-enhanced.override {
-        # This disables the broken auto-updater.
-        disableAutoUpdate = true;
-      };
+      notion-app-enhanced = super.notion-app-enhanced.overrideAttrs (oldAttrs: {
+        # This 'postPatch' command runs after the source code is unpacked
+        # but before it's built.
+        postPatch = ''
+          # Find the main package.json and disable the auto-updater script.
+          # This prevents the app from ever trying to check for updates.
+          substituteInPlace resources/app.asar.unpacked/package.json \
+            --replace '"autoUpdater": "electron-updater.js"' '"autoUpdater": "echo.js"'
+        '';
+      });
     })
   ];
-
   ###################################
   system.stateVersion = "25.05";
   services.avahi = {

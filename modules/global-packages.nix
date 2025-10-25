@@ -88,7 +88,7 @@
     cargo
 ##### WORK ##########
     zoom-us
-    notion-app
+    notion-app-enhanced
 ];
 
   programs.firefox = {

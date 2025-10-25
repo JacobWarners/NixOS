@@ -5,7 +5,6 @@
 {
   environment.systemPackages = with pkgs; [
     pciutils
-    zoom-us
     vim
     yq
     sops
@@ -75,6 +74,7 @@
     k9s
     kubernetes-helm
 #    python3
+
     esptool
     adafruit-ampy
     minicom
@@ -86,7 +86,10 @@
     rustc
     rustup
     cargo
-  ];
+##### WORK ##########
+    zoom-us
+    notion-app
+];
 
   programs.firefox = {
     enable = true;

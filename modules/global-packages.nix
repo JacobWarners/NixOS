@@ -5,6 +5,7 @@
 {
   environment.systemPackages = with pkgs; [
     pciutils
+    zoom-us
     vim
     yq
     sops

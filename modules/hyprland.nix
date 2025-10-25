@@ -24,10 +24,13 @@
       xdg-desktop-portal-gtk
     ];
   };
-    xdg.mime.defaultApplications = {
+    xdg.mime = {
+    enable = true;
+    defaultApplications = {
     "x-scheme-handler/zoommtg" = "us.zoom.Zoom.desktop";
-    "x-scheme-handler/http" = "firefox.desktop";
-    "x-scheme-handler/https" = "firefox.desktop";
+    "x-scheme-handler/http" = "chromium-browser.desktop";
+    "x-scheme-handler/https" = "chromium-browser.desktop";
+  };
   };
 
   # System-wide packages typically used in a Hyprland environment.

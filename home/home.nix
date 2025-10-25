@@ -105,6 +105,7 @@ in
     ];
   };
 
+  programs.dconf.enable = true;
   xdg.configFile."nvim".source = ./nvim;
 
   home.file = {

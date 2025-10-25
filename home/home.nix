@@ -309,6 +309,8 @@ in
       windowrulev2 = center, 1, class:^(ffxiv_dx11.exe)$
       windowrulev2 = suppressevent maximize, class:.*
       windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
+      windowrulev2 = float, class:^(zoom)$, title:^(Sign In with SSO)$
+      windowrulev2 = float, class:^(zoom)$, x11_window_type:^(dialog)$
     '';
   };
 }

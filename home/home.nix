@@ -105,7 +105,6 @@ in
     ];
   };
 
-  programs.dconf.enable = true;
   xdg.configFile."nvim".source = ./nvim;
 
   home.file = {
@@ -155,6 +154,7 @@ in
       '';
     };
   };
+  dconf.enable = true;
 
   wayland.windowManager.hyprland = {
     enable = true;

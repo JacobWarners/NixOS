@@ -26,7 +26,7 @@
 	type = "Application";
 	categories = ["Network" "WebBrowser"];
 	keywords = [ "Internet" "WWW" "Browser" "firefox" "Firefox" "Web" ];
-
+};
 
   xdg.portal = {
     enable = true;

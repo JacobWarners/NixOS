@@ -19,7 +19,7 @@
   xdg-desktopEntries."firefox-as-librewolf" = {
   	name = "Firefox";
 	genericName = "Web Browser";
-	comment = "Browse the web with librewolf"
+	comment = "Browse the web with librewolf";
 	exec = "librewolf %U";
 	icon = "librewolf";
 	terminal = false;

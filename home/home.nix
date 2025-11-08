@@ -155,8 +155,6 @@ in
     };
   };
   # In your home.nix
-{ pkgs, ... }:
-{
   # Create a custom desktop entry for LibreWolf
   xdg.desktopEntries."librewolf-fire" = {
     # We only need the essentials for it to work
@@ -172,7 +170,6 @@ in
 
   # Optional: Hide the original to avoid duplicates in Rofi
   xdg.desktopEntries."librewolf".hidden = true;
-}
   dconf.enable = true;
 
   wayland.windowManager.hyprland = {

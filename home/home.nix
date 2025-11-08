@@ -177,11 +177,11 @@ in
     };
 
     # 2. Hide the original entry to avoid duplicates
-    "librewolf" = {
+  #  "librewolf" = {
       # This is the robust way to hide an entry, equivalent to 'hidden = true'.
       # It works on all versions of Home Manager.
-      desktopEntry.NoDisplay = "true";
-    };
+  #    desktopEntry.NoDisplay = "true";
+  #  };
   };
 
 

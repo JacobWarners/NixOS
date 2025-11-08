@@ -154,22 +154,37 @@ in
       '';
     };
   };
-  # In your home.nix
-  # Create a custom desktop entry for LibreWolf
-  xdg.desktopEntries."librewolf-fire" = {
-    # We only need the essentials for it to work
-    name = "LibreWolf";
-    exec = "librewolf %U";
-    icon = "librewolf";
-    terminal = false;
-    type = "Application";
 
-    # This is the part we actually care about
-    keywords = [ "fire" "browser" ];
+    xdg.desktopEntries = {
+    # 1. Create our custom entry with the "fire" keyword
+    "librewolf-fire" = {
+      name = "LibreWolf";
+      exec = "librewolf %U";
+      icon = "librewolf";
+      comment = "Browse the web (with fire keyword)";
+
+      # This 'desktopEntry' block is the robust way to add specific fields.
+      # It maps directly to keys in the final .desktop file.
+      desktopEntry = {
+        Type = "Application";
+        Terminal = "false";
+        Categories = "Network;WebBrowser;";
+
+        # This is the corrected part for the keywords.
+        # It must be a single string with semicolons.
+        Keywords = "fire;browser;internet;";
+      };
+    };
+
+    # 2. Hide the original entry to avoid duplicates
+    "librewolf" = {
+      # This is the robust way to hide an entry, equivalent to 'hidden = true'.
+      # It works on all versions of Home Manager.
+      desktopEntry.NoDisplay = "true";
+    };
   };
 
-  # Optional: Hide the original to avoid duplicates in Rofi
-#  xdg.desktopEntries."librewolf".hidden = true;
+
   dconf.enable = true;
 
   wayland.windowManager.hyprland = {

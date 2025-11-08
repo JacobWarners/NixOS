@@ -16,17 +16,7 @@
   # All other xdg.portal blocks must be removed. This single block
   # correctly configures the portals for Hyprland and GTK apps (like Steam).
   services.flatpak.enable = true;
-  xdg-desktopEntries."firefox-as-librewolf" = {
-  	name = "Firefox";
-	genericName = "Web Browser";
-	comment = "Browse the web with librewolf";
-	exec = "librewolf %U";
-	icon = "librewolf";
-	terminal = false;
-	type = "Application";
-	categories = ["Network" "WebBrowser"];
-	keywords = [ "Internet" "WWW" "Browser" "firefox" "Firefox" "Web" ];
-};
+
 
   xdg.portal = {
     enable = true;

@@ -27,7 +27,6 @@
     rpcbind
     obs-studio
     discord
-    firefox
     librewolf
     chromium
     joplin-desktop
@@ -91,8 +90,4 @@
     notion-app-enhanced
 ];
 
-  programs.firefox = {
-    enable = true;
-    nativeMessagingHosts.packages = with pkgs; [ vdhcoapp ];
-  };
 }

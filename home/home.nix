@@ -155,29 +155,35 @@ in
     };
   };
 
-
-   xdg.desktopEntries = {
-    # 1. Create our custom entry with the "fire" keyword
-    #    All attributes are "flat" at the same level.
-    "librewolf-fire" = {
-      name = "LibreWolf";
-      exec = "librewolf %U";
-      icon = "librewolf";
-      comment = "Browse the web (with fire keyword)";
-
-      # --- This is the corrected part ---
-      # These are the literal keys from the .desktop file spec.
-      # They are capitalized and at the same level as 'name' and 'exec'.
-      Type = "Application";
-      Terminal = false; # Use a boolean, HM will convert it to a string
-      Categories = "Network;WebBrowser;";
-      Keywords = "fire;browser;internet;";
+  xdg.configFile = {
+    # 1. Create a brand new .desktop file for our custom entry.
+    # The path is relative to ~/.config, so we use ../ to get to ~/.local/share
+    "../local/share/applications/librewolf-fire.desktop" = {
+      # Use `text` to specify the exact content of the file.
+      text = ''
+        [Desktop Entry]
+        Name=LibreWolf
+        Comment=Browse the web
+        GenericName=Web Browser
+        Exec=librewolf %U
+        Icon=librewolf
+        Type=Application
+        Terminal=false
+        Categories=Network;WebBrowser;
+        Keywords=fire;browser;internet;
+      '';
     };
 
-    # 2. Hide the original entry to avoid duplicates
-      # The NoDisplay key is the direct .desktop equivalent of 'hidden'.
+    # 2. Create a file to hide the original system-wide entry.
+    # By creating a file with the same name in the user's local directory,
+    # it overrides the system one.
+    "../local/share/applications/librewolf.desktop" = {
+      text = ''
+        [Desktop Entry]
+        NoDisplay=true
+      '';
     };
-
+  };
 
   dconf.enable = true;
 

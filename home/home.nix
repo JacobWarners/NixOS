@@ -155,34 +155,31 @@ in
     };
   };
 
-    xdg.desktopEntries = {
+
+   xdg.desktopEntries = {
     # 1. Create our custom entry with the "fire" keyword
+    #    All attributes are "flat" at the same level.
     "librewolf-fire" = {
       name = "LibreWolf";
       exec = "librewolf %U";
       icon = "librewolf";
       comment = "Browse the web (with fire keyword)";
 
-      # This 'desktopEntry' block is the robust way to add specific fields.
-      # It maps directly to keys in the final .desktop file.
-      desktopEntry = {
-        Type = "Application";
-        Terminal = "false";
-        Categories = "Network;WebBrowser;";
-
-        # This is the corrected part for the keywords.
-        # It must be a single string with semicolons.
-        Keywords = "fire;browser;internet;";
-      };
+      # --- This is the corrected part ---
+      # These are the literal keys from the .desktop file spec.
+      # They are capitalized and at the same level as 'name' and 'exec'.
+      Type = "Application";
+      Terminal = false; # Use a boolean, HM will convert it to a string
+      Categories = "Network;WebBrowser;";
+      Keywords = "fire;browser;internet;";
     };
 
     # 2. Hide the original entry to avoid duplicates
-  #  "librewolf" = {
-      # This is the robust way to hide an entry, equivalent to 'hidden = true'.
-      # It works on all versions of Home Manager.
-  #    desktopEntry.NoDisplay = "true";
-  #  };
-  };
+    "librewolf" = {
+      # The NoDisplay key is the direct .desktop equivalent of 'hidden'.
+      NoDisplay = true;
+    };
+    };
 
 
   dconf.enable = true;

@@ -169,7 +169,7 @@ in
   };
 
   # Optional: Hide the original to avoid duplicates in Rofi
-  xdg.desktopEntries."librewolf".hidden = true;
+#  xdg.desktopEntries."librewolf".hidden = true;
   dconf.enable = true;
 
   wayland.windowManager.hyprland = {

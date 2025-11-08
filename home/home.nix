@@ -175,10 +175,7 @@ in
     };
 
     # 2. Hide the original entry to avoid duplicates
-    "librewolf" = {
       # The NoDisplay key is the direct .desktop equivalent of 'hidden'.
-      NoDisplay = true;
-    };
     };
 
 

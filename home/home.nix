@@ -154,6 +154,25 @@ in
       '';
     };
   };
+  # In your home.nix
+{ pkgs, ... }:
+{
+  # Create a custom desktop entry for LibreWolf
+  xdg.desktopEntries."librewolf-fire" = {
+    # We only need the essentials for it to work
+    name = "LibreWolf";
+    exec = "librewolf %U";
+    icon = "librewolf";
+    terminal = false;
+    type = "Application";
+
+    # This is the part we actually care about
+    keywords = [ "fire" "browser" ];
+  };
+
+  # Optional: Hide the original to avoid duplicates in Rofi
+  xdg.desktopEntries."librewolf".hidden = true;
+}
   dconf.enable = true;
 
   wayland.windowManager.hyprland = {

@@ -155,37 +155,17 @@ in
     };
   };
 
-  xdg.configFile = {
-    # 1. Create a brand new .desktop file for our custom entry.
-    # The path is relative to ~/.config, so we use ../ to get to ~/.local/share
-    "../local/share/applications/librewolf-fire.desktop" = {
-      # Use `text` to specify the exact content of the file.
-      text = ''
-        [Desktop Entry]
-        Name=LibreWolf
-        Comment=Browse the web
-        GenericName=Web Browser
-        Exec=librewolf %U
-        Icon=librewolf
-        Type=Application
-        Terminal=false
-        Categories=Network;WebBrowser;
-        Keywords=fire;browser;internet;
-      '';
-    };
-
-    # 2. Create a file to hide the original system-wide entry.
-    # By creating a file with the same name in the user's local directory,
-    # it overrides the system one.
-    "../local/share/applications/librewolf.desktop" = {
-      text = ''
-        [Desktop Entry]
-        NoDisplay=true
-      '';
-    };
-  };
-
-  dconf.enable = true;
+  xdg.desktopEntries = {
+    firefox = {
+      name = "Firefox";
+      genericName = "Web Browser";
+      exec = "librewolf %U";
+      terminal = false;
+      categories = ["Network" "WebBrowser" ];
+      mimeType = [ "text/html" "text/xml" ];
+      };
+    }
+    dconf.enable = true;
 
   wayland.windowManager.hyprland = {
     enable = true;

@@ -165,7 +165,8 @@ in
       mimeType = [ "text/html" "text/xml" ];
       };
     }
-    dconf.enable = true;
+    
+#    dconf.enable = true;
 
   wayland.windowManager.hyprland = {
     enable = true;

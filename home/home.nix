@@ -164,7 +164,7 @@ in
       categories = ["Network" "WebBrowser" ];
       mimeType = [ "text/html" "text/xml" ];
       };
-    }
+    };
     
   dconf.enable = true;
    

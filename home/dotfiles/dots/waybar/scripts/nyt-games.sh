@@ -13,9 +13,9 @@ paplay --volume=65536 "$SOUND_FILE" &
 
 # --- Launch all your applications ---
 hyprctl dispatch workspace 5
-firefox --new-window "$BUDDY_URL" &
+librewolf --new-window "$BUDDY_URL" &
 sleep 1
-firefox --new-window "$SPELLING_BEE_URL" &
+librewolf --new-window "$SPELLING_BEE_URL" &
 sleep 1
 hyprctl dispatch togglefloating active
 hyprctl dispatch fullscreen 1

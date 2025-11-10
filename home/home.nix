@@ -166,7 +166,8 @@ in
       };
     }
     
-#    dconf.enable = true;
+  dconf.enable = true;
+   
 
   wayland.windowManager.hyprland = {
     enable = true;

@@ -37,7 +37,6 @@
   # System-wide packages typically used in a Hyprland environment.
   environment.systemPackages = [
     pkgs.waybar
-    pkgs.xwaylandvideobridge
     pkgs.grim
     pkgs.slurp
     pkgs.wl-clipboard-rs

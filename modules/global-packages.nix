@@ -38,7 +38,7 @@
     bat
     htop
     kanshi
-    glxinfo
+    mesa-demos
     mesa
     monero-gui
     killall

@@ -51,7 +51,7 @@
     audacity
     pavucontrol
     p7zip
-    displaylink
+   # displaylink
     tree
     pstree
     file

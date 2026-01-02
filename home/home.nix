@@ -129,7 +129,7 @@ in
   programs.rofi = {
     enable = true;
     theme = "${config.home.homeDirectory}/.config/rofi/launcher.rasi";
-    package = pkgs.rofi-wayland;
+    package = pkgs.rofi;
   };
 
   services.ratatat-listener.enable = true;

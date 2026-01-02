@@ -316,7 +316,7 @@ in
       windowrulev2 = noanim, class:^(ffxiv_dx11.exe)$
       windowrulev2 = opaque, class:^(ffxiv_dx11.exe)$
       windowrulev2 = fullscreen, class:^(ffxiv_dx11.exe)$
-      windowrulev2 = monitor, DP-3, class:^(ffxiv_dx11.exe)$
+      windowrulev2 = monitor DP-3, class:^(ffxiv_dx11.exe)$
       windowrulev2 = center, class:^(ffxiv_dx11.exe)$
       windowrulev2 = suppressevent maximize, class:.*
       windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0

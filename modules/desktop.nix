@@ -19,7 +19,7 @@ in
   services.greetd = {
     enable = true;
     # Use the text-based tuigreet
-    settings.default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd ${session}";
+    settings.default_session.command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd ${session}";
     # This section handles the auto-login on boot
     settings.initial_session = {
       command = session;

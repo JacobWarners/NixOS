@@ -1,0 +1,4 @@
+# DO NOT COMMIT THIS FILE TO GIT
+{
+  influxToken = "1pJgBK_A5JOZfsIWrijBBC-UFyRaSJXx9xwvuQvfRrUZrUvJo8fZHdRaL3Jjs4q4C4bSq8sgBx8bt2j7N_FUFA==";
+}

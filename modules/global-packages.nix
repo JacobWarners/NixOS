@@ -74,7 +74,7 @@
     kubernetes-helm
 #    python3
 
-    esptool
+   # esptool
     adafruit-ampy
     minicom
     picocom

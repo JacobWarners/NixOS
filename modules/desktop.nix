@@ -28,7 +28,7 @@ in
   };
 
   # 3. Ensure tuigreet is installed
-  environment.systemPackages = [ pkgs.greetd.tuigreet ];
+  environment.systemPackages = [ pkgs.tuigreet ];
   security.polkit.enable = true;
   console.enable= true;
 

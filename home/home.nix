@@ -257,9 +257,6 @@ in
           middle_button_emulation = false
         }
       }
-      gestures {
-        workspace_swipe = false
-      }
       device {
         name = epic-mouse-v1
         sensitivity = -0.5
@@ -319,8 +316,8 @@ in
       windowrulev2 = noanim, class:^(ffxiv_dx11.exe)$
       windowrulev2 = opaque, class:^(ffxiv_dx11.exe)$
       windowrulev2 = fullscreen, class:^(ffxiv_dx11.exe)$
-      windowrulev2 = movetomonitor, DP-3, class:^(ffxiv_dx11.exe)$
-      windowrulev2 = center, 1, class:^(ffxiv_dx11.exe)$
+      windowrulev2 = monitor, DP-3, class:^(ffxiv_dx11.exe)$
+      windowrulev2 = center, class:^(ffxiv_dx11.exe)$
       windowrulev2 = suppressevent maximize, class:.*
       windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
       windowrulev2 = float, class:^(zoom)$, title:^(Sign In with SSO)$

@@ -1,24 +1,44 @@
--- File: nvim/lua/plugins/lsp.lua
-
 return {
   -- Core LSP configuration
   {
     "neovim/nvim-lspconfig",
     dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
     config = function()
-      local lspconfig = require("lspconfig")
+      -- Import the plugins
+      local mason = require("mason")
+      local mason_lspconfig = require("mason-lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      require("mason").setup()
-      require("mason-lspconfig").setup()
+      -- 1. Setup Mason (the installer)
+      mason.setup()
 
-      -- Setup language servers here. Mason will install them automatically.
-      -- Example for Rust and Go:
-      lspconfig.rust_analyzer.setup({ capabilities = capabilities })
-      lspconfig.gopls.setup({ capabilities = capabilities })
-      -- Add more language servers as needed, e.g.:
-      -- lspconfig.tsserver.setup({ capabilities = capabilities }) -- for TypeScript
-      -- lspconfig.pyright.setup({ capabilities = capabilities }) -- for Python
+      -- 2. Setup Mason-LSPConfig (the bridge)
+      mason_lspconfig.setup({
+        -- List servers you want automatically installed here:
+        ensure_installed = { "rust_analyzer", "gopls", "lua_ls" }, 
+        
+        -- This "handlers" function is the modern way to setup servers
+        handlers = {
+          -- The default handler: applied to every server installed by Mason
+          function(server_name)
+            require("lspconfig")[server_name].setup({
+              capabilities = capabilities,
+            })
+          end,
+
+          -- Example: If you need specific settings for a server (like Lua), override it here:
+          ["lua_ls"] = function()
+            require("lspconfig").lua_ls.setup({
+              capabilities = capabilities,
+              settings = {
+                Lua = {
+                  diagnostics = { globals = { "vim" } },
+                },
+              },
+            })
+          end,
+        },
+      })
     end,
   },
 
@@ -29,6 +49,9 @@ return {
     config = function()
       local cmp = require("cmp")
       cmp.setup({
+        -- Fix the "bad argument #1 to max" error by using native menu
+        view = { entries = "native" }, 
+        
         sources = { { name = "nvim_lsp" }, { name = "buffer" } },
         snippet = {
           expand = function(args)

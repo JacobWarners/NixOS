@@ -13,6 +13,10 @@
     dxvk
 #    xivlauncher
     moonlight-qt
+    # TIBIA
+    libxml2
+    libsForQt5.qtwayland
+    kdePackages.qtwayland
 
     # Custom script to run XIVLauncher on the AMD eGPU
     (pkgs.writeShellScriptBin "xivlauncher-amd-egpu" ''

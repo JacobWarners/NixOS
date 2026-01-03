@@ -8,9 +8,10 @@
     glibc
     libxml2
     libsForQt5.qtwayland
+    nss
+    nspr
     kdePackages.qtwayland
     openssl
-    zlib
     xorg.libXfixes
     xorg.libXrandr
     xorg.libXtst

@@ -6,6 +6,11 @@
   programs.nix-ld.libraries = with pkgs; [
     libxslt
     glibc
+    libxml2
+    libsForQt5.qtwayland
+    kdePackages.qtwayland
+    openssl
+    zlib
     xorg.libXfixes
     xorg.libXrandr
     xorg.libXtst

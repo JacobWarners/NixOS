@@ -90,6 +90,7 @@ in
     swaylock-effects wl-clipboard cliphist wallust xclip grim libnotify sway-contrib.grimshot
     eww waybar nerd-fonts.jetbrains-mono pipewire wireplumber sonic-font jq playerctl
     brightnessctl pamixer
+    kdePackages.xwaylandvideobridge
 
     # Add our custom script packages to the user's environment
     toggleFkeysScript
@@ -322,6 +323,33 @@ in
       windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
       windowrulev2 = float, class:^(zoom)$, title:^(Sign In with SSO)$
       windowrulev2 = float, class:^(zoom)$, x11_window_type:^(dialog)$
+
+
+
+
+      # --- Zoom Rules ---
+  # Fix the main window being forced to float/tile incorrectly
+  windowrulev2 = float, class:^(zoom)$, title:^(Zoom - Licensed Account)$
+  windowrulev2 = float, class:^(zoom)$, title:^(Settings)$
+  
+  # Make the "Share Screen" selector float and center (Fixes the "portal" weirdness)
+  windowrulev2 = float, class:^(zoom)$, title:^(Choose one of the screens to share)$
+  windowrulev2 = float, class:^(zoom)$, title:^(Choose a window or application to share)$
+  windowrulev2 = center, class:^(zoom)$, title:^(Choose a window or application to share)$
+
+  # Ensure the meeting window can be tiled or fullscreened
+  windowrulev2 = tile, class:^(zoom)$, title:^(Zoom Meeting)$
+  
+  # --- XWaylandVideoBridge Rules ---
+  # This tool needs to be invisible to you but visible to Zoom
+  windowrulev2 = opacity 0.0 override, class:^(xwaylandvideobridge)$
+  windowrulev2 = noanim, class:^(xwaylandvideobridge)$
+  windowrulev2 = noinitialfocus, class:^(xwaylandvideobridge)$
+  windowrulev2 = maxsize 1 1, class:^(xwaylandvideobridge)$
+  windowrulev2 = noblur, class:^(xwaylandvideobridge)$
+  
+  # Don't let Hyprland focus the bridge
+  windowrulev2 = nofocus, class:^(xwaylandvideobridge)$
     '';
   };
 }

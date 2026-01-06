@@ -94,6 +94,18 @@ in
     # Add our custom script packages to the user's environment
     toggleFkeysScript
     createVirtualSinkScript
+
+
+    (zoom-us.overrideAttrs (old: {
+      postFixup = old.postFixup + ''
+        wrapProgram $out/bin/zoom-us \
+          --unset XDG_SESSION_TYPE \
+          --set XDG_CURRENT_DESKTOP "gnome" \
+          --set XDG_SESSION_DESKTOP "gnome" \
+          --set QT_QPA_PLATFORM "xcb" \
+          --set QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
+      '';
+    
   ];
 
   programs.neovim = {
@@ -325,30 +337,6 @@ in
 
 
 
-
-      # --- Zoom Rules ---
-  # Fix the main window being forced to float/tile incorrectly
-  windowrulev2 = float, class:^(zoom)$, title:^(Zoom - Licensed Account)$
-  windowrulev2 = float, class:^(zoom)$, title:^(Settings)$
-  
-  # Make the "Share Screen" selector float and center (Fixes the "portal" weirdness)
-  windowrulev2 = float, class:^(zoom)$, title:^(Choose one of the screens to share)$
-  windowrulev2 = float, class:^(zoom)$, title:^(Choose a window or application to share)$
-  windowrulev2 = center, class:^(zoom)$, title:^(Choose a window or application to share)$
-
-  # Ensure the meeting window can be tiled or fullscreened
-  windowrulev2 = tile, class:^(zoom)$, title:^(Zoom Meeting)$
-  
-  # --- XWaylandVideoBridge Rules ---
-  # This tool needs to be invisible to you but visible to Zoom
-  windowrulev2 = opacity 0.0 override, class:^(xwaylandvideobridge)$
-  windowrulev2 = noanim, class:^(xwaylandvideobridge)$
-  windowrulev2 = noinitialfocus, class:^(xwaylandvideobridge)$
-  windowrulev2 = maxsize 1 1, class:^(xwaylandvideobridge)$
-  windowrulev2 = noblur, class:^(xwaylandvideobridge)$
-  
-  # Don't let Hyprland focus the bridge
-  windowrulev2 = nofocus, class:^(xwaylandvideobridge)$
     '';
   };
 }

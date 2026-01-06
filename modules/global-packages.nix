@@ -86,7 +86,6 @@
     rustup
     cargo
 ##### WORK ##########
-    zoom-us
     notion-app-enhanced
 ];
 

@@ -95,9 +95,9 @@ in
     toggleFkeysScript
     createVirtualSinkScript
 
-
-    (zoom-us.overrideAttrs (old: {
-      postFixup = old.postFixup + ''
+(zoom-us.overrideAttrs (old: {
+      # The 'or ""' handles the case where postFixup doesn't exist yet
+      postFixup = (old.postFixup or "") + ''
         wrapProgram $out/bin/zoom-us \
           --unset XDG_SESSION_TYPE \
           --set XDG_CURRENT_DESKTOP "gnome" \
@@ -105,8 +105,8 @@ in
           --set QT_QPA_PLATFORM "xcb" \
           --set QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
       '';
-      }))
-    
+    }))
+
   ];
 
   programs.neovim = {

@@ -341,28 +341,22 @@ in
       windowrulev2 = float, class:^(zoom)$, x11_window_type:^(dialog)$
 
 
-# --- ZOOM RULES (Merged Fixes) ---
-      
-      # 1. Performance Rules (CRITICAL FOR LAG)
-      # These tell Hyprland to stop trying to animate/blur Zoom, which fixes the stuttering.
-      windowrulev2 = noblur, class:^(zoom)$
-      windowrulev2 = noanim, class:^(zoom)$
-      windowrulev2 = opaque, class:^(zoom)$
-      
-      # 2. Window Behavior Rules (Fixes UI glitches)
-      # Float the "Portal" popups (Screen Share picker) so they don't stretch
-      windowrulev2 = float, class:^(zoom)$, title:^(Choose one of the screens to share)$
-      windowrulev2 = float, class:^(zoom)$, title:^(Choose a window or application to share)$
-      windowrulev2 = center, class:^(zoom)$, title:^(Choose a window or application to share)$
-      
-      # Float Settings and SSO windows
-      windowrulev2 = float, class:^(zoom)$, title:^(Settings)$
-      windowrulev2 = float, class:^(zoom)$, title:^(Sign In with SSO)$
-      windowrulev2 = float, class:^(zoom)$, x11_window_type:^(dialog)$
-      
-      # Allow the main Meeting window to tile properly
-      windowrulev2 = tile, class:^(zoom)$, title:^(Zoom Meeting)$
+# 1. Force Zoom main windows to float and center (fixes "can't find window")
+windowrulev2 = float,class:^(zoom)$,title:^(Zoom Workplace)$
+windowrulev2 = center,class:^(zoom)$,title:^(Zoom Workplace)$
 
+# 2. Fix the "Meeting" window constantly resizing or tiling
+windowrulev2 = float,class:^(zoom)$,title:^(Zoom Meeting)$
+windowrulev2 = minsize 400 300,class:^(zoom)$,title:^(Zoom Meeting)$
+
+# 3. CRITICAL: Stop Hyprland from messing with popups/tooltips
+# This fixes the "Settings" menu being blank or crashing
+windowrulev2 = float,class:^(zoom)$,title:^(Settings)$
+windowrulev2 = float,class:^(zoom)$,title:^(z-.*)$ 
+
+# 4. Fix Fullscreen/Sharing "Focus Stealing"
+# Prevents Zoom from freezing when you switch workspaces during a share
+windowrulev2 = noinitialfocus,class:^(zoom)$,title:^(Zoom Meeting)$
 
     '';
   };

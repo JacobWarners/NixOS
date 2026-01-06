@@ -90,7 +90,6 @@ in
     swaylock-effects wl-clipboard cliphist wallust xclip grim libnotify sway-contrib.grimshot
     eww waybar nerd-fonts.jetbrains-mono pipewire wireplumber sonic-font jq playerctl
     brightnessctl pamixer
-    kdePackages.xwaylandvideobridge
 
     # Add our custom script packages to the user's environment
     toggleFkeysScript

@@ -105,6 +105,7 @@ in
           --set QT_QPA_PLATFORM "xcb" \
           --set QT_WAYLAND_DISABLE_WINDOWDECORATION "1"
       '';
+      }))
     
   ];
 

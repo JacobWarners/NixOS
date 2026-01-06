@@ -337,6 +337,28 @@ in
       windowrulev2 = float, class:^(zoom)$, x11_window_type:^(dialog)$
 
 
+# --- ZOOM RULES (Merged Fixes) ---
+      
+      # 1. Performance Rules (CRITICAL FOR LAG)
+      # These tell Hyprland to stop trying to animate/blur Zoom, which fixes the stuttering.
+      windowrulev2 = noblur, class:^(zoom)$
+      windowrulev2 = noanim, class:^(zoom)$
+      windowrulev2 = opaque, class:^(zoom)$
+      
+      # 2. Window Behavior Rules (Fixes UI glitches)
+      # Float the "Portal" popups (Screen Share picker) so they don't stretch
+      windowrulev2 = float, class:^(zoom)$, title:^(Choose one of the screens to share)$
+      windowrulev2 = float, class:^(zoom)$, title:^(Choose a window or application to share)$
+      windowrulev2 = center, class:^(zoom)$, title:^(Choose a window or application to share)$
+      
+      # Float Settings and SSO windows
+      windowrulev2 = float, class:^(zoom)$, title:^(Settings)$
+      windowrulev2 = float, class:^(zoom)$, title:^(Sign In with SSO)$
+      windowrulev2 = float, class:^(zoom)$, x11_window_type:^(dialog)$
+      
+      # Allow the main Meeting window to tile properly
+      windowrulev2 = tile, class:^(zoom)$, title:^(Zoom Meeting)$
+
 
     '';
   };

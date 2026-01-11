@@ -358,6 +358,11 @@ windowrulev2 = float,class:^(zoom)$,title:^(z-.*)$
 # Prevents Zoom from freezing when you switch workspaces during a share
 windowrulev2 = noinitialfocus,class:^(zoom)$,title:^(Zoom Meeting)$
 
+# This forces any window with "Spelling Bee" in the title to float and stay on top
+windowrulev2 = float, title:^(Spelling Bee)(.*)$
+windowrulev2 = pin, title:^(Spelling Bee)(.*)$
+windowrulev2 = move 10% 10%, title:^(Spelling Bee)(.*)$
+windowrulev2 = size 80% 80%, title:^(Spelling Bee)(.*)$
     '';
   };
 }

@@ -91,12 +91,6 @@ in
     eww waybar nerd-fonts.jetbrains-mono pipewire wireplumber sonic-font jq playerctl
     brightnessctl pamixer
 
-    # Add our custom script packages to the user's environment
-    toggleFkeysScript
-    createVirtualSinkScript
-
-    (pkgs.symlinkJoin {
-
   ];
 
   programs.neovim = {

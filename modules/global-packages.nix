@@ -33,6 +33,7 @@ in
   environment.systemPackages = with pkgs; [
     pciutils
     vim
+    zoom-us
     yq
     sops
     tigervnc

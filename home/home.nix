@@ -96,20 +96,6 @@ in
     createVirtualSinkScript
 
     (pkgs.symlinkJoin {
-  name = "zoom-us";
-  paths = [ pkgs.zoom-us ];
-  nativeBuildInputs = [ pkgs.makeWrapper ];
-  postBuild = ''
-    # Remove the symlink created by symlinkJoin so we can replace it with our wrapper
-    rm $out/bin/zoom
-    
-    # Create a new wrapper that invokes the original binary with our flags
-    makeWrapper ${pkgs.zoom-us}/bin/zoom $out/bin/zoom \
-      --unset XDG_SESSION_TYPE \
-      --set XDG_CURRENT_DESKTOP "gnome" \
-      --set QT_QPA_PLATFORM "xcb"
-  '';
-})
 
   ];
 

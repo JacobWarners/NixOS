@@ -102,6 +102,28 @@ in
     ];
   };
 
+
+  programs.ssh = {
+  enable = true;
+  matchBlocks = {
+    "*.tmate.io" = {
+      # Fix 1: Disable Multiplexing (fixes the socket crash)
+      extraOptions = {
+        ControlMaster = "no";
+        ControlPath = "none";
+        
+        # Fix 2: Force "Dumb" Crypto (fixes "Invalid Command" & Hangs)
+        KexAlgorithms = "curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256";
+        HostKeyAlgorithms = "+ssh-rsa";
+        PubkeyAcceptedAlgorithms = "+ssh-rsa";
+        
+        # Fix 3: Don't leak env vars (fixes protocol confusion)
+        SendEnv = "-*";
+      };
+    };
+  };
+};
+
   xdg.configFile."nvim".source = ./nvim;
 
   home.file = {

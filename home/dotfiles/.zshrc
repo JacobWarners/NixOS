@@ -91,6 +91,7 @@ alias htop='btop'
 alias ssh='kitten ssh'
 alias vim='nvim'
 alias vi='nvim'
+alias ssh="/run/current-system/sw/bin/ssh"
 
 
 # k9s

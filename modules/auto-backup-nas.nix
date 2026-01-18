@@ -13,6 +13,7 @@ in
     device = "192.168.5.40:/mnt/ZFS-Cold-Storage/Cold-Storage/Linux/laptop-backups";
     fsType = "nfs";
     options = [ 
+      "nfsvers=3"
       "x-systemd.automount" 
       "noauto"              
       "x-systemd.idle-timeout=600" 

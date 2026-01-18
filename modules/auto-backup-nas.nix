@@ -7,20 +7,22 @@ let
   gotifyUrl = "https://gotify.thebestemail.lol/message";
 in
 {
-  # Ensure background RPC services are active for NFSv3 support
+  # Ensure background RPC services and NFS kernel modules are active
   services.rpcbind.enable = true;
+  boot.supportedFilesystems = [ "nfs" ];
 
   # 1. The Mount Point (Lazy-mounted for boot speed)
   fileSystems."/mnt/nas_backups" = {
     device = "192.168.5.40:/mnt/ZFS-Cold-Storage/Cold-Storage/Linux/laptop-backups";
     fsType = "nfs";
     options = [ 
-      "nfsvers=3"           # Fixes "Protocol not supported" for many ZFS/NAS setups
+      "nfsvers=3"           # Forces v3 protocol
       "x-systemd.automount" 
       "noauto"              
-      "x-systemd.idle-timeout=600" # Auto-unmount after 10 mins
-      "soft"                # Prevents system hang if NAS is offline
-      "intr"                # Allows interrupting the process
+      "x-systemd.idle-timeout=600" 
+      "soft"                
+      "intr"                
+      "_netdev"             # Tells systemd to wait for network hardware
     ];
   };
 
@@ -42,9 +44,9 @@ in
     description = "K8s Manifest Export and NAS Sync";
     onFailure = [ "nas_sync_failed.service" ];
     
-    # Wait for network and for the mount point to be initialized
-    after = [ "network-online.target" "mnt-nas_backups.mount" "rpcbind.service" ];
-    requires = [ "mnt-nas_backups.mount" ];
+    # dependencies: network must be online and the automount must be initialized
+    after = [ "network-online.target" "remote-fs.target" "rpcbind.service" ];
+    requires = [ "network-online.target" ];
 
     path = with pkgs; [ kubectl yq rsync openssh curl ];
     
@@ -72,11 +74,16 @@ in
         chmod 600 /home/jake/Backups/secrets-emergency/all-secrets.yaml
         
         echo "Syncing to NAS..."
-        # Using --delete ensures the NAS stays an identical mirror of your local data
-        ${pkgs.rsync}/bin/rsync -av --delete \
-          /home/jake/Documents/ \
-          /home/jake/Backups/ \
-          /mnt/nas_backups/
+        # Note: Added a check to ensure the mount is actually a mount before rsyncing
+        if mountpoint -q /mnt/nas_backups; then
+          ${pkgs.rsync}/bin/rsync -av --delete \
+            /home/jake/Documents/ \
+            /home/jake/Backups/ \
+            /mnt/nas_backups/
+        else
+          echo "Mount point /mnt/nas_backups is not active. Aborting."
+          exit 1
+        fi
 
         echo "Notifying Gotify..."
         curl -X POST "${gotifyUrl}?token=${secrets.GOTIFY_TOKEN}" \
@@ -92,8 +99,8 @@ in
     wantedBy = [ "timers.target" ];
     timerConfig = {
       OnBootSec = "5m";            # Initial run 5 mins after boot
-      OnUnitActiveSec = "24h";     # Subsequent runs every 24 hours while laptop is on
-      Persistent = true;           # If laptop was off during a cycle, run immediately on boot
+      OnUnitActiveSec = "24h";     # Subsequent runs every 24 hours
+      Persistent = true;           
       Unit = "nas_sync.service";
     };
   };

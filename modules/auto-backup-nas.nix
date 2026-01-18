@@ -1,24 +1,26 @@
 { config, pkgs, ... }:
 
 let
-  # Import your local secrets file
-  # This assumes secrets.nix is in the same directory as this file
+  # Import your local secrets file (ensure it contains GOTIFY_TOKEN)
   secrets = import ../secrets.nix; 
   
-  gotifyUrl = "https://gotify.thebestemail.lol/message"; # Update with your Gotify Port
+  gotifyUrl = "https://gotify.thebestemail.lol/message";
 in
 {
+  # Ensure background RPC services are active for NFSv3 support
+  services.rpcbind.enable = true;
+
   # 1. The Mount Point (Lazy-mounted for boot speed)
   fileSystems."/mnt/nas_backups" = {
     device = "192.168.5.40:/mnt/ZFS-Cold-Storage/Cold-Storage/Linux/laptop-backups";
     fsType = "nfs";
     options = [ 
-      "nfsvers=3"
+      "nfsvers=3"           # Fixes "Protocol not supported" for many ZFS/NAS setups
       "x-systemd.automount" 
       "noauto"              
-      "x-systemd.idle-timeout=600" 
-      "soft"                
-      "intr"                
+      "x-systemd.idle-timeout=600" # Auto-unmount after 10 mins
+      "soft"                # Prevents system hang if NAS is offline
+      "intr"                # Allows interrupting the process
     ];
   };
 
@@ -40,7 +42,8 @@ in
     description = "K8s Manifest Export and NAS Sync";
     onFailure = [ "nas_sync_failed.service" ];
     
-    after = [ "network-online.target" "mnt-nas_backups.mount" ];
+    # Wait for network and for the mount point to be initialized
+    after = [ "network-online.target" "mnt-nas_backups.mount" "rpcbind.service" ];
     requires = [ "mnt-nas_backups.mount" ];
 
     path = with pkgs; [ kubectl yq rsync openssh curl ];
@@ -69,6 +72,7 @@ in
         chmod 600 /home/jake/Backups/secrets-emergency/all-secrets.yaml
         
         echo "Syncing to NAS..."
+        # Using --delete ensures the NAS stays an identical mirror of your local data
         ${pkgs.rsync}/bin/rsync -av --delete \
           /home/jake/Documents/ \
           /home/jake/Backups/ \
@@ -83,13 +87,13 @@ in
     };
   };
 
-  # 4. The Timer (5m after boot, then daily)
+  # 4. The Timer
   systemd.timers.nas_sync = {
     wantedBy = [ "timers.target" ];
     timerConfig = {
-      OnBootSec = "5m";
-      OnCalendar = "daily";
-      Persistent = true;
+      OnBootSec = "5m";            # Initial run 5 mins after boot
+      OnUnitActiveSec = "24h";     # Subsequent runs every 24 hours while laptop is on
+      Persistent = true;           # If laptop was off during a cycle, run immediately on boot
       Unit = "nas_sync.service";
     };
   };

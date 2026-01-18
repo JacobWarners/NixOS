@@ -66,7 +66,7 @@ in
         set -e
         
         echo "Exporting K8s Manifests..."
-        /home/jake/Backups/backup-cluster.sh
+        /home/jake/k8s/Backups/backup-cluster.sh
         
         echo "Exporting emergency secrets..."
         mkdir -p /home/jake/Backups/secrets-emergency

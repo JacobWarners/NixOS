@@ -44,11 +44,20 @@ in
     description = "K8s Manifest Export and NAS Sync";
     onFailure = [ "nas_sync_failed.service" ];
     
-    # dependencies: network must be online and the automount must be initialized
     after = [ "network-online.target" "remote-fs.target" "rpcbind.service" ];
     requires = [ "network-online.target" ];
 
-    path = with pkgs; [ kubectl yq rsync openssh curl ];
+    # Added bash and coreutils to provide 'sh', 'env', and 'mountpoint'
+    path = with pkgs; [ 
+      kubectl 
+      yq 
+      rsync 
+      openssh 
+      curl 
+      bash 
+      coreutils 
+      utillinux 
+    ];
     
     environment = {
       KUBECONFIG = "/home/jake/.kube/config";
@@ -66,7 +75,8 @@ in
         set -e
         
         echo "Exporting K8s Manifests..."
-        /home/jake/k8s/Backups/backup-cluster.sh
+        # Explicitly use bash to run the script to avoid shebang path issues
+        ${pkgs.bash}/bin/bash /home/jake/k8s/Backups/backup-cluster.sh
         
         echo "Exporting emergency secrets..."
         mkdir -p /home/jake/Backups/secrets-emergency
@@ -74,7 +84,7 @@ in
         chmod 600 /home/jake/Backups/secrets-emergency/all-secrets.yaml
         
         echo "Syncing to NAS..."
-        # Note: Added a check to ensure the mount is actually a mount before rsyncing
+        # Automount will trigger when we check the mountpoint
         if mountpoint -q /mnt/nas_backups; then
           ${pkgs.rsync}/bin/rsync -av --delete \
             /home/jake/Documents/ \
@@ -98,8 +108,8 @@ in
   systemd.timers.nas_sync = {
     wantedBy = [ "timers.target" ];
     timerConfig = {
-      OnBootSec = "5m";            # Initial run 5 mins after boot
-      OnUnitActiveSec = "24h";     # Subsequent runs every 24 hours
+      OnBootSec = "5m";
+      OnUnitActiveSec = "24h";
       Persistent = true;           
       Unit = "nas_sync.service";
     };

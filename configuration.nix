@@ -12,6 +12,7 @@
     #    ./modules/specialisation.nix
     #    ./modules/hotplugegpu.nix
     ./modules/hyprland.nix
+    ./modules/auto-backup-nas.nix
     ./modules/amd-performance.nix
     #    ./modules/ratatat-listener.nix
     ./modules/amd.nix

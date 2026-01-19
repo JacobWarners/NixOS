@@ -2,4 +2,5 @@
 {
   influxToken = "1pJgBK_A5JOZfsIWrijBBC-UFyRaSJXx9xwvuQvfRrUZrUvJo8fZHdRaL3Jjs4q4C4bSq8sgBx8bt2j7N_FUFA==";
   GOTIFY_TOKEN = "ANnJdS-UfgJ-SMP";
+  GEMINI_API_KEY = "AIzaSyCpRNWArbjlHAWJAoy6MLWoFAuToI3Aep8";
 }

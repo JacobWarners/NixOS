@@ -17,6 +17,7 @@
     #    ./modules/ratatat-listener.nix
     ./modules/amd.nix
     #    ./modules/transcriber.nix
+    ./modules/rust-transcriber.nix
     #    ./modules/flatpak.nix
     ./modules/nix.nix
     ./modules/nix-ld.nix

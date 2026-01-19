@@ -95,6 +95,7 @@ in
             --no-perms --no-owner --no-group \
             --exclude="vms/vol.qcow2" \
             /home/jake/Documents/ \
+	    /home/jake/nix-config \
             /home/jake/k8s/Backups \
             /mnt/nas_backups/
         else

@@ -40,8 +40,9 @@ in
     after = [ "network-online.target" "remote-fs.target" "rpcbind.service" ];
     requires = [ "network-online.target" ];
 
+    # Added 'util-linux' to fix the rename warning
     path = with pkgs; [ 
-      kubectl yq rsync openssh curl bash coreutils utillinux 
+      kubectl yq rsync openssh curl bash coreutils util-linux diffutils
     ];
     
     environment = {
@@ -52,12 +53,10 @@ in
       Type = "oneshot";
       User = "jake";
       
-      # FIX 1: Ensures the script can create its "./cluster-..." folders
+      # Run inside the backup dir so we can easily find the folders
       WorkingDirectory = "/home/jake/k8s/Backups";
       
-      # FIX 2: Prevents "Failing" the service when rsync hits a root-owned file
       SuccessExitStatus = "0 23";
-
       Nice = 19;
       CPUSchedulingPolicy = "idle";
       IOSchedulingClass = "idle";
@@ -66,8 +65,32 @@ in
         set -e
 
         echo "=== STARTING BACKUP SCRIPT ==="
-        # Run the sub-script using its full path
         ${pkgs.bash}/bin/bash -x /home/jake/k8s/Backups/backup-cluster.sh
+
+        echo "=== CHECKING FOR CHANGES ==="
+        # 1. Find the 2 most recent backup directories (Newest first)
+        # ls -td sorts by time (newest top). head -2 grabs the top two.
+        DIRS=$(ls -td ./cluster-backup-*/ 2>/dev/null | head -2)
+        
+        # 2. Assign them to variables
+        NEWEST=$(echo "$DIRS" | head -n1)
+        PREVIOUS=$(echo "$DIRS" | tail -n1)
+
+        # 3. Compare them (if we actually have a previous one to compare to)
+        if [ -n "$NEWEST" ] && [ -n "$PREVIOUS" ] && [ "$NEWEST" != "$PREVIOUS" ]; then
+            echo "Comparing new backup ($NEWEST) with previous ($PREVIOUS)..."
+            
+            # diff -r = recursive, -q = brief (report only when files differ)
+            if ${pkgs.diffutils}/bin/diff -r -q "$NEWEST" "$PREVIOUS" >/dev/null; then
+                echo "♻️  No changes detected in cluster config."
+                echo "🗑️  Removing redundant backup: $NEWEST"
+                rm -rf "$NEWEST"
+            else
+                echo "📝 Changes detected. Keeping new backup: $NEWEST"
+            fi
+        else
+            echo "ℹ️  First backup or not enough history to compare. Keeping."
+        fi
 
         echo "=== VERIFYING LOCAL FOLDER ==="
         ls -lh /home/jake/k8s/Backups/
@@ -79,8 +102,6 @@ in
 
         echo "=== SYNCING TO NAS ==="
         if mountpoint -q /mnt/nas_backups; then
-          # FIX 3: Added '|| true' so script continues to Gotify even if rsync reports code 23
-          # FIX 4: Changed nix-config -> nixos-config based on logs
           ${pkgs.rsync}/bin/rsync -av --delete \
             --no-perms --no-owner --no-group \
             --exclude="vms/vol.qcow2" \

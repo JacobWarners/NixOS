@@ -16,7 +16,7 @@ in
     device = "192.168.5.40:/mnt/ZFS-Cold-Storage/Cold-Storage/Linux/laptop-backups";
     fsType = "nfs";
     options = [ 
-      "nfsvers=3"           # Forces v3 protocol for compatibility
+      "nfsvers=3"           # Forces v3 protocol
       "x-systemd.automount" 
       "noauto"              
       "x-systemd.idle-timeout=600" 
@@ -73,30 +73,32 @@ in
         #!${pkgs.stdenv.shell}
         set -e
         
-        echo "Current Date: $(date +%Y-%m-%d)"
+        echo "=== STARTING BACKUP SCRIPT ==="
+        # Using bash -x to show exactly what the script is doing in the logs
+        # This will reveal if it fails to mkdir the new folder
+        ${pkgs.bash}/bin/bash -x /home/jake/k8s/Backups/backup-cluster.sh
         
-        echo "Exporting K8s Manifests..."
-        ${pkgs.bash}/bin/bash /home/jake/k8s/Backups/backup-cluster.sh
+        echo "=== VERIFYING LOCAL FOLDER ==="
+        # List the k8s backup folder to PROVE the new date folder exists
+        ls -lh /home/jake/k8s/Backups/
         
-        echo "Exporting emergency secrets..."
+        echo "=== EXPORTING SECRETS ==="
         mkdir -p /home/jake/k8s/Backups/secrets-emergency
         kubectl get secrets --all-namespaces -o yaml > /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
         chmod 600 /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
         
-        echo "Syncing to NAS..."
+        echo "=== SYNCING TO NAS ==="
         if mountpoint -q /mnt/nas_backups; then
-          # Added --no-perms --no-owner --no-group to fix Code 23
-          # Removed trailing slash on /k8s/Backups to preserve folder name
-          # Excluded problematic VM file and old 2025 backups
+          # Removed the exclude for old backups so everything syncs
+          # Still excluding the VM file that caused "Permission denied"
           ${pkgs.rsync}/bin/rsync -av --delete \
             --no-perms --no-owner --no-group \
             --exclude="vms/vol.qcow2" \
-            --exclude="cluster-backup-2025-*" \
             /home/jake/Documents/ \
             /home/jake/k8s/Backups \
             /mnt/nas_backups/
         else
-          echo "Mount point /mnt/nas_backups is not active. Aborting."
+          echo "ERROR: Mount point /mnt/nas_backups is not active."
           exit 1
         fi
 

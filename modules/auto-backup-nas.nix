@@ -73,23 +73,27 @@ in
         #!${pkgs.stdenv.shell}
         set -e
         
+        echo "Current Date: $(date +%Y-%m-%d)"
+        
         echo "Exporting K8s Manifests..."
         ${pkgs.bash}/bin/bash /home/jake/k8s/Backups/backup-cluster.sh
         
         echo "Exporting emergency secrets..."
-        # Unified path to ~/k8s/Backups to match your rsync source
         mkdir -p /home/jake/k8s/Backups/secrets-emergency
         kubectl get secrets --all-namespaces -o yaml > /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
         chmod 600 /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
         
         echo "Syncing to NAS..."
         if mountpoint -q /mnt/nas_backups; then
-          # Added --no-perms --no-owner --no-group to fix rsync Code 23
-          # Updated source path to /home/jake/k8s/Backups/
+          # Added --no-perms --no-owner --no-group to fix Code 23
+          # Removed trailing slash on /k8s/Backups to preserve folder name
+          # Excluded problematic VM file and old 2025 backups
           ${pkgs.rsync}/bin/rsync -av --delete \
             --no-perms --no-owner --no-group \
+            --exclude="vms/vol.qcow2" \
+            --exclude="cluster-backup-2025-*" \
             /home/jake/Documents/ \
-            /home/jake/k8s/Backups/ \
+            /home/jake/k8s/Backups \
             /mnt/nas_backups/
         else
           echo "Mount point /mnt/nas_backups is not active. Aborting."

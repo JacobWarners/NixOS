@@ -1,18 +1,13 @@
 { config, pkgs, ... }:
 
 let
-  # Import your local secrets file
   secrets = import ../secrets.nix; 
-  
-  # Define the URL here, but pass it via environment variables later
   gotifyUrl = "https://gotify.thebestemail.lol/message";
 in
 {
-  # Ensure background RPC services and NFS kernel modules are active
   services.rpcbind.enable = true;
   boot.supportedFilesystems = [ "nfs" ];
 
-  # 1. The Mount Point
   fileSystems."/mnt/nas_backups" = {
     device = "192.168.5.40:/mnt/ZFS-Cold-Storage/Cold-Storage/Linux/laptop-backups";
     fsType = "nfs";
@@ -27,35 +22,21 @@ in
     ];
   };
 
-  # 2. Failure Notification Service
   systemd.services.nas_sync_failed = {
     description = "Notify Gotify on Sync Failure";
     path = [ pkgs.curl ];
     serviceConfig.User = "jake";
-    
-    # PASS SECRETS AS ENV VARS (Prevents build-time evaluation)
-    environment = {
-      GOTIFY_TOKEN = "${secrets.GOTIFY_TOKEN}";
-      GOTIFY_URL = "${gotifyUrl}";
-    };
-
     script = ''
-      # Use shell variables ($VAR), not Nix interpolation (${VAR})
-      curl -X POST "$GOTIFY_URL?token=$GOTIFY_TOKEN" \
+      curl -X POST "${gotifyUrl}?token=${secrets.GOTIFY_TOKEN}" \
            -F "title=❌ Backup FAILED" \
            -F "message=The NAS sync for $(hostname) failed. Check journalctl -u nas_sync." \
            -F "priority=8"
     '';
   };
 
-  # 3. Main Backup and Sync Service
   systemd.services.nas_sync = {
     description = "K8s Manifest Export and NAS Sync";
     onFailure = [ "nas_sync_failed.service" ];
-    
-    # Ensures it can be manually enabled/started if needed
-    wantedBy = [ "multi-user.target" ];
-    
     after = [ "network-online.target" "remote-fs.target" "rpcbind.service" ];
     requires = [ "network-online.target" ];
 
@@ -63,21 +44,18 @@ in
       kubectl yq rsync openssh curl bash coreutils utillinux 
     ];
     
-    # PASS SECRETS AS ENV VARS HERE
     environment = {
       KUBECONFIG = "/home/jake/.kube/config";
-      GOTIFY_TOKEN = "${secrets.GOTIFY_TOKEN}";
-      GOTIFY_URL = "${gotifyUrl}";
     };
 
     serviceConfig = {
       Type = "oneshot";
       User = "jake";
       
-      # FIX: Run inside the backup dir so the cluster script can create folders
+      # FIX 1: Ensures the script can create its "./cluster-..." folders
       WorkingDirectory = "/home/jake/k8s/Backups";
       
-      # FIX: Treat Exit Code 23 (Partial transfer) as success
+      # FIX 2: Prevents "Failing" the service when rsync hits a root-owned file
       SuccessExitStatus = "0 23";
 
       Nice = 19;
@@ -88,6 +66,7 @@ in
         set -e
 
         echo "=== STARTING BACKUP SCRIPT ==="
+        # Run the sub-script using its full path
         ${pkgs.bash}/bin/bash -x /home/jake/k8s/Backups/backup-cluster.sh
 
         echo "=== VERIFYING LOCAL FOLDER ==="
@@ -100,7 +79,8 @@ in
 
         echo "=== SYNCING TO NAS ==="
         if mountpoint -q /mnt/nas_backups; then
-          # Added '|| true' so rsync warnings don't stop the notification
+          # FIX 3: Added '|| true' so script continues to Gotify even if rsync reports code 23
+          # FIX 4: Changed nix-config -> nixos-config based on logs
           ${pkgs.rsync}/bin/rsync -av --delete \
             --no-perms --no-owner --no-group \
             --exclude="vms/vol.qcow2" \
@@ -117,8 +97,7 @@ in
         fi
 
         echo "Notifying Gotify..."
-        # Using shell variables ($GOTIFY_URL) prevents Nix from firing this during rebuilds
-        ${pkgs.curl}/bin/curl -X POST "$GOTIFY_URL?token=$GOTIFY_TOKEN" \
+        ${pkgs.curl}/bin/curl -X POST "${gotifyUrl}?token=${secrets.GOTIFY_TOKEN}" \
              -F "title=✅ Backup Successful" \
              -F "message=K8s manifests and Documents synced to NAS." \
              -F "priority=2"
@@ -126,9 +105,7 @@ in
     }; 
   }; 
 
-  # 4. The Timer
   systemd.timers.nas_sync = {
-    description = "Run nas_sync 5 min after boot and then every 24h";
     wantedBy = [ "timers.target" ];
     timerConfig = {
       OnBootSec = "5m";

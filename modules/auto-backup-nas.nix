@@ -16,7 +16,7 @@ in
     device = "192.168.5.40:/mnt/ZFS-Cold-Storage/Cold-Storage/Linux/laptop-backups";
     fsType = "nfs";
     options = [ 
-      "nfsvers=3"           # Forces v3 protocol
+      "nfsvers=3"            # Forces v3 protocol
       "x-systemd.automount" 
       "noauto"              
       "x-systemd.idle-timeout=600" 
@@ -70,48 +70,50 @@ in
       IOSchedulingClass = "idle";
       
       ExecStart = "${pkgs.writeShellScript "backup-and-sync" ''
-  set -e
- 
-  echo "=== STARTING BACKUP SCRIPT ==="
-  # Using bash -x to show exactly what the script is doing in the logs
-  ${pkgs.bash}/bin/bash -x /home/jake/k8s/Backups/backup-cluster.sh
- 
-  echo "=== VERIFYING LOCAL FOLDER ==="
-  ls -lh /home/jake/k8s/Backups/
- 
-  echo "=== EXPORTING SECRETS ==="
-  mkdir -p /home/jake/k8s/Backups/secrets-emergency
-  ${pkgs.kubectl}/bin/kubectl get secrets --all-namespaces -o yaml > /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
-  chmod 600 /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
- 
-  echo "=== SYNCING TO NAS ==="
-  if mountpoint -q /mnt/nas_backups; then
-    ${pkgs.rsync}/bin/rsync -av --delete \
-      --no-perms --no-owner --no-group \
-      --exclude="vms/vol.qcow2" \
-      /home/jake/Documents/ \
-      /home/jake/nix-config \
-      /home/jake/k8s/Backups \
-      /mnt/nas_backups/
-  else
-    echo "ERROR: Mount point /mnt/nas_backups is not active."
-    exit 1
-  fi
+        set -e
 
-  echo "Notifying Gotify..."
-  ${pkgs.curl}/bin/curl -X POST "${gotifyUrl}?token=${secrets.GOTIFY_TOKEN}" \
-       -F "title=✅ Backup Successful" \
-       -F "message=K8s manifests and Documents synced to NAS." \
-       -F "priority=2"
-''}";
-      
+        echo "=== STARTING BACKUP SCRIPT ==="
+        # Using bash -x to show exactly what the script is doing in the logs
+        ${pkgs.bash}/bin/bash -x /home/jake/k8s/Backups/backup-cluster.sh
+
+        echo "=== VERIFYING LOCAL FOLDER ==="
+        ls -lh /home/jake/k8s/Backups/
+
+        echo "=== EXPORTING SECRETS ==="
+        mkdir -p /home/jake/k8s/Backups/secrets-emergency
+        ${pkgs.kubectl}/bin/kubectl get secrets --all-namespaces -o yaml > /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
+        chmod 600 /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
+
+        echo "=== SYNCING TO NAS ==="
+        if mountpoint -q /mnt/nas_backups; then
+          ${pkgs.rsync}/bin/rsync -av --delete \
+            --no-perms --no-owner --no-group \
+            --exclude="vms/vol.qcow2" \
+            /home/jake/Documents/ \
+            /home/jake/nix-config \
+            /home/jake/k8s/Backups \
+            /mnt/nas_backups/
+        else
+          echo "ERROR: Mount point /mnt/nas_backups is not active."
+          exit 1
+        fi
+
+        echo "Notifying Gotify..."
+        ${pkgs.curl}/bin/curl -X POST "${gotifyUrl}?token=${secrets.GOTIFY_TOKEN}" \
+             -F "title=✅ Backup Successful" \
+             -F "message=K8s manifests and Documents synced to NAS." \
+             -F "priority=2"
+      ''}";
+    }; # <--- You were missing this closing brace for serviceConfig
+  };   # <--- And this closing brace for systemd.services.nas_sync
+
   # 4. The Timer
   systemd.timers.nas_sync = {
     wantedBy = [ "timers.target" ];
     timerConfig = {
       OnBootSec = "5m";
       OnUnitActiveSec = "24h";
-      Persistent = true;           
+      Persistent = true;            
       Unit = "nas_sync.service";
     };
   };

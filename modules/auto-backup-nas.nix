@@ -69,6 +69,10 @@ in
       CPUSchedulingPolicy = "idle";
       IOSchedulingClass = "idle";
       
+      # FIX: Treat Exit Code 23 (Partial transfer) as success
+      # This prevents the service from failing just because it couldn't read a root-owned file
+      SuccessExitStatus = "0 23";
+
       ExecStart = "${pkgs.writeShellScript "backup-and-sync" ''
         set -e
 
@@ -89,6 +93,9 @@ in
           ${pkgs.rsync}/bin/rsync -av --delete \
             --no-perms --no-owner --no-group \
             --exclude="vms/vol.qcow2" \
+            --exclude="target/" \
+            --exclude="node_modules/" \
+            --exclude=".cache/" \
             /home/jake/Documents/ \
             /home/jake/nix-config \
             /home/jake/k8s/Backups \
@@ -104,8 +111,8 @@ in
              -F "message=K8s manifests and Documents synced to NAS." \
              -F "priority=2"
       ''}";
-    }; # <--- You were missing this closing brace for serviceConfig
-  };   # <--- And this closing brace for systemd.services.nas_sync
+    }; 
+  }; 
 
   # 4. The Timer
   systemd.timers.nas_sync = {

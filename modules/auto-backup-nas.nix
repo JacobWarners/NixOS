@@ -51,7 +51,6 @@ in
     serviceConfig = {
       Type = "oneshot";
       User = "jake";
-      
       # FIX 1: Ensures the script can create its "./cluster-..." folders
       WorkingDirectory = "/home/jake/k8s/Backups";
       
@@ -79,8 +78,6 @@ in
 
         echo "=== SYNCING TO NAS ==="
         if mountpoint -q /mnt/nas_backups; then
-          # FIX 3: Added '|| true' so script continues to Gotify even if rsync reports code 23
-          # FIX 4: Changed nix-config -> nixos-config based on logs
           ${pkgs.rsync}/bin/rsync -av --delete \
             --no-perms --no-owner --no-group \
             --exclude="vms/vol.qcow2" \
@@ -88,9 +85,9 @@ in
             --exclude="node_modules/" \
             --exclude=".cache/" \
             /home/jake/Documents/ \
-            /home/jake/nixos-config \
+            /home/jake/nix-config \
             /home/jake/k8s/Backups \
-            /mnt/nas_backups/ || true
+            /mnt/nas_backups/
         else
           echo "ERROR: Mount point /mnt/nas_backups is not active."
           exit 1

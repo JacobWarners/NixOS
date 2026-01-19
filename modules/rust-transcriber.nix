@@ -10,19 +10,25 @@ in
     after = [ "network-online.target" ];
     wantedBy = [ "graphical-session.target" ];
     
-    path = [ pkgs.ffmpeg pkgs.unixtools.nice ];
+    # FIX: 'nice' is in coreutils, not unixtools. 
+    path = [ pkgs.ffmpeg pkgs.coreutils ];
 
     serviceConfig = {
+      # Make sure you ran 'cargo build --release' for this path to exist!
       ExecStart = "/home/jake/Documents/Code/Rust/obs-transcriber/target/release/video-transcriber";
 
-      # 2. CHANGE HERE: Use 'Environment' instead of 'EnvironmentFile'
-      # We inject the string directly from the imported secrets set.
+      # 2. Secret Injection
       Environment = "GEMINI_API_KEY=${secrets.GEMINI_API_KEY}";
 
       Restart = "on-failure";
       RestartSec = "10s";
+
+      # Resource Constraints
       CPUWeight = 20;
       IOWeight = 20;
+      
+      # FIX: The Systemd-native way to run as low priority (19 is lowest priority)
+      Nice = 19; 
     };
   };
 }

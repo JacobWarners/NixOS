@@ -40,7 +40,7 @@ in
     after = [ "network-online.target" "remote-fs.target" "rpcbind.service" ];
     requires = [ "network-online.target" ];
 
-    # Added 'util-linux' to fix the rename warning
+    # Added 'diffutils' for the comparison logic
     path = with pkgs; [ 
       kubectl yq rsync openssh curl bash coreutils util-linux diffutils
     ];
@@ -53,7 +53,7 @@ in
       Type = "oneshot";
       User = "jake";
       
-      # Run inside the backup dir so we can easily find the folders
+      # Run inside the backup dir
       WorkingDirectory = "/home/jake/k8s/Backups";
       
       SuccessExitStatus = "0 23";
@@ -76,7 +76,7 @@ in
         NEWEST=$(echo "$DIRS" | head -n1)
         PREVIOUS=$(echo "$DIRS" | tail -n1)
 
-        # 3. Compare them (if we actually have a previous one to compare to)
+        # 3. Compare them
         if [ -n "$NEWEST" ] && [ -n "$PREVIOUS" ] && [ "$NEWEST" != "$PREVIOUS" ]; then
             echo "Comparing new backup ($NEWEST) with previous ($PREVIOUS)..."
             

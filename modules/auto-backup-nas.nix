@@ -1,17 +1,13 @@
 { config, pkgs, ... }:
 
 let
-  # Import your local secrets file (ensure it contains GOTIFY_TOKEN)
   secrets = import ../secrets.nix; 
-  
   gotifyUrl = "https://gotify.thebestemail.lol/message";
 in
 {
-  # Ensure background RPC services and NFS kernel modules are active
   services.rpcbind.enable = true;
   boot.supportedFilesystems = [ "nfs" ];
 
-  # 1. The Mount Point (Lazy-mounted for boot speed)
   fileSystems."/mnt/nas_backups" = {
     device = "192.168.5.40:/mnt/ZFS-Cold-Storage/Cold-Storage/Linux/laptop-backups";
     fsType = "nfs";
@@ -26,7 +22,6 @@ in
     ];
   };
 
-  # 2. Failure Notification Service
   systemd.services.nas_sync_failed = {
     description = "Notify Gotify on Sync Failure";
     path = [ pkgs.curl ];
@@ -39,26 +34,18 @@ in
     '';
   };
 
-  # 3. Main Backup and Sync Service
   systemd.services.nas_sync = {
     description = "K8s Manifest Export and NAS Sync";
     onFailure = [ "nas_sync_failed.service" ];
     
-    # Ensures the service can be recognized as a background unit
+    # Ensures it can be manually enabled if needed
     wantedBy = [ "multi-user.target" ];
     
     after = [ "network-online.target" "remote-fs.target" "rpcbind.service" ];
     requires = [ "network-online.target" ];
 
     path = with pkgs; [ 
-      kubectl 
-      yq 
-      rsync 
-      openssh 
-      curl 
-      bash 
-      coreutils 
-      utillinux 
+      kubectl yq rsync openssh curl bash coreutils utillinux 
     ];
     
     environment = {
@@ -68,18 +55,17 @@ in
     serviceConfig = {
       Type = "oneshot";
       User = "jake";
-      
-      # FIX: Run inside the backup dir so the cluster script can create folders
       WorkingDirectory = "/home/jake/k8s/Backups";
       
-      # FIX: Treat Exit Code 23 (Partial transfer) as success at the systemd level
+      # This is the "Be less strict" fix
       SuccessExitStatus = "0 23";
 
       Nice = 19;
       CPUSchedulingPolicy = "idle";
       IOSchedulingClass = "idle";
-      
-      ExecStart = "${pkgs.writeShellScript "backup-and-sync" ''
+
+
+ExecStart = "${pkgs.writeShellScript "backup-and-sync" ''
         set -e
 
         echo "=== STARTING BACKUP SCRIPT ==="
@@ -95,8 +81,8 @@ in
 
         echo "=== SYNCING TO NAS ==="
         if mountpoint -q /mnt/nas_backups; then
-          # Added '|| true' so rsync warnings (code 23) don't stop the Gotify notification
-          # Updated nixos-config path based on logs
+          # Added '|| true' so the script doesn't exit on rsync code 23
+          # Also check if /home/jake/nix-config should be /home/jake/nixos-config
           ${pkgs.rsync}/bin/rsync -av --delete \
             --no-perms --no-owner --no-group \
             --exclude="vms/vol.qcow2" \
@@ -118,12 +104,12 @@ in
              -F "message=K8s manifests and Documents synced to NAS." \
              -F "priority=2"
       ''}";
+      
     }; 
   }; 
 
-  # 4. The Timer
   systemd.timers.nas_sync = {
-    description = "Trigger backup 5m after boot and then every 24h";
+    description = "Run nas_sync 5 min after boot and then every 24h";
     wantedBy = [ "timers.target" ];
     timerConfig = {
       OnBootSec = "5m";

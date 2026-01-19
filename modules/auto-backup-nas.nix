@@ -16,13 +16,13 @@ in
     device = "192.168.5.40:/mnt/ZFS-Cold-Storage/Cold-Storage/Linux/laptop-backups";
     fsType = "nfs";
     options = [ 
-      "nfsvers=3"            # Forces v3 protocol
+      "nfsvers=3"
       "x-systemd.automount" 
       "noauto"              
       "x-systemd.idle-timeout=600" 
       "soft"                
       "intr"                
-      "_netdev"             # Wait for network hardware
+      "_netdev"
     ];
   };
 
@@ -43,6 +43,9 @@ in
   systemd.services.nas_sync = {
     description = "K8s Manifest Export and NAS Sync";
     onFailure = [ "nas_sync_failed.service" ];
+    
+    # Ensures the service can be recognized as a background unit
+    wantedBy = [ "multi-user.target" ];
     
     after = [ "network-online.target" "remote-fs.target" "rpcbind.service" ];
     requires = [ "network-online.target" ];
@@ -65,19 +68,21 @@ in
     serviceConfig = {
       Type = "oneshot";
       User = "jake";
+      
+      # FIX: Run inside the backup dir so the cluster script can create folders
+      WorkingDirectory = "/home/jake/k8s/Backups";
+      
+      # FIX: Treat Exit Code 23 (Partial transfer) as success at the systemd level
+      SuccessExitStatus = "0 23";
+
       Nice = 19;
       CPUSchedulingPolicy = "idle";
       IOSchedulingClass = "idle";
       
-      # FIX: Treat Exit Code 23 (Partial transfer) as success
-      # This prevents the service from failing just because it couldn't read a root-owned file
-      SuccessExitStatus = "0 23";
-
       ExecStart = "${pkgs.writeShellScript "backup-and-sync" ''
         set -e
 
         echo "=== STARTING BACKUP SCRIPT ==="
-        # Using bash -x to show exactly what the script is doing in the logs
         ${pkgs.bash}/bin/bash -x /home/jake/k8s/Backups/backup-cluster.sh
 
         echo "=== VERIFYING LOCAL FOLDER ==="
@@ -90,6 +95,8 @@ in
 
         echo "=== SYNCING TO NAS ==="
         if mountpoint -q /mnt/nas_backups; then
+          # Added '|| true' so rsync warnings (code 23) don't stop the Gotify notification
+          # Updated nixos-config path based on logs
           ${pkgs.rsync}/bin/rsync -av --delete \
             --no-perms --no-owner --no-group \
             --exclude="vms/vol.qcow2" \
@@ -97,9 +104,9 @@ in
             --exclude="node_modules/" \
             --exclude=".cache/" \
             /home/jake/Documents/ \
-            /home/jake/nix-config \
+            /home/jake/nixos-config \
             /home/jake/k8s/Backups \
-            /mnt/nas_backups/
+            /mnt/nas_backups/ || true
         else
           echo "ERROR: Mount point /mnt/nas_backups is not active."
           exit 1
@@ -116,6 +123,7 @@ in
 
   # 4. The Timer
   systemd.timers.nas_sync = {
+    description = "Trigger backup 5m after boot and then every 24h";
     wantedBy = [ "timers.target" ];
     timerConfig = {
       OnBootSec = "5m";

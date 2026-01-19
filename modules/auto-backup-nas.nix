@@ -69,49 +69,42 @@ in
       CPUSchedulingPolicy = "idle";
       IOSchedulingClass = "idle";
       
-      ExecStart = pkgs.writeScript "backup-and-sync" ''
-        #!${pkgs.stdenv.shell}
-        set -e
-        
-        echo "=== STARTING BACKUP SCRIPT ==="
-        # Using bash -x to show exactly what the script is doing in the logs
-        # This will reveal if it fails to mkdir the new folder
-        ${pkgs.bash}/bin/bash -x /home/jake/k8s/Backups/backup-cluster.sh
-        
-        echo "=== VERIFYING LOCAL FOLDER ==="
-        # List the k8s backup folder to PROVE the new date folder exists
-        ls -lh /home/jake/k8s/Backups/
-        
-        echo "=== EXPORTING SECRETS ==="
-        mkdir -p /home/jake/k8s/Backups/secrets-emergency
-        kubectl get secrets --all-namespaces -o yaml > /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
-        chmod 600 /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
-        
-        echo "=== SYNCING TO NAS ==="
-        if mountpoint -q /mnt/nas_backups; then
-          # Removed the exclude for old backups so everything syncs
-          # Still excluding the VM file that caused "Permission denied"
-          ${pkgs.rsync}/bin/rsync -av --delete \
-            --no-perms --no-owner --no-group \
-            --exclude="vms/vol.qcow2" \
-            /home/jake/Documents/ \
-	    /home/jake/nix-config \
-            /home/jake/k8s/Backups \
-            /mnt/nas_backups/
-        else
-          echo "ERROR: Mount point /mnt/nas_backups is not active."
-          exit 1
-        fi
+      ExecStart = "${pkgs.writeShellScript "backup-and-sync" ''
+  set -e
+ 
+  echo "=== STARTING BACKUP SCRIPT ==="
+  # Using bash -x to show exactly what the script is doing in the logs
+  ${pkgs.bash}/bin/bash -x /home/jake/k8s/Backups/backup-cluster.sh
+ 
+  echo "=== VERIFYING LOCAL FOLDER ==="
+  ls -lh /home/jake/k8s/Backups/
+ 
+  echo "=== EXPORTING SECRETS ==="
+  mkdir -p /home/jake/k8s/Backups/secrets-emergency
+  ${pkgs.kubectl}/bin/kubectl get secrets --all-namespaces -o yaml > /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
+  chmod 600 /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
+ 
+  echo "=== SYNCING TO NAS ==="
+  if mountpoint -q /mnt/nas_backups; then
+    ${pkgs.rsync}/bin/rsync -av --delete \
+      --no-perms --no-owner --no-group \
+      --exclude="vms/vol.qcow2" \
+      /home/jake/Documents/ \
+      /home/jake/nix-config \
+      /home/jake/k8s/Backups \
+      /mnt/nas_backups/
+  else
+    echo "ERROR: Mount point /mnt/nas_backups is not active."
+    exit 1
+  fi
 
-        echo "Notifying Gotify..."
-        curl -X POST "${gotifyUrl}?token=${secrets.GOTIFY_TOKEN}" \
-             -F "title=✅ Backup Successful" \
-             -F "message=K8s manifests and Documents synced to NAS." \
-             -F "priority=2"
-      '';
-    };
-  };
-
+  echo "Notifying Gotify..."
+  ${pkgs.curl}/bin/curl -X POST "${gotifyUrl}?token=${secrets.GOTIFY_TOKEN}" \
+       -F "title=✅ Backup Successful" \
+       -F "message=K8s manifests and Documents synced to NAS." \
+       -F "priority=2"
+''}";
+      
   # 4. The Timer
   systemd.timers.nas_sync = {
     wantedBy = [ "timers.target" ];

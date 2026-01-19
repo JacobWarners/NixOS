@@ -16,13 +16,13 @@ in
     device = "192.168.5.40:/mnt/ZFS-Cold-Storage/Cold-Storage/Linux/laptop-backups";
     fsType = "nfs";
     options = [ 
-      "nfsvers=3"           # Forces v3 protocol
+      "nfsvers=3"           # Forces v3 protocol for compatibility
       "x-systemd.automount" 
       "noauto"              
       "x-systemd.idle-timeout=600" 
       "soft"                
       "intr"                
-      "_netdev"             # Tells systemd to wait for network hardware
+      "_netdev"             # Wait for network hardware
     ];
   };
 
@@ -47,7 +47,6 @@ in
     after = [ "network-online.target" "remote-fs.target" "rpcbind.service" ];
     requires = [ "network-online.target" ];
 
-    # Added bash and coreutils to provide 'sh', 'env', and 'mountpoint'
     path = with pkgs; [ 
       kubectl 
       yq 
@@ -75,20 +74,22 @@ in
         set -e
         
         echo "Exporting K8s Manifests..."
-        # Explicitly use bash to run the script to avoid shebang path issues
         ${pkgs.bash}/bin/bash /home/jake/k8s/Backups/backup-cluster.sh
         
         echo "Exporting emergency secrets..."
-        mkdir -p /home/jake/Backups/secrets-emergency
-        kubectl get secrets --all-namespaces -o yaml > /home/jake/Backups/secrets-emergency/all-secrets.yaml
-        chmod 600 /home/jake/Backups/secrets-emergency/all-secrets.yaml
+        # Unified path to ~/k8s/Backups to match your rsync source
+        mkdir -p /home/jake/k8s/Backups/secrets-emergency
+        kubectl get secrets --all-namespaces -o yaml > /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
+        chmod 600 /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
         
         echo "Syncing to NAS..."
-        # Automount will trigger when we check the mountpoint
         if mountpoint -q /mnt/nas_backups; then
+          # Added --no-perms --no-owner --no-group to fix rsync Code 23
+          # Updated source path to /home/jake/k8s/Backups/
           ${pkgs.rsync}/bin/rsync -av --delete \
+            --no-perms --no-owner --no-group \
             /home/jake/Documents/ \
-            /home/jake/Backups/ \
+            /home/jake/k8s/Backups/ \
             /mnt/nas_backups/
         else
           echo "Mount point /mnt/nas_backups is not active. Aborting."

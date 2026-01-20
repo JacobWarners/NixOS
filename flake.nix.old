@@ -15,9 +15,13 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    ratatat-listener = {
+      url = "path:./apps/ratatat-rust";
+      flake = true;
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, sops-nix, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, ultimate-hosts-blacklist, ratatat-listener, sops-nix, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -42,6 +46,7 @@
             home-manager.users.jake = {
               imports = [
                 ./home/home.nix
+                inputs.ratatat-listener.homeManagerModules.default
               ];
             };
             home-manager.backupFileExtension = "backup";
@@ -53,6 +58,7 @@
         extraSpecialArgs = { inherit inputs; };
         modules = [
           ./home/home.nix
+          inputs.ratatat-listener.homeManagerModules.default
         ];
       };
     };

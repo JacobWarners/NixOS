@@ -4,6 +4,9 @@ let
   projectRoot = "/home/jake/Documents/Code/Rust/ratatat-rust";
   binaryPath = "${projectRoot}/target/release/ratatat-rust";
 
+  # 1. We need the plugins so ALSA apps can talk to Pulse/Pipewire
+  alsaPlugins = pkgs.alsa-plugins;
+  
   libraryPath = lib.makeLibraryPath [
     pkgs.stdenv.cc.cc.lib
     pkgs.openssl
@@ -13,29 +16,27 @@ let
   ];
 in
 {
-  # CHANGE 1: Define inside 'systemd.user.services'
   systemd.user.services.ratatat-listener = {
     description = "Ratatat Listener Service (User Session)";
-    
-    # CHANGE 2: Start only after the graphical session (and audio) is ready
     wantedBy = [ "graphical-session.target" ];
     partOf = [ "graphical-session.target" ];
 
     environment = {
-      # We no longer need to manually hack DBUS/PULSE variables.
-      # The user session provides them automatically.
       LD_LIBRARY_PATH = "${libraryPath}";
+      
+      # 2. FORCE the application to use the Pulse backend for ALSA
+      ALSA_OUTPUT_DRIVER = "pulse";
+      
+      # 3. Tell it where the plugins are (Critical for NixOS)
+      ALSA_PLUGIN_DIRS = "${alsaPlugins}/lib/alsa-lib";
     };
 
     script = ''
-      # We still need the loader trick for the binary
       LOADER="${pkgs.glibc}/lib/ld-linux-x86-64.so.2"
       exec $LOADER "${binaryPath}"
     '';
 
     serviceConfig = {
-      # CHANGE 3: Remove 'User = jake'. 
-      # User services automatically run as the logged-in user.
       WorkingDirectory = projectRoot;
       Restart = "always";
       RestartSec = "5s";

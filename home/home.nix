@@ -151,7 +151,6 @@ in
     package = pkgs.rofi;
   };
 
-  services.ratatat-listener.enable = true;
   fonts.fontconfig.enable = true;
 
   xdg.configFile = {

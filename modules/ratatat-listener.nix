@@ -1,45 +1,61 @@
-{ config, pkgs, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 let
-  user = "jake";
-  projectDir = "/home/${user}/Documents/Code/Rust/ratatat-rust";
-  binaryPath = "${projectDir}/target/release/ratatat-rust";
+  # Define the configuration namespace
+  cfg = config.services.ratatat-listener;
 in
 {
-  # --- FIX STARTS HERE ---
-  # We must explicitly tell NixOS that this service option exists.
+  # 1. INTERFACE: Define the options users can set
   options.services.ratatat-listener = {
-    enable = lib.mkEnableOption "Ratatat Keyboard Listener";
-  };
-  # --- FIX ENDS HERE ---
+    enable = lib.mkEnableOption "ratatat-listener service";
 
-  config = lib.mkIf config.services.ratatat-listener.enable {
+    package = lib.mkOption {
+      type = lib.types.package;
+      # If 'ratatat-listener' isn't in standard nixpkgs, replace this default
+      # with your specific package derivation, e.g., pkgs.callPackage ./derivations/ratatat.nix {}
+      default = pkgs.ratatat-listener or pkgs.hello; 
+      description = "The package to use for the ratatat-listener service.";
+    };
+
+    port = lib.mkOption {
+      type = lib.types.port;
+      default = 8080;
+      description = "Port for the listener to bind to.";
+    };
     
-    # 1. Permission for 'jake' to read /dev/input
-    users.users.${user}.extraGroups = [ "input" ];
+    user = lib.mkOption {
+      type = lib.types.str;
+      default = "ratatat";
+      description = "User account under which the service runs.";
+    };
+  };
 
+  # 2. IMPLEMENTATION: The config that is generated if 'enable' is true
+  config = lib.mkIf cfg.enable {
+    
+    # Optional: Create a system user for the service if it doesn't exist
+    users.users.${cfg.user} = {
+      isSystemUser = true;
+      group = cfg.user;
+      description = "Ratatat Listener service user";
+    };
+    users.groups.${cfg.user} = {};
+
+    # Define the Systemd service
     systemd.services.ratatat-listener = {
-      description = "Ratatat Keyboard Listener";
+      description = "Ratatat Listener Service";
+      after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
-      
-      path = with pkgs; [ 
-        mpg123      
-        procps      
-        pulseaudio 
-      ];
 
       serviceConfig = {
-        ExecStart = binaryPath;
-        User = user;
-        WorkingDirectory = projectDir;
+        # Adjust the command if your binary is named differently
+        ExecStart = "${cfg.package}/bin/ratatat-listener --port ${toString cfg.port}";
+        
+        # Security hardening options (good practice)
+        User = cfg.user;
+        Group = cfg.user;
         Restart = "always";
         RestartSec = "5s";
-
-        # 2. Audio Environment Variables (So the service finds your speakers)
-        Environment = [
-          "XDG_RUNTIME_DIR=/run/user/1000"
-          "PULSE_SERVER=unix:/run/user/1000/pulse/native"
-        ];
       };
     };
   };

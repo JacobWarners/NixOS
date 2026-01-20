@@ -1,11 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  user = "jake";
-  # Ensure this points to the ROOT folder where 'Loud-pipes.mp3' is
   projectRoot = "/home/jake/Documents/Code/Rust/ratatat-rust";
-  
-  # Ensure this points to the compiled binary
   binaryPath = "${projectRoot}/target/release/ratatat-rust";
 
   libraryPath = lib.makeLibraryPath [
@@ -17,35 +13,30 @@ let
   ];
 in
 {
-  systemd.services.ratatat-listener = {
-    description = "Ratatat Listener Service";
-    after = [ "network.target" "sound.target" ];
-    wantedBy = [ "multi-user.target" ];
+  # CHANGE 1: Define inside 'systemd.user.services'
+  systemd.user.services.ratatat-listener = {
+    description = "Ratatat Listener Service (User Session)";
+    
+    # CHANGE 2: Start only after the graphical session (and audio) is ready
+    wantedBy = [ "graphical-session.target" ];
+    partOf = [ "graphical-session.target" ];
 
     environment = {
-      # 1. Runtime Directory
-      XDG_RUNTIME_DIR = "/run/user/1000";
-      
-      # 2. PulseAudio Socket
-      PULSE_SERVER = "unix:/run/user/1000/pulse/native";
-      
-      # 3. === THE MISSING LINK: DBus Bus ===
-      # This allows the app to negotiate audio permissions with the desktop
-      DBUS_SESSION_BUS_ADDRESS = "unix:path=/run/user/1000/bus";
-      
-      # 4. Libraries
+      # We no longer need to manually hack DBUS/PULSE variables.
+      # The user session provides them automatically.
       LD_LIBRARY_PATH = "${libraryPath}";
     };
 
     script = ''
+      # We still need the loader trick for the binary
       LOADER="${pkgs.glibc}/lib/ld-linux-x86-64.so.2"
       exec $LOADER "${binaryPath}"
     '';
 
     serviceConfig = {
-      User = user;
-      Group = "users";
-      WorkingDirectory = projectRoot; # Must be here to find the MP3
+      # CHANGE 3: Remove 'User = jake'. 
+      # User services automatically run as the logged-in user.
+      WorkingDirectory = projectRoot;
       Restart = "always";
       RestartSec = "5s";
     };

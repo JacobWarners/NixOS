@@ -24,7 +24,7 @@ in
     wantedBy = [ "multi-user.target" ];
 
     serviceConfig = {
-      ExecStart = "${pkg}/bin/ratatat-listener --port ${toString port}";
+      ExecStart = "/home/jake/Documents/Code/Rust/ratatat-rust/target/release/ratatat-listener --port ${toString port}";
       User = user;
       Group = user;
       Restart = "always";

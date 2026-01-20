@@ -2,9 +2,12 @@
 
 let
   user = "jake";
-  # Folder where binary AND sound files live
-  workDir = "/home/jake/Documents/Code/Rust/ratatat-rust/target/release";
-  binaryPath = "${workDir}/ratatat-rust";
+  
+  # 1. ROOT folder (where Cargo.toml and Loud-pipes.mp3 are)
+  projectRoot = "/home/jake/Documents/Code/Rust/ratatat-rust";
+  
+  # 2. BINARY path (where the executable lives)
+  binaryPath = "${projectRoot}/target/release/ratatat-rust";
 
   libraryPath = lib.makeLibraryPath [
     pkgs.stdenv.cc.cc.lib
@@ -35,8 +38,8 @@ in
       User = user;
       Group = "users";
       
-      # === THE FIX: Set the folder so it can find assets ===
-      WorkingDirectory = workDir;
+      # === THE FIX: Run from the project root so it finds Loud-pipes.mp3 ===
+      WorkingDirectory = projectRoot;
       
       Restart = "always";
       RestartSec = "5s";

@@ -10,34 +10,41 @@ let
     pkgs.openssl
     pkgs.alsa-lib
     pkgs.glibc
-    pkgs.pulseaudio # Added Pulse just in case the app uses it
+    pkgs.pulseaudio
   ];
 in
 {
   systemd.services.ratatat-listener = {
     description = "Ratatat Listener Service";
-    after = [ "network.target" "sound.target" ]; # Wait for sound system
+    after = [ "network.target" "sound.target" ];
     wantedBy = [ "multi-user.target" ];
 
+    # === 1. ENVIRONMENT VARIABLES (Correct Way) ===
+    # We define them here as a set, instead of inside serviceConfig
+    environment = {
+      # Point to your user's runtime directory (usually /run/user/1000 for the first user)
+      XDG_RUNTIME_DIR = "/run/user/1000";
+      # Helper for Pipewire/PulseAudio
+      PULSE_SERVER = "unix:/run/user/1000/pulse/native";
+      # Ensure the library path is set here too
+      LD_LIBRARY_PATH = "${libraryPath}";
+    };
+
+    # === 2. THE SCRIPT ===
     script = ''
-      export LD_LIBRARY_PATH=${libraryPath}:$LD_LIBRARY_PATH
+      # We still use the loader trick
       LOADER="${pkgs.glibc}/lib/ld-linux-x86-64.so.2"
+      
+      # Execute the binary
       exec $LOADER "${binaryPath}"
     '';
 
+    # === 3. SERVICE CONFIG ===
     serviceConfig = {
       User = user;
       Group = "users";
       Restart = "always";
       RestartSec = "5s";
-
-      # === THE FIX: Connect to your Audio System ===
-      # Background services don't know where Pipewire/Pulse lives by default.
-      # We point it to your user's runtime directory (UID 1000 is standard for the first user).
-      Environment = "XDG_RUNTIME_DIR=/run/user/1000";
-      
-      # If you use Pipewire/Pulse, this helps the app find the socket:
-      Environment = "PULSE_SERVER=unix:/run/user/1000/pulse/native";
     };
   };
 }

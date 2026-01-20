@@ -2,8 +2,16 @@
 
 let
   user = "jake";
-  # PASS AS A STRING
-  binaryPath = "/home/jake/Documents/Code/Rust/ratatat-rust/target/release/ratatat-listener";
+  # UPDATED: Correct filename 'ratatat-rust'
+  binaryPath = "/home/jake/Documents/Code/Rust/ratatat-rust/target/release/ratatat-rust";
+
+  # Standard libraries for Rust binaries on NixOS
+  libraryPath = lib.makeLibraryPath [
+    pkgs.stdenv.cc.cc.lib
+    pkgs.openssl
+    pkgs.alsa-lib
+    pkgs.glibc
+  ];
 in
 {
   systemd.services.ratatat-listener = {
@@ -11,14 +19,11 @@ in
     after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
 
-    # We use a script to ensure the binary is patched before running
-    # This keeps your source folder clean but makes it work on NixOS
     script = ''
-      # 1. Define where the dynamic loader is on YOUR system
+      export LD_LIBRARY_PATH=${libraryPath}:$LD_LIBRARY_PATH
       LOADER="${pkgs.glibc}/lib/ld-linux-x86-64.so.2"
       
-      # 2. Run the binary using the loader explicitly
-      # This forces the binary to use the NixOS loader, ignoring what it was built with.
+      # Execute the binary using the NixOS loader
       exec $LOADER "${binaryPath}"
     '';
 

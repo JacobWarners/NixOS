@@ -108,28 +108,36 @@ in
   matchBlocks = {
     "*.tmate.io" = {
       # Fix 1: Disable Multiplexing (fixes the socket crash)
+programs.ssh = {
+  enable = true;
+  matchBlocks = {
+    # Block 1: tmate.io fixes
+    "*.tmate.io" = {
+      # Fix 1: Disable Multiplexing (fixes the socket crash)
+      # Fix 2: Force "Dumb" Crypto (fixes "Invalid Command" & Hangs)
+      # Fix 3: Don't leak env vars (fixes protocol confusion)
       extraOptions = {
         ControlMaster = "no";
         ControlPath = "none";
-      "github.com-personal" = {
+        KexAlgorithms = "curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256";
+        HostKeyAlgorithms = "+ssh-rsa";
+        PubkeyAcceptedAlgorithms = "+ssh-rsa";
+        SendEnv = "-*";
+      };
+    };
+
+    # Block 2: Personal GitHub
+    "github.com-personal" = {
       hostname = "github.com";
       identitiesOnly = true;
       identityFile = "~/.ssh/id_ed25519"; # Path to your personal key
     };
+
+    # Block 3: Work GitHub
     "github.com-work" = {
       hostname = "github.com";
       identitiesOnly = true;
-      identityFile = "~/.ssh/id_work";      
-      };
-      
-        # Fix 2: Force "Dumb" Crypto (fixes "Invalid Command" & Hangs)
-        KexAlgorithms = "curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256";
-        HostKeyAlgorithms = "+ssh-rsa";
-        PubkeyAcceptedAlgorithms = "+ssh-rsa";
-        
-        # Fix 3: Don't leak env vars (fixes protocol confusion)
-        SendEnv = "-*";
-      };
+      identityFile = "~/.ssh/id_work"; # Path to your work key
     };
   };
 };

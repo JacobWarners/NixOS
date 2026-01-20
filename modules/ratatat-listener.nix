@@ -1,40 +1,25 @@
 { config, lib, pkgs, ... }:
 
 let
-  # 1. Let Nix build the package from your source code
-  # This fixes the "203/EXEC" error by linking it correctly for NixOS.
-  ratatatPkg = pkgs.rustPlatform.buildRustPackage {
-    pname = "ratatat-listener";
-    version = "0.1.0";
-
-    # Point this to your actual source code
-    # NOTE: If using Flakes, you may need to run 'git add' on this folder 
-    # or run rebuild with '--impure'.
-    src = /home/jake/Documents/Code/Rust/ratatat-rust;
-
-    # Nix needs the Cargo.lock to know exactly what dependencies to fetch
-    cargoLock = {
-      lockFile = /home/jake/Documents/Code/Rust/ratatat-rust/Cargo.lock;
-    };
-  };
+  user = "jake";
+  # PASS AS A STRING: Nix won't check if this exists during build
+  binaryPath = "/home/jake/Documents/Code/Rust/ratatat-rust/target/release/ratatat-listener";
 in
 {
-  # Run the service directly
   systemd.services.ratatat-listener = {
     description = "Ratatat Listener Service";
     after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
 
     serviceConfig = {
-      # Runs the binary built above. 
-      # I removed '--port 8080'. If your code NEEDS arguments, add them back here.
-      ExecStart = "${ratatatPkg}/bin/ratatat-listener";
+      # We still use the loader trick to run the non-Nix binary
+      ExecStart = "${pkgs.glibc}/lib/ld-linux-x86-64.so.2 ${binaryPath}";
       
-      # Run as your user so it has access to your files/environment
-      User = "jake";
+      # We need to give it the libraries it expects (libc, etc)
+      Environment = "LD_LIBRARY_PATH=${lib.makeLibraryPath [ pkgs.stdenv.cc.cc pkgs.glibc ]}";
+
+      User = user;
       Group = "users";
-      
-      # Restart if it crashes
       Restart = "always";
       RestartSec = "5s";
     };

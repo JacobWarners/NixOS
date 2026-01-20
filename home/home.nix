@@ -103,19 +103,11 @@ in
   };
 
 
-  programs.ssh = {
-  enable = true;
-  matchBlocks = {
-    "*.tmate.io" = {
-      # Fix 1: Disable Multiplexing (fixes the socket crash)
 programs.ssh = {
   enable = true;
   matchBlocks = {
     # Block 1: tmate.io fixes
     "*.tmate.io" = {
-      # Fix 1: Disable Multiplexing (fixes the socket crash)
-      # Fix 2: Force "Dumb" Crypto (fixes "Invalid Command" & Hangs)
-      # Fix 3: Don't leak env vars (fixes protocol confusion)
       extraOptions = {
         ControlMaster = "no";
         ControlPath = "none";

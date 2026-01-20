@@ -1,32 +1,40 @@
 { config, lib, pkgs, ... }:
 
 let
-  # You can still define variables here for convenience
-  user = "ratatat";
-  port = 8080;
-  # Replace with your actual package if needed, e.g. pkgs.callPackage ...
-  pkg = pkgs.ratatat-listener or pkgs.hello; 
+  # 1. Let Nix build the package from your source code
+  # This fixes the "203/EXEC" error by linking it correctly for NixOS.
+  ratatatPkg = pkgs.rustPlatform.buildRustPackage {
+    pname = "ratatat-listener";
+    version = "0.1.0";
+
+    # Point this to your actual source code
+    # NOTE: If using Flakes, you may need to run 'git add' on this folder 
+    # or run rebuild with '--impure'.
+    src = /home/jake/Documents/Code/Rust/ratatat-rust;
+
+    # Nix needs the Cargo.lock to know exactly what dependencies to fetch
+    cargoLock = {
+      lockFile = /home/jake/Documents/Code/Rust/ratatat-rust/Cargo.lock;
+    };
+  };
 in
 {
-  # --- User Configuration ---
-  users.users.${user} = {
-    isSystemUser = true;
-    group = user;
-    description = "Ratatat Listener service user";
-  };
-  users.groups.${user} = {};
-
-  # --- Service Configuration ---
-  # No "mkIf" or "options" needed. It just exists now.
+  # Run the service directly
   systemd.services.ratatat-listener = {
     description = "Ratatat Listener Service";
     after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
 
     serviceConfig = {
-      ExecStart = "/home/jake/Documents/Code/Rust/ratatat-rust/target/release/ratatat-listener --port ${toString port}";
-      User = user;
-      Group = user;
+      # Runs the binary built above. 
+      # I removed '--port 8080'. If your code NEEDS arguments, add them back here.
+      ExecStart = "${ratatatPkg}/bin/ratatat-listener";
+      
+      # Run as your user so it has access to your files/environment
+      User = "jake";
+      Group = "users";
+      
+      # Restart if it crashes
       Restart = "always";
       RestartSec = "5s";
     };

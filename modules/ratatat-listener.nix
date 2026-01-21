@@ -1,3 +1,5 @@
+{ pkgs, lib, ... }: 
+
 let
   projectRoot = "/home/jake/Documents/Code/Rust/ratatat-rust";
   binaryPath = "${projectRoot}/target/release/ratatat-rust";
@@ -14,7 +16,7 @@ let
   # 2. DEFINE ALSA PLUGINS
   alsaPluginDir = "${pkgs.alsa-plugins}/lib/alsa-lib";
 
-  # 3. THE DIAGNOSTIC RUNNER (UPDATED)
+  # 3. THE DIAGNOSTIC RUNNER
   debugRunner = pkgs.writeShellScript "ratatat-debug" ''
     echo "========== RATATAT DIAGNOSTICS =========="
     
@@ -31,7 +33,6 @@ let
     fi
 
     echo "2. CHECKING FILE:"
-    # Note: main.rs uses a hardcoded absolute path, but we check here for sanity
     if [ -f "Loud-pipes.mp3" ]; then
       echo "   [OK] Loud-pipes.mp3 found in CWD."
     else

@@ -2,33 +2,6 @@
 # The font definition has been moved to configuration.nix to solve the override issue.
 { config, pkgs, ... }:
 
-let
-  patchedLibreWolf = pkgs.librewolf.overrideAttrs (oldAttrs: {
-    postInstall = (oldAttrs.postInstall or "") + ''
-      # Point to the location of the browser files
-      cd $out/lib/librewolf/browser
-      
-      # Unpack the UI definitions
-      if [ -f omni.ja ]; then
-        mkdir -p /tmp/lw-patch
-        cp omni.ja /tmp/lw-patch/
-        pushd /tmp/lw-patch
-        
-        ${pkgs.unzip}/bin/unzip omni.ja chrome/browser/content/browser/browser.xhtml
-        
-        # The Patch: Change reserved="true" to reserved="false" for Ctrl+W
-        sed -i 's/id="key_close"\(.*\)reserved="true"/id="key_close"\1reserved="false"/' chrome/browser/content/browser/browser.xhtml
-        
-        # Repack
-        ${pkgs.zip}/bin/zip -0 omni.ja chrome/browser/content/browser/browser.xhtml
-        popd
-        cp /tmp/lw-patch/omni.ja omni.ja
-        rm -rf /tmp/lw-patch
-      fi
-    '';
-  });
-in
-
 {
   environment.systemPackages = with pkgs; [
     pciutils
@@ -55,8 +28,7 @@ in
     rpcbind
     obs-studio
     discord
-    patchedLibreWolf
-    #librewolf
+    librewolf
     chromium
     joplin-desktop
     wlogout

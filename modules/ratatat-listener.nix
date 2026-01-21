@@ -20,23 +20,30 @@ let
   debugRunner = pkgs.writeShellScript "ratatat-debug" ''
     echo "========== RATATAT DIAGNOSTICS =========="
     
-    # --- FIX: Add mpg123 to the PATH explicitly ---
-    export PATH="${pkgs.mpg123}/bin:$PATH"
-    # ----------------------------------------------
+    # --- FIX 1: Add mpg123 (player) AND procps (pkill) to PATH ---
+    export PATH="${pkgs.mpg123}/bin:${pkgs.procps}/bin:$PATH"
+    # -------------------------------------------------------------
 
-    echo "1. CHECKING AUDIO PLAYER:"
+    echo "1. CHECKING EXTERNAL TOOLS:"
     if command -v mpg123 >/dev/null 2>&1; then
-        echo "   [OK] mpg123 found at: $(command -v mpg123)"
+        echo "   [OK] mpg123 found."
     else
-        echo "   [ERROR] mpg123 NOT FOUND in PATH!"
-        echo "   Current PATH: $PATH"
+        echo "   [ERROR] mpg123 NOT FOUND!"
+    fi
+
+    if command -v pkill >/dev/null 2>&1; then
+        echo "   [OK] pkill found."
+    else
+        echo "   [ERROR] pkill NOT FOUND! (Kill switch will fail)"
     fi
 
     echo "2. CHECKING FILE:"
     if [ -f "Loud-pipes.mp3" ]; then
-      echo "   [OK] Loud-pipes.mp3 found in CWD."
+      echo "   [OK] Loud-pipes.mp3 found."
     else
-      echo "   [WARNING] Loud-pipes.mp3 not in CWD (Rust binary might use absolute path)."
+        # We don't exit here because the Rust binary might use an absolute path,
+        # but it's good to know for debugging.
+        echo "   [WARNING] Loud-pipes.mp3 not in CWD."
     fi
 
     # Set up the environment for the binary

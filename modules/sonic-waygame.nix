@@ -2,25 +2,23 @@
 
 {
   systemd.user.services.sonic-waygame = {
-    Unit = {
-      Description = "Sonic Waygame Health Daemon";
-      After = [ "graphical-session.target" ];
-    };
+    description = "Sonic Waygame Health Daemon";
+    
+    # "After" ensures it starts after the graphical session is ready
+    after = [ "graphical-session.target" ];
+    
+    # "wantedBy" replaces the [Install] section
+    wantedBy = [ "graphical-session.target" ];
 
-    Service = {
-      # Points to your manually compiled binary
+    # "serviceConfig" replaces the [Service] section
+    serviceConfig = {
       ExecStart = "/home/jake/Documents/Code/sonic-waygame/key_counter_daemon/target/release/key_counter_daemon --normal";
       
-      # IMPORTANT: We add libnotify (for notify-send) and hyprland (for hyprctl) to the PATH
-      # This ensures the Rust app can actually run those commands.
+      # Ensure libnotify (notify-send) and hyprland (hyprctl) are in the path
       Environment = "PATH=${pkgs.libnotify}/bin:${pkgs.hyprland}/bin:/run/current-system/sw/bin:/usr/bin";
       
       Restart = "always";
       RestartSec = "5";
-    };
-
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
     };
   };
 }

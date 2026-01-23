@@ -1,38 +1,25 @@
-{ config, pkgs, ... }:
-
-{
-  systemd.user.services.sonic-waygame = {
-
-    # A short description for the service
-    description = "A daemon that counts keystrokes and manages game states for Waybar.";
-
-    # This ensures the service starts when your user session starts.
-    wantedBy = [ "default.target" ];
-
-    # --- Updated options to wait for the audio system ---
-    # This tells systemd to start our service after the audio server is ready.
-    # If you use PulseAudio instead of PipeWire, change this to "pulseaudio.service".
-    after = [ "graphical-session.target" "pipewire.service" ];
-    wants = [ "pipewire.service" ];
-
-    # This defines the actual service behavior.
-    serviceConfig = {
-      # --- New: Add a short delay for extra stability ---
-      ExecStartPre = "${pkgs.coreutils}/bin/sleep 2";
-
-      # --- IMPORTANT ---
-      # Replace this with the full, absolute path to your compiled Rust binary.
-      ExecStart = "/home/jake/Documents/Code/sonic-waygame/key_counter_daemon/target/release/key_counter_daemon --normal";
-
-
-      # This makes systemd automatically restart the service if it ever stops.
-      Restart = "always";
-
-      # Wait 1 second before restarting.
-      RestartSec = "1s";
-      
-      # This will give us a full backtrace if the Rust program crashes.
-      Environment = "RUST_BACKTRACE=1";
-    };
+systemd.user.services.sonic-waygame = {
+  Unit = {
+    Description = "Sonic Waygame Health Daemon";
+    After = [ "graphical-session.target" ];
   };
-}
+
+  Service = {
+    # 1. Update the path to your compiled binary
+    ExecStart = "/home/jake/Documents/Code/sonic-waygame/key_counter_daemon/target/release/key_counter_daemon --normal";
+    
+    # 2. CRITICAL: Add libnotify and hyprland to the PATH so the Rust app can find them
+    # If you are using Home Manager, you can usually use:
+    # Environment = "PATH=${pkgs.libnotify}/bin:${pkgs.hyprland}/bin:/run/current-system/sw/bin:/usr/bin";
+    
+    # If you are editing a raw nix file and can't use 'pkgs', try explicitly setting the path:
+    Environment = "PATH=/run/current-system/sw/bin:/usr/bin";
+    
+    Restart = "always";
+    RestartSec = "5";
+  };
+
+  Install = {
+    WantedBy = [ "graphical-session.target" ];
+  };
+};

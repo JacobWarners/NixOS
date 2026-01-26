@@ -11,7 +11,7 @@ in
     wantedBy = [ "graphical-session.target" ];
     
     # FIX: 'nice' is in coreutils, not unixtools. 
-    path = [ pkgs.ffmpeg pkgs.coreutils ];
+    path = [ pkgs.ffmpeg pkgs.coreutils pkgs.vulkan-tools];
 
     serviceConfig = {
       # Make sure you ran 'cargo build --release' for this path to exist!

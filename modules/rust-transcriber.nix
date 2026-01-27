@@ -15,7 +15,7 @@ in
 
     serviceConfig = {
       # Make sure you ran 'cargo build --release' for this path to exist!
-      ExecStart = "/home/jake/Documents/Code/Rust/obs-transcriber/target/release/video-transcriber";
+      ExecStart = "/home/jake/Documents/Code/Rust/obs-transcriber/target/release/video-transcriber watch";
 
       # 2. Secret Injection
       Environment = "GEMINI_API_KEY=${secrets.GEMINI_API_KEY}";

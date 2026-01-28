@@ -1,7 +1,19 @@
 # This file is now simple. It just defines packages and other programs.
 # The font definition has been moved to configuration.nix to solve the override issue.
 { config, pkgs, ... }:
-
+let
+  # Define the wrapped version here
+  rustdesk-wayland = pkgs.symlinkJoin {
+    name = "rustdesk";
+    paths = [ pkgs.rustdesk-flutter ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/rustdesk \
+        --set XDG_SESSION_TYPE wayland \
+        --set QT_QPA_PLATFORM wayland
+    '';
+  };
+in
 {
   environment.systemPackages = with pkgs; [
     pciutils
@@ -85,6 +97,7 @@
     arduino-cli
     rustc
     rustup
+    rustdesk-wayland
     cargo
 ##### WORK ##########
     notion-app-enhanced

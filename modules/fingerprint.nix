@@ -2,6 +2,7 @@
 #
 # This module enables fingerprint reader support for Framework 13 laptop.
 # Enables fprintd for fingerprint authentication and configures PAM.
+# Also enables Snap support for Bitwarden (official biometric support method).
 
 { config, pkgs, lib, ... }:
 
@@ -10,7 +11,11 @@
   # This is the core service that manages fingerprint readers
   services.fprintd.enable = true;
 
-  # 2. Configure PAM to allow fingerprint authentication
+  # 2. Enable Snap support for Bitwarden
+  # Snap is the officially supported installation method for biometric unlock
+  services.snapd.enable = true;
+
+  # 3. Configure PAM to allow fingerprint authentication
   # This enables fingerprint auth for sudo, login, and other PAM-protected services
   security.pam.services = {
     # Enable fingerprint for sudo commands
@@ -28,7 +33,7 @@
     polkit-1.fprintAuth = true;
   };
 
-  # 3. Configure polkit to allow Bitwarden and other apps to use fingerprint
+  # 4. Configure polkit to allow Bitwarden and other apps to use fingerprint
   security.polkit.extraConfig = ''
     // Allow any application to verify fingerprints
     polkit.addRule(function(action, subject) {
@@ -46,19 +51,22 @@
     });
   '';
 
-  # 4. Add fingerprint management tools and Bitwarden
+  # 5. Add fingerprint management tools
+  # Note: Bitwarden is installed via Snap (not Nix) for proper biometric support
   environment.systemPackages = with pkgs; [
     # Fingerprint management GUI (optional but useful for enrolling fingerprints)
     fprintd
 
-    # Bitwarden desktop (for biometric unlock)
-    bitwarden-desktop
-
-    # Bitwarden CLI for fingerprint unlock integration
-    bitwarden-cli
+    # Snap package manager
+    snapd
   ];
 
-  # 5. Configure systemd service to ensure fprintd starts properly
+  # 6. Add snap bin directory to PATH
+  environment.variables = {
+    PATH = [ "/snap/bin" ];
+  };
+
+  # 7. Configure systemd service to ensure fprintd starts properly
   systemd.services.fprintd = {
     wantedBy = [ "multi-user.target" ];
   };

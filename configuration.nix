@@ -8,7 +8,6 @@
     #    ./modules/virtual-audio-sink.nix
     ./modules/polkit.nix
     ./modules/telegraf.nix
-    ./modules/fingerprint.nix
     #    ./modules/undock-service.nix
     #    ./modules/specialisation.nix
     #    ./modules/hotplugegpu.nix

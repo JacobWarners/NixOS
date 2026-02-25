@@ -11,11 +11,7 @@
   # This is the core service that manages fingerprint readers
   services.fprintd.enable = true;
 
-  # 2. Enable Snap support for Bitwarden
-  # Snap is the officially supported installation method for biometric unlock
-  services.snapd.enable = true;
-
-  # 3. Configure PAM to allow fingerprint authentication
+  # 2. Configure PAM to allow fingerprint authentication
   # This enables fingerprint auth for sudo, login, and other PAM-protected services
   security.pam.services = {
     # Enable fingerprint for sudo commands

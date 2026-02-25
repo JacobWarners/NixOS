@@ -35,6 +35,7 @@
           ./configuration.nix
           sops-nix.nixosModules.sops
           home-manager.nixosModules.home-manager
+          inputs.nix-snapd.nixosModules.default
 
           ({ pkgs, ... }: {
             home-manager.useGlobalPkgs = true;

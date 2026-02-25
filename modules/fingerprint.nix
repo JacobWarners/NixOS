@@ -52,9 +52,6 @@
   environment.systemPackages = with pkgs; [
     # Fingerprint management GUI (optional but useful for enrolling fingerprints)
     fprintd
-
-    # Snap package manager
-    snapd
   ];
 
   # 6. Add snap bin directory to PATH

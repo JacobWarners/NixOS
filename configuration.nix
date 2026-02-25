@@ -80,7 +80,6 @@
   ];
   ###################################
   system.stateVersion = "25.05";
-  services.snap.enable = true;
   services.avahi = {
     enable = true;
     nssmdns4 = true;

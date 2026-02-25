@@ -2,7 +2,6 @@
 #
 # This module enables fingerprint reader support for Framework 13 laptop.
 # Enables fprintd for fingerprint authentication and configures PAM.
-# Also enables Snap support for Bitwarden (official biometric support method).
 
 { config, pkgs, lib, ... }:
 
@@ -29,7 +28,7 @@
     polkit-1.fprintAuth = true;
   };
 
-  # 4. Configure polkit to allow Bitwarden and other apps to use fingerprint
+  # 3. Configure polkit to allow Bitwarden and other apps to use fingerprint
   security.polkit.extraConfig = ''
     // Allow any application to verify fingerprints
     polkit.addRule(function(action, subject) {
@@ -47,19 +46,14 @@
     });
   '';
 
-  # 5. Add fingerprint management tools
-  # Note: Bitwarden is installed via Snap (not Nix) for proper biometric support
+  # 4. Add fingerprint management tools
+  # Note: Bitwarden is installed via Flatpak for proper biometric support
   environment.systemPackages = with pkgs; [
     # Fingerprint management GUI (optional but useful for enrolling fingerprints)
     fprintd
   ];
 
-  # 6. Add snap bin directory to PATH
-  environment.variables = {
-    PATH = [ "/snap/bin" ];
-  };
-
-  # 7. Configure systemd service to ensure fprintd starts properly
+  # 5. Configure systemd service to ensure fprintd starts properly
   systemd.services.fprintd = {
     wantedBy = [ "multi-user.target" ];
   };

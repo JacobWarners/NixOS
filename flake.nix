@@ -2,7 +2,6 @@
   description = "NixOS Configuration with Flakes and Home Manager";
 
   inputs = {
-    nix-snapd.url = "github:nix-community/nix-snapd";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
@@ -35,7 +34,6 @@
           ./configuration.nix
           sops-nix.nixosModules.sops
           home-manager.nixosModules.home-manager
-          inputs.nix-snapd.nixosModules.default
 
           ({ pkgs, ... }: {
             home-manager.useGlobalPkgs = true;

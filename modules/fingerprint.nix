@@ -46,10 +46,16 @@
     });
   '';
 
-  # 4. Add fingerprint management tools
+  # 4. Add fingerprint management tools and Bitwarden
   environment.systemPackages = with pkgs; [
     # Fingerprint management GUI (optional but useful for enrolling fingerprints)
     fprintd
+
+    # Bitwarden desktop (for biometric unlock)
+    bitwarden-desktop
+
+    # Bitwarden CLI for fingerprint unlock integration
+    bitwarden-cli
   ];
 
   # 5. Configure systemd service to ensure fprintd starts properly

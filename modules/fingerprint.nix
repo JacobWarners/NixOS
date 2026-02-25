@@ -28,16 +28,37 @@
     polkit-1.fprintAuth = true;
   };
 
-  # 3. Add fingerprint management tools and Bitwarden CLI
+  # 3. Configure polkit to allow Bitwarden and other apps to use fingerprint
+  security.polkit.extraConfig = ''
+    // Allow any application to verify fingerprints
+    polkit.addRule(function(action, subject) {
+      if (action.id == "net.reactivated.fprint.device.verify") {
+        return polkit.Result.YES;
+      }
+    });
+
+    // Allow enrollment (useful for initial setup)
+    polkit.addRule(function(action, subject) {
+      if (action.id == "net.reactivated.fprint.device.enroll" &&
+          subject.isInGroup("wheel")) {
+        return polkit.Result.YES;
+      }
+    });
+  '';
+
+  # 4. Add fingerprint management tools and Bitwarden
   environment.systemPackages = with pkgs; [
     # Fingerprint management GUI (optional but useful for enrolling fingerprints)
     fprintd
+
+    # Bitwarden desktop (for biometric unlock)
+    bitwarden-desktop
 
     # Bitwarden CLI for fingerprint unlock integration
     bitwarden-cli
   ];
 
-  # 4. Optional: Configure systemd service to ensure fprintd starts properly
+  # 5. Configure systemd service to ensure fprintd starts properly
   systemd.services.fprintd = {
     wantedBy = [ "multi-user.target" ];
   };

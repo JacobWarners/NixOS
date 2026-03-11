@@ -134,10 +134,10 @@ programs.ssh = {
     "chaoslab" = {
       hostname = "130.61.224.88";
       user = "ubuntu";        # whatever your options are
-      identityFile ~/.ssh/id_ed25519_chaos_lab
+      identityFile = "~/.ssh/id_ed25519_chaos_lab" ;
 };
 };
-
+};
   xdg.configFile."nvim".source = ./nvim;
 
   home.file = {

@@ -130,13 +130,12 @@ programs.ssh = {
       hostname = "github.com";
       identitiesOnly = true;
       identityFile = "~/.ssh/id_work"; # Path to your work key
-    # Block 4: chaoslab
-    Host chaoslab
-    HostName 130.61.224.88
-    User ubuntu
-    IdentityFile ~/.ssh/id_ed25519_chaos_lab
-    };
   };
+    "chaoslab" = {
+      hostname = "130.61.224.88";
+      user = "ubuntu";        # whatever your options are
+      identityFile ~/.ssh/id_ed25519_chaos_lab
+};
 };
 
   xdg.configFile."nvim".source = ./nvim;

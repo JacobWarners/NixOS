@@ -129,7 +129,7 @@ programs.ssh = {
     "github.com-work" = {
       hostname = "github.com";
       identitiesOnly = true;
-      identityFile = "~/.ssh/id_work"; # Path to your work key
+      identityFile = "~/.ssh/id_ed25519_weka"; # Path to your work key
   };
     "chaoslab" = {
       hostname = "130.61.224.88";

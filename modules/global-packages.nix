@@ -15,10 +15,16 @@ let
   };
 
   # Force Zoom to XWayland — fixes broken key input under native Wayland
-  zoom-xcb = pkgs.writeShellScriptBin "zoom" ''
-    export QT_QPA_PLATFORM=xcb
-    exec ${pkgs.zoom-us}/bin/zoom "$@"
-  '';
+  zoom-xcb = pkgs.symlinkJoin {
+    name = "zoom-us";
+    paths = [ pkgs.zoom-us ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      rm $out/bin/zoom
+      makeWrapper ${pkgs.zoom-us}/bin/zoom $out/bin/zoom \
+        --set QT_QPA_PLATFORM xcb
+    '';
+  };
 in
 {
   environment.systemPackages = with pkgs; [

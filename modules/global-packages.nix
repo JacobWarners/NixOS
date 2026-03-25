@@ -13,12 +13,18 @@ let
         --set QT_QPA_PLATFORM wayland
     '';
   };
+
+  # Force Zoom to XWayland — fixes broken key input under native Wayland
+  zoom-xcb = pkgs.writeShellScriptBin "zoom" ''
+    export QT_QPA_PLATFORM=xcb
+    exec ${pkgs.zoom-us}/bin/zoom "$@"
+  '';
 in
 {
   environment.systemPackages = with pkgs; [
     pciutils
     vim
-    zoom-us
+    zoom-xcb
     yq
     sops
     tigervnc

@@ -14,7 +14,7 @@ let
     '';
   };
 
-  # Force Zoom to XWayland — fixes broken key input under native Wayland
+  # Fix Zoom keyboard (ibus hijacks XKB keymap) and force XWayland
   zoom-xcb = pkgs.symlinkJoin {
     name = "zoom-us";
     paths = [ pkgs.zoom-us ];
@@ -22,7 +22,11 @@ let
     postBuild = ''
       rm $out/bin/zoom
       makeWrapper ${pkgs.zoom-us}/bin/zoom $out/bin/zoom \
-        --set QT_QPA_PLATFORM xcb
+        --set QT_QPA_PLATFORM xcb \
+        --set QT_IM_MODULE "" \
+        --set GTK_IM_MODULE "" \
+        --set XMODIFIERS "" \
+        --set IBUS_ENABLE_SYNC_MODE 1
     '';
   };
 in

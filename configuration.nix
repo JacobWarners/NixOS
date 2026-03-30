@@ -65,6 +65,19 @@
   #Overlay
   #######################################
   nixpkgs.overlays = [
+    # Build xdg-desktop-portal-hyprland from git master for force_shm support
+    # (fixes Zoom second screen share black screen)
+    (self: super: {
+      xdg-desktop-portal-hyprland = super.xdg-desktop-portal-hyprland.overrideAttrs (old: {
+        version = "1.3.11-git";
+        src = super.fetchFromGitHub {
+          owner = "hyprwm";
+          repo = "xdg-desktop-portal-hyprland";
+          rev = "a9b862d1aa000a676d310cc62d249f7ad726233d";
+          hash = "sha256-2tJf/CQoHApoIudxHeJye+0Ii7scR0Yyi7pNiWk0Hn8=";
+        };
+      });
+    })
     (self: super: {
       notion-app-enhanced = super.notion-app-enhanced.overrideAttrs (oldAttrs: {
         # This 'postPatch' command runs after the source code is unpacked

@@ -24,6 +24,16 @@
       xdg-desktop-portal-hyprland
       xdg-desktop-portal-gtk
     ];
+    config = {
+      common = {
+        default = [ "hyprland" "gtk" ];
+      };
+      hyprland = {
+        default = [ "hyprland" "gtk" ];
+        "org.freedesktop.impl.portal.ScreenCast" = "hyprland";
+        "org.freedesktop.impl.portal.Screenshot" = "hyprland";
+      };
+    };
   };
     xdg.mime = {
     enable = true;

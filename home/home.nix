@@ -281,6 +281,10 @@ programs.ssh = {
       }
       input {
         kb_layout = us
+        kb_model = pc105
+        kb_rules = evdev
+        kb_options =
+        kb_variant =
         follow_mouse = 1
         sensitivity = 0
         touchpad {
@@ -372,6 +376,15 @@ windowrulev2 = float,class:^(zoom)$,title:^(z-.*)$
 # 4. Fix Fullscreen/Sharing "Focus Stealing"
 # Prevents Zoom from freezing when you switch workspaces during a share
 windowrulev2 = noinitialfocus,class:^(zoom)$,title:^(Zoom Meeting)$
+
+# 5. Disable animations for Zoom (XWayland recompositing causes lag)
+windowrulev2 = noanim, class:^(zoom)$
+
+# 6. Keep popups focused so they don't disappear/flicker
+windowrulev2 = stayfocused, class:^(zoom)$, floating:1
+
+# 7. Force opaque (no transparency effects causing XWayland redraws)
+windowrulev2 = opaque, class:^(zoom)$
 
 # This forces any window with "Spelling Bee" in the title to float and stay on top
 windowrulev2 = float, title:^(Spelling Bee)(.*)$

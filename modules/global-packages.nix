@@ -26,7 +26,10 @@ let
         --set QT_IM_MODULE "" \
         --set GTK_IM_MODULE "" \
         --set XMODIFIERS "" \
-        --set IBUS_ENABLE_SYNC_MODE 1
+        --set IBUS_ENABLE_SYNC_MODE 1 \
+        --set XKB_DEFAULT_LAYOUT us \
+        --set XKB_DEFAULT_RULES evdev \
+        --set XKB_DEFAULT_MODEL pc105
     '';
   };
 in

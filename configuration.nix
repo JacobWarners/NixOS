@@ -35,6 +35,7 @@
     ./modules/virtualization.nix
     ./modules/gaming.nix
     ./modules/docker.nix
+    ./modules/cato.nix
     # Add any other modules you have
   ];
 

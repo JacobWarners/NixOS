@@ -380,10 +380,7 @@ windowrulev2 = noinitialfocus,class:^(zoom)$,title:^(Zoom Meeting)$
 # 5. Disable animations for Zoom (XWayland recompositing causes lag)
 windowrulev2 = noanim, class:^(zoom)$
 
-# 6. Keep popups focused so they don't disappear/flicker
-windowrulev2 = stayfocused, class:^(zoom)$, floating:1
-
-# 7. Force opaque (no transparency effects causing XWayland redraws)
+# 6. Force opaque (no transparency effects causing XWayland redraws)
 windowrulev2 = opaque, class:^(zoom)$
 
 # This forces any window with "Spelling Bee" in the title to float and stay on top

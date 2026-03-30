@@ -360,22 +360,17 @@ programs.ssh = {
       windowrulev2 = float, class:^(zoom)$, x11_window_type:^(dialog)$
 
 
-# 1. Force Zoom main windows to float and center (fixes "can't find window")
-windowrulev2 = float,class:^(zoom)$,title:^(Zoom Workplace)$
-windowrulev2 = center,class:^(zoom)$,title:^(Zoom Workplace)$
+# 1. Float ALL zoom windows (prevents tiling issues across the board)
+windowrulev2 = float,class:^(zoom)$
 
-# 2. Fix the "Meeting" window constantly resizing or tiling
-windowrulev2 = float,class:^(zoom)$,title:^(Zoom Meeting)$
-windowrulev2 = minsize 400 300,class:^(zoom)$,title:^(Zoom Meeting)$
+# 2. Center the main Zoom Workplace window
+windowrulev2 = center,class:^(zoom)$,title:^(Zoom Workplace.*)$
 
-# 3. CRITICAL: Stop Hyprland from messing with popups/tooltips
-# This fixes the "Settings" menu being blank or crashing
-windowrulev2 = float,class:^(zoom)$,title:^(Settings)$
-windowrulev2 = float,class:^(zoom)$,title:^(z-.*)$ 
+# 3. Meeting window minimum size
+windowrulev2 = minsize 400 300,class:^(zoom)$,title:^(Meeting)$
 
-# 4. Fix Fullscreen/Sharing "Focus Stealing"
-# Prevents Zoom from freezing when you switch workspaces during a share
-windowrulev2 = noinitialfocus,class:^(zoom)$,title:^(Zoom Meeting)$
+# 4. Prevent meeting window from stealing focus on workspace switch
+windowrulev2 = noinitialfocus,class:^(zoom)$,title:^(Meeting)$
 
 # 5. Disable animations for Zoom (XWayland recompositing causes lag)
 windowrulev2 = noanim, class:^(zoom)$

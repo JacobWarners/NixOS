@@ -9,7 +9,7 @@ in
   boot.supportedFilesystems = [ "nfs" ];
 
   fileSystems."/mnt/nas_backups" = {
-    device = "192.168.5.40:/mnt/ZFS-Cold-Storage/Cold-Storage/Linux/laptop-backups";
+    device = "192.168.5.40:/mnt/ZFS-Cold-Storage/live-laptop-backups";
     fsType = "nfs";
     options = [ 
       "nfsvers=3"

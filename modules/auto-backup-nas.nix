@@ -11,13 +11,27 @@ in
   fileSystems."/mnt/nas_backups" = {
     device = "192.168.5.40:/mnt/ZFS-Cold-Storage/live-laptop-backups";
     fsType = "nfs";
-    options = [ 
+    options = [
       "nfsvers=3"
-      "x-systemd.automount" 
-      "noauto"              
-      "x-systemd.idle-timeout=600" 
-      "soft"                
-      "intr"                
+      "x-systemd.automount"
+      "noauto"
+      "x-systemd.idle-timeout=600"
+      "soft"
+      "intr"
+      "_netdev"
+    ];
+  };
+
+  fileSystems."/mnt/k8s_state" = {
+    device = "192.168.5.40:/mnt/ZFS-Cold-Storage/k8s-infra/cluster-state";
+    fsType = "nfs";
+    options = [
+      "nfsvers=3"
+      "x-systemd.automount"
+      "noauto"
+      "x-systemd.idle-timeout=600"
+      "soft"
+      "intr"
       "_netdev"
     ];
   };
@@ -41,8 +55,9 @@ in
     requires = [ "network-online.target" ];
 
     # Added 'diffutils' for the comparison logic
-    path = with pkgs; [ 
+    path = with pkgs; [
       kubectl yq rsync openssh curl bash coreutils util-linux diffutils
+      kubernetes-helm jq
     ];
     
     environment = {
@@ -100,7 +115,7 @@ in
         ${pkgs.kubectl}/bin/kubectl get secrets --all-namespaces -o yaml > /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
         chmod 600 /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
 
-        echo "=== SYNCING TO NAS ==="
+        echo "=== SYNCING LAPTOP FILES → nas_backups (live-laptop-backups) ==="
         if mountpoint -q /mnt/nas_backups; then
           ${pkgs.rsync}/bin/rsync -av --delete \
             --no-perms --no-owner --no-group \
@@ -108,12 +123,29 @@ in
             --exclude="target/" \
             --exclude="node_modules/" \
             --exclude=".cache/" \
+            --exclude="cluster-backup-*" \
+            --exclude="secrets-emergency" \
             /home/jake/Documents/ \
             /home/jake/nixos-config \
             /home/jake/k8s/Backups \
             /mnt/nas_backups/ || true
         else
           echo "ERROR: Mount point /mnt/nas_backups is not active."
+          exit 1
+        fi
+
+        echo "=== SYNCING CLUSTER STATE → k8s_state (k8s-infra/cluster-state) ==="
+        if mountpoint -q /mnt/k8s_state; then
+          ${pkgs.rsync}/bin/rsync -av --delete \
+            --no-perms --no-owner --no-group \
+            /home/jake/k8s/Backups/cluster-backup-*/ \
+            /mnt/k8s_state/latest/ || true
+          ${pkgs.rsync}/bin/rsync -av \
+            --no-perms --no-owner --no-group \
+            /home/jake/k8s/Backups/secrets-emergency/ \
+            /mnt/k8s_state/secrets-emergency/ || true
+        else
+          echo "ERROR: Mount point /mnt/k8s_state is not active."
           exit 1
         fi
 

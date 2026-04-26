@@ -57,7 +57,7 @@ in
     # Added 'diffutils' for the comparison logic
     path = with pkgs; [
       kubectl yq rsync openssh curl bash coreutils util-linux diffutils
-      kubernetes-helm jq
+      kubernetes-helm jq gawk
     ];
     
     environment = {

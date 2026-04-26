@@ -4,6 +4,31 @@ SPELLING_BEE_URL="https://www.nytimes.com/puzzles/spelling-bee"
 BUDDY_URL="https://www.nytimes.com/interactive/2023/upshot/spelling-bee-buddy.html"
 SOUND_FILE=~/.config/waybar/sounds/spellingbee.wav
 
+# Turn on TV and switch to HDMI 1 via Home Assistant (runs in background, non-blocking)
+(
+  HA_POD=$(kubectl get pod -n homelab -l app=homeassistant -o jsonpath='{.items[0].metadata.name}' 2>/dev/null)
+  HA_TOKEN=$(kubectl exec -n homelab "$HA_POD" -- python3 -c "
+import json, jwt, time
+with open('/config/.storage/auth') as f:
+    d = json.load(f)
+for t in d['data']['refresh_tokens']:
+    if t.get('client_name') == 'n8n' and t.get('token_type') == 'long_lived_access_token':
+        now = int(time.time())
+        print(jwt.encode({'iss': t['id'], 'iat': now, 'exp': now + 3600}, t['jwt_key'], algorithm='HS256'))
+        break
+" 2>/dev/null)
+  if [ -n "$HA_TOKEN" ]; then
+    HA_URL="http://192.168.5.120:30123"
+    curl -s -X POST -H "Authorization: Bearer $HA_TOKEN" -H "Content-Type: application/json" \
+      -d '{"entity_id": "media_player.65_crystal_uhd"}' \
+      "$HA_URL/api/services/media_player/turn_on" > /dev/null
+    sleep 3
+    curl -s -X POST -H "Authorization: Bearer $HA_TOKEN" -H "Content-Type: application/json" \
+      -d '{"entity_id": "media_player.65_crystal_uhd", "source": "HDMI1"}' \
+      "$HA_URL/api/services/media_player/select_source" > /dev/null
+  fi
+) &
+
 # Set master volume to 100%
 pactl set-sink-volume @DEFAULT_SINK@ 100%
 pactl set-sink-mute @DEFAULT_SINK@ 0

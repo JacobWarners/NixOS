@@ -9,10 +9,6 @@
     enable32Bit = true;
   };
 
-  # This is for GPU performance tuning. It is safe to keep.
-  hardware.amdgpu.overdrive.enable = true;
-  hardware.amdgpu.overdrive.ppfeaturemask = "0xffffffff";
-
   # Enable gamemode for better performance in games.
   programs.gamemode.enable = true;
 }

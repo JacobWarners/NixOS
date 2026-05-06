@@ -16,6 +16,20 @@ security.polkit.extraConfig = ''
          action.lookup("program") == "/run/current-system/sw/bin/nmcli")) {
       return polkit.Result.YES;
     }
+
+    // Rule: allow wheel users to start/stop the apartment WireGuard tunnel
+    // (wg-quick-apartment.service) without a password prompt. Used by the
+    // Waybar VPN toggle script.
+    if (action.id == "org.freedesktop.systemd1.manage-units" &&
+        subject.isInGroup("wheel")) {
+      var unit = action.lookup("unit");
+      if (unit == "wg-quick-apartment.service") {
+        var verb = action.lookup("verb");
+        if (verb == "start" || verb == "stop" || verb == "restart") {
+          return polkit.Result.YES;
+        }
+      }
+    }
   });
 
   '';

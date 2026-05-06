@@ -282,10 +282,21 @@ window#waybar {
     animation-iteration-count: infinite;
 }
 
-/* Use the module name (#custom-vpn) and the class from the script (.disconnected / .connected) */
-#custom-vpn.connected {
+/* #custom-vpn classes from vpn.sh: .disconnected | .mullvad | .apartment */
+#custom-vpn.mullvad {
     background-color: @color0;
     background-image: url("/home/jake/.config/waybar/pics/Mullvad-On.png");
+    border-radius: 8px;
+    border: 0px solid;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 40px;
+    min-width: 40px;
+}
+#custom-vpn.apartment {
+    background-color: @color0;
+    background-image: url("/home/jake/.config/waybar/pics/Apartment-On.png");
     border-radius: 8px;
     border: 0px solid;
     background-size: contain;

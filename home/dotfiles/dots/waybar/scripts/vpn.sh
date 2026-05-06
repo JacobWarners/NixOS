@@ -1,61 +1,111 @@
 #!/usr/bin/env bash
 
-# --- Configuration with FULL PATHS ---
+# Tri-state VPN toggle for Waybar.
+#   left-click  (cycle)     -> toggle Mullvad   (tears Apartment down first)
+#   right-click (apartment) -> toggle Apartment (disconnects Mullvad first)
+#   middle-click            -> handled in waybar config (vpn-gui.sh)
+#
+# States surfaced via JSON class:
+#   disconnected | mullvad | apartment
+
 MULLVAD_CMD="/run/current-system/sw/bin/mullvad"
 HEAD_CMD="/run/current-system/sw/bin/head"
 SED_CMD="/run/current-system/sw/bin/sed"
 NOTIFY_CMD="/run/current-system/sw/bin/notify-send"
+SYSTEMCTL_CMD="/run/current-system/sw/bin/systemctl"
 
+APARTMENT_UNIT="wg-quick-apartment.service"
 
-# --- Logic Functions ---
-
-# Function to check the current VPN status
-check_status() {
-    # Add '2> /dev/null' to suppress the harmless "Broken pipe" error
+mullvad_connected() {
     local first_line
-    first_line=$("$MULLVAD_CMD" status 2> /dev/null | "$HEAD_CMD" -n 1)
+    first_line=$("$MULLVAD_CMD" status 2>/dev/null | "$HEAD_CMD" -n 1)
+    [[ "$first_line" == "Connected" ]]
+}
 
-    if [[ "$first_line" == "Connected" ]]; then
-        echo "connected"
+apartment_active() {
+    "$SYSTEMCTL_CMD" is-active --quiet "$APARTMENT_UNIT"
+}
+
+current_state() {
+    if apartment_active; then
+        echo "apartment"
+    elif mullvad_connected; then
+        echo "mullvad"
     else
         echo "disconnected"
     fi
 }
 
-# Function to print the JSON output for Waybar
 print_json() {
-    local status
-    status=$(check_status)
+    local state tooltip
+    state=$(current_state)
+    case "$state" in
+        mullvad)
+            tooltip=$("$MULLVAD_CMD" status 2>/dev/null | "$SED_CMD" -z 's/\n/\\n/g')
+            printf '{"text": "", "class": "mullvad", "tooltip": "%s"}' "$tooltip"
+            ;;
+        apartment)
+            tooltip="Apartment WireGuard: connected\\nInterface: apartment"
+            printf '{"text": "", "class": "apartment", "tooltip": "%s"}' "$tooltip"
+            ;;
+        *)
+            printf '{"text": "", "class": "disconnected", "tooltip": "VPN: Disconnected"}'
+            ;;
+    esac
+}
 
-    if [[ "$status" == "connected" ]]; then
-        # Get the full status and escape newlines for the JSON tooltip
-        tooltip_text=$("$MULLVAD_CMD" status 2> /dev/null | "$SED_CMD" -z 's/\n/\\n/g')
-        printf '{"text": "", "class": "connected", "tooltip": "%s"}' "$tooltip_text"
-    else
-        printf '{"text": "", "class": "disconnected", "tooltip": "Mullvad: Disconnected"}'
+stop_apartment() {
+    if apartment_active; then
+        "$SYSTEMCTL_CMD" stop "$APARTMENT_UNIT" >/dev/null 2>&1
     fi
 }
 
+start_apartment() {
+    "$SYSTEMCTL_CMD" start "$APARTMENT_UNIT" >/dev/null 2>&1
+}
 
-# --- Main ---
+stop_mullvad() {
+    if mullvad_connected; then
+        "$MULLVAD_CMD" disconnect >/dev/null 2>&1
+    fi
+}
+
+start_mullvad() {
+    "$MULLVAD_CMD" connect >/dev/null 2>&1
+}
+
 case "$1" in
     cycle)
-        # This block handles the on-click action
-        if [[ "$(check_status)" == "connected" ]]; then
-            "$MULLVAD_CMD" disconnect
-            "$NOTIFY_CMD" -a "VPN Status" -u normal "Mullvad Disconnected"
+        # Mullvad toggle
+        if mullvad_connected; then
+            stop_mullvad
+            "$NOTIFY_CMD" -a "VPN" -u normal "Mullvad Disconnected"
         else
-            "$MULLVAD_CMD" connect
-            "$NOTIFY_CMD" -a "VPN Status" -u normal "Mullvad Connected"
+            stop_apartment
+            start_mullvad
+            "$NOTIFY_CMD" -a "VPN" -u normal "Mullvad Connected"
         fi
-
-        # IMPORTANT: Wait a second for the state to settle...
         sleep 1
-        # ...then print the new status to instantly update Waybar's icon
+        print_json
+        ;;
+    apartment)
+        # Apartment WG toggle
+        if apartment_active; then
+            stop_apartment
+            "$NOTIFY_CMD" -a "VPN" -u normal "Apartment WG Disconnected"
+        else
+            stop_mullvad
+            start_apartment
+            if apartment_active; then
+                "$NOTIFY_CMD" -a "VPN" -u normal "Apartment WG Connected"
+            else
+                "$NOTIFY_CMD" -a "VPN" -u critical "Apartment WG failed to start (check logs)"
+            fi
+        fi
+        sleep 1
         print_json
         ;;
     *)
-        # This block handles the default 'exec' based on the interval
         print_json
         ;;
 esac

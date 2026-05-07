@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-# Updates the Cato client version in modules/cato.nix to the latest from Cato's CDN.
-# Usage: ./scripts/update-cato.sh
+# Updates the Cato client version in modules/cato.nix.
+# Usage:
+#   ./scripts/update-cato.sh                    # auto-detect latest from public CDN
+#   ./scripts/update-cato.sh 5.7.0.5525         # pin specific version (account-pushed
+#                                                 builds appear before public CDN)
 
 set -euo pipefail
 
@@ -11,24 +14,39 @@ if [[ ! -f "$CATO_NIX" ]]; then
   exit 1
 fi
 
-echo "Checking latest Cato client version..."
+if [[ $# -ge 1 ]]; then
+  NEW_VERSION="$1"
+  if ! [[ "$NEW_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo "Error: version must look like 5.7.0.5525, got: $NEW_VERSION" >&2
+    exit 1
+  fi
+  echo "Using explicit version: $NEW_VERSION"
 
-# Cato's download page redirects to the latest versioned URL
-REDIRECT_URL=$(curl -sI "https://clientdownload.catonetworks.com/public/clients/cato-client-install.deb" \
-  | grep -i '^location:' \
-  | tr -d '\r' \
-  | awk '{print $2}')
+  # Verify the deb exists on CDN before doing anything else
+  if ! curl -sfI "https://clients.catonetworks.com/linux/${NEW_VERSION}/cato-client-install.deb" >/dev/null; then
+    echo "Error: deb not found at https://clients.catonetworks.com/linux/${NEW_VERSION}/cato-client-install.deb" >&2
+    exit 1
+  fi
+else
+  echo "Checking latest Cato client version..."
 
-if [[ -z "$REDIRECT_URL" ]]; then
-  echo "Error: Could not determine latest version from Cato CDN" >&2
-  exit 1
-fi
+  # Cato's download page redirects to the latest versioned URL
+  REDIRECT_URL=$(curl -sI "https://clientdownload.catonetworks.com/public/clients/cato-client-install.deb" \
+    | grep -i '^location:' \
+    | tr -d '\r' \
+    | awk '{print $2}')
 
-NEW_VERSION=$(echo "$REDIRECT_URL" | grep -oP '/(\d+\.\d+\.\d+\.\d+)/' | tr -d '/')
+  if [[ -z "$REDIRECT_URL" ]]; then
+    echo "Error: Could not determine latest version from Cato CDN" >&2
+    exit 1
+  fi
 
-if [[ -z "$NEW_VERSION" ]]; then
-  echo "Error: Could not parse version from redirect URL: $REDIRECT_URL" >&2
-  exit 1
+  NEW_VERSION=$(echo "$REDIRECT_URL" | grep -oP '/(\d+\.\d+\.\d+\.\d+)/' | tr -d '/')
+
+  if [[ -z "$NEW_VERSION" ]]; then
+    echo "Error: Could not parse version from redirect URL: $REDIRECT_URL" >&2
+    exit 1
+  fi
 fi
 
 CURRENT_VERSION=$(grep -oP 'version = "\K[^"]+' "$CATO_NIX")
@@ -42,7 +60,7 @@ echo "Updating: $CURRENT_VERSION -> $NEW_VERSION"
 
 # Prefetch the new deb and get the SRI hash
 NEW_HASH=$(nix-prefetch-url "https://clients.catonetworks.com/linux/${NEW_VERSION}/cato-client-install.deb" 2>/dev/null \
-  | xargs nix hash convert --to sri --type sha256 --hash-algo sha256)
+  | xargs nix hash convert --to sri --hash-algo sha256)
 
 if [[ -z "$NEW_HASH" ]]; then
   echo "Error: Failed to prefetch new version" >&2

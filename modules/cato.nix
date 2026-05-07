@@ -3,10 +3,10 @@
 let
   # Override cato-client to the latest version (Cato enforces latest)
   cato-client-latest = pkgs.cato-client.overrideAttrs (old: rec {
-    version = "5.6.0.4138";
+    version = "5.7.0.5525";
     src = pkgs.fetchurl {
       url = "https://clients.catonetworks.com/linux/${version}/cato-client-install.deb";
-      sha256 = "sha256-NMhLlyQckFEvCJ1sPZ9sTa5MhT1EahnNU2Hkr+jonNg=";
+      sha256 = "sha256-UDIDddVk7UXiOoZGTz1757x66DmOSOGqMielSQ5W5z0=";
     };
   });
 in

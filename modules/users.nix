@@ -28,7 +28,8 @@ security.sudo.extraConfig = ''
   # Give user 'jake' passwordless sudo access to all commands.
   # WARNING: For testing purposes only.
   jake ALL=(ALL) NOPASSWD: /run/current-system/sw/bin/cpupower
-  jake ALL=(ALL) NOPASSWD: /home/jake/.config/hypr/scripts/undock-helper.sh
+  jake ALL=(ALL) NOPASSWD: /home/jake/.config/scripts/undock-helper.sh
+  jake ALL=(ALL) NOPASSWD: /home/jake/.config/scripts/redock-helper.sh
   Defaults editor = ${pkgs.neovim}/bin/nvim
 '';
 

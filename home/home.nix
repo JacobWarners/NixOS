@@ -157,6 +157,10 @@ programs.ssh = {
       source = ./scripts/undock-helper.sh;
       executable = true;
     };
+    ".config/scripts/redock-helper.sh" = {
+      source = ./scripts/redock-helper.sh;
+      executable = true;
+    };
   };
 
   programs.rofi = {

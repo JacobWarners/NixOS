@@ -12,7 +12,7 @@ let
 in
 {
   services.cato-client = {
-    enable = true;
+    enable = false;
     package = cato-client-latest;
   };
 

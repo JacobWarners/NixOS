@@ -86,6 +86,7 @@
     nssmdns4 = true;
     openFirewall = true;
   };
+  services.gvfs.enable = true;
 
   programs.hyprland.enable = true;
   # In /etc/nixos/configuration.nix

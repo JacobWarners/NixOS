@@ -22,6 +22,20 @@ in
     ];
   };
 
+  fileSystems."/mnt/nas_media" = {
+    device = "192.168.5.40:/mnt/Media/Media";
+    fsType = "nfs";
+    options = [
+      "nfsvers=3"
+      "x-systemd.automount"
+      "noauto"
+      "x-systemd.idle-timeout=600"
+      "soft"
+      "intr"
+      "_netdev"
+    ];
+  };
+
   fileSystems."/mnt/k8s_state" = {
     device = "192.168.5.40:/mnt/ZFS-Cold-Storage/k8s-infra/cluster-state";
     fsType = "nfs";

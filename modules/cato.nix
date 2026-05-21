@@ -12,9 +12,12 @@ let
 in
 {
   services.cato-client = {
-    enable = false;
+    enable = true;
     package = cato-client-latest;
   };
+
+  # Don't autostart on boot — run `systemctl start cato-client` manually
+  systemd.services.cato-client.wantedBy = lib.mkForce [];
 
   # Cato needs /opt/cato/config to exist and be writable
   systemd.tmpfiles.rules = [

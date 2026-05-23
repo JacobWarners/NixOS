@@ -20,14 +20,17 @@ echo "Running wallust with '$PALETTE' palette..."
 WALLUST_OUTPUT=$(wallust run --palette "$PALETTE" "$WALLPAPER_IMAGE" 2>&1)
 echo "$WALLUST_OUTPUT"
 
-JSON_PATH=$(echo "$WALLUST_OUTPUT" | sed 's/\x1b\[[0-9;]*m//g' | grep 'Using cache' | awk '{print $5}')
+# wallust 3.4 layout: ~/.cache/wallust/<imghash>_1.7/FastResize_Lch_auto_<Palette>
+case "$PALETTE" in
+    dark)      PAL_CAP="Dark" ;;
+    light)     PAL_CAP="Light" ;;
+    softlight) PAL_CAP="SoftLight" ;;
+    *)         PAL_CAP="${PALETTE^}" ;;
+esac
+
+JSON_PATH=$(ls -t "$CACHE_DIR"/*_1.7/FastResize_*_"$PAL_CAP" 2>/dev/null | head -n 1)
 if [ -z "$JSON_PATH" ]; then
-  echo "Existing wallpaper not found in cache log, finding newest file..."
-  sleep 0.1
-  JSON_PATH=$(ls -t "$CACHE_DIR"/*.json | head -n 1)
-fi
-if [ -z "$JSON_PATH" ]; then
-  echo "Error: Could not determine JSON palette file path."
+  echo "Error: no wallust 3.4 cache file found for palette '$PAL_CAP'."
   exit 1
 fi
 echo "Using JSON file: $JSON_PATH"

@@ -82,7 +82,7 @@ setopt inc_append_history
 
 # Alias for ls with color support
 alias ls='ls --color=auto'
-alias cat='bat --style=plain --color=always'
+# alias cat='bat --style=plain --color=always'
 alias grep='rga'
 #alias x='xclip -selection clipboard'
 alias x='wl-copy'

@@ -249,6 +249,8 @@ programs.ssh = {
         resize_on_border = false
         allow_tearing = false
         layout = dwindle
+      }
+      render {
         vrr = 2
       }
       decoration {

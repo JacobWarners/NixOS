@@ -250,9 +250,7 @@ programs.ssh = {
         allow_tearing = false
         layout = dwindle
       }
-      render {
-        vrr = 2
-      }
+
       decoration {
         rounding = 10
         active_opacity = 1.0
@@ -284,7 +282,8 @@ programs.ssh = {
       misc {
         force_default_wallpaper = 0
         disable_hyprland_logo = false
-        disable_splash_rendering = true;
+        disable_splash_rendering = true
+        vrr = 2
       }
       input {
         kb_layout = us

@@ -54,6 +54,41 @@ let
     pactl load-module module-loopback source=error_sounds.monitor
   '';
 
+  # --- eGPU dock/undock toggle (raw bash, no python, baked paths) ---
+  # Toggles via a state file in /tmp. We do NOT touch PCI devices (that killed
+  # the session before); we just dpms the external outputs off/on. The internal
+  # laptop panel is always eDP-*; everything else is treated as an eGPU output.
+  egpuDockScript = pkgs.writeShellScriptBin "egpu-dock" ''
+    #!${pkgs.runtimeShell}
+    HYPRCTL="${pkgs.hyprland}/bin/hyprctl"
+    NOTIFY="${pkgs.libnotify}/bin/notify-send"
+    GREP="${pkgs.gnugrep}/bin/grep"
+    AWK="${pkgs.gawk}/bin/awk"
+    CACHE="/tmp/egpu-undocked"
+
+    if [ -f "$CACHE" ]; then
+      # --- REDOCK: power saved outputs back on, reload to re-apply desc: rules ---
+      while read -r out; do
+        [ -n "$out" ] && "$HYPRCTL" dispatch dpms on "$out" >/dev/null 2>&1 || true
+      done < "$CACHE"
+      rm -f "$CACHE"
+      "$HYPRCTL" reload >/dev/null 2>&1 || true
+      "$NOTIFY" "eGPU Redock" "External outputs restored." -u normal -t 6000
+    else
+      # --- UNDOCK: dpms off every output except the internal eDP panel ---
+      OUTPUTS=$("$HYPRCTL" monitors | "$GREP" '^Monitor' | "$AWK" '{print $2}' | "$GREP" -v '^eDP')
+      if [ -z "$OUTPUTS" ]; then
+        "$NOTIFY" "eGPU Undock" "No external outputs found." -u normal
+        exit 0
+      fi
+      printf '%s\n' "$OUTPUTS" > "$CACHE"
+      for out in $OUTPUTS; do
+        "$HYPRCTL" dispatch dpms off "$out" >/dev/null 2>&1 || true
+      done
+      "$NOTIFY" "eGPU Undock" "Outputs off — safe to unplug. Press Super+U again to restore." -u critical -t 15000
+    fi
+  '';
+
 in
 {
   home.username = "jake";
@@ -89,7 +124,7 @@ in
     zsh yazi polkit_gnome pulseaudio direnv nix-direnv nwg-displays imagemagick slurp wlogout
     swaylock-effects wl-clipboard cliphist wallust xclip grim libnotify sway-contrib.grimshot
     eww waybar nerd-fonts.jetbrains-mono pipewire wireplumber sonic-font jq playerctl
-    brightnessctl pamixer toggleFkeysScript
+    brightnessctl pamixer toggleFkeysScript egpuDockScript
 
   ];
 
@@ -324,7 +359,7 @@ programs.ssh = {
       bind = $mainMod, l, movefocus, r
       bind = $mainMod, j, movefocus, d
       bind = $mainMod, k, movefocus, u
-      bind = SUPER, U, exec, ${config.home.homeDirectory}/.config/scripts/undock.sh
+      bind = SUPER, U, exec, egpu-dock
       source = ~/.config/hypr/fkeys.conf
       bind = SUPER, F12, exec, toggle-fkeys
       bind = $mainMod, 1, movetoworkspace, 1

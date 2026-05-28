@@ -1,39 +1,33 @@
 #!/bin/sh
-# Toggle eGPU dock state. Detects whether the Navi 23 is on the bus and
-# branches to undock (kernel detach) or redock (PCI rescan).
+# Toggle eGPU display state without touching the kernel PCI devices.
+# Undock: disables eGPU outputs in Hyprland so the cable can be safely yanked.
+# Redock: reloads config so desc: monitor rules re-apply (auto-detect usually handles this already).
 set -e
 
 GPU_ADDR="0000:64:00.0"
-UNDOCK_HELPER="$HOME/.config/scripts/undock-helper.sh"
-REDOCK_HELPER="$HOME/.config/scripts/redock-helper.sh"
-EGPU_OUTPUTS="DP-9 DP-10 DP-11 HDMI-A-1"
 
 if [ -d "/sys/bus/pci/devices/$GPU_ADDR" ]; then
-    # --- UNDOCK ---
-    notify-send "eGPU Undock" "Preparing to undock..." -u normal
+    # --- UNDOCK: tell Hyprland to drop eGPU outputs, then user physically unplugs ---
+    notify-send "eGPU Undock" "Disabling external outputs..." -u normal
+
+    # Dynamically find all monitors except the laptop panel (BOE = internal eDP)
+    EGPU_OUTPUTS=$(hyprctl -j monitors 2>/dev/null | python3 -c \
+        "import json,sys; [print(m['name']) for m in json.load(sys.stdin) if 'BOE' not in m.get('description','')]")
+
+    if [ -z "$EGPU_OUTPUTS" ]; then
+        notify-send "eGPU Undock" "No external outputs found." -u normal
+        exit 0
+    fi
 
     for out in $EGPU_OUTPUTS; do
-        hyprctl keyword monitor "$out,disable" >/dev/null || true
+        hyprctl keyword monitor "$out,disable" >/dev/null 2>&1 || true
     done
-    sleep 1
 
-    if sudo "$UNDOCK_HELPER"; then
-        notify-send "eGPU Undock" "SUCCESS: Safe to unplug Thunderbolt." -u critical -t 10000
-    else
-        notify-send "eGPU Undock" "ERROR: Privileged undock failed. Check sudo config." -u critical
-        exit 1
-    fi
+    notify-send "eGPU Undock" "Safe to unplug. Press Super+U again after re-plugging to restore monitors." -u critical -t 15000
+
 else
-    # --- REDOCK ---
-    notify-send "eGPU Redock" "Rescanning PCI bus..." -u normal
-
-    if sudo "$REDOCK_HELPER"; then
-        sleep 2
-        # Drop runtime monitor disables; let main config + EDIDs take over.
-        hyprctl reload >/dev/null || true
-        notify-send "eGPU Redock" "SUCCESS: External displays restored." -u normal -t 8000
-    else
-        notify-send "eGPU Redock" "ERROR: PCI rescan failed; check cable + dock." -u critical
-        exit 1
-    fi
+    # --- REDOCK: GPU already re-enumerated (Hyprland auto-detects on hotplug).
+    # Reload config to ensure desc: monitor rules are applied. ---
+    hyprctl reload >/dev/null 2>&1 || true
+    notify-send "eGPU Redock" "Config reloaded. External displays should be active." -u normal -t 8000
 fi

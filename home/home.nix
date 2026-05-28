@@ -210,11 +210,11 @@ programs.ssh = {
     package = pkgs.hyprland;
     extraConfig = ''
       # Your full, working, multi-line Hyprland config
-      monitor=desc:Acer Technologies XV271U M3 1322131231233, 2560x1440@179.877, 0x0, 1.00, bitdepth, 10
+      monitor=desc:Acer Technologies XV271U M3 1322131231233, 2560x1440@179.877, 0x0, 1.00
       workspace = "2, monitor:desc:Acer Technologies XV271U M3 1322131231233";
-      monitor=desc:BOE 0x095F, 2256x1504@59.999, -2256x164, 1.00, bitdepth, 10
+      monitor=desc:BOE 0x095F, 2256x1504@59.999, -2256x164, 1.00
       workspace = "1, monitor:desc:BOE 0x095F";
-      monitor=desc:Stargate Technology M156F01 demoset-1, 1920x1080@60.000, 2560x0, 1.00, bitdepth, 10
+      monitor=desc:Stargate Technology M156F01 demoset-1, 1920x1080@60.000, 2560x0, 1.00
       workspace = "3, monitor:desc:Stargate Technology M156F01 demoset-1";
       
       $terminal = kitty
@@ -249,6 +249,7 @@ programs.ssh = {
         resize_on_border = false
         allow_tearing = false
         layout = dwindle
+        vrr = 2
       }
       decoration {
         rounding = 10

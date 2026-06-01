@@ -40,7 +40,11 @@ palette = "dark"
 
 [templates]
 # NOTE: prefer '' over "" for paths, avoids escaping.
-# template: A RELATIVE path that points to `~/.config/wallust/template` (depends on platform)
+# template: A RELATIVE path that points to `~/.config/wallust/templates`
 # target: ABSOLUTE path in which to place a file with generated templated values.
-# ¡ If either one is a directory, then both SHOULD be one. !
-# zathura = { template = 'zathura', target = '~/.config/zathura/zathurarc' }
+# wallust writes these directly on every `wallust run`, so update-theme.sh no
+# longer scrapes the cache JSON (that broke once every wallpaper was cached).
+colors_css = { template = 'colors.css.tpl',        target = '~/.cache/wallust/colors.css' }
+kitty      = { template = 'colors-kitty.conf.tpl', target = '~/.cache/wallust/colors-kitty.conf' }
+gtk        = { template = 'gtk.css.tpl',           target = '~/.cache/wallust/gtk.css' }
+firefox    = { template = 'userChrome.css.tpl',    target = '~/.cache/wallust/userChrome.css' }

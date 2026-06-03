@@ -5,6 +5,9 @@
 foreground {{foreground}}
 background {{background}}
 cursor {{cursor}}
+# Selection: invert so highlighted text always contrasts
+selection_foreground {{background}}
+selection_background {{foreground}}
 # Colors
 color0 {{color0}}
 color1 {{color1}}

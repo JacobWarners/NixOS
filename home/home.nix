@@ -75,7 +75,10 @@ let
       "$HYPRCTL" reload >/dev/null 2>&1 || true
       "$NOTIFY" "eGPU Redock" "External outputs restored." -u normal -t 6000
     else
-      # --- UNDOCK: dpms off every output except the internal eDP panel ---
+      # --- UNDOCK: disable every output except the internal eDP panel ---
+      # `monitor <name>,disable` removes it from Hyprland's layout, so its
+      # workspaces auto-migrate to the remaining monitor (eDP). `dpms off`
+      # only blanks the signal and leaves workspaces stranded on the dark output.
       OUTPUTS=$("$HYPRCTL" monitors | "$GREP" '^Monitor' | "$AWK" '{print $2}' | "$GREP" -v '^eDP')
       if [ -z "$OUTPUTS" ]; then
         "$NOTIFY" "eGPU Undock" "No external outputs found." -u normal
@@ -83,7 +86,7 @@ let
       fi
       printf '%s\n' "$OUTPUTS" > "$CACHE"
       for out in $OUTPUTS; do
-        "$HYPRCTL" dispatch dpms off "$out" >/dev/null 2>&1 || true
+        "$HYPRCTL" keyword monitor "$out,disable" >/dev/null 2>&1 || true
       done
       "$NOTIFY" "eGPU Undock" "Outputs off — safe to unplug. Press Super+U again to restore." -u critical -t 15000
     fi

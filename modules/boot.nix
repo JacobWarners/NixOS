@@ -19,6 +19,8 @@
         "udev.log_priority=3"
         "rd.systemd.show_status=auto"
         "pci=realloc"
+        "pci=hpmemprefsize=8G"
+        "pci=hpmemsize=8G"
     ];
 
     # plymouth, showing after LUKS unlock

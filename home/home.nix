@@ -94,6 +94,8 @@ let
 
 in
 {
+  imports = [ ./sweethome3d.nix ];
+
   home.username = "jake";
   home.stateVersion = "25.05";
 

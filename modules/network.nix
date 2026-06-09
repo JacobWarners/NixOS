@@ -5,6 +5,21 @@
     hostName = "nixos"; # Replace "nixos" with your desired hostname
     networkmanager.enable = true;
 #    networkmanager.dns = "none";
+    # Dock-aware WiFi kill: when the wired dock NIC comes up, turn the WiFi
+    # radio OFF so its 192.168.10.x IP stops being a WebRTC/ICE candidate.
+    # Dual-homed (.5 wired + .10 WiFi) breaks PairDrop P2P — ICE replies
+    # leave the wrong NIC. Undock (wired down) -> WiFi back on.
+    networkmanager.dispatcherScripts = [{
+      source = pkgs.writeShellScript "wifi-off-when-docked" ''
+        iface="$1"; action="$2"
+        [ "$iface" = "enp195s0f3u1u4" ] || exit 0
+        case "$action" in
+          up)   ${pkgs.networkmanager}/bin/nmcli radio wifi off ;;
+          down) ${pkgs.networkmanager}/bin/nmcli radio wifi on  ;;
+        esac
+      '';
+      type = "basic";
+    }];
     nameservers = [ 
         "192.168.5.1" 
         "2620:119:35::35"

@@ -66,26 +66,21 @@ let
     AWK="${pkgs.gawk}/bin/awk"
     CACHE="/tmp/egpu-undocked"
 
-    if [ -f "$CACHE" ]; then
-      # --- REDOCK: power saved outputs back on, reload to re-apply desc: rules ---
-      while read -r out; do
-        [ -n "$out" ] && "$HYPRCTL" dispatch dpms on "$out" >/dev/null 2>&1 || true
-      done < "$CACHE"
+    # Decide by reality, not a flag file: `hyprctl monitors` lists only
+    # ENABLED outputs, and `monitor <name>,disable` drops them from it.
+    # Non-eDP outputs present => docked; absent => undocked. No flag to desync.
+    EXTERNAL=$("$HYPRCTL" monitors | "$GREP" '^Monitor' | "$AWK" '{print $2}' | "$GREP" -v '^eDP')
+    if [ -z "$EXTERNAL" ]; then
+      # --- REDOCK: no external outputs live -> restore via config reload ---
       rm -f "$CACHE"
       "$HYPRCTL" reload >/dev/null 2>&1 || true
       "$NOTIFY" "eGPU Redock" "External outputs restored." -u normal -t 6000
     else
-      # --- UNDOCK: disable every output except the internal eDP panel ---
-      # `monitor <name>,disable` removes it from Hyprland's layout, so its
-      # workspaces auto-migrate to the remaining monitor (eDP). `dpms off`
-      # only blanks the signal and leaves workspaces stranded on the dark output.
-      OUTPUTS=$("$HYPRCTL" monitors | "$GREP" '^Monitor' | "$AWK" '{print $2}' | "$GREP" -v '^eDP')
-      if [ -z "$OUTPUTS" ]; then
-        "$NOTIFY" "eGPU Undock" "No external outputs found." -u normal
-        exit 0
-      fi
-      printf '%s\n' "$OUTPUTS" > "$CACHE"
-      for out in $OUTPUTS; do
+      # --- UNDOCK: external outputs live -> disable them; safe to unplug ---
+      # `monitor <name>,disable` removes each from Hyprland's layout, so its
+      # workspaces auto-migrate to the internal eDP panel.
+      printf '%s\n' "$EXTERNAL" > "$CACHE"
+      for out in $EXTERNAL; do
         "$HYPRCTL" keyword monitor "$out,disable" >/dev/null 2>&1 || true
       done
       "$NOTIFY" "eGPU Undock" "Outputs off — safe to unplug. Press Super+U again to restore." -u critical -t 15000

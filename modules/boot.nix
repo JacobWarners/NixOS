@@ -21,7 +21,6 @@
         "pci=realloc"
         "pci=hpmemprefsize=8G"
         "pci=hpmemsize=8G"
-        "pci=nocrs"          # ignore BIOS _CRS → allocate MMIO above 4G so hotplug eGPU gets full 8G BAR (else caps 256M)
     ];
 
     # plymouth, showing after LUKS unlock

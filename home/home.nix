@@ -118,6 +118,7 @@ in
     };
     gtk3.extraConfig = { Settings = '' gtk-application-prefer-dark-theme=1 ''; };
     gtk4.extraConfig = { Settings = '' gtk-application-prefer-dark-theme=1 ''; };
+    gtk4.theme = config.gtk.theme;  # silence 26.05 default-change warning; keep legacy
   };
 
   home.packages = with pkgs; [
@@ -131,6 +132,8 @@ in
   programs.neovim = {
     enable = true;
     defaultEditor = true;
+    withRuby = true;       # silence 26.05 default-change warning; keep legacy
+    withPython3 = true;    # silence 26.05 default-change warning; keep legacy
     plugins = with pkgs.vimPlugins; [
       lazy-nvim nvim-lspconfig mason-nvim mason-lspconfig-nvim nvim-cmp
       cmp-nvim-lsp cmp-buffer luasnip gruvbox vim-sensible
@@ -140,6 +143,7 @@ in
 
 programs.ssh = {
   enable = true;
+  enableDefaultConfig = false;  # silence 26.05 future-removal warning
   matchBlocks = {
     # Block 1: tmate.io fixes
     "*.tmate.io" = {
@@ -243,6 +247,7 @@ programs.ssh = {
   wayland.windowManager.hyprland = {
     enable = true;
     package = pkgs.hyprland;
+    configType = "hyprlang";  # silence 26.05 default-change warning; keep extraConfig text format
     extraConfig = ''
       # Your full, working, multi-line Hyprland config
       monitor=desc:Acer Technologies XV271U M3 1322131231233, 2560x1440@179.877, 0x0, 1.00
@@ -257,8 +262,8 @@ programs.ssh = {
       $menu = rofi-wayland --show drun
       
       # --- STARTUP APPLICATIONS ---
-      exec-once = ${pkgs.swww}/bin/swww-daemon
-      exec-once = sleep 2 && swww img ${config.home.homeDirectory}/Pictures/Wallpapers/Gruvwinter.jpg
+      exec-once = ${pkgs.awww}/bin/awww-daemon
+      exec-once = sleep 2 && ${pkgs.awww}/bin/awww img ${config.home.homeDirectory}/Pictures/Wallpapers/Gruvwinter.jpg
       exec-once = waybar &
       exec-once = ${pkgs.eww}/bin/eww daemon
       exec-once = sleep 2 && ${pkgs.eww}/bin/eww open dashboard

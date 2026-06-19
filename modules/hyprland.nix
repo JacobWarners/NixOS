@@ -54,7 +54,7 @@
     pkgs.libnotify
     pkgs.networkmanagerapplet
     pkgs.eww
-    pkgs.swww
+    pkgs.awww
     pkgs.rofi
     pkgs.font-awesome
   ];

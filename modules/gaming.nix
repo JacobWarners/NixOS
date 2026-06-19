@@ -4,7 +4,7 @@
   environment.systemPackages = with pkgs; [
     # General gaming packages
     lutris
-    wineWowPackages.staging
+    wineWow64Packages.staging
     winetricks
     vulkan-tools
     radeontop

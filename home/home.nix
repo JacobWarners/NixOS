@@ -389,40 +389,40 @@ programs.ssh = {
       bindl = , XF86AudioPrev, exec, playerctl previous
       
       # --- WINDOW RULES ---
-      windowrule = forcenoanims, class:^(ffxiv_dx11.exe)$
-      windowrule = forceopaque, class:^(ffxiv_dx11.exe)$
-      windowrule = fullscreen, class:^(ffxiv_dx11.exe)$
-      windowrule = monitor DP-3, class:^(ffxiv_dx11.exe)$
-      windowrule = center, class:^(ffxiv_dx11.exe)$
-      windowrule = suppressevent maximize, class:.*
-      windowrule = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
-      windowrule = float, class:^(zoom)$, title:^(Sign In with SSO)$
-      windowrule = float, class:^(zoom)$, x11_window_type:^(dialog)$
+      windowrulev2 = noanim, class:^(ffxiv_dx11.exe)$
+      windowrulev2 = opaque, class:^(ffxiv_dx11.exe)$
+      windowrulev2 = fullscreen, class:^(ffxiv_dx11.exe)$
+      windowrulev2 = monitor DP-3, class:^(ffxiv_dx11.exe)$
+      windowrulev2 = center, class:^(ffxiv_dx11.exe)$
+      windowrulev2 = suppressevent maximize, class:.*
+      windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
+      windowrulev2 = float, class:^(zoom)$, title:^(Sign In with SSO)$
+      windowrulev2 = float, class:^(zoom)$, x11_window_type:^(dialog)$
 
 
 # 1. Float ALL zoom windows (prevents tiling issues across the board)
-windowrule = float,class:^(zoom)$
+windowrulev2 = float,class:^(zoom)$
 
 # 2. Center the main Zoom Workplace window
-windowrule = center,class:^(zoom)$,title:^(Zoom Workplace.*)$
+windowrulev2 = center,class:^(zoom)$,title:^(Zoom Workplace.*)$
 
 # 3. Meeting window minimum size
-windowrule = minsize 400 300,class:^(zoom)$,title:^(Meeting)$
+windowrulev2 = minsize 400 300,class:^(zoom)$,title:^(Meeting)$
 
 # 4. Prevent meeting window from stealing focus on workspace switch
-windowrule = noinitialfocus,class:^(zoom)$,title:^(Meeting)$
+windowrulev2 = noinitialfocus,class:^(zoom)$,title:^(Meeting)$
 
 # 5. Disable animations for Zoom (XWayland recompositing causes lag)
-windowrule = forcenoanims, class:^(zoom)$
+windowrulev2 = noanim, class:^(zoom)$
 
 # 6. Force opaque (no transparency effects causing XWayland redraws)
-windowrule = forceopaque, class:^(zoom)$
+windowrulev2 = opaque, class:^(zoom)$
 
 # This forces any window with "Spelling Bee" in the title to float and stay on top
-windowrule = float, title:^(Spelling Bee)(.*)$
-windowrule = pin, title:^(Spelling Bee)(.*)$
-windowrule = move 10% 10%, title:^(Spelling Bee)(.*)$
-windowrule = size 80% 80%, title:^(Spelling Bee)(.*)$
+windowrulev2 = float, title:^(Spelling Bee)(.*)$
+windowrulev2 = pin, title:^(Spelling Bee)(.*)$
+windowrulev2 = move 10% 10%, title:^(Spelling Bee)(.*)$
+windowrulev2 = size 80% 80%, title:^(Spelling Bee)(.*)$
     '';
   };
 }

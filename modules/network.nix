@@ -25,7 +25,6 @@
         "2620:119:35::35"
         "2620:119:53::53"
       ];
-    wireless.enable = false; # NetworkManager handles wireless
     extraHosts =
       ''
         192.168.5.55   ai.home.local

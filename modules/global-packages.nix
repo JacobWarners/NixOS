@@ -93,7 +93,6 @@ in
     ssm-session-manager-plugin
  #   google-cloud-sdk
     nixpkgs-fmt
-    vdhcoapp
  #   google-cloud-sdk-gce
     envsubst
     kubectl

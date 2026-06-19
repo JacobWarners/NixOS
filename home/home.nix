@@ -389,40 +389,40 @@ programs.ssh = {
       bindl = , XF86AudioPrev, exec, playerctl previous
       
       # --- WINDOW RULES ---
-      windowrulev2 = noanim, class:^(ffxiv_dx11.exe)$
-      windowrulev2 = opaque, class:^(ffxiv_dx11.exe)$
-      windowrulev2 = fullscreen, class:^(ffxiv_dx11.exe)$
-      windowrulev2 = monitor DP-3, class:^(ffxiv_dx11.exe)$
-      windowrulev2 = center, class:^(ffxiv_dx11.exe)$
-      windowrulev2 = suppressevent maximize, class:.*
-      windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
-      windowrulev2 = float, class:^(zoom)$, title:^(Sign In with SSO)$
-      windowrulev2 = float, class:^(zoom)$, x11_window_type:^(dialog)$
+      # TODO 0.55 migrate: windowrulev2 =noanim, class:^(ffxiv_dx11.exe)$
+      # TODO 0.55 migrate: windowrulev2 =opaque, class:^(ffxiv_dx11.exe)$
+      # TODO 0.55 migrate: windowrulev2 =fullscreen, class:^(ffxiv_dx11.exe)$
+      # TODO 0.55 migrate: windowrulev2 =monitor DP-3, class:^(ffxiv_dx11.exe)$
+      # TODO 0.55 migrate: windowrulev2 =center, class:^(ffxiv_dx11.exe)$
+      # TODO 0.55 migrate: windowrulev2 =suppressevent maximize, class:.*
+      # TODO 0.55 migrate: windowrulev2 =nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
+      # TODO 0.55 migrate: windowrulev2 =float, class:^(zoom)$, title:^(Sign In with SSO)$
+      # TODO 0.55 migrate: windowrulev2 =float, class:^(zoom)$, x11_window_type:^(dialog)$
 
 
 # 1. Float ALL zoom windows (prevents tiling issues across the board)
-windowrulev2 = float,class:^(zoom)$
+# TODO 0.55 migrate: windowrulev2 =float,class:^(zoom)$
 
 # 2. Center the main Zoom Workplace window
-windowrulev2 = center,class:^(zoom)$,title:^(Zoom Workplace.*)$
+# TODO 0.55 migrate: windowrulev2 =center,class:^(zoom)$,title:^(Zoom Workplace.*)$
 
 # 3. Meeting window minimum size
-windowrulev2 = minsize 400 300,class:^(zoom)$,title:^(Meeting)$
+# TODO 0.55 migrate: windowrulev2 =minsize 400 300,class:^(zoom)$,title:^(Meeting)$
 
 # 4. Prevent meeting window from stealing focus on workspace switch
-windowrulev2 = noinitialfocus,class:^(zoom)$,title:^(Meeting)$
+# TODO 0.55 migrate: windowrulev2 =noinitialfocus,class:^(zoom)$,title:^(Meeting)$
 
 # 5. Disable animations for Zoom (XWayland recompositing causes lag)
-windowrulev2 = noanim, class:^(zoom)$
+# TODO 0.55 migrate: windowrulev2 =noanim, class:^(zoom)$
 
 # 6. Force opaque (no transparency effects causing XWayland redraws)
-windowrulev2 = opaque, class:^(zoom)$
+# TODO 0.55 migrate: windowrulev2 =opaque, class:^(zoom)$
 
 # This forces any window with "Spelling Bee" in the title to float and stay on top
-windowrulev2 = float, title:^(Spelling Bee)(.*)$
-windowrulev2 = pin, title:^(Spelling Bee)(.*)$
-windowrulev2 = move 10% 10%, title:^(Spelling Bee)(.*)$
-windowrulev2 = size 80% 80%, title:^(Spelling Bee)(.*)$
+# TODO 0.55 migrate: windowrulev2 =float, title:^(Spelling Bee)(.*)$
+# TODO 0.55 migrate: windowrulev2 =pin, title:^(Spelling Bee)(.*)$
+# TODO 0.55 migrate: windowrulev2 =move 10% 10%, title:^(Spelling Bee)(.*)$
+# TODO 0.55 migrate: windowrulev2 =size 80% 80%, title:^(Spelling Bee)(.*)$
     '';
   };
 }

@@ -27,8 +27,8 @@ in
   # Class confirmed via `hyprctl clients | grep -i class`; adjust regex if needed.
   wayland.windowManager.hyprland.extraConfig = ''
     # --- Sweet Home 3D ---
-    windowrulev2 = noblur, class:^(.*[Ss]weet[Hh]ome3[Dd].*)$
-    windowrulev2 = noanim, class:^(.*[Ss]weet[Hh]ome3[Dd].*)$
-    windowrulev2 = opaque, class:^(.*[Ss]weet[Hh]ome3[Dd].*)$
+    windowrule = noblur, class:^(.*[Ss]weet[Hh]ome3[Dd].*)$
+    windowrule = noanim, class:^(.*[Ss]weet[Hh]ome3[Dd].*)$
+    windowrule = opaque, class:^(.*[Ss]weet[Hh]ome3[Dd].*)$
   '';
 }

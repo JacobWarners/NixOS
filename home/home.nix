@@ -246,11 +246,11 @@ programs.ssh = {
     extraConfig = ''
       # Your full, working, multi-line Hyprland config
       monitor=desc:Acer Technologies XV271U M3 1322131231233, 2560x1440@179.877, 0x0, 1.00
-      workspace = "2, monitor:desc:Acer Technologies XV271U M3 1322131231233";
+      workspace = 2, monitor:desc:Acer Technologies XV271U M3 1322131231233
       monitor=desc:BOE 0x095F, 2256x1504@59.999, -2256x164, 1.00
-      workspace = "1, monitor:desc:BOE 0x095F";
+      workspace = 1, monitor:desc:BOE 0x095F
       monitor=desc:Stargate Technology M156F01 demoset-1, 1920x1080@60.000, 2560x0, 1.00
-      workspace = "3, monitor:desc:Stargate Technology M156F01 demoset-1";
+      workspace = 3, monitor:desc:Stargate Technology M156F01 demoset-1
       
       $terminal = kitty
       $fileManager = nautilus
@@ -308,7 +308,6 @@ programs.ssh = {
         animation = workspaces, 1, 6, default
       }
       dwindle {
-        pseudotile = true
         preserve_split = true
       }
       master {
@@ -351,7 +350,7 @@ programs.ssh = {
       bind = $mainMod, V, togglefloating,
       bind = LCTRL SUPER, UP, exec, rofi -show drun
       bind = $mainMod, P, pseudo,
-      bind = $mainMod, D, togglesplit,
+      bind = $mainMod, D, layoutmsg, togglesplit
       bind = $mainMod, left, movewindow, l
       bind = $mainMod, right, movewindow, r
       bind = $mainMod, SPACE, exec, rofi -show window
@@ -390,40 +389,40 @@ programs.ssh = {
       bindl = , XF86AudioPrev, exec, playerctl previous
       
       # --- WINDOW RULES ---
-      windowrulev2 = noanim, class:^(ffxiv_dx11.exe)$
-      windowrulev2 = opaque, class:^(ffxiv_dx11.exe)$
-      windowrulev2 = fullscreen, class:^(ffxiv_dx11.exe)$
-      windowrulev2 = monitor DP-3, class:^(ffxiv_dx11.exe)$
-      windowrulev2 = center, class:^(ffxiv_dx11.exe)$
-      windowrulev2 = suppressevent maximize, class:.*
-      windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
-      windowrulev2 = float, class:^(zoom)$, title:^(Sign In with SSO)$
-      windowrulev2 = float, class:^(zoom)$, x11_window_type:^(dialog)$
+      windowrule = noanim, class:^(ffxiv_dx11.exe)$
+      windowrule = opaque, class:^(ffxiv_dx11.exe)$
+      windowrule = fullscreen, class:^(ffxiv_dx11.exe)$
+      windowrule = monitor DP-3, class:^(ffxiv_dx11.exe)$
+      windowrule = center, class:^(ffxiv_dx11.exe)$
+      windowrule = suppressevent maximize, class:.*
+      windowrule = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
+      windowrule = float, class:^(zoom)$, title:^(Sign In with SSO)$
+      windowrule = float, class:^(zoom)$, x11_window_type:^(dialog)$
 
 
 # 1. Float ALL zoom windows (prevents tiling issues across the board)
-windowrulev2 = float,class:^(zoom)$
+windowrule = float,class:^(zoom)$
 
 # 2. Center the main Zoom Workplace window
-windowrulev2 = center,class:^(zoom)$,title:^(Zoom Workplace.*)$
+windowrule = center,class:^(zoom)$,title:^(Zoom Workplace.*)$
 
 # 3. Meeting window minimum size
-windowrulev2 = minsize 400 300,class:^(zoom)$,title:^(Meeting)$
+windowrule = minsize 400 300,class:^(zoom)$,title:^(Meeting)$
 
 # 4. Prevent meeting window from stealing focus on workspace switch
-windowrulev2 = noinitialfocus,class:^(zoom)$,title:^(Meeting)$
+windowrule = noinitialfocus,class:^(zoom)$,title:^(Meeting)$
 
 # 5. Disable animations for Zoom (XWayland recompositing causes lag)
-windowrulev2 = noanim, class:^(zoom)$
+windowrule = noanim, class:^(zoom)$
 
 # 6. Force opaque (no transparency effects causing XWayland redraws)
-windowrulev2 = opaque, class:^(zoom)$
+windowrule = opaque, class:^(zoom)$
 
 # This forces any window with "Spelling Bee" in the title to float and stay on top
-windowrulev2 = float, title:^(Spelling Bee)(.*)$
-windowrulev2 = pin, title:^(Spelling Bee)(.*)$
-windowrulev2 = move 10% 10%, title:^(Spelling Bee)(.*)$
-windowrulev2 = size 80% 80%, title:^(Spelling Bee)(.*)$
+windowrule = float, title:^(Spelling Bee)(.*)$
+windowrule = pin, title:^(Spelling Bee)(.*)$
+windowrule = move 10% 10%, title:^(Spelling Bee)(.*)$
+windowrule = size 80% 80%, title:^(Spelling Bee)(.*)$
     '';
   };
 }

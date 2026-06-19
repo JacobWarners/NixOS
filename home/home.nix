@@ -89,7 +89,7 @@ let
 
 in
 {
-  imports = [ ./sweethome3d.nix ];
+  imports = [ ];
 
   home.username = "jake";
   home.stateVersion = "25.05";
@@ -389,8 +389,8 @@ programs.ssh = {
       bindl = , XF86AudioPrev, exec, playerctl previous
       
       # --- WINDOW RULES ---
-      windowrule = noanim, class:^(ffxiv_dx11.exe)$
-      windowrule = opaque, class:^(ffxiv_dx11.exe)$
+      windowrule = forcenoanims, class:^(ffxiv_dx11.exe)$
+      windowrule = forceopaque, class:^(ffxiv_dx11.exe)$
       windowrule = fullscreen, class:^(ffxiv_dx11.exe)$
       windowrule = monitor DP-3, class:^(ffxiv_dx11.exe)$
       windowrule = center, class:^(ffxiv_dx11.exe)$
@@ -413,10 +413,10 @@ windowrule = minsize 400 300,class:^(zoom)$,title:^(Meeting)$
 windowrule = noinitialfocus,class:^(zoom)$,title:^(Meeting)$
 
 # 5. Disable animations for Zoom (XWayland recompositing causes lag)
-windowrule = noanim, class:^(zoom)$
+windowrule = forcenoanims, class:^(zoom)$
 
 # 6. Force opaque (no transparency effects causing XWayland redraws)
-windowrule = opaque, class:^(zoom)$
+windowrule = forceopaque, class:^(zoom)$
 
 # This forces any window with "Spelling Bee" in the title to float and stay on top
 windowrule = float, title:^(Spelling Bee)(.*)$

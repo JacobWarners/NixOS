@@ -12,8 +12,8 @@ if [ -z "$WALLPAPER_IMAGE" ]; then
   exit 1
 fi
 
-echo "Setting new wallpaper with swww..."
-swww img "$WALLPAPER_IMAGE" --transition-type any
+echo "Setting new wallpaper with awww..."
+awww img "$WALLPAPER_IMAGE" --transition-type any
 
 # wallust writes every target in [templates] of ~/.config/wallust/wallust.toml
 # (colors.css, colors-kitty.conf, gtk.css, userChrome.css) directly into

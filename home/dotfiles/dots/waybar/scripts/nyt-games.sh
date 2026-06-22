@@ -37,14 +37,14 @@ pactl set-sink-mute @DEFAULT_SINK@ 0
 paplay --volume=65536 "$SOUND_FILE" &
 
 # --- Launch all your applications ---
+# Focus ws 5 BEFORE each window so Hyprland tiles them together side-by-side
+# (dwindle layout). Don't toggle floating/fullscreen — that hides one window.
 hyprctl dispatch workspace 5
 librewolf --new-window "$BUDDY_URL" &
-sleep 1
+sleep 2
+hyprctl dispatch workspace 5   # re-pin focus in case it drifted
 librewolf --new-window "$SPELLING_BEE_URL" &
-sleep 1
-hyprctl dispatch togglefloating active
-hyprctl dispatch fullscreen 1
-sleep 1
+sleep 2
 hyprctl dispatch workspace 9
 chromium --new-window &
 

@@ -251,11 +251,11 @@ programs.ssh = {
     extraConfig = ''
       # Your full, working, multi-line Hyprland config
       monitor=desc:Acer Technologies XV271U M3 1322131231233, 2560x1440@179.877, 0x0, 1.00
-      workspace = 2, monitor:desc:Acer Technologies XV271U M3 1322131231233
+      workspace = 2, monitor:desc:Acer Technologies XV271U M3 1322131231233, default:true, persistent:true
       monitor=desc:BOE 0x095F, 2256x1504@59.999, -2256x164, 1.00
-      workspace = 1, monitor:desc:BOE 0x095F
+      workspace = 1, monitor:desc:BOE 0x095F, default:true, persistent:true
       monitor=desc:Stargate Technology M156F01 demoset-1, 1920x1080@60.000, 2560x0, 1.00
-      workspace = 3, monitor:desc:Stargate Technology M156F01 demoset-1
+      workspace = 3, monitor:desc:Stargate Technology M156F01 demoset-1, default:true, persistent:true
       
       $terminal = kitty
       $fileManager = nautilus
@@ -270,12 +270,17 @@ programs.ssh = {
       exec-once = dunst &
       exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
       exec-once = ${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store
-      exec-once = /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+      exec-once = ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1
       
       # --- FINAL WORKING VIRTUAL SINK COMMAND ---
       exec-once = create-virtual-sink &
       
       # --- ENVIRONMENT VARIABLES ---
+      # XCURSOR_THEME themes the COMPOSITOR-drawn cursor (desktop, drag/resize
+      # borders, XWayland, monitor edges). Without it Hyprland 0.55 falls back to
+      # an embedded cursor -> wrong/missing shapes in those spots. gtk.cursorTheme
+      # only covers client-drawn cursors, so the two must agree on Bibata.
+      env = XCURSOR_THEME,Bibata-Modern-Classic
       env = XCURSOR_SIZE,24
       env = HYPRCURSOR_SIZE,24
       

@@ -59,15 +59,11 @@
     pkgs.font-awesome
   ];
 
-  # Define the .desktop file for Hyprland so display managers can find it.
-  environment.etc."xdg/wayland-sessions/hyprland.desktop".text = ''
-    [Desktop Entry]
-    Name=Hyprland
-    Comment=A dynamic tiling Wayland compositor
-    Exec=Hyprland
-    Type=Application
-    Keywords=wayland;hyprland;compositor;
-  '';
+  # NOTE: do NOT hand-write a wayland-sessions desktop file with `Exec=Hyprland`.
+  # That launches the raw binary and trips Hyprland 0.55's "started without
+  # start-hyprland" warning. programs.hyprland.enable already registers a proper
+  # session whose Exec points at the package's start-hyprland wrapper (which sets
+  # up the dbus/systemd-user env). Pick "Hyprland" in the display manager.
 
   # Ensure Hyprland is available as a session in display managers.
   services.displayManager.sessionPackages = with pkgs; [

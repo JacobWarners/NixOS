@@ -105,9 +105,20 @@ in
   qt.enable = true;
   qt.platformTheme.name = "gtk";
 
+  # Single source of truth for the cursor across X11/XWayland, GTK, Qt, and the
+  # systemd-user/dbus launch contexts. gtk.cursorTheme alone only themed
+  # GTK-drawn cursors, leaving XWayland + other-context apps to draw whatever
+  # their launch env said (usually nothing) -> per-window cursor differences.
+  home.pointerCursor = {
+    name = "Bibata-Modern-Classic";
+    package = pkgs.bibata-cursors;
+    size = 24;
+    gtk.enable = true;
+    x11.enable = true;
+  };
+
   gtk = {
     enable = true;
-    cursorTheme = { name = "Bibata-Modern-Classic"; package = pkgs.bibata-cursors; size = 24; };
     iconTheme = {
       package = pkgs.catppuccin-papirus-folders.override { flavor = "macchiato"; accent = "teal"; };
       name = "Papirus-Dark";

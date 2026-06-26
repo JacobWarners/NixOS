@@ -20,7 +20,7 @@
       '';
       type = "basic";
     }];
-    nameservers = [ 
+    nameservers = [
         "192.168.5.1" 
         "2620:119:35::35"
         "2620:119:53::53"
@@ -30,6 +30,31 @@
         192.168.5.55   ai.home.local
       '';
   };
+
+  # Boot self-heal for the dock-aware WiFi kill above.
+  # NetworkManager PERSISTS WirelessEnabled to
+  # /var/lib/NetworkManager/NetworkManager.state. If a session ends while
+  # docked (radio off was saved), the next boot reads it back as OFF even
+  # when undocked -- and the dispatcher's "down" branch never fires because
+  # the dock NIC was never "up". Result: WiFi stranded off on boot.
+  # This oneshot forces the radio on at boot UNLESS the dock NIC is actually
+  # present and up. If docked, the dispatcher's "up" branch re-kills it, so
+  # docked boots still end with WiFi off.
+  systemd.services.wifi-unstick = {
+    description = "Restore WiFi radio on boot unless docked";
+    after = [ "NetworkManager.service" ];
+    wants = [ "NetworkManager.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      dock=/sys/class/net/enp195s0f3u1u4
+      if [ -e "$dock" ] && [ "$(cat "$dock/operstate" 2>/dev/null)" = "up" ]; then
+        exit 0
+      fi
+      ${pkgs.networkmanager}/bin/nmcli radio wifi on
+    '';
+  };
+
   services.mullvad-vpn.enable = true;
 
   # Apartment (home pfSense) WireGuard tunnel.

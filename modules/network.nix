@@ -5,15 +5,18 @@
     hostName = "nixos"; # Replace "nixos" with your desired hostname
     networkmanager.enable = true;
 #    networkmanager.dns = "none";
-    # DNS: let NM/DHCP set the LAN gateway as the PRIMARY resolver (auto
-    # 192.168.5.1 docked / 192.168.10.1 on wifi), then append Quad9 as a
-    # fallback. Replaces the old static `nameservers` list, which hardcoded
-    # .5.1 and went dead whenever undocked onto wifi. The dispatcher writes
-    # resolv.conf as [DHCP gateway] + [these], so the gateway always wins.
-    networkmanager.appendNameservers = [
-      "9.9.9.9" "149.112.112.112"   # Quad9 IPv4 fallback
-      "2620:fe::fe" "2620:fe::9"     # Quad9 IPv6 fallback
-    ];
+    # DNS strategy (declarative, single owner = resolvconf):
+    #   * Primary  = the LAN gateway, learned from DHCP via NetworkManager
+    #     (192.168.5.1 docked / 192.168.10.1 on wifi). Dock-aware for free.
+    #   * Fallback = Quad9, appended AFTER the gateway via resolvconf's
+    #     name_servers_append (openresolv). resolvconf regenerates resolv.conf
+    #     deterministically on every event, so the fallback is never lost.
+    # No static `nameservers` here on purpose -- a hardcoded primary went dead
+    # whenever undocked onto wifi. VPN (Mullvad/Cato) prepends its own resolver
+    # only while connected; on disconnect the gateway+Quad9 list remains.
+    resolvconf.extraConfig = ''
+      name_servers_append="9.9.9.9 149.112.112.112 2620:fe::fe 2620:fe::9"
+    '';
     # Dock-aware WiFi kill: when the wired dock NIC comes up, turn the WiFi
     # radio OFF so its 192.168.10.x IP stops being a WebRTC/ICE candidate.
     # Dual-homed (.5 wired + .10 WiFi) breaks PairDrop P2P — ICE replies

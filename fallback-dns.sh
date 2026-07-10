@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 # fallback-dns.sh — get DNS working again WITHOUT the VPN.
 # Framework workstation, NixOS host `nixos`.
-# Maintained by Claude. Last updated: 2026-06-29 (initial).
+# Maintained by Claude. Last updated: 2026-06-29 (v2: resolver probe).
+# NOTE: this only RESTORES correct config; DNS only actually works if a
+# reachable resolver exists. As of Jun 29 pfSense Unbound (192.168.5.1:53) is
+# refusing, so off-VPN DNS stays dead until that gateway resolver is fixed.
 #
 # WHY THIS EXISTS:
 #   Several things fight over /etc/resolv.conf — resolvconf (NixOS
@@ -71,11 +74,22 @@ systemctl stop cato-client 2>/dev/null || true
 say "-> writing /etc/resolv.conf"
 printf '%s\n' "$RESOLV" > /etc/resolv.conf
 
-say "-> testing DNS"
+say "-> probing resolvers on port 53"
+probe(){ timeout 2 bash -c "echo > /dev/tcp/$1/53" >/dev/null 2>&1 && echo "open" || echo "DOWN / refused"; }
+say "   gateway $GW : $(probe "$GW")"
+say "   9.9.9.9       : $(probe 9.9.9.9)"
+
+say "-> testing real lookups"
 ok=0
-for h in github.com ha.root-beards.com cache.nixos.org; do
+for h in github.com ha.root-beards.com; do
   if getent hosts "$h" >/dev/null 2>&1; then say "   OK   $h"; ok=$((ok+1)); else say "   FAIL $h"; fi
 done
 say ""
-if [ $ok -gt 0 ]; then say "DNS restored ($ok/3 resolved). VPN is OFF."
-else say "STILL FAILING — check:  ip route  /  systemctl status NetworkManager"; fi
+if [ $ok -gt 0 ]; then
+  say "DNS works ($ok resolved) with VPN OFF."
+else
+  say "NO DNS off-VPN. Config is correct, but no resolver is reachable:"
+  say "  - gateway $GW:53 down  => pfSense DNS Resolver (Unbound) likely stopped"
+  say "  - external 53 may be firewalled by pfSense"
+  say "STOPGAP until pfSense is fixed:  mullvad connect"
+fi

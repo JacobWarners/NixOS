@@ -93,6 +93,22 @@ in
       ExecStart = "${pkgs.writeShellScript "backup-and-sync" ''
         set -e
 
+        # rsync exits 23/24 when files vanish mid-transfer, which is normal when
+        # exporting a live cluster. Any other non-zero exit is a real failure and
+        # must abort the script, so that the Gotify "✅ Backup Successful" message
+        # at the end cannot fire after a sync that did not happen. Every rsync
+        # here previously ended in `|| true`, which meant a totally failed sync
+        # still reported success — the same silent-failure shape as the Jul 6
+        # four-day outage.
+        run_rsync() {
+          local rc=0
+          "$@" || rc=$?
+          case $rc in
+            0|23|24) return 0 ;;
+            *) echo "ERROR: rsync failed with exit $rc" >&2; return 1 ;;
+          esac
+        }
+
         echo "=== STARTING BACKUP SCRIPT ==="
         ${pkgs.bash}/bin/bash -x /home/jake/k8s/Backups/backup-cluster.sh
 
@@ -131,7 +147,7 @@ in
 
         echo "=== SYNCING LAPTOP FILES → nas_backups (live-laptop-backups) ==="
         if mountpoint -q /mnt/nas_backups; then
-          ${pkgs.rsync}/bin/rsync -av --delete \
+          run_rsync ${pkgs.rsync}/bin/rsync -av --delete \
             --no-perms --no-owner --no-group \
             --exclude="vms/vol.qcow2" \
             --exclude="target/" \
@@ -142,7 +158,7 @@ in
             /home/jake/Documents/ \
             /home/jake/nixos-config \
             /home/jake/k8s/Backups \
-            /mnt/nas_backups/ || true
+            /mnt/nas_backups/
         else
           echo "ERROR: Mount point /mnt/nas_backups is not active."
           exit 1
@@ -150,14 +166,45 @@ in
 
         echo "=== SYNCING CLUSTER STATE → k8s_state (k8s-infra/cluster-state) ==="
         if mountpoint -q /mnt/k8s_state; then
-          ${pkgs.rsync}/bin/rsync -av --delete \
+          # Sync ONLY the newest export.
+          #
+          # This was `cluster-backup-*/`, which passes EVERY dated export as a
+          # source; rsync merges them all into one destination, so `latest/`
+          # became the union of every backup ever taken instead of a
+          # point-in-time snapshot. Measured 2026-08-14 before this fix:
+          # 6315 files on the NAS against 1151 in the current export — 5067 of
+          # them belonging to resources that no longer exist (dead namespaces
+          # williams-devspace and open-webui-ns among them), and 191 holding an
+          # older version of a resource that had since changed. Restoring from
+          # that would have recreated all of it, including the hostPath UniFi
+          # mongo deployment whose data died with minihome.
+          LATEST_EXPORT=$(ls -td /home/jake/k8s/Backups/cluster-backup-*/ 2>/dev/null | head -n1)
+          if [ -z "$LATEST_EXPORT" ]; then
+            echo "ERROR: no cluster-backup-* export found to sync." >&2
+            exit 1
+          fi
+          echo "Syncing $LATEST_EXPORT -> /mnt/k8s_state/latest/"
+          run_rsync ${pkgs.rsync}/bin/rsync -av --delete \
             --no-perms --no-owner --no-group \
-            /home/jake/k8s/Backups/cluster-backup-*/ \
-            /mnt/k8s_state/latest/ || true
-          ${pkgs.rsync}/bin/rsync -av \
+            "$LATEST_EXPORT" \
+            /mnt/k8s_state/latest/
+
+          run_rsync ${pkgs.rsync}/bin/rsync -av \
             --no-perms --no-owner --no-group \
             /home/jake/k8s/Backups/secrets-emergency/ \
-            /mnt/k8s_state/secrets-emergency/ || true
+            /mnt/k8s_state/secrets-emergency/
+
+          # Sanity gate: the destination must track the export, not outgrow it.
+          # This is the assertion that would have caught the union bug in 2025
+          # instead of nine months later.
+          SRC_COUNT=$(find "$LATEST_EXPORT" -type f | wc -l)
+          DST_COUNT=$(find /mnt/k8s_state/latest -type f | wc -l)
+          echo "cluster-state file counts: export=$SRC_COUNT nas=$DST_COUNT"
+          if [ "$DST_COUNT" -gt $(( SRC_COUNT * 2 )) ]; then
+            echo "ERROR: /mnt/k8s_state/latest holds $DST_COUNT files vs $SRC_COUNT in the export." >&2
+            echo "The destination is accumulating instead of mirroring. Refusing to report success." >&2
+            exit 1
+          fi
         else
           echo "ERROR: Mount point /mnt/k8s_state is not active."
           exit 1

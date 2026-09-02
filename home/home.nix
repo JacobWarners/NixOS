@@ -294,6 +294,23 @@ programs.ssh = {
       env = XCURSOR_THEME,Bibata-Modern-Classic
       env = XCURSOR_SIZE,24
       env = HYPRCURSOR_SIZE,24
+
+      # --- CURSOR ---
+      # Multi-GPU box (Krackan iGPU c1:00.0 + eGPU Navi 23). Both of these
+      # default to 2 = "auto", and auto picks the AMD hardware cursor plane for
+      # the eGPU outputs. That plane cannot scan out a cursor buffer allocated
+      # on the *other* GPU, so on eGPU attach the buffer lands unscaled in the
+      # fixed 256x256 plane -> giant cursor, and the hotspot (stored in buffer
+      # coords) points at the wrong pixel -> clicks land off from the drawn
+      # arrow. It "fixes itself" the moment a client calls wl_pointer.set_cursor
+      # with its own correctly-sized buffer, which is why opening a window
+      # shrinks it while the desktop cursor stays broken.
+      # Forcing a CPU buffer + software cursor costs ~1 frame of pointer
+      # latency and is correct on every output regardless of which GPU owns it.
+      cursor {
+        no_hardware_cursors = true
+        use_cpu_buffer = true
+      }
       
       # --- SETTINGS ---
       general {

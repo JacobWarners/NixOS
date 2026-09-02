@@ -2,7 +2,14 @@
 
 let
   # Define your session and user for the auto-login
-  session = "${pkgs.hyprland}/bin/Hyprland";
+  # start-hyprland is the supported entrypoint (it is what the packaged
+  # hyprland.desktop session file execs). It wraps the compositor in a watchdog
+  # that restarts it after an unclean exit -- relevant here because eGPU
+  # teardown/redock wedges can kill Hyprland -- and runs the Nix/nixGL
+  # environment check. Launching bin/Hyprland directly is the raw compositor:
+  # no watchdog, and it prints the "started without start-hyprland" banner on
+  # every boot.
+  session = "${pkgs.hyprland}/bin/start-hyprland";
   username = "jake";
 
 in

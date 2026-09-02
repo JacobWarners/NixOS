@@ -94,6 +94,8 @@
   systemd.services."home-manager-jake".after = [ "graphical-session-pre.target" ];
 
   # Global settings can be added here if necessary
+  zramSwap.enable = true;
+  memoryPercent = 25
 
-}
+    }
 

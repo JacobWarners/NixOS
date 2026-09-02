@@ -95,7 +95,7 @@
 
   # Global settings can be added here if necessary
   zramSwap.enable = true;
-  memoryPercent = 25
+  zramSwap.memoryPercent = 25;
 
-    }
+}
 

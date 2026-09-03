@@ -294,6 +294,11 @@ programs.ssh = {
       env = XCURSOR_THEME,Bibata-Modern-Classic
       env = XCURSOR_SIZE,24
       env = HYPRCURSOR_SIZE,24
+      # TZDIR: /run/wrappers/bin/Hyprland carries cap_sys_nice, so glibc runs it
+      # AT_SECURE and strips TZDIR (glibc unsecvars list) from the whole session.
+      # Qt/glibc then can't resolve named zones (Tibia client hard-hangs, TZ=... broken).
+      # NixOS has no /usr/share/zoneinfo, so re-add it here. (2026-09-02)
+      env = TZDIR,/etc/zoneinfo
 
       # --- CURSOR ---
       # Multi-GPU box (Krackan iGPU c1:00.0 + eGPU Navi 23). Both of these

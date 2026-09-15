@@ -50,5 +50,11 @@ in
     libxdamage
     libevent
     libdrm
+    # Tibia launcher self-updated to Qt 6.10.3 on 2026-09-15; its xcb plugin
+    # now links libSM/libICE, and the wayland plugin has always needed
+    # libwayland-client/cursor/egl. Without these both QPA plugins fail -> abort.
+    libsm
+    libice
+    wayland
   ];
 }

@@ -56,5 +56,10 @@ in
     libsm
     libice
     wayland
+    # Tibia client 15.33 (2026-09-16) bundles QtWebEngine/Chromium, which links
+    # system libwebp + libgbm. Run ~/Tibia/check-libs.sh after any Tibia update
+    # to list newly missing sonames before adding more here.
+    libwebp
+    libgbm
   ];
 }

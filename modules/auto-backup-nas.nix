@@ -50,6 +50,22 @@ in
     ];
   };
 
+  # Work mirror — stays on NAS only. Dataset is NOT in any Backrest plan,
+  # so nothing here ever reaches Hetzner (WEKA policy: no work data offsite).
+  fileSystems."/mnt/work_local" = {
+    device = "192.168.5.40:/mnt/ZFS-Cold-Storage/work-local-only";
+    fsType = "nfs";
+    options = [
+      "nfsvers=3"
+      "x-systemd.automount"
+      "noauto"
+      "x-systemd.idle-timeout=600"
+      "soft"
+      "intr"
+      "_netdev"
+    ];
+  };
+
   systemd.services.nas_sync_failed = {
     description = "Notify Gotify on Sync Failure";
     path = [ pkgs.curl ];
@@ -171,6 +187,28 @@ in
             /mnt/nas_backups/
         else
           echo "ERROR: Mount point /mnt/nas_backups is not active."
+          exit 1
+        fi
+
+        echo "=== SYNCING WORK FILES → work_local (NAS-ONLY, never offsite) ==="
+        if mountpoint -q /mnt/work_local; then
+          run_rsync ${pkgs.rsync}/bin/rsync -av --delete \
+            --no-perms --no-owner --no-group \
+            --exclude="target/" \
+            --exclude="node_modules/" \
+            --exclude=".cache/" \
+            --exclude=".venv/" \
+            /home/jake/work \
+            /mnt/work_local/
+
+          mkdir -p /mnt/work_local/claude-projects
+          run_rsync ${pkgs.rsync}/bin/rsync -av --delete \
+            --no-perms --no-owner --no-group \
+            /home/jake/.claude/projects/-home-jake-work* \
+            /home/jake/.claude/projects/-home-jake-terraform* \
+            /mnt/work_local/claude-projects/
+        else
+          echo "ERROR: Mount point /mnt/work_local is not active."
           exit 1
         fi
 

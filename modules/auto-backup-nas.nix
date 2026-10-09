@@ -83,7 +83,7 @@ in
       User = "jake";
       
       # Run inside the backup dir
-      WorkingDirectory = "/home/jake/k8s/Backups";
+      WorkingDirectory = "/home/jake/home-ai/k8s/Backups";
       
       SuccessExitStatus = "0 23";
       Nice = 19;
@@ -110,7 +110,7 @@ in
         }
 
         echo "=== STARTING BACKUP SCRIPT ==="
-        ${pkgs.bash}/bin/bash -x /home/jake/k8s/Backups/backup-cluster.sh
+        ${pkgs.bash}/bin/bash -x /home/jake/home-ai/k8s/Backups/backup-cluster.sh
 
         echo "=== CHECKING FOR CHANGES ==="
         # 1. Find the 2 most recent backup directories (Newest first)
@@ -138,12 +138,12 @@ in
         fi
 
         echo "=== VERIFYING LOCAL FOLDER ==="
-        ls -lh /home/jake/k8s/Backups/
+        ls -lh /home/jake/home-ai/k8s/Backups/
 
         echo "=== EXPORTING SECRETS ==="
-        mkdir -p /home/jake/k8s/Backups/secrets-emergency
-        ${pkgs.kubectl}/bin/kubectl get secrets --all-namespaces -o yaml > /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
-        chmod 600 /home/jake/k8s/Backups/secrets-emergency/all-secrets.yaml
+        mkdir -p /home/jake/home-ai/k8s/Backups/secrets-emergency
+        ${pkgs.kubectl}/bin/kubectl get secrets --all-namespaces -o yaml > /home/jake/home-ai/k8s/Backups/secrets-emergency/all-secrets.yaml
+        chmod 600 /home/jake/home-ai/k8s/Backups/secrets-emergency/all-secrets.yaml
 
         echo "=== SYNCING LAPTOP FILES → nas_backups (live-laptop-backups) ==="
         if mountpoint -q /mnt/nas_backups; then
@@ -155,9 +155,19 @@ in
             --exclude=".cache/" \
             --exclude="cluster-backup-*" \
             --exclude="secrets-emergency" \
+            --exclude="paste-cache/" \
+            --exclude="shell-snapshots/" \
+            --exclude="file-history/" \
+            --exclude="session-env/" \
+            --exclude="debug/" \
+            --exclude="-home-jake-work*" \
+            --exclude="-home-jake-terraform*" \
             /home/jake/Documents/ \
             /home/jake/nixos-config \
-            /home/jake/k8s/Backups \
+            /home/jake/home-ai \
+            /home/jake/.claude \
+            /home/jake/.claude.json \
+            /home/jake/.claude-personal \
             /mnt/nas_backups/
         else
           echo "ERROR: Mount point /mnt/nas_backups is not active."
@@ -178,7 +188,7 @@ in
           # older version of a resource that had since changed. Restoring from
           # that would have recreated all of it, including the hostPath UniFi
           # mongo deployment whose data died with minihome.
-          LATEST_EXPORT=$(ls -td /home/jake/k8s/Backups/cluster-backup-*/ 2>/dev/null | head -n1)
+          LATEST_EXPORT=$(ls -td /home/jake/home-ai/k8s/Backups/cluster-backup-*/ 2>/dev/null | head -n1)
           if [ -z "$LATEST_EXPORT" ]; then
             echo "ERROR: no cluster-backup-* export found to sync." >&2
             exit 1
@@ -191,7 +201,7 @@ in
 
           run_rsync ${pkgs.rsync}/bin/rsync -av \
             --no-perms --no-owner --no-group \
-            /home/jake/k8s/Backups/secrets-emergency/ \
+            /home/jake/home-ai/k8s/Backups/secrets-emergency/ \
             /mnt/k8s_state/secrets-emergency/
 
           # Sanity gate: the destination must track the export, not outgrow it.

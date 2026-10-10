@@ -36,6 +36,7 @@
     ./modules/gaming.nix
     ./modules/docker.nix
     ./modules/cato.nix
+    ./modules/htb-vpn.nix
     ./modules/v4l2loopback.nix
     # Add any other modules you have
   ];

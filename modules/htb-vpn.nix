@@ -57,6 +57,9 @@ let
     ${ip} -n ${ns} link set ${nsIf} up
     ${ip} -n ${ns} route add default via ${hostIp}
 
+    # ping_group_range is per-netns and a fresh netns disables it ("1 0").
+    ${ip} netns exec ${ns} ${pkgs.procps}/bin/sysctl -q -w net.ipv4.ping_group_range="0 2147483647"
+
     ${pkgs.procps}/bin/sysctl -q -w net.ipv4.ip_forward=1
 
     # Docker sets FORWARD policy DROP, so allow the veth explicitly (insert at top).
@@ -177,6 +180,6 @@ in
   # Only this one store-path script, not `ip netns exec *`. SETENV lets
   # `sudo -E` carry the nix-shell PATH/env into the namespace shell.
   security.sudo.extraConfig = ''
-    ${user} ALL=(root) NOPASSWD:SETENV: ${htb-run}/bin/htb-run
+    ${user} ALL=(root) NOPASSWD:SETENV: ${htb-run}/bin/htb-run, /run/current-system/sw/bin/htb-run
   '';
 }

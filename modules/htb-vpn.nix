@@ -11,11 +11,21 @@
 #   HTB lab ranges (pushed by the server) -> tun0 -> HTB
 #   everything else -> veth -> host NAT -> regular WAN   (split tunnel)
 #
-# Secret: /etc/openvpn/htb.ovpn, root:root 0600, NOT in the nix store or git
-# (same pattern as /etc/wireguard/apartment.conf).
+# Profiles: HTB hands out a different .ovpn per product (Starting Point vs
+# Machines vs ...). Each lives at /etc/openvpn/htb/<name>.ovpn, root:root 0600,
+# NOT in the nix store or git (same pattern as /etc/wireguard/apartment.conf).
+# The directory itself is root:wheel 0750 so `htb-vpn` can list the names.
+# One systemd template instance per profile: openvpn-htb@<name>.service.
+# Switching = stop one instance, start another; no root copy, polkit lets
+# wheel do it without a password.
 #
-# Usage:  cd ~/home-ai/bug-bounties/htb   (direnv starts the units)
-#         htb-shell                        (enter the VPN shell)
+# Add a profile once:
+#   sudo install -m600 -o root -g root ~/Downloads/machines_us-3.ovpn /etc/openvpn/htb/machines-us-3.ovpn
+#
+# Usage:  cd ~/home-ai/work/htb     (direnv starts netns + default profile)
+#         htb-shell [profile]       (enter the VPN shell)
+#         htb-vpn                   (list profiles, mark the active one)
+#         htb-vpn <profile>         (switch; works from inside the shell too)
 #         htb-status / htb-down
 
 let
@@ -25,7 +35,8 @@ let
   subnet = "10.200.200.0/24";
   hostIp = "10.200.200.1";
   nsIp = "10.200.200.2";
-  ovpnConf = "/etc/openvpn/htb.ovpn";
+  profileDir = "/etc/openvpn/${ns}";
+  defaultProfile = "machines-us-3";
   user = "jake";
   group = "users";
 
@@ -84,33 +95,101 @@ let
       ${pkgs.util-linux}/bin/setpriv --reuid=${user} --regid=${group} --init-groups -- "$@"
   '';
 
-  htb-shell = pkgs.writeShellScriptBin "htb-shell" ''
-    set -euo pipefail
-    systemctl start netns-${ns}.service openvpn-${ns}.service
-
-    printf 'htb: waiting for tun0'
-    for _ in $(seq 1 30); do
-      if sudo -n ${htb-run}/bin/htb-run ${ip} -4 -o addr show dev tun0 2>/dev/null | grep -q inet; then
-        echo " up"
-        break
-      fi
-      printf '.'; sleep 1
-    done
-    if ! sudo -n ${htb-run}/bin/htb-run ${ip} -4 -o addr show dev tun0 2>/dev/null | grep -q inet; then
+  # Shell snippets shared by the user-facing commands below.
+  # htb_active: print the names of running profile instances, one per line.
+  # htb_wait_tun0: block until tun0 has an IPv4 address (or fail after 30s).
+  shellLib = ''
+    htb_active() {
+      systemctl list-units --state=active,activating --plain --no-legend 'openvpn-${ns}@*.service' \
+        | ${pkgs.gawk}/bin/awk '{print $1}' \
+        | ${pkgs.gnused}/bin/sed -E 's/^openvpn-${ns}@(.*)\.service$/\1/'
+    }
+    htb_tun0_up() {
+      sudo -n ${htb-run}/bin/htb-run ${ip} -4 -o addr show dev tun0 2>/dev/null | grep -q inet
+    }
+    htb_wait_tun0() {
+      printf 'htb: waiting for tun0'
+      for _ in $(seq 1 30); do
+        if htb_tun0_up; then echo " up"; return 0; fi
+        printf '.'; sleep 1
+      done
       echo
-      echo "htb: tun0 never came up. journalctl -u openvpn-${ns} -n 30" >&2
-      exit 1
+      echo "htb: tun0 never came up. journalctl -u 'openvpn-${ns}@*' -n 30" >&2
+      return 1
+    }
+  '';
+
+  htb-vpn = pkgs.writeShellScriptBin "htb-vpn" ''
+    set -euo pipefail
+    ${shellLib}
+
+    if [ $# -eq 0 ]; then
+      active="$(htb_active || true)"
+      echo "profiles in ${profileDir} (* = active, default = ${defaultProfile}):"
+      found=0
+      for f in ${profileDir}/*.ovpn; do
+        [ -e "$f" ] || continue
+        found=1
+        n="$(basename "$f" .ovpn)"
+        mark=" "
+        echo "$active" | grep -qx "$n" && mark="*"
+        echo "  $mark $n"
+      done
+      [ $found = 1 ] || echo "  (none -- sudo install -m600 -o root -g root <file>.ovpn ${profileDir}/<name>.ovpn)"
+      exit 0
     fi
 
-    echo "htb: entering namespace '${ns}' -- HTB ranges via tun0, everything else via WAN NAT"
-    export HTB_NS=1
+    prof="$1"
+    case "$prof" in
+      *[!A-Za-z0-9_-]*|"")
+        echo "htb-vpn: bad profile name '$prof' (allowed: A-Z a-z 0-9 _ -)" >&2; exit 2 ;;
+    esac
+    if [ ! -e "${profileDir}/$prof.ovpn" ]; then
+      echo "htb-vpn: no such profile '$prof' (${profileDir}/$prof.ovpn). Run htb-vpn to list." >&2; exit 1
+    fi
+
+    systemctl start netns-${ns}.service
+    for cur in $(htb_active || true); do
+      if [ "$cur" = "$prof" ]; then
+        echo "htb: profile '$prof' already active"
+        htb_wait_tun0
+        exit 0
+      fi
+      echo "htb: stopping profile '$cur'"
+      systemctl stop "openvpn-${ns}@$cur.service"
+    done
+    echo "htb: starting profile '$prof'"
+    systemctl start "openvpn-${ns}@$prof.service"
+    htb_wait_tun0
+    sudo -n ${htb-run}/bin/htb-run ${ip} -br -4 addr show dev tun0
+  '';
+
+  htb-shell = pkgs.writeShellScriptBin "htb-shell" ''
+    set -euo pipefail
+    ${shellLib}
+
+    # Profile: argument > whatever is already running > default.
+    prof="''${1:-}"
+    if [ -z "$prof" ]; then
+      prof="$(htb_active | head -n1 || true)"
+      [ -n "$prof" ] || prof=${defaultProfile}
+    fi
+    ${htb-vpn}/bin/htb-vpn "$prof"
+
+    echo "htb: entering namespace '${ns}' (profile $prof) -- HTB ranges via tun0, everything else via WAN NAT"
+    export HTB_NS=1 HTB_PROFILE="$prof"
     exec sudo -E -n ${htb-run}/bin/htb-run "''${SHELL:-${pkgs.zsh}/bin/zsh}"
   '';
 
   htb-status = pkgs.writeShellScriptBin "htb-status" ''
-    for u in netns-${ns} openvpn-${ns}; do
-      printf '%-14s %s\n' "$u" "$(systemctl is-active $u.service)"
-    done
+    ${shellLib}
+    printf '%-14s %s\n' "netns-${ns}" "$(systemctl is-active netns-${ns}.service)"
+    active="$(htb_active || true)"
+    if [ -n "$active" ]; then
+      for p in $active; do printf '%-14s %s (%s)\n' "openvpn-${ns}" "active" "$p"; done
+    else
+      printf '%-14s %s\n' "openvpn-${ns}" "inactive (htb-vpn <profile>)"
+    fi
     if [ -e /run/netns/${ns} ]; then
       echo "--- addresses (netns ${ns}) ---"
       sudo -n ${htb-run}/bin/htb-run ${ip} -br -4 addr
@@ -121,12 +200,16 @@ let
   '';
 
   htb-down = pkgs.writeShellScriptBin "htb-down" ''
-    systemctl stop openvpn-${ns}.service netns-${ns}.service
+    ${shellLib}
+    for p in $(htb_active || true); do
+      systemctl stop "openvpn-${ns}@$p.service"
+    done
+    systemctl stop netns-${ns}.service
     echo "htb: VPN and namespace torn down"
   '';
 in
 {
-  environment.systemPackages = [ pkgs.openvpn htb-run htb-shell htb-status htb-down ];
+  environment.systemPackages = [ pkgs.openvpn htb-run htb-vpn htb-shell htb-status htb-down ];
 
   # Resolver for processes run via `ip netns exec htb` (bind-mounted over
   # /etc/resolv.conf). Keeps HTB-side DNS off the host resolver entirely.
@@ -134,6 +217,9 @@ in
     nameserver 9.9.9.9
     nameserver 149.112.112.112
   '';
+
+  # Profile directory: wheel can list names, only root can read contents.
+  systemd.tmpfiles.rules = [ "d ${profileDir} 0750 root wheel -" ];
 
   systemd.services."netns-${ns}" = {
     description = "HTB network namespace with NAT uplink";
@@ -147,29 +233,33 @@ in
     };
   };
 
-  systemd.services."openvpn-${ns}" = {
-    description = "HTB OpenVPN inside netns ${ns}";
+  # Template: one instance per profile, openvpn-htb@<name>.service.
+  # partOf: stopping the netns takes any running instance down with it.
+  systemd.services."openvpn-${ns}@" = {
+    description = "HTB OpenVPN profile %i inside netns ${ns}";
     requires = [ "netns-${ns}.service" ];
     after = [ "netns-${ns}.service" ];
-    unitConfig.ConditionPathExists = ovpnConf;
+    partOf = [ "netns-${ns}.service" ];
+    unitConfig.ConditionPathExists = "${profileDir}/%i.ovpn";
     serviceConfig = {
       NetworkNamespacePath = "/run/netns/${ns}";
       BindReadOnlyPaths = [ "/etc/netns/${ns}/resolv.conf:/etc/resolv.conf" ];
-      ExecStart = "${pkgs.openvpn}/bin/openvpn --config ${ovpnConf}";
+      ExecStart = "${pkgs.openvpn}/bin/openvpn --config ${profileDir}/%i.ovpn";
       Restart = "on-failure";
       RestartSec = 5;
     };
   };
 
-  # wheel may start/stop/restart the two units without a password (same
-  # pattern as wg-quick-apartment in polkit.nix).
+  # wheel may start/stop/restart the netns unit and any profile instance
+  # without a password (same pattern as wg-quick-apartment in polkit.nix).
   security.polkit.extraConfig = ''
     polkit.addRule(function(action, subject) {
       if (action.id == "org.freedesktop.systemd1.manage-units" &&
           subject.isInGroup("wheel")) {
         var unit = action.lookup("unit");
         var verb = action.lookup("verb");
-        if ((unit == "netns-${ns}.service" || unit == "openvpn-${ns}.service") &&
+        if ((unit == "netns-${ns}.service" ||
+             /^openvpn-${ns}@[A-Za-z0-9_-]+\.service$/.test(unit)) &&
             (verb == "start" || verb == "stop" || verb == "restart")) {
           return polkit.Result.YES;
         }

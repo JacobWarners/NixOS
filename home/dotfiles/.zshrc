@@ -72,7 +72,9 @@ GREEN="%F{green}"
 RESET="%f"
 
 # Set the prompt
-PS1="${GREEN}%n${BLUE}~%1d${RESET}> "
+# [htb] tag when inside the HTB VPN namespace (set by htb-shell)
+HTB_TAG="${HTB_NS:+%F{red\}[htb]%f }"
+PS1="${HTB_TAG}${GREEN}%n${BLUE}~%1d${RESET}> "
 
 # Share history across all sessions
 setopt share_history

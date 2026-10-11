@@ -35,6 +35,10 @@ let
   subnet = "10.200.200.0/24";
   hostIp = "10.200.200.1";
   nsIp = "10.200.200.2";
+  # Port of the host redaction proxy (redactproxy, bound to 127.0.0.1). The
+  # relay below re-exposes it on ${hostIp} so Claude Code running inside the
+  # namespace can reach the API through it.
+  proxyPort = "8787";
   profileDir = "/etc/openvpn/${ns}";
   defaultProfile = "machines-us-3";
   user = "jake";
@@ -48,6 +52,7 @@ let
     ${ipt} -t nat -D POSTROUTING -s ${subnet} ! -o ${hostIf} -j MASQUERADE 2>/dev/null || true
     ${ipt} -D FORWARD -i ${hostIf} -s ${subnet} -j ACCEPT 2>/dev/null || true
     ${ipt} -D FORWARD -o ${hostIf} -d ${subnet} -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT 2>/dev/null || true
+    ${ipt} -D INPUT -i ${hostIf} -s ${subnet} -p tcp --dport ${proxyPort} -j ACCEPT 2>/dev/null || true
     ${ip} link del ${hostIf} 2>/dev/null || true
     ${ip} netns del ${ns} 2>/dev/null || true
   '';
@@ -77,6 +82,9 @@ let
     ${ipt} -I FORWARD 1 -i ${hostIf} -s ${subnet} -j ACCEPT
     ${ipt} -I FORWARD 1 -o ${hostIf} -d ${subnet} -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
     ${ipt} -t nat -A POSTROUTING -s ${subnet} ! -o ${hostIf} -j MASQUERADE
+    # Let the namespace reach the host redaction proxy on ${hostIp}:${proxyPort}
+    # (Claude Code uplink); all other host-destined traffic stays blocked.
+    ${ipt} -I INPUT 1 -i ${hostIf} -s ${subnet} -p tcp --dport ${proxyPort} -j ACCEPT
   '';
 
   # Root-only entry point (invoked via sudo, see security.sudo.extraConfig).
@@ -247,6 +255,23 @@ in
       ExecStart = "${pkgs.openvpn}/bin/openvpn --config ${profileDir}/%i.ovpn";
       Restart = "on-failure";
       RestartSec = 5;
+    };
+  };
+
+  # Re-expose the host redaction proxy (127.0.0.1:${proxyPort}) on ${hostIp} so
+  # Claude Code inside the namespace can reach the API. Lifecycle-tied to the
+  # netns: starts with it, dies with it.
+  systemd.services."netns-${ns}-proxy-relay" = {
+    description = "redactproxy relay for netns ${ns} (${hostIp}:${proxyPort} -> 127.0.0.1:${proxyPort})";
+    requires = [ "netns-${ns}.service" ];
+    after = [ "netns-${ns}.service" ];
+    partOf = [ "netns-${ns}.service" ];
+    wantedBy = [ "netns-${ns}.service" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.socat}/bin/socat TCP-LISTEN:${proxyPort},bind=${hostIp},fork,reuseaddr TCP:127.0.0.1:${proxyPort}";
+      DynamicUser = true;
+      Restart = "on-failure";
+      RestartSec = 2;
     };
   };
 

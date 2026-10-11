@@ -185,7 +185,11 @@ let
     ${htb-vpn}/bin/htb-vpn "$prof"
 
     echo "htb: entering namespace '${ns}' (profile $prof) -- HTB ranges via tun0, everything else via WAN NAT"
-    export HTB_NS=1 HTB_PROFILE="$prof"
+    # Point Claude Code at the host redaction proxy via the veth relay. Inside
+    # the netns, 127.0.0.1 is the empty namespace loopback, so the default base
+    # URL from .claude/settings would be refused; ${hostIp} reaches the relay.
+    # Carried into the namespace shell by `sudo -E` (SETENV in sudoers).
+    export HTB_NS=1 HTB_PROFILE="$prof" ANTHROPIC_BASE_URL="http://${hostIp}:${proxyPort}"
     exec sudo -E -n ${htb-run}/bin/htb-run "''${SHELL:-${pkgs.zsh}/bin/zsh}"
   '';
 

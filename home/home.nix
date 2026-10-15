@@ -338,7 +338,6 @@ programs.ssh = {
       # docked aquamarine may pick the eGPU as primary -- and a primary GPU can
       # never be removed without killing the session. Only read at startup;
       # takes effect on next login. (2026-10-14)
-      env = AQ_DRM_DEVICES,/dev/dri/by-path/pci-0000:c1:00.0-card
 
       # --- CURSOR ---
       # Multi-GPU box (Krackan iGPU c1:00.0 + eGPU Navi 23). Both of these

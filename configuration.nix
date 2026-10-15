@@ -4,6 +4,7 @@
 
   imports = [
     ./hardware-configuration.nix
+    ./modules/egpu-eject.nix
     #    ./modules/sonic-waygame.nix
     #    ./modules/virtual-audio-sink.nix
     ./modules/polkit.nix

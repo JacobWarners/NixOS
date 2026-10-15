@@ -55,15 +55,21 @@ let
   '';
 
   # --- eGPU dock/undock toggle (raw bash, no python, baked paths) ---
-  # Toggles via a state file in /tmp. We do NOT touch PCI devices (that killed
-  # the session before); we just dpms the external outputs off/on. The internal
-  # laptop panel is always eDP-*; everything else is treated as an eGPU output.
+  # The internal laptop panel is always eDP-*; everything else is treated as an
+  # eGPU output. Undock = disable outputs, THEN orderly PCI eject via
+  # `sudo egpu-eject` (modules/egpu-eject.nix). 2026-10-14: disabling outputs
+  # alone left amdgpu bound; the cable yank hit "device lost from bus!", the
+  # BACO teardown failed, and Hyprland SIGABRT'd 22 min later on stale buffers.
+  # Earlier "touching PCI killed the session" was removing the device while the
+  # outputs were still rendering on it -- order matters.
   egpuDockScript = pkgs.writeShellScriptBin "egpu-dock" ''
     #!${pkgs.runtimeShell}
     HYPRCTL="${pkgs.hyprland}/bin/hyprctl"
     NOTIFY="${pkgs.libnotify}/bin/notify-send"
     GREP="${pkgs.gnugrep}/bin/grep"
     AWK="${pkgs.gawk}/bin/awk"
+    SLEEP="${pkgs.coreutils}/bin/sleep"
+    LSOF="${pkgs.lsof}/bin/lsof"
     CACHE="/tmp/egpu-undocked"
 
     # Decide by reality, not a flag file: `hyprctl monitors` lists only
@@ -83,7 +89,35 @@ let
       for out in $EXTERNAL; do
         "$HYPRCTL" keyword monitor "$out,disable" >/dev/null 2>&1 || true
       done
-      "$NOTIFY" "eGPU Undock" "Outputs off — safe to unplug. Press Super+U again to restore." -u critical -t 15000
+      # Let Hyprland release the framebuffers on those outputs first.
+      "$SLEEP" 1
+
+      # Any client still rendering on the eGPU render node (games launched via
+      # xivlauncher-amd-egpu etc.) would be yanked mid-frame. Bail and tell.
+      EGPU_RENDER=$(ls /dev/dri/by-path/ 2>/dev/null | "$GREP" -- '-render$' | "$GREP" -v 'c1:00.0')
+      for r in $EGPU_RENDER; do
+        # Hyprland/aquamarine itself holds every render node open; that is
+        # expected and handled by the eject event. Only other clients matter.
+        HOLDERS=""
+        for pid in $("$LSOF" -t "/dev/dri/by-path/$r" 2>/dev/null); do
+          case "$(cat /proc/$pid/comm 2>/dev/null)" in
+            Hyprland|.Hyprland-wrap*|egpu-dock) ;;
+            *) HOLDERS="$HOLDERS $pid" ;;
+          esac
+        done
+        if [ -n "$HOLDERS" ]; then
+          "$NOTIFY" "eGPU Undock" "Still in use by PID(s): $(echo $HOLDERS). Close them, then Super+U again." -u critical -t 15000
+          exit 1
+        fi
+      done
+
+      # Orderly eject: runs amdgpu's real remove path so the cable pull is a no-op.
+      if sudo -n egpu-eject >/dev/null 2>&1; then
+        "$NOTIFY" "eGPU Undock" "GPU ejected — safe to unplug. Press Super+U after redocking." -u critical -t 15000
+      else
+        "$NOTIFY" "eGPU Undock" "Outputs off but PCI eject FAILED — do NOT unplug yet (check sudo egpu-eject)." -u critical -t 20000
+        exit 1
+      fi
     fi
   '';
 
@@ -299,6 +333,12 @@ programs.ssh = {
       # Qt/glibc then can't resolve named zones (Tibia client hard-hangs, TZ=... broken).
       # NixOS has no /usr/share/zoneinfo, so re-add it here. (2026-09-02)
       env = TZDIR,/etc/zoneinfo
+      # Pin the iGPU as the primary render device. c1:00.0 is PCI class 0380
+      # (Display controller, no boot_vga attr), so if Hyprland is started while
+      # docked aquamarine may pick the eGPU as primary -- and a primary GPU can
+      # never be removed without killing the session. Only read at startup;
+      # takes effect on next login. (2026-10-14)
+      env = AQ_DRM_DEVICES,/dev/dri/by-path/pci-0000:c1:00.0-card
 
       # --- CURSOR ---
       # Multi-GPU box (Krackan iGPU c1:00.0 + eGPU Navi 23). Both of these

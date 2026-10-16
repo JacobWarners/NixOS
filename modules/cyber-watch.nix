@@ -8,7 +8,7 @@
     description = "HTB [cyber] safeguard-trip watcher — rings htb-ping fail on a new trip";
     wantedBy = [ "default.target" ];
     after = [ "default.target" ];
-    path = [ pkgs.bash pkgs.coreutils pkgs.gnugreppkgs.gnused pkgs.util-linux pkgs.ffmpeg ];
+    path = [ pkgs.bash pkgs.coreutils pkgs.gnugrep pkgs.gnused pkgs.util-linux pkgs.ffmpeg ];
     serviceConfig = {
       ExecStart = "/home/jake/home-ai/work/htb/cyber-watch";
       Restart = "always";

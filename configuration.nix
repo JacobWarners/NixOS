@@ -3,7 +3,7 @@
 {
 
   imports = [
-    ./modules/cyber-watch.nix:
+    ./modules/cyber-watch.nix
     ./hardware-configuration.nix
     ./modules/egpu-eject.nix
     #    ./modules/sonic-waygame.nix

@@ -76,6 +76,11 @@ let
     # ping_group_range is per-netns and a fresh netns disables it ("1 0").
     ${ip} netns exec ${ns} ${pkgs.procps}/bin/sysctl -q -w net.ipv4.ping_group_range="0 2147483647"
 
+    # Let the unprivileged solver uid bind privileged ports (80/445/…) in-netns itself, so an
+    # autonomous box needing a low-port listener never has to stop and ask for root. Per-netns
+    # (dies with the netns), host unaffected. The narrow grant, not a root shell.
+    ${ip} netns exec ${ns} ${pkgs.procps}/bin/sysctl -q -w net.ipv4.ip_unprivileged_port_start=0
+
     ${pkgs.procps}/bin/sysctl -q -w net.ipv4.ip_forward=1
 
     # Docker sets FORWARD policy DROP, so allow the veth explicitly (insert at top).

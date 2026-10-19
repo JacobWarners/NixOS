@@ -220,6 +220,12 @@ programs.ssh = {
       user = "ubuntu";        # whatever your options are
       identityFile = "~/.ssh/id_ed25519_chaos_lab" ;
 };
+    # Forgejo (local-only k3s git). Force personal key; some repos set
+    # core.sshCommand to a work key Forgejo rejects.
+    "192.168.5.120" = {
+      identitiesOnly = true;
+      identityFile = "~/.ssh/id_ed25519";
+    };
 };
 };
   xdg.configFile."nvim".source = ./nvim;

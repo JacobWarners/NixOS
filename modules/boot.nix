@@ -39,6 +39,11 @@
     kernelPackages = pkgs.linuxPackages_latest;
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
+
+    # aarch64 emulation (qemu-user via binfmt) so this x86 host can build arm64
+    # images for the Pi cluster + the OCI A1 VPS later. Most of the closure comes
+    # prebuilt from cache.nixos.org aarch64; only image assembly runs under qemu.
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
   # Enable support for Thunderbolt 3/4 devices like your eGPU
 services.hardware.bolt.enable = true;

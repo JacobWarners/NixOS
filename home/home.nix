@@ -482,7 +482,9 @@ programs.ssh = {
       # TODO 0.55 migrate: windowrulev2 =fullscreen, class:^(ffxiv_dx11.exe)$
       # TODO 0.55 migrate: windowrulev2 =monitor DP-3, class:^(ffxiv_dx11.exe)$
       # TODO 0.55 migrate: windowrulev2 =center, class:^(ffxiv_dx11.exe)$
-      # TODO 0.55 migrate: windowrulev2 =suppressevent maximize, class:.*
+      # migrated 2026-10-21 (0.55 syntax): without this rule apps' own maximize
+      # requests are honored and new kitty windows open "fullscreen"
+      windowrule = match:class .*, suppress_event maximize
       # TODO 0.55 migrate: windowrulev2 =nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
       # TODO 0.55 migrate: windowrulev2 =float, class:^(zoom)$, title:^(Sign In with SSO)$
       # TODO 0.55 migrate: windowrulev2 =float, class:^(zoom)$, x11_window_type:^(dialog)$

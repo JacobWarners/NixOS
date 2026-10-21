@@ -1,0 +1,15 @@
+building the system configuration...
+evaluation warning: jake profile: `programs.ssh.matchBlocks` defined in `/nix/store/ghqpa5bjdvc0y4z1rphs8ws4chcbf42s-source/home/home.nix' is deprecated. Use `programs.ssh.settings`.
+evaluation warning: jake profile: `programs.ssh.matchBlocks.*.tmate.io.extraOptions` defined in `/nix/store/ghqpa5bjdvc0y4z1rphs8ws4chcbf42s-source/home/home.nix' is deprecated. Move these OpenSSH options to `programs.ssh.settings.*.tmate.io` using upstream directive names.
+Checking switch inhibitors... done
+updating systemd-boot from 260.2 to 260.5
+Copied "/nix/store/kmzlca218j6j1ar292fxj7707qzypij8-systemd-260.5/lib/systemd/boot/efi/systemd-bootx64.efi" to "/boot/EFI/systemd/systemd-bootx64.efi".
+Copied "/nix/store/kmzlca218j6j1ar292fxj7707qzypij8-systemd-260.5/lib/systemd/boot/efi/systemd-bootx64.efi" to "/boot/EFI/BOOT/BOOTX64.EFI".
+stopping the following units: accounts-daemon.service, avahi-daemon.service, avahi-daemon.socket, bolt.service, cpufreq.service, docker.service, docker.socket, fwupd.service, kmod-static-nodes.service, logrotate-checkconf.service, mullvad-daemon.service, network-local-commands.service, NetworkManager-wait-online.service, NetworkManager.service, nscd.service, plymouth-quit-wait.service, plymouth-quit.service, plymouth-read-write.service, power-profiles-daemon.service, resolvconf.service, rpc-statd-notify.service, rpc-statd.service, rpcbind.service, rpcbind.socket, rtkit-daemon.service, systemd-ask-password-plymouth.service, systemd-binfmt.service, systemd-fsck-root.service, systemd-machined.service, systemd-modules-load.service, systemd-oomd.service, systemd-oomd.socket, systemd-sysctl.service, systemd-timesyncd.service, systemd-vconsole-setup.service, telegraf.service, udisks2.service, upower.service
+NOT restarting the following changed units: bluetooth.service, greetd.service, libvirt-guests.service, libvirtd.service, plymouth-start.service, post-boot.service, systemd-backlight@backlight:amdgpu_bl1.service, systemd-backlight@leds:chromeos::kbd_backlight.service, systemd-fsck@dev-disk-by\x2duuid-663C\x2d07B4.service, systemd-journal-flush.service, systemd-logind.service, systemd-random-seed.service, systemd-remount-fs.service, systemd-update-utmp.service, systemd-user-sessions.service, systemd-zram-setup@zram0.service, user-runtime-dir@1000.service, user@1000.service
+activating the configuration...
+setting up /etc...
+restarting systemd...
+
+
+Error: systemd daemon reexecute failed, timeout after 180s

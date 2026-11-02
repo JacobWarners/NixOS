@@ -54,72 +54,17 @@ let
     pactl load-module module-loopback source=error_sounds.monitor
   '';
 
-  # --- eGPU dock/undock toggle (raw bash, no python, baked paths) ---
-  # The internal laptop panel is always eDP-*; everything else is treated as an
-  # eGPU output. Undock = disable outputs, THEN orderly PCI eject via
-  # `sudo egpu-eject` (modules/egpu-eject.nix). 2026-10-14: disabling outputs
-  # alone left amdgpu bound; the cable yank hit "device lost from bus!", the
-  # BACO teardown failed, and Hyprland SIGABRT'd 22 min later on stale buffers.
-  # Earlier "touching PCI killed the session" was removing the device while the
-  # outputs were still rendering on it -- order matters.
-  egpuDockScript = pkgs.writeShellScriptBin "egpu-dock" ''
-    #!${pkgs.runtimeShell}
-    HYPRCTL="${pkgs.hyprland}/bin/hyprctl"
-    NOTIFY="${pkgs.libnotify}/bin/notify-send"
-    GREP="${pkgs.gnugrep}/bin/grep"
-    AWK="${pkgs.gawk}/bin/awk"
-    SLEEP="${pkgs.coreutils}/bin/sleep"
-    LSOF="${pkgs.lsof}/bin/lsof"
-    CACHE="/tmp/egpu-undocked"
-
-    # Decide by reality, not a flag file: `hyprctl monitors` lists only
-    # ENABLED outputs, and `monitor <name>,disable` drops them from it.
-    # Non-eDP outputs present => docked; absent => undocked. No flag to desync.
-    EXTERNAL=$("$HYPRCTL" monitors | "$GREP" '^Monitor' | "$AWK" '{print $2}' | "$GREP" -v '^eDP')
-    if [ -z "$EXTERNAL" ]; then
-      # --- REDOCK: no external outputs live -> restore via config reload ---
-      rm -f "$CACHE"
-      "$HYPRCTL" reload >/dev/null 2>&1 || true
-      "$NOTIFY" "eGPU Redock" "External outputs restored." -u normal -t 6000
-    else
-      # --- UNDOCK: external outputs live -> disable them; safe to unplug ---
-      # `monitor <name>,disable` removes each from Hyprland's layout, so its
-      # workspaces auto-migrate to the internal eDP panel.
-      printf '%s\n' "$EXTERNAL" > "$CACHE"
-      for out in $EXTERNAL; do
-        "$HYPRCTL" keyword monitor "$out,disable" >/dev/null 2>&1 || true
-      done
-      # Let Hyprland release the framebuffers on those outputs first.
-      "$SLEEP" 1
-
-      # Any client still rendering on the eGPU render node (games launched via
-      # xivlauncher-amd-egpu etc.) would be yanked mid-frame. Bail and tell.
-      EGPU_RENDER=$(ls /dev/dri/by-path/ 2>/dev/null | "$GREP" -- '-render$' | "$GREP" -v 'c1:00.0')
-      for r in $EGPU_RENDER; do
-        # Hyprland/aquamarine itself holds every render node open; that is
-        # expected and handled by the eject event. Only other clients matter.
-        HOLDERS=""
-        for pid in $("$LSOF" -t "/dev/dri/by-path/$r" 2>/dev/null); do
-          case "$(cat /proc/$pid/comm 2>/dev/null)" in
-            Hyprland|.Hyprland-wrap*|egpu-dock) ;;
-            *) HOLDERS="$HOLDERS $pid" ;;
-          esac
-        done
-        if [ -n "$HOLDERS" ]; then
-          "$NOTIFY" "eGPU Undock" "Still in use by PID(s): $(echo $HOLDERS). Close them, then Super+U again." -u critical -t 15000
-          exit 1
-        fi
-      done
-
-      # Orderly eject: runs amdgpu's real remove path so the cable pull is a no-op.
-      if sudo -n egpu-eject >/dev/null 2>&1; then
-        "$NOTIFY" "eGPU Undock" "GPU ejected — safe to unplug. Press Super+U after redocking." -u critical -t 15000
-      else
-        "$NOTIFY" "eGPU Undock" "Outputs off but PCI eject FAILED — do NOT unplug yet (check sudo egpu-eject)." -u critical -t 20000
-        exit 1
-      fi
-    fi
-  '';
+  # --- eGPU dock/undock (Super+U) ---
+  # Script lives in ./scripts/egpu-dock.sh (shellcheck-enforced by
+  # writeShellApplication). Decides by the kernel's view of the eGPU, never
+  # by Hyprland's monitor list, never calls `hyprctl reload`. Root helpers
+  # egpu-eject / egpu-free-dead-fds come from modules/egpu-dock.nix.
+  # Design + runbook: ~/home-ai/infra/egpu-dock/README.md
+  egpuDockScript = pkgs.writeShellApplication {
+    name = "egpu-dock";
+    runtimeInputs = with pkgs; [ hyprland libnotify jq coreutils gnugrep gnused util-linux bc findutils ];
+    text = builtins.readFile ./scripts/egpu-dock.sh;
+  };
 
 in
 {
@@ -447,6 +392,7 @@ programs.ssh = {
       bind = $mainMod, j, movefocus, d
       bind = $mainMod, k, movefocus, u
       bind = SUPER, U, exec, egpu-dock
+      bind = SUPER SHIFT, U, exec, kitty --hold egpu-dock status
       source = ~/.config/hypr/fkeys.conf
       bind = SUPER, F12, exec, toggle-fkeys
       bind = $mainMod, 1, movetoworkspace, 1

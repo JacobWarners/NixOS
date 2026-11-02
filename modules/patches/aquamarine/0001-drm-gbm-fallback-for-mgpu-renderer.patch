@@ -1,0 +1,20 @@
+diff --git a/src/backend/drm/DRM.cpp b/src/backend/drm/DRM.cpp
+index 0ae0434..dae5a42 100644
+--- a/src/backend/drm/DRM.cpp
++++ b/src/backend/drm/DRM.cpp
+@@ -621,6 +621,15 @@ bool Aquamarine::CDRMBackend::initMgpu() {
+ 
+     rendererState.renderer = CDRMRenderer::attempt(backend.lock(), gpu->renderNodeFd >= 0 ? gpu->renderNodeFd : gpu->fd);
+ 
++    if (!rendererState.renderer) {
++        // EGL_EXT_device_enumeration cannot see a GPU that was (re)plugged after this
++        // process started: Mesa dedups EGL devices by PCI bus id and keeps the node
++        // paths it saw first, so eglDeviceFromDRMFD() finds no match for e.g. card2.
++        // A GBM platform display on our own allocator fd needs no enumeration at all.
++        backend->log(AQ_LOG_WARNING, "drm: initMgpu: no EGL device for this fd, falling back to a GBM platform renderer");
++        rendererState.renderer = CDRMRenderer::attempt(backend.lock(), newAllocator);
++    }
++
+     if (!rendererState.renderer) {
+         backend->log(AQ_LOG_ERROR, "drm: initMgpu: no renderer");
+         return false;

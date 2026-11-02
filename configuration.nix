@@ -5,7 +5,8 @@
   imports = [
     ./modules/cyber-watch.nix
     ./hardware-configuration.nix
-    ./modules/egpu-eject.nix
+    ./modules/egpu-dock.nix
+    ./modules/hyprland-egpu-patches.nix
     #    ./modules/sonic-waygame.nix
     #    ./modules/virtual-audio-sink.nix
     ./modules/polkit.nix

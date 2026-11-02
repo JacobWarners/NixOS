@@ -1,0 +1,21 @@
+diff --git a/src/backend/drm/DRM.cpp b/src/backend/drm/DRM.cpp
+index 0ae0434..9b0f06f 100644
+--- a/src/backend/drm/DRM.cpp
++++ b/src/backend/drm/DRM.cpp
+@@ -815,6 +815,16 @@ bool Aquamarine::CDRMBackend::registerGPU(SP<CSessionDevice> gpu_, SP<CDRMBacken
+     });
+ 
+     listeners.gpuRemove = gpu->events.remove.listen([this] {
++        // On a surprise unplug the device is already gone before we hear about it.
++        // scanConnectors() then fails on drmModeGetResources() and never disconnects
++        // the outputs, so the compositor keeps stale monitors that still reference
++        // this (dead) device and its fds. Tear every connector down explicitly first
++        // so output destroy events fire and the backend can really go away.
++        for (auto& conn : connectors) {
++            conn->disconnect();
++        }
++        connectors.clear();
++
+         std::erase_if(backend->implementations, [this](const auto& impl) { return impl->drmFD() == this->drmFD(); });
+         backend->events.pollFDsChanged.emit();
+     });

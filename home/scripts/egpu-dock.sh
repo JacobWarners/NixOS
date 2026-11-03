@@ -21,11 +21,20 @@ mkdir -p "$STATE_DIR"
 t0=$(date +%s.%N)
 elapsed() { printf '%.1fs' "$(echo "$(date +%s.%N) - $t0" | bc)"; }
 log() { echo "egpu-dock: $*" >&2; logger -t egpu-dock -- "$*" || true; }
+NID=""  # id of the sticky "do not unplug" notification; every later notify/die replaces it in place
 notify() { # notify LEVEL TITLE BODY
   local lvl=$1 title=$2 body=$3 ms=6000
+  local -a rep=()
   [ "$lvl" = critical ] && ms=20000
+  if [ -n "$NID" ]; then rep=(-r "$NID"); fi
   log "$title: $body"
-  notify-send -a egpu-dock -u "$lvl" -t "$ms" "$title" "$body" 2>/dev/null || true
+  notify-send -a egpu-dock -u "$lvl" -t "$ms" "${rep[@]}" "$title" "$body" 2>/dev/null || true
+}
+hold() { # hold TITLE BODY: sticky critical notification (no timeout) that stays up until notify/die replaces it
+  local -a rep=()
+  if [ -n "$NID" ]; then rep=(-r "$NID"); fi
+  log "$1: $2"
+  NID=$(notify-send -p -a egpu-dock -u critical -t 0 "${rep[@]}" "$1" "$2" 2>/dev/null) || NID=""
 }
 die() { notify critical "$1" "$2"; exit 1; }
 # errexit safety net: never die silently again. Reports the failing line and command.
@@ -95,6 +104,10 @@ cmd_undock() {
   [ -n "$card" ] || die "eGPU undock" "eGPU on bus but no DRM node (driver not bound). Check journalctl -k."
   # shellcheck disable=SC2207
   conns=($(egpu_connectors "$card"))
+  # Dark screens are NOT "done". 2026-11-02 the cable was pulled ~1 s after the
+  # outputs went dark, before the eject ran: snd_hda_intel + amdgpu hung in the
+  # kernel and the next shutdown stalled for 28 min. Say so before going dark.
+  hold "eGPU undock: DO NOT UNPLUG yet" "Screens go dark now. Pull the cable only when this changes to 'safe to unplug'."
   for c in "${conns[@]}"; do hyprctl keyword monitor "$c,disable" >/dev/null; done
   wait_until 3 all_kernel_state "$card" disabled "${conns[@]}" || log "warning: kernel still shows an eGPU output enabled after 3s, continuing"
   local h active; h=$(holders "$card" "$render")

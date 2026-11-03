@@ -97,6 +97,17 @@
 
   systemd.services."home-manager-jake".after = [ "graphical-session-pre.target" ];
 
+  # A shutdown that cannot finish must force itself off in minutes, not after
+  # systemd's 30 min default. 2026-11-02: a surprise eGPU unplug wedged the
+  # shutdown for 28 min (lid closed, still powered) until the power button.
+  # Covers the "a unit won't die" case only; if PID 1 itself blocks in the
+  # kernel, as it did that day, only a hardware watchdog helps (see
+  # infra/egpu-dock/upstream/ in home-ai).
+  systemd.targets = {
+    poweroff.unitConfig = { JobTimeoutSec = "3min"; JobTimeoutAction = "poweroff-force"; };
+    reboot.unitConfig = { JobTimeoutSec = "3min"; JobTimeoutAction = "reboot-force"; };
+  };
+
   # Global settings can be added here if necessary
   zramSwap.enable = true;
   zramSwap.memoryPercent = 25;

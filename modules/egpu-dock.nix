@@ -24,6 +24,14 @@ let
       addr=$(${pkgs.coreutils}/bin/basename "$dev")
       [ "$addr" = "$IGPU" ] && continue
       ${pkgs.coreutils}/bin/mkdir -p /run/egpu-dock && ${pkgs.coreutils}/bin/touch /run/egpu-dock/clean-eject   # tells egpu-unplug-watch this removal is ours
+      # Sibling functions first (HDMI audio 64:00.1, snd_hda_intel). Left bound, the later cable pull
+      # surprise-removes it and pciehp can wedge in snd_card_free (kernel hang 2026-11-02 17:01).
+      for fn in "/sys/bus/pci/devices/''${addr%.*}".[1-7]; do
+        [ -e "$fn" ] || continue
+        echo "egpu-eject: removing $(${pkgs.coreutils}/bin/basename "$fn") (sibling function)"
+        echo on > "$fn/power/control" 2>/dev/null || true
+        echo 1 > "$fn/remove" || echo "egpu-eject: warning: could not remove $(${pkgs.coreutils}/bin/basename "$fn")" >&2
+      done
       echo "egpu-eject: removing $addr"
       echo on > "/sys/bus/pci/devices/$addr/power/control" 2>/dev/null || true
       ${pkgs.coreutils}/bin/sleep 0.5

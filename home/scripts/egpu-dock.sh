@@ -28,6 +28,11 @@ notify() { # notify LEVEL TITLE BODY
   notify-send -a egpu-dock -u "$lvl" -t "$ms" "$title" "$body" 2>/dev/null || true
 }
 die() { notify critical "$1" "$2"; exit 1; }
+# errexit safety net: never die silently again. Reports the failing line and command.
+# errtrace: make the ERR trap fire inside functions too (writeShellApplication only sets errexit/nounset/pipefail).
+set -o errtrace
+# shellcheck disable=SC2154  # rc is assigned inside the trap string
+trap 'rc=$?; trap - ERR; notify critical "egpu-dock: internal error (exit $rc)" "line $LINENO: $BASH_COMMAND\nMonitors untouched unless the notification above says otherwise. Run: egpu-dock status"; exit $rc' ERR
 
 # ---------- kernel view ----------
 egpu_on_bus() { [ -d "/sys/bus/pci/devices/$EGPU_PCI" ]; }
@@ -39,8 +44,9 @@ egpu_connectors() { # connected connector names on the eGPU card, e.g. DP-11 HDM
   local card=$1 c
   for c in /sys/class/drm/"$card"-*; do
     [ -e "$c/status" ] || continue
-    [ "$(cat "$c/status")" = connected ] && basename "$c" | sed "s/^$card-//"
+    if [ "$(cat "$c/status")" = connected ]; then basename "$c" | sed "s/^$card-//"; fi
   done
+  return 0  # last connector is usually a disconnected one; never leak its test status into errexit
 }
 kernel_enabled() { cat "/sys/class/drm/$1-$2/enabled" 2>/dev/null || echo unknown; }
 any_enabled() { local card=$1 c; for c in $(egpu_connectors "$card"); do [ "$(kernel_enabled "$card" "$c")" = enabled ] && return 0; done; return 1; }
@@ -60,8 +66,8 @@ hypr_desc() { hypr_json | jq -r --arg n "$1" '[.[] | select(.name==$n)][0].descr
 hypr_log() { find "${XDG_RUNTIME_DIR:-/run/user/$UID}"/hypr -maxdepth 2 -name hyprland.log -printf "%T@ %p\n" 2>/dev/null | sort -rn | head -1 | cut -d" " -f2-; }
 renderer_errors() { local l; l=$(hypr_log); if [ -n "$l" ]; then grep -c "Can't create renderer" "$l" || true; else echo 0; fi; }
 # config lookups: "monitor=desc:<desc>, <mode>, <pos>, <scale>"  ->  "<mode>,<pos>,<scale>"
-rule_for_desc() { grep -E "^\s*monitor\s*=\s*desc:$(printf '%s' "$1" | sed 's/[][\.*^$]/\\&/g')\s*," "$HYPR_CONF" | head -1 | sed -E 's/^[^,]*,//; s/[[:space:]]//g'; }
-ws_for_desc() { grep -E "^\s*workspace\s*=.*monitor:desc:$(printf '%s' "$1" | sed 's/[][\.*^$]/\\&/g')\s*," "$HYPR_CONF" | head -1 | sed -E 's/^\s*workspace\s*=\s*([^,]+),.*/\1/; s/[[:space:]]//g'; }
+rule_for_desc() { { grep -E "^\s*monitor\s*=\s*desc:$(printf '%s' "$1" | sed 's/[][\.*^$]/\\&/g')\s*," "$HYPR_CONF" || true; } | head -1 | sed -E 's/^[^,]*,//; s/[[:space:]]//g'; }
+ws_for_desc() { { grep -E "^\s*workspace\s*=.*monitor:desc:$(printf '%s' "$1" | sed 's/[][\.*^$]/\\&/g')\s*," "$HYPR_CONF" || true; } | head -1 | sed -E 's/^\s*workspace\s*=\s*([^,]+),.*/\1/; s/[[:space:]]//g'; }
 # ghosts: Hyprland monitors whose name is not a live connector on any card
 ghosts() { local n; for n in $(hypr_json | jq -r '.[].name'); do ls -d /sys/class/drm/card*-"$n" >/dev/null 2>&1 || echo "$n"; done; }
 

@@ -114,7 +114,13 @@ cmd_undock() {
   active=$(printf '%s\n' "$h" | awk '$3 > 0 {print $1, $2}')
   [ -z "$active" ] || die "eGPU undock: still rendering on the eGPU" "Close these first, then Super+U again:\n$active"
   [ -z "$h" ] || log "note: idle openers of the eGPU node, released after eject: $(printf '%s' "$h" | tr '\n' ';')"
-  sudo -n egpu-eject >/dev/null 2>&1 || die "eGPU undock: eject FAILED" "Do NOT unplug. Outputs are off; run: sudo egpu-eject"
+  local dirty_pull=0
+  if ! sudo -n egpu-eject >/dev/null 2>&1; then
+    # eject can only "fail" two ways: the GPU is still there (real failure) or it is already
+    # gone because the cable was pulled during the hold (2026-11-03 08:57: pulled 2 s after dark).
+    egpu_on_bus && die "eGPU undock: eject FAILED" "Do NOT unplug. Outputs are off; run: sudo egpu-eject"
+    dirty_pull=1; log "warning: GPU left the bus before eject ran (cable pulled during the hold)"
+  fi
   wait_until 5 bash -c "! [ -d /sys/bus/pci/devices/$EGPU_PCI ]" || die "eGPU undock: GPU still on bus after eject" "Do NOT unplug yet. Check journalctl -k."
   # free any handle still pinned on the dead node so the next plug lands on the same card number
   sudo -n egpu-free-dead-fds --all >/dev/null 2>&1 || log "note: egpu-free-dead-fds reported leftovers (see journal)"
@@ -122,6 +128,9 @@ cmd_undock() {
   if [ -n "$g" ]; then
     touch "$DIRTY_MARK"
     notify critical "eGPU ejected, but Hyprland kept ghost outputs: $g" "Safe to unplug. Redock will need a logout. Better to log out now while nothing is open."
+  elif [ "$dirty_pull" = 1 ]; then
+    rm -f "$DIRTY_MARK"
+    notify critical "eGPU was pulled BEFORE 'safe to unplug'" "Survived this time (no ghosts, $(elapsed)). Next time wait for the green notification: a pull during eject hung the kernel on 2026-11-02."
   else
     rm -f "$DIRTY_MARK"
     notify normal "eGPU ejected in $(elapsed) - safe to unplug" "Press Super+U after redocking."

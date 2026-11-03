@@ -84,7 +84,9 @@ in
   # Fires on ANY removal of the eGPU's PCI function (clean or yanked); the
   # service sorts out which it was via the clean-eject marker.
   services.udev.extraRules = ''
-    ACTION=="remove", SUBSYSTEM=="pci", KERNEL=="${egpuPci}", TAG+="systemd", ENV{SYSTEMD_WANTS}+="egpu-unplug-watch.service"
+    # SYSTEMD_WANTS is only honoured on add/change (device units never start on remove); verified
+    # 2026-11-03: the service never ran on a real pull. RUN+= with --no-block is the supported way.
+    ACTION=="remove", SUBSYSTEM=="pci", KERNEL=="${egpuPci}", RUN+="${pkgs.systemd}/bin/systemctl --no-block start egpu-unplug-watch.service"
   '';
 
   systemd.services.egpu-unplug-watch = {

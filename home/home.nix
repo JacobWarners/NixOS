@@ -240,6 +240,18 @@ programs.ssh = {
   dconf.enable = true;
    
 
+  # dunst as a systemd user service instead of exec-once: it dies on eGPU output hotplug and,
+  # with nothing restarting it, D-Bus activation fell through to plasma_waitforname and every
+  # notify-send blocked for 60-90 s (egpu-dock looked frozen, 2026-11-11).
+  services.dunst.enable = true;
+  systemd.user.services.dunst = {
+    Install.WantedBy = [ "graphical-session.target" ];  # start at login, not only on first D-Bus activation
+    Service = {
+      Restart = "on-failure";
+      RestartSec = 1;
+    };
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
     package = pkgs.hyprland;
@@ -263,7 +275,6 @@ programs.ssh = {
       exec-once = waybar &
       exec-once = ${pkgs.eww}/bin/eww daemon
       exec-once = sleep 2 && ${pkgs.eww}/bin/eww open dashboard
-      exec-once = dunst &
       exec-once = systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
       exec-once = ${pkgs.wl-clipboard}/bin/wl-paste --watch ${pkgs.cliphist}/bin/cliphist store
       exec-once = ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1

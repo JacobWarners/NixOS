@@ -28,13 +28,14 @@ notify() { # notify LEVEL TITLE BODY
   [ "$lvl" = critical ] && ms=20000
   if [ -n "$NID" ]; then rep=(-r "$NID"); fi
   log "$title: $body"
-  notify-send -a egpu-dock -u "$lvl" -t "$ms" "${rep[@]}" "$title" "$body" 2>/dev/null || true
+  # timeout: a dead notification daemon made notify-send block ~90 s on 2026-11-11 (D-Bus activation fell through to plasma_waitforname)
+  timeout 5 notify-send -a egpu-dock -u "$lvl" -t "$ms" "${rep[@]}" "$title" "$body" 2>/dev/null || true
 }
 hold() { # hold TITLE BODY: sticky critical notification (no timeout) that stays up until notify/die replaces it
   local -a rep=()
   if [ -n "$NID" ]; then rep=(-r "$NID"); fi
   log "$1: $2"
-  NID=$(notify-send -p -a egpu-dock -u critical -t 0 "${rep[@]}" "$1" "$2" 2>/dev/null) || NID=""
+  NID=$(timeout 5 notify-send -p -a egpu-dock -u critical -t 0 "${rep[@]}" "$1" "$2" 2>/dev/null) || NID=""
 }
 die() { notify critical "$1" "$2"; exit 1; }
 # errexit safety net: never die silently again. Reports the failing line and command.
@@ -202,12 +203,21 @@ TXT
   cmd_status
 }
 
+# one dock/undock at a time: a second Super+U mid-undock raced the first on 2026-11-11 and posted a bogus "eject FAILED"
+lock_or_exit() {
+  exec 9>"$STATE_DIR/lock"
+  flock -n 9 && return 0
+  log "another egpu-dock is already running; ignoring this press"
+  exit 0
+}
+
 case "${1:-toggle}" in
-  undock) cmd_undock ;;
-  redock) cmd_redock ;;
+  undock) lock_or_exit; cmd_undock ;;
+  redock) lock_or_exit; cmd_redock ;;
   status) cmd_status ;;
   recover) cmd_recover ;;
   toggle)
+    lock_or_exit
     if ! egpu_on_bus; then
       die "eGPU" "No eGPU on the bus. Plug the cable in, wait 5 s, press Super+U again."
     fi
